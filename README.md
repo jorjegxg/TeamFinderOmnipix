@@ -1,16 +1,24 @@
-# team_finder_app
+# Omnipix's Team Finder App
 
-A new Flutter project.
+Bun venit în repo-ul echipei Omnipix.
 
-## Getting Started
+## Membrii Echipei
 
-This project is a starting point for a Flutter application.
+* Luța Gheorghe
+* Andrei Aluculesei Bogdan
+* Luța Silviu Vasilica
 
-A few resources to get you started if this is your first Flutter project:
+## Versiuni
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Flutter 3.13.9 • channel stable
+Dart 3.1.5
+DevTools 2.25.0
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Contact
+
+Pentru orice întrebări sau sugestii, nu ezitați să ne contactați:
+
+* Luța Gheorghe: [yotrevorgxg@gmail.com]
+* Andrei Aluculesei Bogdan: [andrei.aluculesei@student.usv.ro]
+* Luța Silviu Vasilica: [vasilicalutalsv@gmail.com]
+
