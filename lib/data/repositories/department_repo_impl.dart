@@ -15,7 +15,8 @@ class DepartmentRepoImpl extends DepartmentRepo {
   }
 
   @override
-  Future<Either<Failure<String>, Map<String, dynamic>>> createDepartamentAdditional({
+  Future<Either<Failure<String>, Map<String, dynamic>>>
+      createDepartamentAdditional({
     required String name,
     required String organizationId,
   }) async {
@@ -28,19 +29,7 @@ class DepartmentRepoImpl extends DepartmentRepo {
         });
   }
 
-  @override
-  Future<Either<Failure<String>, Map<String, dynamic>>> createDepartamentManager({
-    required String employeeId,
-    required String organizationId,
-  }) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
-        url: EndpointConstants.baseUrl +
-            EndpointConstants.createDepartamentManager,
-        data: {
-          "employeeId": employeeId,
-          "organizationId": organizationId,
-        });
-  }
+
 
   @override
   Future<Either<Failure<String>, Map<String, dynamic>>>
@@ -68,11 +57,12 @@ class DepartmentRepoImpl extends DepartmentRepo {
   }
 
   @override
-  Future<Either<Failure<String>, Map<String, dynamic>>> firstPromoteDepartamentManager({
+  Future<Either<Failure<String>, Map<String, dynamic>>>
+      firstPromoteDepartamentManager({
     required String employeeId,
     required String departamentId,
   }) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPut<Map<String, dynamic>>(
         url: EndpointConstants.baseUrl +
             EndpointConstants.firstPromoteDepartamentManager,
         data: {
@@ -82,11 +72,12 @@ class DepartmentRepoImpl extends DepartmentRepo {
   }
 
   @override
-  Future<Either<Failure<String>, Map<String, dynamic>>> promoteDepartamentManagerAdditional({
+  Future<Either<Failure<String>, Map<String, dynamic>>>
+      promoteDepartamentManagerAdditional({
     required String employeeId,
     required String departamentId,
   }) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPut<Map<String, dynamic>>(
         url: EndpointConstants.baseUrl +
             EndpointConstants.promoteDepartamentManagerAdditional,
         data: {
@@ -121,7 +112,7 @@ class DepartmentRepoImpl extends DepartmentRepo {
     required String departamentId,
     required String employeeId,
   }) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPut<Map<String, dynamic>>(
         url: EndpointConstants.baseUrl + EndpointConstants.updateManager,
         data: {
           "departamentId": departamentId,
@@ -130,11 +121,12 @@ class DepartmentRepoImpl extends DepartmentRepo {
   }
 
   @override
-  Future<Either<Failure<String>, Map<String, dynamic>>> updateNameOfDepartament({
+  Future<Either<Failure<String>, Map<String, dynamic>>>
+      updateNameOfDepartament({
     required String departamentId,
     required String name,
   }) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPut<Map<String, dynamic>>(
         url: EndpointConstants.baseUrl +
             EndpointConstants.updateNameOfDepartament,
         data: {
@@ -152,15 +144,12 @@ abstract class DepartmentRepo {
     required String organizationId,
   });
 
-  Future<Either<Failure<String>, Map<String, dynamic>>> createDepartamentAdditional({
+  Future<Either<Failure<String>, Map<String, dynamic>>>
+      createDepartamentAdditional({
     required String name,
     required String organizationId,
   });
 
-  Future<Either<Failure<String>, Map<String, dynamic>>> createDepartamentManager({
-    required String employeeId,
-    required String organizationId,
-  });
 
   Future<Either<Failure<String>, Map<String, dynamic>>>
       createDepartamentDirectlyWithManagerAdditional({
@@ -172,12 +161,14 @@ abstract class DepartmentRepo {
   Future<Either<Failure<String>, Map<String, dynamic>>> deleteDepartament(
       String departamentId);
 
-  Future<Either<Failure<String>, Map<String, dynamic>>> firstPromoteDepartamentManager({
+  Future<Either<Failure<String>, Map<String, dynamic>>>
+      firstPromoteDepartamentManager({
     required String employeeId,
     required String departamentId,
   });
 
-  Future<Either<Failure<String>, Map<String, dynamic>>> promoteDepartamentManagerAdditional({
+  Future<Either<Failure<String>, Map<String, dynamic>>>
+      promoteDepartamentManagerAdditional({
     required String employeeId,
     required String departamentId,
   });
@@ -195,7 +186,8 @@ abstract class DepartmentRepo {
     required String employeeId,
   });
 
-  Future<Either<Failure<String>, Map<String, dynamic>>> updateNameOfDepartament({
+  Future<Either<Failure<String>, Map<String, dynamic>>>
+      updateNameOfDepartament({
     required String departamentId,
     required String name,
   });

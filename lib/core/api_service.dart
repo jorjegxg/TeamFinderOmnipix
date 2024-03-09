@@ -24,7 +24,9 @@ class ApiService {
     try {
       final response = await _dio.get(url, queryParameters: queryParameters);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode != null &&
+          response.statusCode! > 200 &&
+          response.statusCode! < 300) {
         _logSuccess('Get', response);
         return Right(response.data);
       } else {
@@ -77,12 +79,14 @@ class ApiService {
 
   Future<Either<Failure<String>, T>> dioPut<T>({
     required String url,
-    required Map<String, dynamic> data,
+    Map<String, dynamic>? data,
   }) async {
     try {
       final response = await _dio.put(url, data: data);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode != null &&
+          response.statusCode! > 200 &&
+          response.statusCode! < 300) {
         _logSuccess('Put', response);
         return Right(response.data);
       } else {
@@ -110,7 +114,9 @@ class ApiService {
     try {
       final response = await _dio.delete(url);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode != null &&
+          response.statusCode! > 200 &&
+          response.statusCode! < 300) {
         _logSuccess('Delete', response);
         return Right(response.data);
       } else {

@@ -25,8 +25,6 @@ class EndpointConstants {
   static const String createDepartament = '/departament/create';
   static const String createDepartamentAdditional =
       '/departament/createADDITIONAL';
-  static const String createDepartamentManager =
-      '/departament/createdepartamentmanager';
   static const String createDepartamentDirectlyWithManagerAdditional =
       '/departament/createdirectlywithmanagerADDITIONAL';
   static String deleteDepartament(String departamentId) =>

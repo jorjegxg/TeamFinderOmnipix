@@ -36,18 +36,18 @@ class AdminRepoImpl {
 
   Future<Either<Failure<String>, Map<String, dynamic>>> deleteAdmin(
       String email) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioDelete<Map<String, dynamic>>(
       url: EndpointConstants.baseUrl + EndpointConstants.deleteAdmin(email),
     );
   }
 
   Future<Either<Failure<String>, Map<String, dynamic>>> updateAdminPassword(
       String email, String password) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPut<Map<String, dynamic>>(
       url: EndpointConstants.baseUrl +
           EndpointConstants.updateAdminPassword(email, password),
     );
   }
 
-  //
+  //vt1
 }

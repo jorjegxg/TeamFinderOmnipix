@@ -27,7 +27,7 @@ class DepartmentManagerRepoImpl {
     required String category,
     required String description,
   }) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPut<Map<String, dynamic>>(
       url: EndpointConstants.baseUrl + EndpointConstants.editSkill,
       data: {
         "skillId": skillId,
@@ -61,4 +61,6 @@ class DepartmentManagerRepoImpl {
       url: EndpointConstants.baseUrl + EndpointConstants.ownedSkills(authorId),
     );
   }
+
+  //vt1
 }
