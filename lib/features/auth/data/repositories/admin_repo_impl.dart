@@ -1,31 +1,6 @@
-import 'package:dartz/dartz.dart';
-import 'package:team_finder_app/core/api_service.dart';
-import 'package:team_finder_app/core/error/failures.dart';
-import 'package:team_finder_app/core/util/constants.dart';
+import "package:team_finder_app/core/exports/rest_imports.dart";
 
 class AdminRepoImpl {
-  /**admin endpoints//
-  static const String createAdmin = '/admin/create';
-  {
-  "name": "string",
-  "email": "string",
-  "password": "string",
-  "organizationName": "string",
-  "adress": "string",
-  "url": "string"
-}
-  static const String createCustomRole = '/admin/customrole';
-  {
-  "name": "string",
-  "organizationId": "string"
-}
-  static String deleteAdmin(String email) => '/admin/delete/$email';
-  -
-  static String updateAdminPassword(String email, String password) =>
-      '/admin/updatePassword/$email/$password';
-   -   
-       */
-
   Future<Either<Failure<String>, String>> createOrganizationAdminAccount({
     required String name,
     required String email,

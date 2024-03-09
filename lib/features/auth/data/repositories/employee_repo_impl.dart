@@ -1,40 +1,6 @@
-import 'package:dartz/dartz.dart';
-import 'package:team_finder_app/core/api_service.dart';
-import 'package:team_finder_app/core/error/failures.dart';
-import 'package:team_finder_app/core/util/constants.dart';
+import "package:team_finder_app/core/exports/rest_imports.dart";
 
 class EmployeeRepoImpl {
-  /** ///user endpoints///
-  static const String assignDepartment = '/employee/assigndepartament';
-  {
-  "employeeId": "string",
-  "departamentId": "string"
-}
-  static const String assignSkill = '/employee/assignskill';
-  {
-  "employeeId": "string",
-  "skillId": "string",
-  "level": 0,
-  "experience": 0,
-  "endorsements": [
-    {
-      "title": "string",
-      "description": "string"
-    }
-  ]
-}
-  static const String createUser = '/employee/create';
-  {
-  "name": "string",
-  "email": "string",
-  "password": "string",
-  "organizationId": "string"
-}
-  static String getSkills(String userId) => '/employee/getskills/$userId';
-  -
-
- */
-
   Future<Either<Failure<String>, String>> assignDepartment({
     required String employeeId,
     required String departamentId,

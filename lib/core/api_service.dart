@@ -101,6 +101,34 @@ class ApiService {
     }
   }
 
+  //dioDelete
+  Future<Either<Failure<String>, T>> dioDelete<T>({
+    required String url,
+  }) async {
+    try {
+      final response = await _dio.delete(url);
+
+      if (response.statusCode == 200) {
+        _logSuccess('Delete', response);
+        return Right(response.data);
+      } else {
+        _logError('Delete', response);
+        return Left(ServerFailure(
+          message:
+              'DELETE request returned an unexpected status code: ${response.statusCode}',
+          statusCode: response.statusCode ?? 0,
+        ));
+      }
+    } catch (e) {
+      _logUnexpectedError('Delete', e);
+      return Left(
+        UnexpectedFailure(
+          message: 'Error in DELETE request: $e',
+        ),
+      );
+    }
+  }
+
   void _logUnexpectedError(String type, Object e) {
     Logger.error('Error', 'Error in $type request: $e');
   }
