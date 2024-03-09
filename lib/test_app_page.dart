@@ -17,7 +17,7 @@ class TestAppPage extends StatelessWidget {
             onPressed: () async {
               await AuthRepoImpl().createOrganizationAdminAccount(
                 name: 'name',
-                email: '1das1111@1111.111rgg124dasd54532323',
+                email: '1dadrfdgrs1111@1111hfthtf.111rgg124dasd54532323',
                 password: 'password',
                 organizationName: 'organizationName',
                 address: 'address',
