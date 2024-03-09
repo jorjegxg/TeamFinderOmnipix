@@ -1,6 +1,6 @@
 import "package:team_finder_app/core/exports/rest_imports.dart";
 
-class DepartamentRepoImpl {
+class DepartmentRepoImpl {
   Future<Either<Failure<String>, String>> createDepartament({
     required String name,
     required String organizationId,
