@@ -1,23 +1,22 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart' ;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:team_finder_app/features/auth/presentation/pages/user_register_page.dart';
-
+import 'package:team_finder_app/core/routes/app_route_config.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if(kIsWeb){}
-  else{
-     final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
-  Hive.init(appDocumentDir.path);
-  await Hive.openBox<String>('authBox');
+  if (kIsWeb) {
+  } else {
+    final appDocumentDir =
+        await path_provider.getApplicationDocumentsDirectory();
+    Hive.init(appDocumentDir.path);
+    await Hive.openBox<String>('authBox');
   }
- 
 
   runApp(const MyApp());
 }
@@ -29,9 +28,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveApp(
       builder: (context) {
-        return const MaterialApp(
+        return MaterialApp.router(
+          routerConfig: MyAppRouter().router,
           title: 'Flutter Demo',
-          home: RegisterScreenForAdmin(),
         );
       },
     );
