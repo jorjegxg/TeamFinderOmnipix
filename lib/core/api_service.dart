@@ -19,7 +19,7 @@ class ApiService {
 
   Future<Either<Failure<String>, T>> dioGet<T>({
     required String url,
-    required Map<String, dynamic> queryParameters,
+    Map<String, dynamic>? queryParameters,
   }) async {
     try {
       final response = await _dio.get(url, queryParameters: queryParameters);
@@ -47,7 +47,7 @@ class ApiService {
 
   Future<Either<Failure<String>, T>> dioPost<T>({
     required String url,
-    required Map<String, dynamic> data,
+    Map<String, dynamic>? data,
   }) async {
     try {
       final response = await _dio.post(url, data: data);
