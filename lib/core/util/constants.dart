@@ -16,7 +16,7 @@ class EndpointConstants {
   static String getSkills(String userId) => '/employee/getskills/$userId';
 
   //login endpoints//
-  static const String login = '/login';
+  static const String login = '/login/';
 
   ///organization///
   static const String createOrganization = '/organization/create';

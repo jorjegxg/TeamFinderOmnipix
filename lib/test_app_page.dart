@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:team_finder_app/features/auth/data/repositories/admin_repo_impl.dart';
+import 'package:team_finder_app/features/auth/data/repositories/department_repo_impl.dart';
 
 class TestAppPage extends StatelessWidget {
   const TestAppPage({super.key});
@@ -15,12 +15,9 @@ class TestAppPage extends StatelessWidget {
         body: Center(
           child: ElevatedButton(
             onPressed: () async {
-              await AdminRepoImpl().createOrganizationAdminAccount(
-                name: 'name',
-                email: '1dadrfdgrs1111@1111hfthtf.111rgg124dasd54532323',
-                password: 'password',
-                organizationName: 'organizationName',
-                address: 'address',
+              await DepartmentRepoImpl().createDepartament(
+                name: 'name test 2',
+                organizationId: 'G21qLl1884AlgtNc1kIt',
               );
             },
             child: Text(

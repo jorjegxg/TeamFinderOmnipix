@@ -1,14 +1,14 @@
 import 'package:team_finder_app/core/exports/rest_imports.dart';
 
 class DepartmentManagerRepoImpl {
-  Future<Either<Failure<String>, String>> createSkill({
+  Future<Either<Failure<String>, Map<String, dynamic>>> createSkill({
     required String category,
     required String name,
     required String description,
     required String authorId,
     required String organizationId,
   }) async {
-    return ApiService().dioPost<String>(
+    return ApiService().dioPost<Map<String, dynamic>>(
       url: EndpointConstants.baseUrl + EndpointConstants.createSkill,
       data: {
         "category": category,
@@ -20,14 +20,14 @@ class DepartmentManagerRepoImpl {
     );
   }
 
-  Future<Either<Failure<String>, String>> editSkill({
+  Future<Either<Failure<String>, Map<String, dynamic>>> editSkill({
     required String skillId,
     required String managerId,
     required String name,
     required String category,
     required String description,
   }) async {
-    return ApiService().dioPost<String>(
+    return ApiService().dioPost<Map<String, dynamic>>(
       url: EndpointConstants.baseUrl + EndpointConstants.editSkill,
       data: {
         "skillId": skillId,
@@ -39,24 +39,25 @@ class DepartmentManagerRepoImpl {
     );
   }
 
-  Future<Either<Failure<String>, String>> getSkillsOfOrganization(
+  Future<Either<Failure<String>, Map<String, dynamic>>> getSkillsOfOrganization(
       String organizationId) async {
-    return ApiService().dioGet<String>(
+    return ApiService().dioGet<Map<String, dynamic>>(
       url: EndpointConstants.baseUrl +
           EndpointConstants.getSkillsOfOrganization(organizationId),
     );
   }
 
-  Future<Either<Failure<String>, String>> managersNoDepartament(
+  Future<Either<Failure<String>, Map<String, dynamic>>> managersNoDepartament(
       String id) async {
-    return ApiService().dioGet<String>(
+    return ApiService().dioGet<Map<String, dynamic>>(
       url: EndpointConstants.baseUrl +
           EndpointConstants.managersNoDepartament(id),
     );
   }
 
-  Future<Either<Failure<String>, String>> ownedSkills(String authorId) async {
-    return ApiService().dioGet<String>(
+  Future<Either<Failure<String>, Map<String, dynamic>>> ownedSkills(
+      String authorId) async {
+    return ApiService().dioGet<Map<String, dynamic>>(
       url: EndpointConstants.baseUrl + EndpointConstants.ownedSkills(authorId),
     );
   }

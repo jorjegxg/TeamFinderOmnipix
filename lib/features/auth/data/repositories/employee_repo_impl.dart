@@ -1,11 +1,11 @@
 import "package:team_finder_app/core/exports/rest_imports.dart";
 
 class EmployeeRepoImpl {
-  Future<Either<Failure<String>, String>> assignDepartment({
+  Future<Either<Failure<String>, Map<String, dynamic>>> assignDepartment({
     required String employeeId,
     required String departamentId,
   }) async {
-    return ApiService().dioPut<String>(
+    return ApiService().dioPut<Map<String, dynamic>>(
         url: EndpointConstants.baseUrl + EndpointConstants.assignDepartment,
         data: {
           "employeeId": employeeId,
@@ -31,13 +31,13 @@ class EmployeeRepoImpl {
   //       });
   // }
 
-  Future<Either<Failure<String>, String>> createUser({
+  Future<Either<Failure<String>, Map<String, dynamic>>> createUser({
     required String name,
     required String email,
     required String password,
     required String organizationId,
   }) async {
-    return ApiService().dioPost<String>(
+    return ApiService().dioPost<Map<String, dynamic>>(
         url: EndpointConstants.baseUrl + EndpointConstants.createUser,
         data: {
           "name": name,
@@ -47,8 +47,9 @@ class EmployeeRepoImpl {
         });
   }
 
-  Future<Either<Failure<String>, String>> getSkills(String userId) async {
-    return ApiService().dioGet<String>(
+  Future<Either<Failure<String>, Map<String, dynamic>>> getSkills(
+      String userId) async {
+    return ApiService().dioGet<Map<String, dynamic>>(
       url: EndpointConstants.baseUrl + EndpointConstants.getSkills(userId),
     );
   }

@@ -52,7 +52,9 @@ class ApiService {
     try {
       final response = await _dio.post(url, data: data);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode != null &&
+          response.statusCode! > 200 &&
+          response.statusCode! < 300) {
         _logSuccess('Post', response);
         return Right(response.data);
       } else {
@@ -129,18 +131,18 @@ class ApiService {
     }
   }
 
-  void _logUnexpectedError(String type, Object e) {
-    Logger.error('Error', 'Error in $type request: $e');
+  void _logUnexpectedError(String type, dynamic e) {
+    Logger.error('Unexpected error', 'in $type request: $e');
   }
 
-  void _logError(String type, Response<dynamic> response) {
+  void _logError(String type, dynamic response) {
     Logger.error(
       'Error',
       '$type request returned an unexpected status code: ${response.statusCode}',
     );
   }
 
-  void _logSuccess(String type, Response<dynamic> response) {
-    Logger.success('Success', '$type request returned: ${response.data}');
+  void _logSuccess(String type, dynamic response) {
+    Logger.success('Success', '$type request returned: $response');
   }
 }
