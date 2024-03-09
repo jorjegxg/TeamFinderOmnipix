@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:team_finder_app/features/auth/data/repositories/department_repo_impl.dart';
+import 'package:team_finder_app/data/repositories/department_repo_impl.dart';
 
 class TestAppPage extends StatelessWidget {
   const TestAppPage({super.key});
