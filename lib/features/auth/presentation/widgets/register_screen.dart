@@ -17,8 +17,14 @@ import 'package:team_finder_app/features/auth/presentation/widgets/logo_widget.d
 import 'package:team_finder_app/features/auth/presentation/widgets/register_button.dart';
 
 class RegisterScreen extends HookWidget {
-  const RegisterScreen({super.key, required this.isEmployee});
+  const RegisterScreen({
+    super.key,
+    required this.isEmployee,
+    this.organizationId,
+  });
   final bool isEmployee;
+  final String? organizationId;
+  //daca isEmployee e true => organizationId != null
   @override
   Widget build(BuildContext context) {
     final nameConttroler = useTextEditingController(
@@ -92,23 +98,28 @@ class RegisterScreen extends HookWidget {
                                   isLoading: state is AuthLoading,
                                   onPressed: () {
                                     context.read<AuthBloc>().add(
-                                          // isEmployee
-                                          //     ? const RegisterEmployeeStarted(
-                                          //         name: 'name',
-                                          //         email: 'email',
-                                          //         password: 'password',
-                                          //       )
-                                          //     :
-                                          RegisterOrganizationAdminStarted(
-                                            name: nameConttroler.text,
-                                            email: emailConttroler.text,
-                                            password: passwordConttroler.text,
-                                            organizationName:
-                                                organizationNameConttroler.text,
-                                            organizationAddress:
-                                                organizationAddressConttroler
-                                                    .text,
-                                          ),
+                                          isEmployee
+                                              ? RegisterEmployeeStarted(
+                                                  name: nameConttroler.text,
+                                                  email: emailConttroler.text,
+                                                  password:
+                                                      passwordConttroler.text,
+                                                  //TODO George Luta : schimba din dummy data in ceva real
+                                                  organizationId:
+                                                      organizationId!,
+                                                )
+                                              : RegisterOrganizationAdminStarted(
+                                                  name: nameConttroler.text,
+                                                  email: emailConttroler.text,
+                                                  password:
+                                                      passwordConttroler.text,
+                                                  organizationName:
+                                                      organizationNameConttroler
+                                                          .text,
+                                                  organizationAddress:
+                                                      organizationAddressConttroler
+                                                          .text,
+                                                ),
                                         );
                                   },
                                 );

@@ -38,4 +38,27 @@ class AuthUsecase {
           ),
         );
   }
+
+  Future<Either<Failure<String>, String>> registerEmployee({
+    required String name,
+    required String email,
+    required String password,
+    required String organizationId,
+  }) async {
+    return fieldValidator
+        .areLoginInformationValid(
+          name,
+          email,
+          password,
+        )
+        .fold(
+          left,
+          (r) => authRepo.registerEmployee(
+            name: name.trim(),
+            email: email.trim(),
+            password: password,
+            organizationId: organizationId,
+          ),
+        );
+  }
 }

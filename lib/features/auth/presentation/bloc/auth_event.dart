@@ -31,15 +31,17 @@ class RegisterEmployeeStarted extends AuthEvent {
   final String name;
   final String email;
   final String password;
+  final String organizationId;
 
   const RegisterEmployeeStarted({
     required this.name,
     required this.email,
     required this.password,
+    required this.organizationId,
   });
 
   @override
-  List<Object> get props => [email, password, name];
+  List<Object> get props => [email, password, name, organizationId];
 }
 
 class LoginStarted extends AuthEvent {

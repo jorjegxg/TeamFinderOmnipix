@@ -44,9 +44,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       RegisterEmployeeStarted event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
 
-    //fa ceva
-
-    emit(AuthSuccess());
+    (await authUsecase.registerEmployee(
+      name: event.name,
+      email: event.email,
+      password: event.password,
+      organizationId: event.organizationId,
+    ))
+        .fold(
+      (l) {
+        emit(AuthError(message: l.message));
+      },
+      (r) {
+        emit(AuthSuccess());
+      },
+    );
   }
 
   Future<void> _onLoginStarted(

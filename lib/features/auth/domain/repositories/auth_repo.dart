@@ -9,4 +9,11 @@ abstract class AuthRepo {
     required String organizationName,
     required String organizationAddress,
   });
+
+  Future<Either<Failure<String>, String>> registerEmployee({
+    required String name,
+    required String email,
+    required String password,
+    required String organizationId,
+  });
 }

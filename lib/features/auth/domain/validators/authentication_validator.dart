@@ -74,4 +74,26 @@ class AuthenticationValidator {
     }
     return const Right(null);
   }
+
+  Either<Failure<String>, void> areLoginInformationValid(
+    String? name,
+    String? email,
+    String? password,
+  ) {
+    if (!isNameValid(name)) {
+      return Left(
+        FieldFailure(message: 'Invalid name'),
+      );
+    } else if (!_isEmailValid(email)) {
+      return Left(
+        FieldFailure(message: 'Invalid email'),
+      );
+    } else if (!_isPasswordValid(password)) {
+      return Left(
+        FieldFailure(message: 'Invalid password'),
+      );
+    }
+
+    return const Right(null);
+  }
 }

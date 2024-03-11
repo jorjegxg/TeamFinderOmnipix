@@ -25,4 +25,23 @@ class AuthRepoImpl extends AuthRepo {
       },
     );
   }
+
+  @override
+  Future<Either<Failure<String>, String>> registerEmployee({
+    required String name,
+    required String email,
+    required String password,
+    required String organizationId,
+  }) async {
+    return (await ApiService().dioPost<Map<String, dynamic>>(
+      url: "${EndpointConstants.baseUrl}/employee/create",
+      data: {
+        "name": name,
+        "email": email,
+        "password": password,
+        "organizationId": organizationId,
+      },
+    ))
+        .fold((l) => left(l), (r) => right(r["Token"]));
+  }
 }
