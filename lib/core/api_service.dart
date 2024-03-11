@@ -37,11 +37,11 @@ class ApiService {
           statusCode: response.statusCode ?? 0,
         ));
       }
-    } catch (e) {
+    } on DioException catch (e) {
       _logUnexpectedError('Get', e);
       return Left(
         UnexpectedFailure(
-          message: 'Error in GET request: $e',
+          message: e.message.toString(),
         ),
       );
     }
@@ -67,11 +67,11 @@ class ApiService {
           statusCode: response.statusCode ?? 0,
         ));
       }
-    } catch (e) {
+    } on DioException catch (e) {
       _logUnexpectedError('Post', e);
       return Left(
         UnexpectedFailure(
-          message: 'Error in POST request: $e',
+          message: e.message.toString(),
         ),
       );
     }
@@ -97,11 +97,11 @@ class ApiService {
           statusCode: response.statusCode ?? 0,
         ));
       }
-    } catch (e) {
+    } on DioException catch (e) {
       _logUnexpectedError('Put', e);
       return Left(
         UnexpectedFailure(
-          message: 'Error in PUT request: $e',
+          message: e.message.toString(),
         ),
       );
     }
@@ -127,11 +127,11 @@ class ApiService {
           statusCode: response.statusCode ?? 0,
         ));
       }
-    } catch (e) {
+    } on DioException catch (e) {
       _logUnexpectedError('Delete', e);
       return Left(
         UnexpectedFailure(
-          message: 'Error in DELETE request: $e',
+          message: e.message.toString(),
         ),
       );
     }

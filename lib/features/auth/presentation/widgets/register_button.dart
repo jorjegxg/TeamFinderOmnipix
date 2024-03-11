@@ -9,11 +9,13 @@ class CustomButton extends StatelessWidget {
     super.key,
     this.buttonHeight = 50,
     this.buttonWidth,
+    this.isLoading = false,
   });
   final String text;
   final Function() onPressed;
   final double buttonHeight;
   final double? buttonWidth;
+  final bool isLoading;
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
@@ -25,17 +27,19 @@ class CustomButton extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
-      onPressed: onPressed,
-      child: Text(
-        text,
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onPrimary,
-          fontSize: 14,
-          fontFamily: 'Inter',
-          fontWeight: FontWeight.w400,
-          height: 0,
-        ),
-      ),
+      onPressed: isLoading ? () {} : onPressed,
+      child: isLoading
+          ? const CircularProgressIndicator()
+          : Text(
+              text,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimary,
+                fontSize: 14,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w400,
+                height: 0,
+              ),
+            ),
     );
   }
 }

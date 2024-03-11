@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:injectable/injectable.dart';
 
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
@@ -19,11 +21,21 @@ class RegisterScreen extends HookWidget {
   final bool isEmployee;
   @override
   Widget build(BuildContext context) {
-    final nameConttroler = useTextEditingController();
-    final emailConttroler = useTextEditingController();
-    final passwordConttroler = useTextEditingController();
-    final organizationNameConttroler = useTextEditingController();
-    final organizationAddressConttroler = useTextEditingController();
+    final nameConttroler = useTextEditingController(
+      text: kDebugMode ? 'Nume test' : '',
+    );
+    final emailConttroler = useTextEditingController(
+      text: kDebugMode ? 'email@test.test' : '',
+    );
+    final passwordConttroler = useTextEditingController(
+      text: kDebugMode ? 'parola' : '',
+    );
+    final organizationNameConttroler = useTextEditingController(
+      text: kDebugMode ? 'Nume organizatie' : '',
+    );
+    final organizationAddressConttroler = useTextEditingController(
+      text: kDebugMode ? 'Adresa organizatie' : '',
+    );
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
@@ -73,35 +85,33 @@ class RegisterScreen extends HookWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            CustomButton(
-                              text: AuthConstants.register,
-                              onPressed: () {
-                                context.read<AuthBloc>().add(
-                                      // isEmployee
-                                      //     ? const RegisterEmployeeStarted(
-                                      //         name: 'name',
-                                      //         email: 'email',
-                                      //         password: 'password',
-                                      //       )
-                                      //     :
-                                      RegisterOrganizationAdminStarted(
-                                        name: nameConttroler.text,
-                                        email: emailConttroler.text,
-                                        password: passwordConttroler.text,
-                                        organizationName:
-                                            organizationNameConttroler.text,
-                                        organizationAddress:
-                                            organizationAddressConttroler.text,
-                                      ),
-                                    );
-                              },
-                            ),
                             BlocBuilder<AuthBloc, AuthState>(
                               builder: (context, state) {
-                                if (state is AuthLoading) {
-                                  return const CircularProgressIndicator();
-                                }
-                                return Container();
+                                return CustomButton(
+                                  text: AuthConstants.register,
+                                  isLoading: state is AuthLoading,
+                                  onPressed: () {
+                                    context.read<AuthBloc>().add(
+                                          // isEmployee
+                                          //     ? const RegisterEmployeeStarted(
+                                          //         name: 'name',
+                                          //         email: 'email',
+                                          //         password: 'password',
+                                          //       )
+                                          //     :
+                                          RegisterOrganizationAdminStarted(
+                                            name: nameConttroler.text,
+                                            email: emailConttroler.text,
+                                            password: passwordConttroler.text,
+                                            organizationName:
+                                                organizationNameConttroler.text,
+                                            organizationAddress:
+                                                organizationAddressConttroler
+                                                    .text,
+                                          ),
+                                        );
+                                  },
+                                );
                               },
                             ),
                             SizedBox(

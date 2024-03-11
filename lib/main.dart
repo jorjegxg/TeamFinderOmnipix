@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
       child: ResponsiveApp(
         builder: (context) {
           return MaterialApp.router(
-            routerConfig: GetIt.I<MyAppRouter>().router,
+            routerConfig: getIt<MyAppRouter>().router,
             title: 'Flutter Demo',
             theme: createLightTheme(),
           );
