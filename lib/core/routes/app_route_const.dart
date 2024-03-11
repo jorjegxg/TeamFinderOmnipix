@@ -10,4 +10,6 @@ class AppRouterConst {
   static const String employeeProfileName = 'employeeProfile';
   static const String adminEditProfileName = 'adminEditProfile';
   static const String employeeEditProfileName = 'employeeEditProfile';
+  static const String projectsMainScreen = 'projectsMainScreen';
+  static const String createProjectScreen = 'createProjectScreen';
 }

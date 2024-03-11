@@ -5,10 +5,12 @@ import 'package:team_finder_app/features/auth/presentation/pages/admin_login_pag
 import 'package:team_finder_app/features/auth/presentation/pages/admin_register_page.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/employee_login_page.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/employee_register_page.dart';
+import 'package:team_finder_app/features/project_pages/presentation/pages/create_project_page.dart';
+import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 
 class MyAppRouter {
   final GoRouter _router = GoRouter(
-    initialLocation: '/registerAdmin',
+    initialLocation: '/projects',
     routes: [
       GoRoute(
         name: AppRouterConst.registerAdminName,
@@ -33,6 +35,18 @@ class MyAppRouter {
         path: '/register/employee',
         pageBuilder: (context, state) =>
             const MaterialPage(child: RegisterScreenForEmployee()),
+      ),
+      GoRoute(
+        name: AppRouterConst.projectsMainScreen,
+        path: '/projects',
+        pageBuilder: (context, state) =>
+            const MaterialPage(child: ProjectsMainScreen()),
+      ),
+      GoRoute(
+        name: AppRouterConst.createProjectScreen,
+        path: '/projects/create',
+        pageBuilder: (context, state) =>
+            const MaterialPage(child: CreateProjectScreen()),
       ),
     ],
     errorPageBuilder: (context, state) => const MaterialPage(
