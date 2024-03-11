@@ -37,13 +37,25 @@ class AuthenticationValidator {
     return true;
   }
 
+  bool isNameValid(String? name) {
+    if (name == null || name.isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
   Either<Failure<String>, void> areSignUpInformationValid(
+    String? name,
     String? email,
     String? password,
     String? organizationName,
     String? organizationAddress,
   ) {
-    if (!_isEmailValid(email)) {
+    if (!isNameValid(name)) {
+      return Left(
+        FieldFailure(message: 'Invalid name'),
+      );
+    } else if (!_isEmailValid(email)) {
       return Left(
         FieldFailure(message: 'Invalid email'),
       );

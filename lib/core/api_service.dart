@@ -32,7 +32,7 @@ class ApiService {
       } else {
         _logError('Get', response);
         return Left(ServerFailure(
-          message:
+          message: response.data['message'] ??
               'GET request returned an unexpected status code: ${response.statusCode}',
           statusCode: response.statusCode ?? 0,
         ));
@@ -62,8 +62,8 @@ class ApiService {
       } else {
         _logError('Post', response);
         return Left(ServerFailure(
-          message:
-              'POST request returned an unexpected status code: ${response.statusCode}',
+          message: response.data['message'] ??
+              'POST request returned an unexpected status code: ${response.statusCode} ',
           statusCode: response.statusCode ?? 0,
         ));
       }
@@ -92,7 +92,7 @@ class ApiService {
       } else {
         _logError('Put', response);
         return Left(ServerFailure(
-          message:
+          message: response.data['message'] ??
               'PUT request returned an unexpected status code: ${response.statusCode}',
           statusCode: response.statusCode ?? 0,
         ));
@@ -122,7 +122,7 @@ class ApiService {
       } else {
         _logError('Delete', response);
         return Left(ServerFailure(
-          message:
+          message: response.data['message'] ??
               'DELETE request returned an unexpected status code: ${response.statusCode}',
           statusCode: response.statusCode ?? 0,
         ));

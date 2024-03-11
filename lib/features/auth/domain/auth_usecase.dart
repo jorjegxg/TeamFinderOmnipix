@@ -21,6 +21,7 @@ class AuthUsecase {
   }) async {
     return fieldValidator
         .areSignUpInformationValid(
+          name,
           email,
           password,
           organizationName,
@@ -29,11 +30,11 @@ class AuthUsecase {
         .fold(
           left,
           (r) => authRepo.registerOrganizationAdmin(
-            name: name,
-            email: email,
+            name: name.trim(),
+            email: email.trim(),
             password: password,
-            organizationName: organizationName,
-            organizationAddress: organizationAddress,
+            organizationName: organizationName.trim(),
+            organizationAddress: organizationAddress.trim(),
           ),
         );
   }

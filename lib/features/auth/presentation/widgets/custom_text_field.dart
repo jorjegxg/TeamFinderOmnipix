@@ -3,15 +3,18 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField(
-      {super.key,
-      required this.nameConttroler,
-      required this.hintText,
-      this.isPassword = false});
+  const CustomTextField({
+    super.key,
+    required this.nameConttroler,
+    required this.hintText,
+    this.isPassword = false,
+    this.onChanged,
+  });
 
   final TextEditingController nameConttroler;
   final String hintText;
   final bool isPassword;
+  final Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,6 +27,7 @@ class CustomTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextField(
+        onChanged: onChanged,
         obscureText: isPassword,
         enableSuggestions: false,
         autocorrect: false,
