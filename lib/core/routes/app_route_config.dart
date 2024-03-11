@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
+import 'package:team_finder_app/core/util/main_wrapper.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/admin_login_page.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/admin_register_page.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/employee_login_page.dart';
@@ -36,18 +38,48 @@ class MyAppRouter {
         pageBuilder: (context, state) =>
             const MaterialPage(child: RegisterScreenForEmployee()),
       ),
-      GoRoute(
-        name: AppRouterConst.projectsMainScreen,
-        path: '/projects',
-        pageBuilder: (context, state) =>
-            const MaterialPage(child: ProjectsMainScreen()),
-      ),
-      GoRoute(
-        name: AppRouterConst.createProjectScreen,
-        path: '/projects/create',
-        pageBuilder: (context, state) =>
-            const MaterialPage(child: CreateProjectScreen()),
-      ),
+      ShellRoute(
+          builder: (context, state, child) => MainWrapper(child: child),
+          routes: [
+            GoRoute(
+              name: AppRouterConst.projectsMainScreen,
+              path: '/projects',
+              pageBuilder: (context, state) =>
+                  const MaterialPage(child: ProjectsMainScreen()),
+            ),
+            GoRoute(
+              name: AppRouterConst.createProjectScreen,
+              path: '/projects/create',
+              pageBuilder: (context, state) =>
+                  const MaterialPage(child: CreateProjectScreen()),
+            ),
+            GoRoute(
+              name: AppRouterConst.departamentsMainScreen,
+              path: '/departaments',
+              pageBuilder: (context, state) => MaterialPage(
+                  child: Container(
+                color: Colors.amber,
+              )),
+            ),
+            GoRoute(
+              name: AppRouterConst.settingsMainScreen,
+              path: '/settings',
+              pageBuilder: (context, state) => MaterialPage(
+                child: Container(
+                  color: Colors.blue,
+                ),
+              ),
+            ),
+            GoRoute(
+              name: AppRouterConst.employeesMainScreen,
+              path: '/employees',
+              pageBuilder: (context, state) => MaterialPage(
+                child: Container(
+                  color: Colors.green,
+                ),
+              ),
+            ),
+          ]),
     ],
     errorPageBuilder: (context, state) => const MaterialPage(
       child: Scaffold(
