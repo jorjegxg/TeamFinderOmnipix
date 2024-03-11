@@ -44,4 +44,17 @@ class AuthRepoImpl extends AuthRepo {
     ))
         .fold((l) => left(l), (r) => right(r["Token"]));
   }
+
+  @override
+  Future<Either<Failure<String>, String>> login(
+      {required String email, required String password}) async {
+    return (await ApiService().dioPost<Map<String, dynamic>>(
+      url: "${EndpointConstants.baseUrl}/login/",
+      data: {
+        "email": email,
+        "password": password,
+      },
+    ))
+        .fold((l) => left(l), (r) => right(r["Authentication successful"]));
+  }
 }

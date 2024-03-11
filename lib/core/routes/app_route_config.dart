@@ -12,7 +12,8 @@ import 'package:team_finder_app/features/project_pages/presentation/pages/main_p
 @singleton
 class MyAppRouter {
   final GoRouter _router = GoRouter(
-    initialLocation: '/register/admin',
+    initialLocation: '/login/admin',
+    // initialLocation: '/register/admin',
     routes: [
       GoRoute(
         name: AppRouterConst.registerAdminName,

@@ -20,7 +20,7 @@ class AuthUsecase {
     required String organizationAddress,
   }) async {
     return fieldValidator
-        .areSignUpInformationValid(
+        .areRegisterAdminInformationValid(
           name,
           email,
           password,
@@ -46,7 +46,7 @@ class AuthUsecase {
     required String organizationId,
   }) async {
     return fieldValidator
-        .areLoginInformationValid(
+        .areRegisterEmployeeInformationValid(
           name,
           email,
           password,
@@ -58,6 +58,17 @@ class AuthUsecase {
             email: email.trim(),
             password: password,
             organizationId: organizationId,
+          ),
+        );
+  }
+
+  Future<Either<Failure<String>, String>> login(
+      {required String email, required String password}) async {
+    return fieldValidator.areLoginInformationValid(email, password).fold(
+          left,
+          (r) => authRepo.login(
+            email: email.trim(),
+            password: password,
           ),
         );
   }

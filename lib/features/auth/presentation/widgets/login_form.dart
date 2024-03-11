@@ -5,16 +5,17 @@ import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
 
-class LoginForm extends HookWidget {
+class LoginForm extends StatelessWidget {
   const LoginForm({
     super.key,
+    required this.emailConttroler,
+    required this.passwordConttroler,
   });
 
+  final TextEditingController emailConttroler;
+  final TextEditingController passwordConttroler;
   @override
   Widget build(BuildContext context) {
-    final emailConttroler = useTextEditingController();
-    final passwordConttroler = useTextEditingController();
-
     return Center(
       child: Container(
         width: getValueForScreenType(
@@ -41,12 +42,12 @@ class LoginForm extends HookWidget {
             CustomTextField(
               nameConttroler: emailConttroler,
               hintText: AuthConstants.email,
-              onSubmitted: (String) {},
+              onSubmitted: (value) {},
             ),
             CustomTextField(
               nameConttroler: passwordConttroler,
               hintText: AuthConstants.password,
-              onSubmitted: (String) {},
+              onSubmitted: (value) {},
               isPassword: true,
             ),
           ],

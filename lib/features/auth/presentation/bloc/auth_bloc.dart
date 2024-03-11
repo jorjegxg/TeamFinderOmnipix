@@ -64,7 +64,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       LoginStarted event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
 
-    //fa ceva
+    (await authUsecase.login(
+      email: event.email,
+      password: event.password,
+    ))
+        .fold(
+      (l) {
+        emit(AuthError(message: l.message));
+      },
+      (r) {
+        emit(AuthSuccess());
+      },
+    );
 
     emit(AuthSuccess());
   }

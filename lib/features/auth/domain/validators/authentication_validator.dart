@@ -44,7 +44,7 @@ class AuthenticationValidator {
     return true;
   }
 
-  Either<Failure<String>, void> areSignUpInformationValid(
+  Either<Failure<String>, void> areRegisterAdminInformationValid(
     String? name,
     String? email,
     String? password,
@@ -75,7 +75,7 @@ class AuthenticationValidator {
     return const Right(null);
   }
 
-  Either<Failure<String>, void> areLoginInformationValid(
+  Either<Failure<String>, void> areRegisterEmployeeInformationValid(
     String? name,
     String? email,
     String? password,
@@ -94,6 +94,22 @@ class AuthenticationValidator {
       );
     }
 
+    return const Right(null);
+  }
+
+  Either<Failure<String>, void> areLoginInformationValid(
+    String? email,
+    String? password,
+  ) {
+    if (!_isEmailValid(email)) {
+      return Left(
+        FieldFailure(message: 'Invalid email'),
+      );
+    } else if (!_isPasswordValid(password)) {
+      return Left(
+        FieldFailure(message: 'Invalid password'),
+      );
+    }
     return const Right(null);
   }
 }

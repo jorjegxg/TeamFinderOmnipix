@@ -8,6 +8,7 @@ import 'package:injectable/injectable.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/constants.dart';
+import 'package:team_finder_app/core/util/functions.dart';
 import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 
@@ -31,7 +32,9 @@ class RegisterScreen extends HookWidget {
       text: kDebugMode ? 'Nume test' : '',
     );
     final emailConttroler = useTextEditingController(
-      text: kDebugMode ? 'email@test.test' : '',
+      text: kDebugMode
+          ? '${generateRandomString(5)}@${generateRandomString(5)}.${generateRandomString(5)}'
+          : '',
     );
     final passwordConttroler = useTextEditingController(
       text: kDebugMode ? 'parola' : '',
@@ -47,6 +50,14 @@ class RegisterScreen extends HookWidget {
         if (state is AuthSuccess) {
           // context.goNamed(AppRouterConst.homeName);
           Logger.success('Success', 'Acum ar trebui sa mergi la home page.');
+        }
+
+        if (state is AuthSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Success'),
+            ),
+          );
         }
 
         if (state is AuthError) {
