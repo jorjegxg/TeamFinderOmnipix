@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
+import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_segmented_button.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_widget.dart';
 
@@ -11,9 +13,11 @@ class ProjectsMainScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.add),
+          onPressed: () {
+            context.goNamed(AppRouterConst.createProjectScreen);
+          },
           backgroundColor: Theme.of(context).colorScheme.primary,
+          child: const Icon(Icons.add),
         ),
         appBar: AppBar(
           centerTitle: true,
@@ -28,11 +32,11 @@ class ProjectsMainScreen extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Center(child: CustomSegmentedButton()),
-                SizedBox(
+                const Center(child: CustomSegmentedButton()),
+                const SizedBox(
                   height: 40,
                 ),
                 Expanded(
@@ -41,8 +45,8 @@ class ProjectsMainScreen extends StatelessWidget {
                       // shrinkWrap: true,
                       itemCount: 5,
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        return const Padding(
+                          padding: EdgeInsets.all(8.0),
                           child: ProjectWidget(),
                         );
                       }),
