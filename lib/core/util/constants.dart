@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 class EndpointConstants {
   //base url
   static const String baseUrl = 'https://omnipix.azurewebsites.net';
@@ -55,7 +54,7 @@ class EndpointConstants {
   static String createProjectManager(String id) =>
       '/projectmanager/createprojectmanager/$id';
 }
-=======
+
 class AuthConstants {
   static const String userId = 'userId';
   static const String name = 'Name';
@@ -95,4 +94,3 @@ class AuthConstants {
 //   static const shadow = Color(0x3F000000);
 //   static const hintTextColor = Color.fromARGB(255, 115, 115, 115);
 // }
->>>>>>> main

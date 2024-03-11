@@ -25,7 +25,7 @@ class ApiService {
       final response = await _dio.get(url, queryParameters: queryParameters);
 
       if (response.statusCode != null &&
-          response.statusCode! > 200 &&
+          response.statusCode! >= 200 &&
           response.statusCode! < 300) {
         _logSuccess('Get', response);
         return Right(response.data);
@@ -55,7 +55,7 @@ class ApiService {
       final response = await _dio.post(url, data: data);
 
       if (response.statusCode != null &&
-          response.statusCode! > 200 &&
+          response.statusCode! >= 200 &&
           response.statusCode! < 300) {
         _logSuccess('Post', response);
         return Right(response.data);
@@ -85,7 +85,7 @@ class ApiService {
       final response = await _dio.put(url, data: data);
 
       if (response.statusCode != null &&
-          response.statusCode! > 200 &&
+          response.statusCode! >= 200 &&
           response.statusCode! < 300) {
         _logSuccess('Put', response);
         return Right(response.data);
@@ -115,7 +115,7 @@ class ApiService {
       final response = await _dio.delete(url);
 
       if (response.statusCode != null &&
-          response.statusCode! > 200 &&
+          response.statusCode! >= 200 &&
           response.statusCode! < 300) {
         _logSuccess('Delete', response);
         return Right(response.data);

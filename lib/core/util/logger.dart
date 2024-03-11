@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 
 mixin Logger {
-  static void info(type, message) {
+  static void info(message, {type}) {
     if (kDebugMode) {
       log('ℹ️ INFO - $type $message');
     }
