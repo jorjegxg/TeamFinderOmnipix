@@ -17,43 +17,58 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppLightColors.surface,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: Sizer(
           builder: (BuildContext context, Orientation orientation,
               DeviceType deviceType) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const LogoWidget(),
-                GetDetailsForm(
-                  isEmployee: isEmployee,
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: 100.h,
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    RegisterButton(
-                      text: AuthConstants.register,
-                      onPressed: () {
-                        //TODO: implement register administrator
-                      },
+                    const Padding(
+                      padding: EdgeInsets.all(20),
+                      child: LogoWidget(),
                     ),
-                    SizedBox(
-                      height: 2.h,
+                    GetDetailsForm(
+                      isEmployee: isEmployee,
                     ),
-                    ChangeAuthPageText(
-                      text: AuthConstants.alreadyHaveAnAccount,
-                      onPressed: () {
-                        if (isEmployee) {
-                          context.goNamed(AppRouterConst.loginEmployeeName);
-                        } else {
-                          context.goNamed(AppRouterConst.loginAdminName);
-                        }
-                      },
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CustomButton(
+                            text: AuthConstants.register,
+                            onPressed: () {
+                              //TODO: implement register administrator
+                            },
+                          ),
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          ChangeAuthPageText(
+                            text: AuthConstants.alreadyHaveAnAccount,
+                            onPressed: () {
+                              if (isEmployee) {
+                                context
+                                    .goNamed(AppRouterConst.loginEmployeeName);
+                              } else {
+                                context.goNamed(AppRouterConst.loginAdminName);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-              ],
+              ),
             );
           },
         ),

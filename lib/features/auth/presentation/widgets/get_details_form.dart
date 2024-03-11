@@ -22,17 +22,21 @@ class GetDetailsForm extends HookWidget {
       child: Container(
         width: getValueForScreenType(
             context: context, mobile: 70.w, tablet: 60.w, desktop: 35.w),
-        height: isEmployee ? 35.h : 50.h,
+        height: isEmployee
+            ? getValueForScreenType(
+                context: context, mobile: 200, tablet: 350, desktop: 350)
+            : getValueForScreenType(
+                context: context, mobile: 400, tablet: 500, desktop: 500),
         decoration: ShapeDecoration(
-          color: AppLightColors.surfaceContainer,
+          color: Theme.of(context).colorScheme.surfaceContainer,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          shadows: const [
+          shadows: [
             BoxShadow(
-              color: AppLightColors.shadow,
+              color: Theme.of(context).colorScheme.shadow,
               blurRadius: 4,
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
               spreadRadius: 0,
             )
           ],

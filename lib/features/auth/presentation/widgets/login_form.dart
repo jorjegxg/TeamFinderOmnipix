@@ -19,18 +19,18 @@ class LoginForm extends HookWidget {
       child: Container(
         width: getValueForScreenType(
             context: context, mobile: 70.w, tablet: 60.w, desktop: 35.w),
-        height: getValueForScreenType(
-            context: context, mobile: 20.h, desktop: 30.h),
+        height:
+            getValueForScreenType(context: context, mobile: 200, desktop: 250),
         decoration: ShapeDecoration(
-          color: AppLightColors.surfaceContainer,
+          color: Theme.of(context).colorScheme.primaryContainer,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          shadows: const [
+          shadows: [
             BoxShadow(
-              color: AppLightColors.shadow,
+              color: Theme.of(context).colorScheme.shadow,
               blurRadius: 4,
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
               spreadRadius: 0,
             )
           ],

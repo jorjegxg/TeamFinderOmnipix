@@ -18,41 +18,56 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppLightColors.surface,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: Sizer(
           builder: (BuildContext context, Orientation orientation,
               DeviceType deviceType) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const LogoWidget(),
-                const LoginForm(),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: 100.h,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    RegisterButton(
-                      text: AuthConstants.login,
-                      onPressed: () {
-                        //TODO: implement login user
-                      },
+                    const Padding(
+                      padding: EdgeInsets.all(20),
+                      child: LogoWidget(),
                     ),
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    ChangeAuthPageText(
-                      text: AuthConstants.dontHaveAnAccount,
-                      onPressed: () {
-                        if (isEmployee) {
-                          context.goNamed(AppRouterConst.registerEmployeeName);
-                        } else {
-                          context.goNamed(AppRouterConst.registerAdminName);
-                        }
-                      },
+                    const LoginForm(),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CustomButton(
+                            text: AuthConstants.login,
+                            onPressed: () {
+                              //TODO: implement login user
+                            },
+                          ),
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          ChangeAuthPageText(
+                            text: AuthConstants.dontHaveAnAccount,
+                            onPressed: () {
+                              if (isEmployee) {
+                                context.goNamed(
+                                    AppRouterConst.registerEmployeeName);
+                              } else {
+                                context
+                                    .goNamed(AppRouterConst.registerAdminName);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-              ],
+              ),
             );
           },
         ),

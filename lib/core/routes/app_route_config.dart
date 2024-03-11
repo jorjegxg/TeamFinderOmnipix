@@ -7,30 +7,30 @@ import 'package:team_finder_app/features/auth/presentation/pages/employee_login_
 import 'package:team_finder_app/features/auth/presentation/pages/employee_register_page.dart';
 
 class MyAppRouter {
-  GoRouter router = GoRouter(
+  final GoRouter _router = GoRouter(
     initialLocation: '/registerAdmin',
     routes: [
       GoRoute(
         name: AppRouterConst.registerAdminName,
-        path: '/registerAdmin',
+        path: '/register/admin',
         pageBuilder: (context, state) =>
             const MaterialPage(child: RegisterScreenForAdmin()),
       ),
       GoRoute(
         name: AppRouterConst.loginEmployeeName,
-        path: '/loginEmployee',
+        path: '/login/employee',
         pageBuilder: (context, state) =>
             const MaterialPage(child: EmployeeLoginPage()),
       ),
       GoRoute(
         name: AppRouterConst.loginAdminName,
-        path: '/loginAdmin',
+        path: '/login/admin',
         pageBuilder: (context, state) =>
             const MaterialPage(child: AdminLoginPage()),
       ),
       GoRoute(
         name: AppRouterConst.registerEmployeeName,
-        path: '/registerEmployee',
+        path: '/register/employee',
         pageBuilder: (context, state) =>
             const MaterialPage(child: RegisterScreenForEmployee()),
       ),
@@ -43,4 +43,19 @@ class MyAppRouter {
       ),
     ),
   );
+
+  static final MyAppRouter _instance = MyAppRouter._internal();
+
+  factory MyAppRouter() {
+    return _instance;
+  }
+
+  MyAppRouter._internal();
+
+  // Getter for accessing the router instance
+  GoRouter get router => _router;
+
+  void navigateTo(String route) {
+    _router.go(route);
+  }
 }
