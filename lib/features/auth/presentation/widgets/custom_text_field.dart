@@ -9,25 +9,39 @@ class CustomTextField extends StatelessWidget {
     required this.hintText,
     this.isPassword = false,
     this.onChanged,
+    this.keyboardType = TextInputType.text,
+    this.minLines = 1,
+    this.width,
+    required this.onSubmitted,
   });
 
   final TextEditingController nameConttroler;
   final String hintText;
   final bool isPassword;
   final Function(String)? onChanged;
+  final TextInputType keyboardType;
+  final int minLines;
+  final double? width;
+  final Function(String) onSubmitted;
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      width: getValueForScreenType(
-          context: context, mobile: 65.w, tablet: 55.w, desktop: 30.w),
-      height: 50,
+      width: width ??
+          getValueForScreenType(
+              context: context, mobile: 65.w, tablet: 55.w, desktop: 30.w),
+      // height: 50,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onPrimaryContainer,
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextField(
         onChanged: onChanged,
+        onSubmitted: onSubmitted,
+        style: Theme.of(context).textTheme.bodyMedium,
+        minLines: minLines,
+        maxLines: minLines,
+        keyboardType: TextInputType.text,
         obscureText: isPassword,
         enableSuggestions: false,
         autocorrect: false,

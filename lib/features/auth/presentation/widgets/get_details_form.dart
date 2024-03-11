@@ -54,25 +54,30 @@ class GetDetailsForm extends StatelessWidget {
             CustomTextField(
               nameConttroler: nameConttroler,
               hintText: AuthConstants.name,
+              onSubmitted: (String) {},
             ),
             CustomTextField(
               nameConttroler: emailConttroler,
               hintText: AuthConstants.email,
+              onSubmitted: (String) {},
             ),
             CustomTextField(
               nameConttroler: passwordConttroler,
               hintText: AuthConstants.password,
               isPassword: true,
+              onSubmitted: (String) {},
             ),
             if (!isEmployee)
               CustomTextField(
                 nameConttroler: organizationNameConttroler,
                 hintText: AuthConstants.organizationName,
+                onSubmitted: (String) {},
               ),
             if (!isEmployee)
               CustomTextField(
                 nameConttroler: organizationAddressConttroler,
                 hintText: AuthConstants.organizationAddress,
+                onSubmitted: (String) {},
               ),
           ],
         ),

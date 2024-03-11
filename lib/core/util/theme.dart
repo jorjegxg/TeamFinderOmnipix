@@ -2,12 +2,46 @@ import 'package:flutter/material.dart';
 
 ThemeData createLightTheme() {
   return ThemeData(
+    appBarTheme: const AppBarTheme(
+      color: Color(0xFFD9D9D9),
+      elevation: 0,
+      iconTheme: IconThemeData(
+        color: Color(0xFF6750A4),
+      ),
+      actionsIconTheme: IconThemeData(
+        color: Color(0xFF6750A4),
+      ),
+    ),
     textTheme: const TextTheme(
+      bodyMedium: TextStyle(
+        color: Color.fromARGB(255, 0, 0, 0),
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        height: 1.5,
+      ),
       labelSmall: TextStyle(
         color: Color.fromARGB(255, 115, 115, 115),
         fontSize: 16,
         fontWeight: FontWeight.w400,
         height: 0,
+      ),
+      titleMedium: TextStyle(
+        color: Color.fromARGB(255, 0, 0, 0),
+        fontSize: 18,
+        fontWeight: FontWeight.w500,
+        height: 1.2,
+      ),
+      titleLarge: TextStyle(
+        color: Color.fromARGB(255, 0, 0, 0),
+        fontSize: 20,
+        fontWeight: FontWeight.w500,
+        height: 1.2,
+      ),
+      titleSmall: TextStyle(
+        color: Color.fromARGB(255, 0, 0, 0),
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        height: 1.2,
       ),
     ),
     brightness: Brightness.light,

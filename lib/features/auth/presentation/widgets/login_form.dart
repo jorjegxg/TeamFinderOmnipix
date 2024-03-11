@@ -41,10 +41,12 @@ class LoginForm extends HookWidget {
             CustomTextField(
               nameConttroler: emailConttroler,
               hintText: AuthConstants.email,
+              onSubmitted: (String) {},
             ),
             CustomTextField(
               nameConttroler: passwordConttroler,
               hintText: AuthConstants.password,
+              onSubmitted: (String) {},
               isPassword: true,
             ),
           ],
