@@ -11,6 +11,7 @@ import 'package:team_finder_app/features/auth/presentation/pages/employee_regist
 import 'package:team_finder_app/features/project_pages/presentation/pages/add_project_member_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/assigment_proposal_screen.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/create_project_page.dart';
+import 'package:team_finder_app/features/project_pages/presentation/pages/edit_project_screen.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/project_details_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/project_members_page.dart';
@@ -92,6 +93,14 @@ class MyAppRouter {
               path: '/projects/create',
               pageBuilder: (context, state) =>
                   const MaterialPage(child: CreateProjectScreen()),
+            ),
+            GoRoute(
+              name: AppRouterConst.editProjectScreen,
+              path: '/projects/edit/:projectId',
+              pageBuilder: (context, state) => MaterialPage(
+                  child: EditProjectScreen(
+                projectId: state.pathParameters['projectId']!,
+              )),
             ),
             GoRoute(
               name: AppRouterConst.departamentsMainScreen,

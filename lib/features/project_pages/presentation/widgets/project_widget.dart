@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
-import 'package:team_finder_app/features/auth/presentation/widgets/register_button.dart';
+import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 
 class ProjectWidget extends StatelessWidget {
   const ProjectWidget({super.key});

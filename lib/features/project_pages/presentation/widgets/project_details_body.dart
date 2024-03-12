@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:sizer/sizer.dart';
 
-import 'package:team_finder_app/features/auth/presentation/widgets/register_button.dart';
+import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_text_container.dart';
 
 import 'package:team_finder_app/features/project_pages/presentation/widgets/view_list_dialog.dart';

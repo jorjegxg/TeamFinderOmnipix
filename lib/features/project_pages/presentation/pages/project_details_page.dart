@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
-import 'package:team_finder_app/features/auth/presentation/widgets/register_button.dart';
+import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_details_body.dart';
 
 class ProjectDetailsScreen extends HookWidget {
@@ -24,6 +24,10 @@ class ProjectDetailsScreen extends HookWidget {
               icon: const Icon(Icons.edit, color: Colors.black),
               onPressed: () {
                 //TODO: implement edit project
+                context.goNamed(
+                  AppRouterConst.editProjectScreen,
+                  pathParameters: {'projectId': projectId},
+                );
               },
             ),
           ],
