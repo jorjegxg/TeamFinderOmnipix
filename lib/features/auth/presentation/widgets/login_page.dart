@@ -16,7 +16,7 @@ import 'package:team_finder_app/features/auth/presentation/widgets/custom_button
 class LoginScreen extends HookWidget {
   const LoginScreen({
     super.key,
-    required this.isEmployee,
+    this.isEmployee = false,
   });
   final bool isEmployee;
   @override
@@ -31,8 +31,10 @@ class LoginScreen extends HookWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
-          showSnackBar(context, 'Success');
-          context.replaceNamed(AppRouterConst.projectsMainScreen);
+          context.goNamed(
+            AppRouterConst.projectsMainScreen,
+            pathParameters: {'userId': state.userId},
+          );
         }
         if (state is AuthError) {
           //TODO George Luta : vezi sa nu fie prea lungi mesajele de eroare
@@ -69,15 +71,20 @@ class LoginScreen extends HookWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            CustomButton(
-                              text: AuthConstants.login,
-                              onPressed: () {
-                                context.read<AuthBloc>().add(
-                                      LoginStarted(
-                                        email: emailConttroler.text,
-                                        password: passwordConttroler.text,
-                                      ),
-                                    );
+                            BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, state) {
+                                return CustomButton(
+                                  isLoading: state is AuthLoading,
+                                  text: AuthConstants.login,
+                                  onPressed: () {
+                                    context.read<AuthBloc>().add(
+                                          LoginStarted(
+                                            email: emailConttroler.text,
+                                            password: passwordConttroler.text,
+                                          ),
+                                        );
+                                  },
+                                );
                               },
                             ),
                             SizedBox(

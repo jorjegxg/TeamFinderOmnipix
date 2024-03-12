@@ -27,7 +27,6 @@ import 'package:team_finder_app/features/project_pages/presentation/pages/projec
 class MyAppRouter {
   final GoRouter _router = GoRouter(
     initialLocation: '/register/admin',
-    // initialLocation: '/register/admin',
     routes: [
       GoRoute(
         name: AppRouterConst.registerAdminName,
@@ -38,19 +37,19 @@ class MyAppRouter {
           final token =
               await SecureStorageService().read(key: StorageConstants.token);
           if (token == null) {
-            return '/login/admin';
+            return '/register/admin';
           }
 
           final isExpired = JwtDecoder.isExpired(token);
 
           if (isExpired) {
-            SecureStorageService().delete(key: StorageConstants.token);
-            return '/login/admin';
+            await SecureStorageService().delete(key: StorageConstants.token);
+            return '/register/admin';
           }
 
           final userData = JwtDecoder.decode(token);
 
-          Logger.info('User data: $userData');
+          Logger.info('MyAppRouter', 'User data: $userData');
 
           return '/${userData['id']}/projects';
         },

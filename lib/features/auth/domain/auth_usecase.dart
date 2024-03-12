@@ -1,6 +1,10 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:team_finder_app/core/error/failures.dart';
+import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/secure_storage_service.dart';
 import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart';
@@ -14,7 +18,7 @@ class AuthUsecase {
   AuthUsecase(this.fieldValidator, this.authRepo);
 
   //if validation fails, return that failure
-  Future<Either<Failure<String>, void>> registerOrganizationAdmin({
+  Future<Either<Failure<String>, String>> registerOrganizationAdmin({
     required String name,
     required String email,
     required String password,
@@ -42,7 +46,8 @@ class AuthUsecase {
         left,
         (r) {
           SecureStorageService().write(key: StorageConstants.token, value: r);
-          return right(null);
+          final userId = JwtDecoder.decode(r)['id'];
+          return right(userId);
         },
       );
     });
@@ -74,7 +79,8 @@ class AuthUsecase {
           left,
           (r) {
             SecureStorageService().write(key: StorageConstants.token, value: r);
-            return right(r);
+            final userId = JwtDecoder.decode(r)['id'];
+            return right(userId);
           },
         );
       },
@@ -95,10 +101,22 @@ class AuthUsecase {
           left,
           (r) {
             SecureStorageService().write(key: StorageConstants.token, value: r);
-            return right(r);
+
+            final userId = JwtDecoder.decode(r)['id'];
+
+            return right(userId);
           },
         );
       },
+    );
+  }
+
+  void logout({required BuildContext context}) {
+    SecureStorageService().delete(key: StorageConstants.token);
+
+    //replace route
+    context.goNamed(
+      AppRouterConst.registerAdminName,
     );
   }
 }
