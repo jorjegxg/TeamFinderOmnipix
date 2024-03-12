@@ -2,8 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/features/auth/domain/auth_usecase.dart';
-import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart';
-import 'package:team_finder_app/features/auth/domain/validators/authentication_validator.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

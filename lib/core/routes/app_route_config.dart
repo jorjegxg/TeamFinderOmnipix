@@ -11,11 +11,12 @@ import 'package:team_finder_app/features/auth/presentation/pages/employee_regist
 import 'package:team_finder_app/features/project_pages/presentation/pages/create_project_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/project_details_page.dart';
+import 'package:team_finder_app/features/project_pages/presentation/pages/project_members_page.dart';
 
 @singleton
 class MyAppRouter {
   final GoRouter _router = GoRouter(
-    initialLocation: '/login/admin',
+    initialLocation: '/projects',
     // initialLocation: '/register/admin',
     routes: [
       GoRoute(
@@ -56,6 +57,14 @@ class MyAppRouter {
               path: '/projects/details/:projectId',
               pageBuilder: (context, state) => MaterialPage(
                   child: ProjectDetailsScreen(
+                projectId: state.pathParameters['projectId']!,
+              )),
+            ),
+            GoRoute(
+              name: AppRouterConst.projectMembersScreen,
+              path: '/projects/details/:projectId/members',
+              pageBuilder: (context, state) => MaterialPage(
+                  child: ProjectMembersPage(
                 projectId: state.pathParameters['projectId']!,
               )),
             ),
