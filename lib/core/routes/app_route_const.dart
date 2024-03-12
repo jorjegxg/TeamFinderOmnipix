@@ -12,4 +12,11 @@ class AppRouterConst {
   static const String employeeEditProfileName = 'employeeEditProfile';
   static const String projectsMainScreen = 'projectsMainScreen';
   static const String createProjectScreen = 'createProjectScreen';
+
+  static const String employeesMainScreen = 'employeesMainScreen';
+
+  static const String departamentsMainScreen = 'departamentsMainScreen';
+
+  static const String settingsMainScreen = 'settingsMainScreen';
+  static const String projectDetailsScreen = 'projectDetailsScreen';
 }
