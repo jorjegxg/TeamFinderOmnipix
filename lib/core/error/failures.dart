@@ -2,6 +2,9 @@ abstract class Failure<T> {
   final String message;
 
   Failure(this.message);
+
+  @override
+  String toString() => message;
 }
 
 class NoDataFetched<T> extends Failure<T> {
@@ -9,7 +12,10 @@ class NoDataFetched<T> extends Failure<T> {
 }
 
 class ServerFailure<T> extends Failure<T> {
-  ServerFailure({required String message}) : super(message);
+  ServerFailure({
+    required String message,
+    required int statusCode,
+  }) : super(message);
 }
 
 class FieldFailure<T> extends Failure<T> {

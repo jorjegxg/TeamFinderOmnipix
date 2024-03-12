@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 
 ThemeData createLightTheme() {
   return ThemeData(
+    snackBarTheme: const SnackBarThemeData(
+      backgroundColor: Color(0xFF6750A4),
+      contentTextStyle: TextStyle(
+        color: Color(0xFFFFFFFF),
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        height: 1.2,
+      ),
+    ),
     appBarTheme: const AppBarTheme(
       color: Color(0xFFD9D9D9),
       elevation: 0,

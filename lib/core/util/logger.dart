@@ -1,12 +1,9 @@
-// ignore_for_file: type_annotate_public_apis,
-// ignore_for_file: inference_failure_on_untyped_parameter
-
 import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 
 mixin Logger {
-  static void info(type, message) {
+  static void info(message, {type}) {
     if (kDebugMode) {
       log('ℹ️ INFO - $type $message');
     }
