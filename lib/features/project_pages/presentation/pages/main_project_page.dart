@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
+import 'package:team_finder_app/core/util/constants.dart';
+import 'package:team_finder_app/core/util/logger.dart';
+import 'package:team_finder_app/core/util/secure_storage_service.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_segmented_button.dart';
@@ -11,8 +15,16 @@ import 'package:team_finder_app/features/project_pages/presentation/widgets/proj
 class ProjectsMainScreen extends StatelessWidget {
   const ProjectsMainScreen({super.key});
 
+  Future a() async {
+    final b = await SecureStorageService().read(key: StorageConstants.token);
+
+    final dec = JwtDecoder.decode(b!);
+    Logger.info("dec : $dec");
+  }
+
   @override
   Widget build(BuildContext context) {
+    a();
     return BlocListener<ProjectsBloc, ProjectsState>(
       listener: (context, state) {
         if (state is ProjectsError) {

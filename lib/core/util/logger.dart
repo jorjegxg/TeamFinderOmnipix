@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 mixin Logger {
   static void info(message, {type}) {
     if (kDebugMode) {
-      log('ℹ️ INFO - $type $message');
+      log('ℹ️ INFO - ${type ?? ''} $message');
     }
   }
 

@@ -32,6 +32,7 @@ class LoginScreen extends HookWidget {
       listener: (context, state) {
         if (state is AuthSuccess) {
           showSnackBar(context, 'Success');
+          context.replaceNamed(AppRouterConst.projectsMainScreen);
         }
         if (state is AuthError) {
           //TODO George Luta : vezi sa nu fie prea lungi mesajele de eroare

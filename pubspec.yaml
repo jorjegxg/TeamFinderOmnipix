@@ -41,6 +41,7 @@ dependencies:
   flutter_bloc: ^8.1.4
   flutter_form_builder: ^9.2.1
   flutter_hooks: ^0.20.5
+  flutter_secure_storage: ^9.0.0
   flutter_slidable: ^3.0.1
   flutter_typeahead: ^5.2.0
   form_builder_validators: ^9.1.0
@@ -49,6 +50,7 @@ dependencies:
   hive: ^2.2.3
   http: ^1.2.0
   injectable: ^2.3.3
+  jwt_decoder: ^2.0.1
   path_provider: ^2.1.2
   responsive_builder: ^0.7.0
   sizer: ^2.0.15

@@ -5,14 +5,14 @@ import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart
 @LazySingleton(as: AuthRepo)
 class AuthRepoImpl extends AuthRepo {
   @override
-  Future<Either<Failure<String>, void>> registerOrganizationAdmin({
+  Future<Either<Failure<String>, String>> registerOrganizationAdmin({
     required String name,
     required String email,
     required String password,
     required String organizationName,
     required String organizationAddress,
-  }) {
-    return ApiService().dioPost(
+  }) async {
+    return (await ApiService().dioPost(
       url: "${EndpointConstants.baseUrl}/admin/create",
       data: {
         "name": name,
@@ -23,7 +23,8 @@ class AuthRepoImpl extends AuthRepo {
         //TODO George Luta : nu trebuie facuta in front-end
         "url": "url"
       },
-    );
+    ))
+        .fold((l) => left(l), (r) => right(r["Token"]));
   }
 
   @override
@@ -55,6 +56,6 @@ class AuthRepoImpl extends AuthRepo {
         "password": password,
       },
     ))
-        .fold((l) => left(l), (r) => right(r["Authentication successful"]));
+        .fold((l) => left(l), (r) => right(r["Token"]));
   }
 }

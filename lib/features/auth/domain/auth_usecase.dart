@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/error/failures.dart';
+import 'package:team_finder_app/core/util/constants.dart';
+import 'package:team_finder_app/core/util/secure_storage_service.dart';
 import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:team_finder_app/features/auth/domain/validators/authentication_validator.dart';
 
@@ -21,22 +23,29 @@ class AuthUsecase {
   }) async {
     return fieldValidator
         .areRegisterAdminInformationValid(
-          name,
-          email,
-          password,
-          organizationName,
-          organizationAddress,
-        )
-        .fold(
-          left,
-          (r) => authRepo.registerOrganizationAdmin(
-            name: name.trim(),
-            email: email.trim(),
-            password: password,
-            organizationName: organizationName.trim(),
-            organizationAddress: organizationAddress.trim(),
-          ),
-        );
+      name,
+      email,
+      password,
+      organizationName,
+      organizationAddress,
+    )
+        .fold(left, (r) async {
+      final authResponse = await authRepo.registerOrganizationAdmin(
+        name: name.trim(),
+        email: email.trim(),
+        password: password,
+        organizationName: organizationName.trim(),
+        organizationAddress: organizationAddress.trim(),
+      );
+
+      return authResponse.fold(
+        left,
+        (r) {
+          SecureStorageService().write(key: StorageConstants.token, value: r);
+          return right(null);
+        },
+      );
+    });
   }
 
   Future<Either<Failure<String>, String>> registerEmployee({
@@ -47,29 +56,49 @@ class AuthUsecase {
   }) async {
     return fieldValidator
         .areRegisterEmployeeInformationValid(
-          name,
-          email,
-          password,
-        )
+      name,
+      email,
+      password,
+    )
         .fold(
-          left,
-          (r) => authRepo.registerEmployee(
-            name: name.trim(),
-            email: email.trim(),
-            password: password,
-            organizationId: organizationId,
-          ),
+      left,
+      (r) async {
+        final authResponse = await authRepo.registerEmployee(
+          name: name.trim(),
+          email: email.trim(),
+          password: password,
+          organizationId: organizationId,
         );
+
+        return authResponse.fold(
+          left,
+          (r) {
+            SecureStorageService().write(key: StorageConstants.token, value: r);
+            return right(r);
+          },
+        );
+      },
+    );
   }
 
   Future<Either<Failure<String>, String>> login(
       {required String email, required String password}) async {
     return fieldValidator.areLoginInformationValid(email, password).fold(
-          left,
-          (r) => authRepo.login(
-            email: email.trim(),
-            password: password,
-          ),
+      left,
+      (r) async {
+        final authResponse = await authRepo.login(
+          email: email.trim(),
+          password: password,
         );
+
+        return authResponse.fold(
+          left,
+          (r) {
+            SecureStorageService().write(key: StorageConstants.token, value: r);
+            return right(r);
+          },
+        );
+      },
+    );
   }
 }
