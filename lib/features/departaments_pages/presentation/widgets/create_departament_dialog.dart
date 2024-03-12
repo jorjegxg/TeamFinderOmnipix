@@ -43,7 +43,7 @@ class CreateDepartamentDialog extends HookWidget {
               onSubmitted: onSubmitted,
               width: 100.w,
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             CustomDropdownButton(
               elements: elements,
               onChanged: onChanged,

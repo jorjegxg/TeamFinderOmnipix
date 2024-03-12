@@ -1,13 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:team_finder_app/features/auth/presentation/widgets/register_button.dart';
-import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
-
-class ProjectWidget extends StatelessWidget {
-  final ProjectEntity projectEntity;
-
-  const ProjectWidget({super.key, required this.projectEntity});
-=======
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 
 class ProjectWidget extends StatelessWidget {
@@ -21,7 +12,6 @@ class ProjectWidget extends StatelessWidget {
     required this.onPressed,
     this.onLongPress,
   });
->>>>>>> main
 
   final String mainTitle;
   final String title1;
@@ -38,45 +28,6 @@ class ProjectWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-<<<<<<< HEAD
-        height: 250,
-        width: 100,
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Text(projectEntity.name,
-                    style: Theme.of(context).textTheme.titleMedium),
-              ),
-              const SizedBox(height: 10),
-              const Divider(),
-              Text(
-                'Roles:',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              Text(
-                'Project manager + ${projectEntity.projectManager}',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              Text(
-                'Tehnologies:',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              Text(
-                projectEntity.technologies.map((e) => e).join(', '),
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: CustomButton(
-                  text: 'View Details',
-                  onPressed: () {},
-                  buttonHeight: 30,
-                  buttonWidth: 60,
-=======
         child: Container(
           decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
@@ -95,7 +46,6 @@ class ProjectWidget extends StatelessWidget {
                 Center(
                   child: Text(mainTitle,
                       style: Theme.of(context).textTheme.titleMedium),
->>>>>>> main
                 ),
                 const SizedBox(height: 10),
                 const Divider(),

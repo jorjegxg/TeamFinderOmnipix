@@ -23,7 +23,7 @@ class DepartamentMainPage extends StatelessWidget {
               builder: (context) => CreateDepartamentDialog(
                   onSubmitted: (String s) {},
                   onChanged: (String? s) {},
-                  elements: ['element1', 'element2', 'element3'],
+                  elements: const ['element1', 'element2', 'element3'],
                   dropdownValue: 'element1'));
         },
       ),

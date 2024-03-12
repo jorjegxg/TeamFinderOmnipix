@@ -1,7 +1,7 @@
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:team_finder_app/core/error/failures.dart';
+import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/core/util/logger.dart';
+import 'package:team_finder_app/core/util/secure_storage_service.dart';
 
 class ApiService {
   late Dio _dio;
@@ -22,6 +22,8 @@ class ApiService {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
+      _addBearerAuthorization();
+
       final response = await _dio.get(url, queryParameters: queryParameters);
 
       if (response.statusCode != null &&
@@ -52,6 +54,8 @@ class ApiService {
     Map<String, dynamic>? data,
   }) async {
     try {
+      _addBearerAuthorization();
+
       final response = await _dio.post(url, data: data);
 
       if (response.statusCode != null &&
@@ -82,6 +86,8 @@ class ApiService {
     Map<String, dynamic>? data,
   }) async {
     try {
+      _addBearerAuthorization();
+
       final response = await _dio.put(url, data: data);
 
       if (response.statusCode != null &&
@@ -107,11 +113,12 @@ class ApiService {
     }
   }
 
-  //dioDelete
   Future<Either<Failure<String>, Map<String, dynamic>>> dioDelete({
     required String url,
   }) async {
     try {
+      _addBearerAuthorization();
+
       final response = await _dio.delete(url);
 
       if (response.statusCode != null &&
@@ -150,5 +157,10 @@ class ApiService {
 
   void _logSuccess(String type, dynamic response) {
     Logger.success('Success', '$type request returned: $response');
+  }
+
+  void _addBearerAuthorization() {
+    final jwtToken = SecureStorageService().read(key: StorageConstants.token);
+    _dio.options.headers['Authorization'] = 'Bearer $jwtToken';
   }
 }
