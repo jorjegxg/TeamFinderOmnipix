@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/util/constants.dart';
+import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
 
-class GetDetailsForm extends HookWidget {
+class GetDetailsForm extends StatelessWidget {
   const GetDetailsForm({
     super.key,
     required this.isEmployee,
+    required this.nameConttroler,
+    required this.emailConttroler,
+    required this.passwordConttroler,
+    required this.organizationNameConttroler,
+    required this.organizationAddressConttroler,
   });
   final bool isEmployee;
+  final TextEditingController nameConttroler;
+  final TextEditingController emailConttroler;
+  final TextEditingController passwordConttroler;
+  final TextEditingController organizationNameConttroler;
+  final TextEditingController organizationAddressConttroler;
   @override
   Widget build(BuildContext context) {
-    final nameConttroler = useTextEditingController();
-    final emailConttroler = useTextEditingController();
-    final passwordConttroler = useTextEditingController();
-    final organizationNameConttroler = useTextEditingController();
-    final organizationAddressConttroler = useTextEditingController();
     return Center(
       child: Container(
         width: getValueForScreenType(

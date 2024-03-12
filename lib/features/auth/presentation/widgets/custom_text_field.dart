@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
     required this.nameConttroler,
     required this.hintText,
     this.isPassword = false,
+    this.onChanged,
     this.keyboardType = TextInputType.text,
     this.minLines = 1,
     this.width,
@@ -17,6 +18,7 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController nameConttroler;
   final String hintText;
   final bool isPassword;
+  final Function(String)? onChanged;
   final TextInputType keyboardType;
   final int minLines;
   final double? width;
@@ -34,6 +36,7 @@ class CustomTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextField(
+        onChanged: onChanged,
         onSubmitted: onSubmitted,
         style: Theme.of(context).textTheme.bodyMedium,
         minLines: minLines,
