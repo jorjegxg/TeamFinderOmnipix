@@ -13,6 +13,12 @@ ThemeData createLightTheme() {
       ),
     ),
     textTheme: const TextTheme(
+      bodyLarge: TextStyle(
+        color: Color(0xFF000000),
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        height: 1.5,
+      ),
       bodyMedium: TextStyle(
         color: Color.fromARGB(255, 0, 0, 0),
         fontSize: 12,

@@ -18,4 +18,5 @@ class AppRouterConst {
   static const String departamentsMainScreen = 'departamentsMainScreen';
 
   static const String settingsMainScreen = 'settingsMainScreen';
+  static const String projectDetailsScreen = 'projectDetailsScreen';
 }

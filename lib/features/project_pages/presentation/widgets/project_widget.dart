@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/register_button.dart';
 
 class ProjectWidget extends StatelessWidget {
@@ -51,7 +53,11 @@ class ProjectWidget extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 child: CustomButton(
                   text: 'View Details',
-                  onPressed: () {},
+                  onPressed: () {
+                    //TODO: navigate to project details, pass project id
+                    context.goNamed(AppRouterConst.projectDetailsScreen,
+                        pathParameters: {'projectId': '1'});
+                  },
                   buttonHeight: 30,
                   buttonWidth: 60,
                 ),

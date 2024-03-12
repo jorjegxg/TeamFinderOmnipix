@@ -9,6 +9,7 @@ import 'package:team_finder_app/features/auth/presentation/pages/employee_login_
 import 'package:team_finder_app/features/auth/presentation/pages/employee_register_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/create_project_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
+import 'package:team_finder_app/features/project_pages/presentation/pages/project_details_page.dart';
 
 class MyAppRouter {
   final GoRouter _router = GoRouter(
@@ -46,6 +47,14 @@ class MyAppRouter {
               path: '/projects',
               pageBuilder: (context, state) =>
                   const MaterialPage(child: ProjectsMainScreen()),
+            ),
+            GoRoute(
+              name: AppRouterConst.projectDetailsScreen,
+              path: '/projects/details/:projectId',
+              pageBuilder: (context, state) => MaterialPage(
+                  child: ProjectDetailsScreen(
+                projectId: state.pathParameters['projectId']!,
+              )),
             ),
             GoRoute(
               name: AppRouterConst.createProjectScreen,
