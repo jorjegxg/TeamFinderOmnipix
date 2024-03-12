@@ -51,20 +51,29 @@ class _MainWrapperState extends State<MainWrapper> {
               selectedItemColor: Theme.of(context).colorScheme.primary,
               unselectedItemColor: Colors.black,
               onTap: (int index) {
+                //TODO: imlement navigation  with bloc
                 setState(() {
                   _selectedIndex = index;
                   switch (index) {
                     case 0:
-                      context.goNamed(AppRouterConst.projectsMainScreen);
+                      context.goNamed(AppRouterConst.projectsMainScreen,
+                          pathParameters: {'userId': '1'});
                       break;
                     case 1:
-                      context.goNamed(AppRouterConst.employeesMainScreen);
+                      context.goNamed(
+                        AppRouterConst.employeesMainScreen,
+                        pathParameters: {'userId': '1'},
+                      );
                       break;
                     case 2:
-                      context.goNamed(AppRouterConst.departamentsMainScreen);
+                      context.goNamed(
+                        AppRouterConst.departamentsMainScreen,
+                        pathParameters: {'userId': '1'},
+                      );
                       break;
                     case 3:
-                      context.goNamed(AppRouterConst.settingsMainScreen);
+                      context.goNamed(AppRouterConst.settingsMainScreen,
+                          pathParameters: {'userId': '1'});
                       break;
                   }
                   //TODO: imlement navigation  with bloc
@@ -81,18 +90,27 @@ class _MainWrapperState extends State<MainWrapper> {
                     _selectedIndex = index;
                     switch (index) {
                       case 0:
-                        context.goNamed(AppRouterConst.projectsMainScreen);
+                        context.goNamed(AppRouterConst.projectsMainScreen,
+                            pathParameters: {'userId': '1'});
                         break;
                       case 1:
-                        context.goNamed(AppRouterConst.employeesMainScreen);
+                        context.goNamed(
+                          AppRouterConst.employeesMainScreen,
+                          pathParameters: {'userId': '1'},
+                        );
                         break;
                       case 2:
-                        context.goNamed(AppRouterConst.departamentsMainScreen);
+                        context.goNamed(
+                          AppRouterConst.departamentsMainScreen,
+                          pathParameters: {'userId': '1'},
+                        );
                         break;
                       case 3:
-                        context.goNamed(AppRouterConst.settingsMainScreen);
+                        context.goNamed(AppRouterConst.settingsMainScreen,
+                            pathParameters: {'userId': '1'});
                         break;
                     }
+
                     //TODO: imlement navigation  with bloc
                   });
                 },

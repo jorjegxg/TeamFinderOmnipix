@@ -10,7 +10,7 @@ import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/change_page_widget.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/login_form.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/logo_widget.dart';
-import 'package:team_finder_app/features/auth/presentation/widgets/register_button.dart';
+import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 
 class LoginScreen extends HookWidget {
   const LoginScreen({
@@ -61,7 +61,9 @@ class LoginScreen extends HookWidget {
                     children: [
                       const Padding(
                         padding: EdgeInsets.all(20),
-                        child: LogoWidget(),
+                        child: LogoWidget(
+                          icon: Icons.handshake,
+                        ),
                       ),
                       LoginForm(
                         emailConttroler: emailConttroler,

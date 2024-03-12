@@ -6,15 +6,17 @@ import 'package:team_finder_app/features/project_pages/presentation/widgets/cust
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_widget.dart';
 
 class ProjectsMainScreen extends StatelessWidget {
-  const ProjectsMainScreen({super.key});
+  const ProjectsMainScreen({super.key, required this.userId});
 
+  final String userId;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            context.goNamed(AppRouterConst.createProjectScreen);
+            context.goNamed(AppRouterConst.createProjectScreen,
+                pathParameters: {'userId': userId});
           },
           backgroundColor: Theme.of(context).colorScheme.primary,
           child: const Icon(Icons.add),
@@ -45,9 +47,24 @@ class ProjectsMainScreen extends StatelessWidget {
                       // shrinkWrap: true,
                       itemCount: 5,
                       itemBuilder: (context, index) {
-                        return const Padding(
+                        return Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: ProjectWidget(),
+                          child: ProjectWidget(
+                            onPressed: () {
+                              //TODO: navigate to project details, pass project id
+                              context.goNamed(
+                                  AppRouterConst.projectDetailsScreen,
+                                  pathParameters: {
+                                    'projectId': '1',
+                                    'userId': userId
+                                  });
+                            },
+                            mainTitle: 'Project Name',
+                            title1: 'Roles:',
+                            title2: 'Tehnologies Stack:',
+                            content1: 'Roles....',
+                            content2: 'Tehnologies....',
+                          ),
                         );
                       }),
                 ),

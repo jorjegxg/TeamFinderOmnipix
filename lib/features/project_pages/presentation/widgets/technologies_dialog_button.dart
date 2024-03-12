@@ -23,7 +23,7 @@ class TechnologiesDialog extends HookWidget {
             ),
             const SizedBox(height: 15),
             SuggestionTextField(
-              options: ['asdas'],
+              options: const ['asdas'],
               onSubmitted: (String) {
                 //TODO: add functionality to the text field,add the text to the list
               },

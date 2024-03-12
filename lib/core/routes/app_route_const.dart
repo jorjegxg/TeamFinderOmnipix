@@ -19,4 +19,15 @@ class AppRouterConst {
 
   static const String settingsMainScreen = 'settingsMainScreen';
   static const String projectDetailsScreen = 'projectDetailsScreen';
+  static const String projectMembersScreen = 'projectMembersScreen';
+
+  static const String addProjectMember = 'addProjectMember';
+
+  static const String sendAssignmentProposal = 'sendAssignmentProposal';
+
+  static const String editProjectScreen = 'editProjectScreen';
+
+  static const String employeeProfileScreen = 'employeeProfileScreen';
+
+  static const String departamentsDetailsPage = 'departamentsDetailsPage';
 }
