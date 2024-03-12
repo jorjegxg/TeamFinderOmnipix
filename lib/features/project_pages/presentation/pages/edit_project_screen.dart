@@ -10,11 +10,12 @@ import 'package:team_finder_app/features/project_pages/presentation/widgets/date
 import 'package:team_finder_app/features/project_pages/presentation/widgets/team_roles_dialog.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/technologies_dialog_button.dart';
 
-enum ProjectPeriod { fixed, ongoing }
-
-class CreateProjectScreen extends HookWidget {
-  const CreateProjectScreen({super.key, required this.userId});
+class EditProjectScreen extends HookWidget {
+  const EditProjectScreen(
+      {super.key, required this.projectId, required this.userId});
+  final String projectId;
   final String userId;
+  //TODO: implement edit project to have preexisting data
   @override
   Widget build(BuildContext context) {
     final nameColtroler = useTextEditingController();
@@ -29,7 +30,7 @@ class CreateProjectScreen extends HookWidget {
           ),
           centerTitle: true,
           title: Text(
-            'Create project',
+            'Edit project',
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
@@ -87,6 +88,9 @@ class CreateProjectScreen extends HookWidget {
                                         elements: const [
                                           'Not Started',
                                           'Starting',
+                                          'In Progress',
+                                          'Closing',
+                                          'Closed',
                                         ],
                                         buttonWidth: 80.w,
                                         onChanged: (String? value) {
@@ -132,7 +136,7 @@ class CreateProjectScreen extends HookWidget {
                                               showDialog(
                                                   context: context,
                                                   builder: (context) =>
-                                                      const TechnologiesDialog());
+                                                      TechnologiesDialog());
                                             },
                                             buttonWidth: 20.w,
                                             buttonHeight: 5.h,

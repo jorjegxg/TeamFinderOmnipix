@@ -10,11 +10,14 @@ import 'package:team_finder_app/features/project_pages/presentation/bloc/project
 import 'package:team_finder_app/injection.dart';
 import 'package:team_finder_app/core/routes/app_route_config.dart';
 import 'package:team_finder_app/core/util/theme.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 // import 'injectable.config.dart';
 
 Future<void> main() async {
+  setPathUrlStrategy();
   configureDependencies();
+
   WidgetsFlutterBinding.ensureInitialized();
 
   // GetIt.I.registerSingleton<MyAppRouter>(MyAppRouter());
