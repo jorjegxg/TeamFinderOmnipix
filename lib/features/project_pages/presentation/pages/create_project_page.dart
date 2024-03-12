@@ -13,8 +13,8 @@ import 'package:team_finder_app/features/project_pages/presentation/widgets/tech
 enum ProjectPeriod { fixed, ongoing }
 
 class CreateProjectScreen extends HookWidget {
-  const CreateProjectScreen({super.key});
-
+  const CreateProjectScreen({super.key, required this.userId});
+  final String userId;
   @override
   Widget build(BuildContext context) {
     final nameColtroler = useTextEditingController();
@@ -24,7 +24,8 @@ class CreateProjectScreen extends HookWidget {
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => context.goNamed(AppRouterConst.projectsMainScreen),
+            onPressed: () => context.goNamed(AppRouterConst.projectsMainScreen,
+                pathParameters: {'userId': userId}),
           ),
           centerTitle: true,
           title: Text(

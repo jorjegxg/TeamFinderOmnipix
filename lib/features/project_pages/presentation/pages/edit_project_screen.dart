@@ -11,8 +11,10 @@ import 'package:team_finder_app/features/project_pages/presentation/widgets/team
 import 'package:team_finder_app/features/project_pages/presentation/widgets/technologies_dialog_button.dart';
 
 class EditProjectScreen extends HookWidget {
-  const EditProjectScreen({super.key, required this.projectId});
+  const EditProjectScreen(
+      {super.key, required this.projectId, required this.userId});
   final String projectId;
+  final String userId;
   //TODO: implement edit project to have preexisting data
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,8 @@ class EditProjectScreen extends HookWidget {
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => context.goNamed(AppRouterConst.projectsMainScreen),
+            onPressed: () => context.goNamed(AppRouterConst.projectsMainScreen,
+                pathParameters: {'userId': userId}),
           ),
           centerTitle: true,
           title: Text(

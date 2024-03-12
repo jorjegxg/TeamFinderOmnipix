@@ -8,11 +8,11 @@ class EmployeeProfilePage extends StatelessWidget {
   const EmployeeProfilePage({
     super.key,
     required this.employeeId,
-    required this.organizationId,
+    required this.userId,
   });
 
   final String employeeId;
-  final String organizationId;
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class EmployeeProfilePage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => context.goNamed(AppRouterConst.employeesMainScreen,
-              pathParameters: {'organizationId': organizationId}),
+              pathParameters: {'userId': userId}),
         ),
         centerTitle: true,
         title: Text(

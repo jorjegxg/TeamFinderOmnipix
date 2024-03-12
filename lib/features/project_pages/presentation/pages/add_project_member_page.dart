@@ -12,8 +12,10 @@ class AddProjectMembersPage extends HookWidget {
   const AddProjectMembersPage({
     super.key,
     required this.projectId,
+    required this.userId,
   });
   final String projectId;
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class AddProjectMembersPage extends HookWidget {
             icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => context.goNamed(
                 AppRouterConst.projectMembersScreen,
-                pathParameters: {'projectId': projectId}),
+                pathParameters: {'projectId': projectId, 'userId': userId}),
           ),
           centerTitle: true,
           title: Text(
@@ -83,7 +85,8 @@ class AddProjectMembersPage extends HookWidget {
                                       AppRouterConst.sendAssignmentProposal,
                                       pathParameters: {
                                         'projectId': projectId,
-                                        'employeeId': 'employeeId'
+                                        'employeeId': 'employeeId',
+                                        'userId': userId
                                       });
                                 },
                               ),

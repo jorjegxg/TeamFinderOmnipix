@@ -7,8 +7,10 @@ import 'package:team_finder_app/features/auth/presentation/widgets/custom_button
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_details_body.dart';
 
 class ProjectDetailsScreen extends HookWidget {
-  const ProjectDetailsScreen({super.key, required this.projectId});
+  const ProjectDetailsScreen(
+      {required this.userId, super.key, required this.projectId});
   final String projectId;
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,8 @@ class ProjectDetailsScreen extends HookWidget {
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => context.goNamed(AppRouterConst.projectsMainScreen),
+            onPressed: () => context.goNamed(AppRouterConst.projectsMainScreen,
+                pathParameters: {'userId': userId}),
           ),
           actions: [
             IconButton(
@@ -26,7 +29,7 @@ class ProjectDetailsScreen extends HookWidget {
                 //TODO: implement edit project
                 context.goNamed(
                   AppRouterConst.editProjectScreen,
-                  pathParameters: {'projectId': projectId},
+                  pathParameters: {'projectId': projectId, 'userId': userId},
                 );
               },
             ),
@@ -54,7 +57,10 @@ class ProjectDetailsScreen extends HookWidget {
                       onPressed: () {
                         context.goNamed(
                           AppRouterConst.projectMembersScreen,
-                          pathParameters: {'projectId': projectId},
+                          pathParameters: {
+                            'projectId': projectId,
+                            'userId': userId
+                          },
                         );
                       },
                     ),

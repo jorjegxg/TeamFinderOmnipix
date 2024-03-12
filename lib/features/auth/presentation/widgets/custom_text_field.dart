@@ -39,7 +39,7 @@ class CustomTextField extends StatelessWidget {
       ),
 
       child: TextField(
-        textAlignVertical: TextAlignVertical.center,
+        textAlignVertical: prefixIcon != null ? TextAlignVertical.center : null,
         onChanged: onChanged,
         onSubmitted: onSubmitted,
         style: Theme.of(context).textTheme.bodyMedium,
@@ -50,7 +50,7 @@ class CustomTextField extends StatelessWidget {
         enableSuggestions: false,
         autocorrect: false,
         decoration: InputDecoration(
-            prefixIcon: Icon(prefixIcon),
+            prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
             border: InputBorder.none,
             hintText: hintText,
             hintStyle: Theme.of(context).textTheme.labelSmall,

@@ -11,9 +11,9 @@ import 'package:team_finder_app/features/project_pages/presentation/widgets/sear
 class EmployeeMainPage extends HookWidget {
   const EmployeeMainPage({
     super.key,
-    required this.organizationId,
+    required this.userId,
   });
-  final String organizationId;
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class EmployeeMainPage extends HookWidget {
                                   AppRouterConst.employeeProfileScreen,
                                   pathParameters: {
                                     'employeeId': 'employeeId',
-                                    'organizationId': organizationId,
+                                    'userId': userId,
                                   },
                                 );
                                 //TODO: implement onTap

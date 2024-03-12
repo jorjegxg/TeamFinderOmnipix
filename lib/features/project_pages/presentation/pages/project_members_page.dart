@@ -10,8 +10,10 @@ class ProjectMembersPage extends StatefulWidget {
   const ProjectMembersPage({
     super.key,
     required this.projectId,
+    required this.userId,
   });
   final String projectId;
+  final String userId;
 
   @override
   State<ProjectMembersPage> createState() => _ProjectMembersPageState();
@@ -28,16 +30,21 @@ class _ProjectMembersPageState extends State<ProjectMembersPage> {
           onPressed: () {
             context.goNamed(
               AppRouterConst.addProjectMember,
-              pathParameters: {'projectId': widget.projectId},
+              pathParameters: {
+                'projectId': widget.projectId,
+                'userId': widget.userId
+              },
             );
           },
         ),
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => context.goNamed(
-                AppRouterConst.projectDetailsScreen,
-                pathParameters: {'projectId': widget.projectId}),
+            onPressed: () => context
+                .goNamed(AppRouterConst.projectDetailsScreen, pathParameters: {
+              'projectId': widget.projectId,
+              'userId': widget.userId
+            }),
           ),
           centerTitle: true,
           title: Text(

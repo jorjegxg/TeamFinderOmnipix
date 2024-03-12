@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
@@ -8,6 +7,8 @@ import 'package:team_finder_app/features/auth/presentation/pages/admin_login_pag
 import 'package:team_finder_app/features/auth/presentation/pages/admin_register_page.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/employee_login_page.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/employee_register_page.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/pages/departament_details_page.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/pages/departaments_main_page.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/pages/employee_profile_page.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/pages/employees_main_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/add_project_member_page.dart';
@@ -21,7 +22,7 @@ import 'package:team_finder_app/features/project_pages/presentation/pages/projec
 @singleton
 class MyAppRouter {
   final GoRouter _router = GoRouter(
-    initialLocation: '/projects',
+    initialLocation: '/:userId/projects',
     // initialLocation: '/register/admin',
     routes: [
       GoRoute(
@@ -53,68 +54,88 @@ class MyAppRouter {
           routes: [
             GoRoute(
               name: AppRouterConst.projectsMainScreen,
-              path: '/projects',
-              pageBuilder: (context, state) =>
-                  const MaterialPage(child: ProjectsMainScreen()),
+              path: '/:userId/projects',
+              pageBuilder: (context, state) => MaterialPage(
+                  child: ProjectsMainScreen(
+                userId: state.pathParameters['userId']!,
+              )),
             ),
             GoRoute(
               name: AppRouterConst.projectDetailsScreen,
-              path: '/projects/details/:projectId',
+              path: '/:userId/projects/details/:projectId',
               pageBuilder: (context, state) => MaterialPage(
                   child: ProjectDetailsScreen(
                 projectId: state.pathParameters['projectId']!,
+                userId: state.pathParameters['userId']!,
               )),
             ),
             GoRoute(
               name: AppRouterConst.projectMembersScreen,
-              path: '/projects/details/:projectId/members',
+              path: '/:userId/projects/details/:projectId/members',
               pageBuilder: (context, state) => MaterialPage(
                   child: ProjectMembersPage(
                 projectId: state.pathParameters['projectId']!,
+                userId: state.pathParameters['userId']!,
               )),
             ),
             GoRoute(
               name: AppRouterConst.addProjectMember,
-              path: '/projects/details/:projectId/members/add',
+              path: '/:userId/projects/details/:projectId/members/add',
               pageBuilder: (context, state) => MaterialPage(
                   child: AddProjectMembersPage(
                 projectId: state.pathParameters['projectId']!,
+                userId: state.pathParameters['userId']!,
               )),
             ),
             GoRoute(
               name: AppRouterConst.sendAssignmentProposal,
-              path: '/projects/details/:projectId/members/add/:employeeId',
+              path:
+                  '/:userId/projects/details/:projectId/members/add/:employeeId',
               pageBuilder: (context, state) => MaterialPage(
                   child: AssignmentProposalScreen(
                 projectId: state.pathParameters['projectId']!,
                 employeeId: state.pathParameters['employeeId']!,
+                userId: state.pathParameters['userId']!,
               )),
             ),
             GoRoute(
               name: AppRouterConst.createProjectScreen,
-              path: '/projects/create',
-              pageBuilder: (context, state) =>
-                  const MaterialPage(child: CreateProjectScreen()),
+              path: '/:userId/projects/create',
+              pageBuilder: (context, state) => MaterialPage(
+                  child: CreateProjectScreen(
+                userId: state.pathParameters['userId']!,
+              )),
             ),
             GoRoute(
               name: AppRouterConst.editProjectScreen,
-              path: '/projects/edit/:projectId',
+              path: '/:userId/projects/edit/:projectId',
               pageBuilder: (context, state) => MaterialPage(
                   child: EditProjectScreen(
                 projectId: state.pathParameters['projectId']!,
+                userId: state.pathParameters['userId']!,
               )),
             ),
             GoRoute(
-              name: AppRouterConst.departamentsMainScreen,
-              path: '/departaments',
-              pageBuilder: (context, state) => MaterialPage(
-                  child: Container(
-                color: Colors.amber,
-              )),
-            ),
+                name: AppRouterConst.departamentsMainScreen,
+                path: '/:userId/departaments',
+                pageBuilder: (context, state) => MaterialPage(
+                        child: DepartamentMainPage(
+                      userId: state.pathParameters['userId']!,
+                    )),
+                routes: [
+                  GoRoute(
+                    name: AppRouterConst.departamentsDetailsPage,
+                    path: ':departamentId/details',
+                    pageBuilder: (context, state) => MaterialPage(
+                        child: DepartamentDetailsPage(
+                      userId: state.pathParameters['userId']!,
+                      departamentId: state.pathParameters['departamentId']!,
+                    )),
+                  ),
+                ]),
             GoRoute(
               name: AppRouterConst.settingsMainScreen,
-              path: '/settings',
+              path: '/:userId/settings',
               pageBuilder: (context, state) => MaterialPage(
                 child: Container(
                   color: Colors.blue,
@@ -123,19 +144,19 @@ class MyAppRouter {
             ),
             GoRoute(
               name: AppRouterConst.employeesMainScreen,
-              path: '/employees/:organizationId',
+              path: '/:userId/employees',
               pageBuilder: (context, state) => MaterialPage(
                 child: EmployeeMainPage(
-                  organizationId: state.pathParameters['organizationId']!,
+                  userId: state.pathParameters['userId']!,
                 ),
               ),
             ),
             GoRoute(
               name: AppRouterConst.employeeProfileScreen,
-              path: '/employees/:organizationId/profile/:employeeId',
+              path: '/:userId/employees/profile/:employeeId',
               pageBuilder: (context, state) => MaterialPage(
                 child: EmployeeProfilePage(
-                  organizationId: state.pathParameters['organizationId']!,
+                  userId: state.pathParameters['userId']!,
                   employeeId: state.pathParameters['employeeId']!,
                 ),
               ),

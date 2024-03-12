@@ -12,10 +12,12 @@ class AssignmentProposalScreen extends HookWidget {
     required this.employeeId,
     super.key,
     required this.projectId,
+    required this.userId,
   });
 
   final String employeeId;
   final String projectId;
+  final String userId;
   @override
   Widget build(BuildContext context) {
     final nameColtroler = useTextEditingController();
@@ -28,7 +30,7 @@ class AssignmentProposalScreen extends HookWidget {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => context.goNamed(AppRouterConst.addProjectMember,
-                pathParameters: {'projectId': projectId}),
+                pathParameters: {'projectId': projectId, 'userId': userId}),
           ),
           centerTitle: true,
           title: Text(
@@ -133,7 +135,10 @@ class AssignmentProposalScreen extends HookWidget {
                       onPressed: () {
                         //TODO: implement done logic
                         context.goNamed(AppRouterConst.addProjectMember,
-                            pathParameters: {'projectId': projectId});
+                            pathParameters: {
+                              'projectId': projectId,
+                              'userId': userId
+                            });
                       },
                     ),
                     const SizedBox(height: 20),
