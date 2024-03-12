@@ -48,6 +48,7 @@ class ProjectModel extends ProjectEntity {
     required this.teamRoles,
     required this.organizationId,
     required this.employeeIds,
+    required super.projectManager,
   });
 
   factory ProjectModel.fromMap(Map<String, dynamic> map) {
@@ -65,27 +66,9 @@ class ProjectModel extends ProjectEntity {
       teamRoles: List<String>.from(map['teamRoles']),
       organizationId: map['organizationId'],
       employeeIds: map['employeeIds'],
+      projectManager: map['projectManager'],
     );
   }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'roles': roles,
-      'technologies': technologies,
-      'period': period.toStringValue(),
-      'startDate': startDate,
-      'deadlineDate': deadlineDate,
-      'description': description,
-      'technologyStack': technologyStack.map((x) => x.toMap()).toList(),
-      'teamRoles': teamRoles,
-      'organizationId': organizationId,
-      'employeeIds': employeeIds,
-    };
-  }
-
-  String toJson() => json.encode(toMap());
 
   factory ProjectModel.fromJson(String source) =>
       ProjectModel.fromMap(json.decode(source));

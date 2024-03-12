@@ -1,7 +1,10 @@
+import 'package:injectable/injectable.dart';
+import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:team_finder_app/features/project_pages/data/models/project_model.dart';
 import 'package:team_finder_app/features/project_pages/domain/repositories/project_repo.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
 
+@LazySingleton(as: ProjectRepo)
 class ProjectRepoImpl extends ProjectRepo {
   @override
   Future<Either<Failure<String>, List<ProjectModel>>>

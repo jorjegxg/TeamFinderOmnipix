@@ -9,6 +9,7 @@ import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/functions.dart';
 import 'package:team_finder_app/core/util/logger.dart';
+import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 
 import 'package:team_finder_app/features/auth/presentation/widgets/change_page_widget.dart';
@@ -49,22 +50,13 @@ class RegisterScreen extends HookWidget {
         if (state is AuthSuccess) {
           // context.goNamed(AppRouterConst.homeName);
           Logger.success('Success', 'Acum ar trebui sa mergi la home page.');
-        }
-
-        if (state is AuthSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Success'),
-            ),
-          );
+          //TODO George Luta : 'Acum ar trebui sa mergi la home page.'
+          showSnackBar(context, 'Success');
         }
 
         if (state is AuthError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-            ),
-          );
+          //TODO George Luta : vezi sa nu fie prea lungi mesajele de eroare
+          showSnackBar(context, state.message);
         }
       },
       child: SafeArea(

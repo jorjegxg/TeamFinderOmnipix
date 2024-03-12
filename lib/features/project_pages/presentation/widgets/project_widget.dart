@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/register_button.dart';
+import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 
 class ProjectWidget extends StatelessWidget {
-  const ProjectWidget({super.key});
+  final ProjectEntity projectEntity;
+
+  const ProjectWidget({super.key, required this.projectEntity});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class ProjectWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: Text('Project Name',
+                child: Text(projectEntity.name,
                     style: Theme.of(context).textTheme.titleMedium),
               ),
               const SizedBox(height: 10),
@@ -36,7 +39,7 @@ class ProjectWidget extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               Text(
-                'Project manager',
+                'Project manager + ${projectEntity.projectManager}',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               Text(
@@ -44,7 +47,7 @@ class ProjectWidget extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               Text(
-                'List of tehnologies:',
+                projectEntity.technologies.map((e) => e).join(', '),
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               Align(

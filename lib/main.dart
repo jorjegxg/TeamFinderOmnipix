@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:responsive_builder/responsive_builder.dart';
 
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
 import 'package:team_finder_app/injection.dart';
 import 'package:team_finder_app/core/routes/app_route_config.dart';
 import 'package:team_finder_app/core/util/theme.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => getIt<AuthBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<ProjectsBloc>(),
         ),
       ],
       child: ResponsiveApp(
