@@ -25,7 +25,12 @@ class _ProjectMembersPageState extends State<ProjectMembersPage> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add, color: Colors.black),
-          onPressed: () {},
+          onPressed: () {
+            context.goNamed(
+              AppRouterConst.addProjectMember,
+              pathParameters: {'projectId': widget.projectId},
+            );
+          },
         ),
         appBar: AppBar(
           leading: IconButton(

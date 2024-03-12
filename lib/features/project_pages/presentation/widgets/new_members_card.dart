@@ -1,40 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:sizer/sizer.dart';
 
-class ProjectMemberCard extends StatelessWidget {
-  const ProjectMemberCard({
-    super.key,
-    required this.name,
-    required this.email,
-    required this.onPressed,
-  });
-
+class NewMembersCard extends StatelessWidget {
+  const NewMembersCard(
+      {super.key,
+      required this.name,
+      required this.email,
+      required this.onDoubleTap});
   final String name;
   final String email;
-  final Function(BuildContext) onPressed;
+  final Function() onDoubleTap;
   @override
   Widget build(BuildContext context) {
-    return Slidable(
-      key: UniqueKey(),
-      endActionPane: ActionPane(
-        // A motion is a widget used to control how the pane animates.
-        motion: const ScrollMotion(),
-
-        // A pane can dismiss the Slidable.
-        dragDismissible: false,
-        // All actions are defined in the children parameter.
-        children: [
-          // A SlidableAction can have an icon and/or a label.
-          SlidableAction(
-            backgroundColor: Color(0xFFDCBABA),
-            foregroundColor: Colors.white,
-            icon: Icons.person_remove,
-            label: 'Remove',
-            onPressed: onPressed,
-          ),
-        ],
-      ),
+    return GestureDetector(
+      onDoubleTap: onDoubleTap,
       child: Container(
         width: 100.w,
         height: 10.h,
