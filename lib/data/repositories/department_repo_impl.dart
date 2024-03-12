@@ -6,7 +6,7 @@ class DepartmentRepoImpl extends DepartmentRepo {
     required String name,
     required String organizationId,
   }) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPost(
         url: EndpointConstants.baseUrl + EndpointConstants.createDepartament,
         data: {
           "name": name,
@@ -20,7 +20,7 @@ class DepartmentRepoImpl extends DepartmentRepo {
     required String name,
     required String organizationId,
   }) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPost(
         url: EndpointConstants.baseUrl +
             EndpointConstants.createDepartamentAdditional,
         data: {
@@ -29,8 +29,6 @@ class DepartmentRepoImpl extends DepartmentRepo {
         });
   }
 
-
-
   @override
   Future<Either<Failure<String>, Map<String, dynamic>>>
       createDepartamentDirectlyWithManagerAdditional({
@@ -38,7 +36,7 @@ class DepartmentRepoImpl extends DepartmentRepo {
     required String organizationId,
     required String employeeId,
   }) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPost(
         url: EndpointConstants.baseUrl +
             EndpointConstants.createDepartamentDirectlyWithManagerAdditional,
         data: {
@@ -51,7 +49,7 @@ class DepartmentRepoImpl extends DepartmentRepo {
   @override
   Future<Either<Failure<String>, Map<String, dynamic>>> deleteDepartament(
       String departamentId) async {
-    return ApiService().dioDelete<Map<String, dynamic>>(
+    return ApiService().dioDelete(
         url: EndpointConstants.baseUrl +
             EndpointConstants.deleteDepartament(departamentId));
   }
@@ -62,7 +60,7 @@ class DepartmentRepoImpl extends DepartmentRepo {
     required String employeeId,
     required String departamentId,
   }) async {
-    return ApiService().dioPut<Map<String, dynamic>>(
+    return ApiService().dioPut(
         url: EndpointConstants.baseUrl +
             EndpointConstants.firstPromoteDepartamentManager,
         data: {
@@ -77,7 +75,7 @@ class DepartmentRepoImpl extends DepartmentRepo {
     required String employeeId,
     required String departamentId,
   }) async {
-    return ApiService().dioPut<Map<String, dynamic>>(
+    return ApiService().dioPut(
         url: EndpointConstants.baseUrl +
             EndpointConstants.promoteDepartamentManagerAdditional,
         data: {
@@ -89,7 +87,7 @@ class DepartmentRepoImpl extends DepartmentRepo {
   @override
   Future<Either<Failure<String>, Map<String, dynamic>>> skillsOfDepartament(
       String departamentId) async {
-    return ApiService().dioGet<Map<String, dynamic>>(
+    return ApiService().dioGet(
         url: EndpointConstants.baseUrl +
             EndpointConstants.skillsOfDepartament(departamentId));
   }
@@ -99,7 +97,7 @@ class DepartmentRepoImpl extends DepartmentRepo {
     required String skillId,
     required String departamentId,
   }) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPost(
         url: EndpointConstants.baseUrl + EndpointConstants.skillToDepartament,
         data: {
           "skillId": skillId,
@@ -112,7 +110,7 @@ class DepartmentRepoImpl extends DepartmentRepo {
     required String departamentId,
     required String employeeId,
   }) async {
-    return ApiService().dioPut<Map<String, dynamic>>(
+    return ApiService().dioPut(
         url: EndpointConstants.baseUrl + EndpointConstants.updateManager,
         data: {
           "departamentId": departamentId,
@@ -126,7 +124,7 @@ class DepartmentRepoImpl extends DepartmentRepo {
     required String departamentId,
     required String name,
   }) async {
-    return ApiService().dioPut<Map<String, dynamic>>(
+    return ApiService().dioPut(
         url: EndpointConstants.baseUrl +
             EndpointConstants.updateNameOfDepartament,
         data: {
@@ -149,7 +147,6 @@ abstract class DepartmentRepo {
     required String name,
     required String organizationId,
   });
-
 
   Future<Either<Failure<String>, Map<String, dynamic>>>
       createDepartamentDirectlyWithManagerAdditional({

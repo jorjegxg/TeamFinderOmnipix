@@ -12,7 +12,7 @@ class AuthRepoImpl extends AuthRepo {
     required String organizationName,
     required String organizationAddress,
   }) {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPost(
       url: "${EndpointConstants.baseUrl}/admin/create",
       data: {
         "name": name,
@@ -33,7 +33,7 @@ class AuthRepoImpl extends AuthRepo {
     required String password,
     required String organizationId,
   }) async {
-    return (await ApiService().dioPost<Map<String, dynamic>>(
+    return (await ApiService().dioPost(
       url: "${EndpointConstants.baseUrl}/employee/create",
       data: {
         "name": name,
@@ -48,7 +48,7 @@ class AuthRepoImpl extends AuthRepo {
   @override
   Future<Either<Failure<String>, String>> login(
       {required String email, required String password}) async {
-    return (await ApiService().dioPost<Map<String, dynamic>>(
+    return (await ApiService().dioPost(
       url: "${EndpointConstants.baseUrl}/login/",
       data: {
         "email": email,

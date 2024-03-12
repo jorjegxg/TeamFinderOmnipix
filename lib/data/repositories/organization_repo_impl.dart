@@ -6,7 +6,7 @@ class OrganizationRepoImpl {
     required String adress,
     required String entranceUrl,
   }) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPost(
         url: EndpointConstants.baseUrl + EndpointConstants.createOrganization,
         data: {
           "name": name,
