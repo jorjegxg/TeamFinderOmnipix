@@ -9,6 +9,7 @@ import 'package:team_finder_app/features/auth/presentation/pages/admin_register_
 import 'package:team_finder_app/features/auth/presentation/pages/employee_login_page.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/employee_register_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/add_project_member_page.dart';
+import 'package:team_finder_app/features/project_pages/presentation/pages/assigment_proposal_screen.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/create_project_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/project_details_page.dart';
@@ -75,6 +76,15 @@ class MyAppRouter {
               pageBuilder: (context, state) => MaterialPage(
                   child: AddProjectMembersPage(
                 projectId: state.pathParameters['projectId']!,
+              )),
+            ),
+            GoRoute(
+              name: AppRouterConst.sendAssignmentProposal,
+              path: '/projects/details/:projectId/members/add/:employeeId',
+              pageBuilder: (context, state) => MaterialPage(
+                  child: AssignmentProposalScreen(
+                projectId: state.pathParameters['projectId']!,
+                employeeId: state.pathParameters['employeeId']!,
               )),
             ),
             GoRoute(

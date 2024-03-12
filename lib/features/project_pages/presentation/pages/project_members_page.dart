@@ -35,7 +35,9 @@ class _ProjectMembersPageState extends State<ProjectMembersPage> {
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => context.goNamed(AppRouterConst.projectsMainScreen),
+            onPressed: () => context.goNamed(
+                AppRouterConst.projectDetailsScreen,
+                pathParameters: {'projectId': widget.projectId}),
           ),
           centerTitle: true,
           title: Text(

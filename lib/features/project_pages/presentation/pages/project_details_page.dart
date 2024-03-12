@@ -54,6 +54,7 @@ class ProjectDetailsScreen extends HookWidget {
                         );
                       },
                     ),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),

@@ -79,6 +79,12 @@ class AddProjectMembersPage extends HookWidget {
                                 email: 'email',
                                 onDoubleTap: () {
                                   //TODO: add functionality to the card
+                                  context.goNamed(
+                                      AppRouterConst.sendAssignmentProposal,
+                                      pathParameters: {
+                                        'projectId': projectId,
+                                        'employeeId': 'employeeId'
+                                      });
                                 },
                               ),
                             );
