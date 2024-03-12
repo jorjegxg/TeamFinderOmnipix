@@ -40,18 +40,18 @@ class RegisterScreen extends HookWidget {
       text: kDebugMode ? 'parola' : '',
     );
     final organizationNameConttroler = useTextEditingController(
-      text: kDebugMode ? 'Nume organizatie' : '',
+      text: kDebugMode ? 'Nume organizatie ${generateRandomString(5)}' : '',
     );
     final organizationAddressConttroler = useTextEditingController(
-      text: kDebugMode ? 'Adresa organizatie' : '',
+      text: kDebugMode ? 'Adresa organizatie ${generateRandomString(5)}' : '',
     );
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
-          // context.goNamed(AppRouterConst.homeName);
-          Logger.success('Success', 'Acum ar trebui sa mergi la home page.');
-          //TODO George Luta : 'Acum ar trebui sa mergi la home page.'
-          showSnackBar(context, 'Success');
+          context.goNamed(
+            AppRouterConst.projectsMainScreen,
+            pathParameters: {'userId': state.userId},
+          );
         }
 
         if (state is AuthError) {
