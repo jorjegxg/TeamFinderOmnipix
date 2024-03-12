@@ -85,7 +85,9 @@ class RegisterScreen extends HookWidget {
                     children: [
                       const Padding(
                         padding: EdgeInsets.all(20),
-                        child: LogoWidget(),
+                        child: LogoWidget(
+                          icon: Icons.handshake,
+                        ),
                       ),
                       GetDetailsForm(
                         isEmployee: isEmployee,

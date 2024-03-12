@@ -26,4 +26,6 @@ class AppRouterConst {
   static const String sendAssignmentProposal = 'sendAssignmentProposal';
 
   static const String editProjectScreen = 'editProjectScreen';
+
+  static const String employeeProfileScreen = 'employeeProfileScreen';
 }

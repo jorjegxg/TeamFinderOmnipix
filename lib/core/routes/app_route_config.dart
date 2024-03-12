@@ -8,6 +8,8 @@ import 'package:team_finder_app/features/auth/presentation/pages/admin_login_pag
 import 'package:team_finder_app/features/auth/presentation/pages/admin_register_page.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/employee_login_page.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/employee_register_page.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/pages/employee_profile_page.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/pages/employees_main_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/add_project_member_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/assigment_proposal_screen.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/create_project_page.dart';
@@ -121,10 +123,20 @@ class MyAppRouter {
             ),
             GoRoute(
               name: AppRouterConst.employeesMainScreen,
-              path: '/employees',
+              path: '/employees/:organizationId',
               pageBuilder: (context, state) => MaterialPage(
-                child: Container(
-                  color: Colors.green,
+                child: EmployeeMainPage(
+                  organizationId: state.pathParameters['organizationId']!,
+                ),
+              ),
+            ),
+            GoRoute(
+              name: AppRouterConst.employeeProfileScreen,
+              path: '/employees/:organizationId/profile/:employeeId',
+              pageBuilder: (context, state) => MaterialPage(
+                child: EmployeeProfilePage(
+                  organizationId: state.pathParameters['organizationId']!,
+                  employeeId: state.pathParameters['employeeId']!,
                 ),
               ),
             ),

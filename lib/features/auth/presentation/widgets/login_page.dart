@@ -61,7 +61,9 @@ class LoginScreen extends HookWidget {
                     children: [
                       const Padding(
                         padding: EdgeInsets.all(20),
-                        child: LogoWidget(),
+                        child: LogoWidget(
+                          icon: Icons.handshake,
+                        ),
                       ),
                       LoginForm(
                         emailConttroler: emailConttroler,

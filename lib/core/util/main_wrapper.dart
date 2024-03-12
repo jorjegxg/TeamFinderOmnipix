@@ -58,7 +58,10 @@ class _MainWrapperState extends State<MainWrapper> {
                       context.goNamed(AppRouterConst.projectsMainScreen);
                       break;
                     case 1:
-                      context.goNamed(AppRouterConst.employeesMainScreen);
+                      context.goNamed(
+                        AppRouterConst.employeesMainScreen,
+                        pathParameters: {'organizationId': '1'},
+                      );
                       break;
                     case 2:
                       context.goNamed(AppRouterConst.departamentsMainScreen);
