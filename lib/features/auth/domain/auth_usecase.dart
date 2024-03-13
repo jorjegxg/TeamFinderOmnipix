@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:team_finder_app/core/error/failures.dart';
@@ -44,13 +45,27 @@ class AuthUsecase {
 
       return authResponse.fold(
         left,
-        (r) {
+        (r) async {
           SecureStorageService().write(key: StorageConstants.token, value: r);
-          final userId = JwtDecoder.decode(r)['id'];
-          return right(userId);
+          final userData = await _saveLocalData(r);
+
+          return right(userData['id']);
         },
       );
     });
+  }
+
+  Future<Map<String, dynamic>> _saveLocalData(String r) async {
+    final userData = JwtDecoder.decode(r);
+
+    var box = await Hive.openBox<String>(HiveConstants.authBox);
+
+    box.put(HiveConstants.userId, userData['id']);
+    box.put(HiveConstants.organizationId, userData['organizationId']);
+    if (userData['departmentId'] != null) {
+      box.put(HiveConstants.departmentId, userData['departmentId']);
+    }
+    return userData;
   }
 
   Future<Either<Failure<String>, String>> registerEmployee({
@@ -77,10 +92,11 @@ class AuthUsecase {
 
         return authResponse.fold(
           left,
-          (r) {
+          (r) async {
             SecureStorageService().write(key: StorageConstants.token, value: r);
-            final userId = JwtDecoder.decode(r)['id'];
-            return right(userId);
+            final userData = await _saveLocalData(r);
+
+            return right(userData['id']);
           },
         );
       },
@@ -99,12 +115,12 @@ class AuthUsecase {
 
         return authResponse.fold(
           left,
-          (r) {
+          (r) async {
             SecureStorageService().write(key: StorageConstants.token, value: r);
 
-            final userId = JwtDecoder.decode(r)['id'];
+            final userData = await _saveLocalData(r);
 
-            return right(userId);
+            return right(userData['id']);
           },
         );
       },

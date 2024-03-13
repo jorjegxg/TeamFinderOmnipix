@@ -51,15 +51,6 @@ class MyAppRouter {
 
           final userData = JwtDecoder.decode(token);
 
-          var box = await Hive.openBox<String>(HiveConstants.authBox);
-          box.put(HiveConstants.userId, userData['id']);
-          box.put(HiveConstants.organizationId, userData['organizationId']);
-          if (userData['departmentId'] != null) {
-            box.put(HiveConstants.departmentId, userData['departmentId']);
-          }
-
-          Logger.info('MyAppRouter', 'User data: $userData');
-
           return '/${userData['id']}/projects';
         },
       ),
@@ -76,13 +67,23 @@ class MyAppRouter {
             const MaterialPage(child: AdminLoginPage()),
       ),
       GoRoute(
-        name: AppRouterConst.registerEmployeeName,
-        path: '/register/employee',
-        pageBuilder: (context, state) => MaterialPage(
-            child: RegisterScreenForEmployee(
-          organizationId: state.pathParameters['organizationId']!,
-        )),
-      ),
+          name: AppRouterConst.registerEmployeeName,
+          path: '/register/employee/:organizationId',
+          pageBuilder: (context, state) {
+            final organizationId = state.pathParameters['organizationId'];
+            if (organizationId != null) {
+              return MaterialPage(
+                child: RegisterScreenForEmployee(
+                  organizationId: organizationId,
+                ),
+              );
+            } else {
+              return MaterialPage(
+                  child: Center(
+                      child: Text(
+                          'Linkul nu este valid : ${state.pathParameters}')));
+            }
+          }),
       ShellRoute(
           builder: (context, state, child) => MainWrapper(child: child),
           routes: [
