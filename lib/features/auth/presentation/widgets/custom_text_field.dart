@@ -12,7 +12,7 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.minLines = 1,
     this.width,
-    required this.onSubmitted,
+    this.onSubmitted,
     this.prefixIcon,
   });
 
@@ -23,7 +23,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final int minLines;
   final double? width;
-  final Function(String) onSubmitted;
+  final Function(String)? onSubmitted;
   final IconData? prefixIcon;
   @override
   Widget build(BuildContext context) {

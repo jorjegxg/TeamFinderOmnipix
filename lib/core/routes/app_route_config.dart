@@ -51,6 +51,8 @@ class MyAppRouter {
 
           final userData = JwtDecoder.decode(token);
 
+          Logger.info('User data', userData.toString());
+
           return '/${userData['id']}/projects';
         },
       ),

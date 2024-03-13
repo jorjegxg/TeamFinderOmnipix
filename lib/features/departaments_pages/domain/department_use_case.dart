@@ -10,7 +10,7 @@ class DepartmentUseCase {
   DepartmentUseCase(this.departmentRepository);
 
   Future<Either<Failure<String>, void>> createDepartment(
-      {required String name, required String managerId}) async {
+      {required String name, String? managerId}) async {
     //fa validarea aici
 
     if (name.isEmpty) {
@@ -19,8 +19,9 @@ class DepartmentUseCase {
 
     departmentRepository.createDepartment(
       name: name,
-      managerId: managerId,
     );
+
+    //todo : daca departmentRepository.createDepartment fa assign si la manager (daca nu e null)
 
     return right(null);
   }

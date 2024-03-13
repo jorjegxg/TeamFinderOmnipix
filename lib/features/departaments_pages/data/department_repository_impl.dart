@@ -7,18 +7,15 @@ import 'package:team_finder_app/features/auth/data/models/manager.dart';
 class DepartmentRepositoryImpl {
   Future<Either<Failure<String>, void>> createDepartment({
     required String name,
-    required String managerId,
   }) async {
     var box = await Hive.openBox<String>(HiveConstants.authBox);
     String organizationId = box.get(HiveConstants.organizationId)!;
 
     return (ApiService().dioPost(
-      url:
-          "${EndpointConstants.baseUrl}/departament/createdirectlywithmanagerADDITIONAL",
+      url: "${EndpointConstants.baseUrl}/departament/create",
       data: {
         "name": name,
         "organizationId": organizationId,
-        "managerId": managerId,
       },
     ));
   }

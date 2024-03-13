@@ -22,6 +22,9 @@ class ApiService {
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
+      Logger.info(
+          'GET request', 'url: $url, queryParameters: $queryParameters');
+
       _addBearerAuthorization();
 
       final response = await _dio.get(url, queryParameters: queryParameters);
@@ -54,6 +57,7 @@ class ApiService {
     Map<String, dynamic>? data,
   }) async {
     try {
+      Logger.info('POST request', 'url: $url, data: $data');
       _addBearerAuthorization();
 
       final response = await _dio.post(url, data: data);
@@ -86,6 +90,8 @@ class ApiService {
     Map<String, dynamic>? data,
   }) async {
     try {
+      Logger.info('PUT request', 'url: $url, data: $data');
+
       _addBearerAuthorization();
 
       final response = await _dio.put(url, data: data);
@@ -117,6 +123,7 @@ class ApiService {
     required String url,
   }) async {
     try {
+      Logger.info('DELETE request', 'url: $url');
       _addBearerAuthorization();
 
       final response = await _dio.delete(url);

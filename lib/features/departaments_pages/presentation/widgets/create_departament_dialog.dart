@@ -41,47 +41,45 @@ class CreateDepartamentDialog extends HookWidget {
                 const SizedBox(height: 15),
                 CustomTextField(
                   nameConttroler: nameConttroler,
-                  onSubmitted: (value) {
-                    //TODO George Luta : add functionality to the onSubmitted
-                  },
                   width: 100.w,
                   hintText: 'Departament Name',
                 ),
                 const SizedBox(height: 15),
-                const Text('Department Manager:'),
-                const SizedBox(height: 7),
                 BlocBuilder<DepartmentsManagersCubit, DepartmentsManagersState>(
                   builder: (context, state) {
-                    if (state is DepartmentsManagersLoading ||
-                        state is DepartmentsManagersInitial) {
+                    if (state.isLoading) {
                       return const Center(child: CircularProgressIndicator());
                     }
 
-                    if (state is DepartmentsManagersLoaded) {
-                      return DropdownButtonFormField<Manager>(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                        ),
-                        //TODO George Luta : schimba
-                        value: null,
-                        elevation: 16,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        borderRadius: BorderRadius.circular(12),
-                        onChanged: (Manager? newValue) {
-                          //TODO George Luta : add functionality to the onChanged
-                        },
-                        items: state.managers
-                            .map<DropdownMenuItem<Manager>>((Manager value) {
-                          return DropdownMenuItem<Manager>(
-                            value: value,
-                            child: Text(value.name),
-                          );
-                        }).toList(),
+                    if (state.managers.isNotEmpty) {
+                      return Column(
+                        children: [
+                          const Text('Department Manager:'),
+                          const SizedBox(height: 7),
+                          DropdownButtonFormField<Manager>(
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                            ),
+                            value: state.selectedManager,
+                            elevation: 16,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            borderRadius: BorderRadius.circular(12),
+                            onChanged: (Manager? newValue) {
+                              context
+                                  .read<DepartmentsManagersCubit>()
+                                  .selectManager(newValue!);
+                            },
+                            items: state.managers
+                                .map<DropdownMenuItem<Manager>>(
+                                    (Manager value) {
+                              return DropdownMenuItem<Manager>(
+                                value: value,
+                                child: Text(value.name),
+                              );
+                            }).toList(),
+                          ),
+                        ],
                       );
-                    }
-
-                    if (state is DepartmentsManagersError) {
-                      return Text(state.errorMessage!);
                     }
 
                     return const SizedBox();
@@ -98,7 +96,14 @@ class CreateDepartamentDialog extends HookWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        //TODO: add functionality to the add button to copy the link
+                        context.read<DepartmentsCubit>().createDepartment(
+                              name: nameConttroler.text,
+                              managerId: context
+                                  .read<DepartmentsManagersCubit>()
+                                  .state
+                                  .selectedManager
+                                  ?.id,
+                            );
                         Navigator.pop(context);
                       },
                       child: const Text('Create'),
