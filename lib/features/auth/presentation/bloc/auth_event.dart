@@ -56,3 +56,8 @@ class LoginStarted extends AuthEvent {
   @override
   List<Object> get props => [email, password];
 }
+
+class AuthLogoutRequested extends AuthEvent {
+  final BuildContext context;
+  const AuthLogoutRequested({required this.context});
+}

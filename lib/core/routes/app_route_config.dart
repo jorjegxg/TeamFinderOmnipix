@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
+import 'package:team_finder_app/core/util/constants.dart';
+import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/core/util/main_wrapper.dart';
+import 'package:team_finder_app/core/util/secure_storage_service.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/admin_login_page.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/admin_register_page.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/employee_login_page.dart';
@@ -22,14 +27,41 @@ import 'package:team_finder_app/features/project_pages/presentation/pages/projec
 @singleton
 class MyAppRouter {
   final GoRouter _router = GoRouter(
-    initialLocation: '/:userId/projects',
-    // initialLocation: '/register/admin',
+    // initialLocation: '/firstPage',
+    initialLocation: '/register/admin',
     routes: [
       GoRoute(
         name: AppRouterConst.registerAdminName,
         path: '/register/admin',
         pageBuilder: (context, state) =>
             const MaterialPage(child: RegisterScreenForAdmin()),
+        redirect: (ctx, state) async {
+          final token =
+              await SecureStorageService().read(key: StorageConstants.token);
+          if (token == null) {
+            return '/register/admin';
+          }
+
+          final isExpired = JwtDecoder.isExpired(token);
+
+          if (isExpired) {
+            await SecureStorageService().delete(key: StorageConstants.token);
+            return '/register/admin';
+          }
+
+          final userData = JwtDecoder.decode(token);
+
+          var box = await Hive.openBox<String>(HiveConstants.authBox);
+          box.put(HiveConstants.userId, userData['id']);
+          box.put(HiveConstants.organizationId, userData['organizationId']);
+          if (userData['departmentId'] != null) {
+            box.put(HiveConstants.departmentId, userData['departmentId']);
+          }
+
+          Logger.info('MyAppRouter', 'User data: $userData');
+
+          return '/${userData['id']}/projects';
+        },
       ),
       GoRoute(
         name: AppRouterConst.loginEmployeeName,
@@ -46,8 +78,10 @@ class MyAppRouter {
       GoRoute(
         name: AppRouterConst.registerEmployeeName,
         path: '/register/employee',
-        pageBuilder: (context, state) =>
-            const MaterialPage(child: RegisterScreenForEmployee()),
+        pageBuilder: (context, state) => MaterialPage(
+            child: RegisterScreenForEmployee(
+          organizationId: state.pathParameters['organizationId']!,
+        )),
       ),
       ShellRoute(
           builder: (context, state, child) => MainWrapper(child: child),

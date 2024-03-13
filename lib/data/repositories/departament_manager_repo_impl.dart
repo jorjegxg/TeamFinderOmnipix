@@ -8,7 +8,7 @@ class DepartmentManagerRepoImpl {
     required String authorId,
     required String organizationId,
   }) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPost(
       url: EndpointConstants.baseUrl + EndpointConstants.createSkill,
       data: {
         "category": category,
@@ -27,7 +27,7 @@ class DepartmentManagerRepoImpl {
     required String category,
     required String description,
   }) async {
-    return ApiService().dioPut<Map<String, dynamic>>(
+    return ApiService().dioPut(
       url: EndpointConstants.baseUrl + EndpointConstants.editSkill,
       data: {
         "skillId": skillId,
@@ -41,7 +41,7 @@ class DepartmentManagerRepoImpl {
 
   Future<Either<Failure<String>, Map<String, dynamic>>> getSkillsOfOrganization(
       String organizationId) async {
-    return ApiService().dioGet<Map<String, dynamic>>(
+    return ApiService().dioGet(
       url: EndpointConstants.baseUrl +
           EndpointConstants.getSkillsOfOrganization(organizationId),
     );
@@ -49,7 +49,7 @@ class DepartmentManagerRepoImpl {
 
   Future<Either<Failure<String>, Map<String, dynamic>>> managersNoDepartament(
       String id) async {
-    return ApiService().dioGet<Map<String, dynamic>>(
+    return ApiService().dioGet(
       url: EndpointConstants.baseUrl +
           EndpointConstants.managersNoDepartament(id),
     );
@@ -57,7 +57,7 @@ class DepartmentManagerRepoImpl {
 
   Future<Either<Failure<String>, Map<String, dynamic>>> ownedSkills(
       String authorId) async {
-    return ApiService().dioGet<Map<String, dynamic>>(
+    return ApiService().dioGet(
       url: EndpointConstants.baseUrl + EndpointConstants.ownedSkills(authorId),
     );
   }

@@ -5,7 +5,7 @@ class LoginRepoImpl {
     required String email,
     required String password,
   }) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPost(
         url: EndpointConstants.baseUrl + EndpointConstants.login,
         data: {
           "email": email,

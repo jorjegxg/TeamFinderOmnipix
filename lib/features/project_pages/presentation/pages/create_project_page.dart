@@ -132,7 +132,7 @@ class CreateProjectScreen extends HookWidget {
                                               showDialog(
                                                   context: context,
                                                   builder: (context) =>
-                                                      TechnologiesDialog());
+                                                      const TechnologiesDialog());
                                             },
                                             buttonWidth: 20.w,
                                             buttonHeight: 5.h,
