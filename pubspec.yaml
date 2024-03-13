@@ -49,6 +49,7 @@ dependencies:
   http: ^1.2.0
   injectable: ^2.3.3
   path_provider: ^2.1.2
+  pie_chart: ^5.4.0
   responsive_builder: ^0.7.0
   sizer: ^2.0.15
   url_strategy: ^0.2.0

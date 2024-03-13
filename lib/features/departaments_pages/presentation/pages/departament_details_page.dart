@@ -73,15 +73,33 @@ class DetailsBodyWidget extends StatelessWidget {
               ),
               OptionWidget(
                 text: 'Confirmations',
-                onPressed: () {},
+                onPressed: () {
+                  context.goNamed(AppRouterConst.confirmationsPage,
+                      pathParameters: {
+                        'userId': 'userId',
+                        'departamentId': 'departamentId'
+                      });
+                },
               ),
               OptionWidget(
                 text: 'Skill Validation',
-                onPressed: () {},
+                onPressed: () {
+                  context.goNamed(AppRouterConst.skillValidationPage,
+                      pathParameters: {
+                        'userId': 'userId',
+                        'departamentId': 'departamentId'
+                      });
+                },
               ),
               OptionWidget(
                 text: 'Skill Statistics',
-                onPressed: () {},
+                onPressed: () {
+                  context.goNamed(AppRouterConst.skillStatisticsPage,
+                      pathParameters: {
+                        'userId': 'userId',
+                        'departamentId': 'departamentId'
+                      });
+                },
               ),
               OptionWidget(
                 text: 'Departament Skills',

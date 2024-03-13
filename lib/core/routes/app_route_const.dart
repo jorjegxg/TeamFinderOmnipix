@@ -36,4 +36,10 @@ class AppRouterConst {
   static const String addEmployeeToDepartament = 'addEmployeeToDepartament';
 
   static const String departamentProjectsPage = 'departamentProjectsPage';
+
+  static const String confirmationsPage = 'confirmationsPage';
+
+  static const String skillValidationPage = 'skillValidationPage';
+
+  static const String skillStatisticsPage = 'skillStatisticsPage';
 }

@@ -105,10 +105,4 @@ class AppLists {
   ];
 }
 
-enum ProjectStatus {
-  notStarted,
-  starting,
-  inProgress,
-  closing,
-  closed,
-}
+
