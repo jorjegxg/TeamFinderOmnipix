@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:team_finder_app/core/util/constants.dart';
 
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
@@ -26,7 +27,7 @@ Future<void> main() async {
     final appDocumentDir =
         await path_provider.getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
-    await Hive.openBox<String>('authBox');
+    await Hive.openBox<String>(HiveConstants.authBox);
   }
 
   // runApp(const TestAppPage());

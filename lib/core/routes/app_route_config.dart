@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
@@ -48,6 +49,13 @@ class MyAppRouter {
           }
 
           final userData = JwtDecoder.decode(token);
+
+          var box = await Hive.openBox<String>(HiveConstants.authBox);
+          box.put(HiveConstants.userId, userData['id']);
+          box.put(HiveConstants.organizationId, userData['organizationId']);
+          if (userData['departmentId'] != null) {
+            box.put(HiveConstants.departmentId, userData['departmentId']);
+          }
 
           Logger.info('MyAppRouter', 'User data: $userData');
 

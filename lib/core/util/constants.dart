@@ -81,3 +81,11 @@ class AuthConstants {
 class StorageConstants {
   static const String token = 'token';
 }
+
+class HiveConstants {
+  static const String authBox = 'authBox';
+  //
+  static const String userId = 'userId';
+  static const String departmentId = 'departmentId';
+  static const String organizationId = 'organizationId';
+}
