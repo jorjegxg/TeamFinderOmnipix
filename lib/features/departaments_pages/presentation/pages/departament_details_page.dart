@@ -25,8 +25,9 @@ class DepartamentDetailsPage extends StatelessWidget {
         children: [
           SizedBox(height: 20),
           Center(
-              child: DepartamentInfoWidget(
+              child: InfoWidget(
             text: 'Departament Name',
+            icon: Icons.business,
           )),
           SizedBox(height: 20),
           DetailsBodyWidget()

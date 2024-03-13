@@ -26,6 +26,10 @@ import 'package:team_finder_app/features/project_pages/presentation/pages/edit_p
 import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/project_details_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/project_members_page.dart';
+import 'package:team_finder_app/features/settings/presentation/pages/add_personal_skill.dart';
+import 'package:team_finder_app/features/settings/presentation/pages/main_settings_page.dart';
+import 'package:team_finder_app/features/settings/presentation/pages/personal_skills_page.dart';
+import 'package:team_finder_app/features/settings/presentation/pages/team_roles_page.dart';
 
 @singleton
 class MyAppRouter {
@@ -244,14 +248,45 @@ class MyAppRouter {
                       ]),
                 ]),
             GoRoute(
-              name: AppRouterConst.settingsMainScreen,
-              path: '/:userId/settings',
-              pageBuilder: (context, state) => MaterialPage(
-                child: Container(
-                  color: Colors.blue,
-                ),
-              ),
-            ),
+                name: AppRouterConst.settingsMainScreen,
+                path: '/:userId/settings',
+                pageBuilder: (context, state) => MaterialPage(
+                      child: MainSettingsPage(
+                        userId: state.pathParameters['userId']!,
+                      ),
+                    ),
+                routes: [
+                  GoRoute(
+                    name: AppRouterConst.personalSkillsPage,
+                    path: 'personal_skills',
+                    pageBuilder: (context, state) => MaterialPage(
+                      child: PersonalSkillsPage(
+                        userId: state.pathParameters['userId']!,
+                      ),
+                    ),
+                    routes: [
+                      GoRoute(
+                        name: AppRouterConst.addSkillPage,
+                        path: 'add',
+                        pageBuilder: (context, state) => MaterialPage(
+                          child: AddPersonalSkillPage(
+                            userId: state.pathParameters['userId']!,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  GoRoute(
+                      name: AppRouterConst.teamRolesPage,
+                      path: 'team_roles',
+                      pageBuilder: (context, state) {
+                        return MaterialPage(
+                          child: TeamRolesPage(
+                            userId: state.pathParameters['userId']!,
+                          ),
+                        );
+                      }),
+                ]),
             GoRoute(
               name: AppRouterConst.employeesMainScreen,
               path: '/:userId/employees',

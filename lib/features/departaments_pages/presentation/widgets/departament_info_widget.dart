@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class DepartamentInfoWidget extends StatelessWidget {
-  const DepartamentInfoWidget({super.key, required this.text});
+class InfoWidget extends StatelessWidget {
+  const InfoWidget(
+      {super.key, required this.text, required this.icon, this.text2});
   final String text;
+  final String? text2;
+  final IconData icon;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,13 +25,25 @@ class DepartamentInfoWidget extends StatelessWidget {
           CircleAvatar(
             radius: 6.w,
             backgroundColor: Theme.of(context).colorScheme.primary,
-            child: Icon(Icons.business,
-                color: Theme.of(context).colorScheme.onPrimary),
+            child: Icon(icon, color: Theme.of(context).colorScheme.onPrimary),
           ),
-          const SizedBox(width: 10),
-          Text(
-            text,
-            style: Theme.of(context).textTheme.titleLarge,
+          const SizedBox(width: 20),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                text,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              if (text2 != null) ...[
+                const SizedBox(height: 5),
+                Text(
+                  text2!,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
+            ],
           ),
         ],
       ),
