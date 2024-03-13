@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
+import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_segmented_button.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_widget.dart';
 
@@ -27,6 +29,17 @@ class ProjectsMainScreen extends StatelessWidget {
             'Projects',
             style: Theme.of(context).textTheme.titleLarge,
           ),
+          //TODO George Luta : e pus pentru testare sterge-l
+          actions: [
+            IconButton(
+              onPressed: () {
+                context.read<AuthBloc>().add(AuthLogoutRequested(
+                      context: context,
+                    ));
+              },
+              icon: const Icon(Icons.logout),
+            ),
+          ],
         ),
         body: Sizer(
           builder: (BuildContext context, Orientation orientation,
@@ -48,7 +61,7 @@ class ProjectsMainScreen extends StatelessWidget {
                       itemCount: 5,
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: ProjectWidget(
                             onPressed: () {
                               //TODO: navigate to project details, pass project id

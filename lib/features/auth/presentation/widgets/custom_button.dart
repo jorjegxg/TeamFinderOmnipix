@@ -29,7 +29,9 @@ class CustomButton extends StatelessWidget {
       ),
       onPressed: isLoading ? () {} : onPressed,
       child: isLoading
-          ? const CircularProgressIndicator()
+          ? CircularProgressIndicator(
+              color: Theme.of(context).colorScheme.onPrimary,
+            )
           : Text(
               text,
               style: TextStyle(

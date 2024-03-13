@@ -20,4 +20,8 @@ class AuthError extends AuthState {
   List<Object> get props => [message];
 }
 
-class AuthSuccess extends AuthState {}
+class AuthSuccess extends AuthState {
+  final String userId;
+
+  const AuthSuccess({required this.userId});
+}

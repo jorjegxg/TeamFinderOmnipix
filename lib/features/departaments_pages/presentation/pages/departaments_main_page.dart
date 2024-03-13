@@ -20,11 +20,7 @@ class DepartamentMainPage extends StatelessWidget {
           //TODO: get list of free managers
           showDialog(
               context: context,
-              builder: (context) => CreateDepartamentDialog(
-                  onSubmitted: (String s) {},
-                  onChanged: (String? s) {},
-                  elements: ['element1', 'element2', 'element3'],
-                  dropdownValue: 'element1'));
+              builder: (context) => const CreateDepartamentDialog());
         },
       ),
       appBar: AppBar(

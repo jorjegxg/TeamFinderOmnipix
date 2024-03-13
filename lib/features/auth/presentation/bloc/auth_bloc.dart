@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/features/auth/domain/auth_usecase.dart';
 
@@ -15,6 +16,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<RegisterOrganizationAdminStarted>(_onRegisterOrganizationAdminStarted);
     on<RegisterEmployeeStarted>(_onRegisterEmployeeStarted);
     on<LoginStarted>(_onLoginStarted);
+    on<AuthLogoutRequested>(_onLogoutRequested);
   }
 
   Future<void> _onRegisterOrganizationAdminStarted(
@@ -29,11 +31,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       organizationAddress: event.organizationAddress,
     ))
         .fold(
-      (l) {
-        emit(AuthError(message: l.message));
+      (failure) {
+        emit(
+          AuthError(message: failure.message),
+        );
       },
-      (r) {
-        emit(AuthSuccess());
+      (userId) {
+        emit(AuthSuccess(
+          userId: userId,
+        ));
       },
     );
   }
@@ -49,11 +55,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       organizationId: event.organizationId,
     ))
         .fold(
-      (l) {
-        emit(AuthError(message: l.message));
+      (failure) {
+        emit(AuthError(message: failure.message));
       },
-      (r) {
-        emit(AuthSuccess());
+      (userId) {
+        emit(AuthSuccess(
+          userId: userId,
+        ));
       },
     );
   }
@@ -67,14 +75,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       password: event.password,
     ))
         .fold(
-      (l) {
-        emit(AuthError(message: l.message));
+      (failure) {
+        emit(AuthError(message: failure.message));
       },
-      (r) {
-        emit(AuthSuccess());
+      (userId) {
+        emit(AuthSuccess(
+          userId: userId,
+        ));
       },
     );
+  }
 
-    emit(AuthSuccess());
+  Future<void> _onLogoutRequested(
+    AuthLogoutRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    authUsecase.logout(context: event.context);
+    emit(AuthInitial());
   }
 }
