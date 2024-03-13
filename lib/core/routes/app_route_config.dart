@@ -10,6 +10,7 @@ import 'package:team_finder_app/features/auth/presentation/pages/employee_regist
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/add_employee_departament.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/departament_details_page.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/departament_employees_page.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/pages/departament_projects_page.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/departaments_main_page.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/pages/employee_profile_page.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/pages/employees_main_page.dart';
@@ -162,6 +163,18 @@ class MyAppRouter {
                             ),
                           ],
                         ),
+                        GoRoute(
+                            name: AppRouterConst.departamentProjectsPage,
+                            path: 'projects',
+                            pageBuilder: (context, state) {
+                              return MaterialPage(
+                                child: DepartamentProjectsPage(
+                                  userId: state.pathParameters['userId']!,
+                                  departamentId:
+                                      state.pathParameters['departamentId']!,
+                                ),
+                              );
+                            }),
                       ]),
                 ]),
             GoRoute(

@@ -63,7 +63,13 @@ class DetailsBodyWidget extends StatelessWidget {
               ),
               OptionWidget(
                 text: 'View projects',
-                onPressed: () {},
+                onPressed: () {
+                  context.goNamed(AppRouterConst.departamentProjectsPage,
+                      pathParameters: {
+                        'userId': 'userId',
+                        'departamentId': 'departamentId'
+                      });
+                },
               ),
               OptionWidget(
                 text: 'Confirmations',

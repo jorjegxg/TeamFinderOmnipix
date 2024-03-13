@@ -94,3 +94,21 @@ class AuthConstants {
 //   static const shadow = Color(0x3F000000);
 //   static const hintTextColor = Color.fromARGB(255, 115, 115, 115);
 // }
+
+class AppLists {
+  static const List<String> projectStatusList = [
+    'Not Started',
+    'Starting',
+    'In Progress',
+    'Closing',
+    'Closed',
+  ];
+}
+
+enum ProjectStatus {
+  notStarted,
+  starting,
+  inProgress,
+  closing,
+  closed,
+}
