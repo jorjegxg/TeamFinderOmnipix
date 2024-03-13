@@ -29,12 +29,12 @@ class CreateDepartamentDialog extends HookWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Add employees link',
+              'Create departament',
               style: Theme.of(context).textTheme.titleSmall,
             ),
             const SizedBox(height: 15),
             Text(
-              'This link shall be used to add new employees to the app',
+              'Please provide a name and a departament manager to create a new departament.',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 15),

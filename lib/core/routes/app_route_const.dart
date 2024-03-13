@@ -30,4 +30,8 @@ class AppRouterConst {
   static const String employeeProfileScreen = 'employeeProfileScreen';
 
   static const String departamentsDetailsPage = 'departamentsDetailsPage';
+
+  static const String departamentEmployeesPage = 'departamentEmployeesPage';
+
+  static const String addEmployeeToDepartament = 'addEmployeeToDepartament';
 }

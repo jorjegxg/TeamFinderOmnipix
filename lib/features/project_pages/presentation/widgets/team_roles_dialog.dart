@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team_finder_app/features/project_pages/presentation/widgets/item_with_checkbox.dart';
 
 class TeamRolesDialog extends StatelessWidget {
   const TeamRolesDialog({super.key});
@@ -26,18 +27,11 @@ class TeamRolesDialog extends StatelessWidget {
               child: ListView.builder(
                   itemCount: 10,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(
-                        'Item $index',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      trailing: Checkbox(
-                        checkColor: Theme.of(context).colorScheme.primary,
-                        value: false,
-                        onChanged: (bool? value) {
-                          //TODO: add functionality to the checkbox
-                        },
-                      ),
+                    return ItemWithCheckBox(
+                      text: 'text',
+                      onChanged: (bool? b) {
+                        //IMplement the onChanged function
+                      },
                     );
                   }),
             ),

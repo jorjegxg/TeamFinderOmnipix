@@ -7,7 +7,9 @@ import 'package:team_finder_app/features/auth/presentation/pages/admin_login_pag
 import 'package:team_finder_app/features/auth/presentation/pages/admin_register_page.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/employee_login_page.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/employee_register_page.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/pages/add_employee_departament.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/departament_details_page.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/pages/departament_employees_page.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/departaments_main_page.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/pages/employee_profile_page.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/pages/employees_main_page.dart';
@@ -45,9 +47,11 @@ class MyAppRouter {
       ),
       GoRoute(
         name: AppRouterConst.registerEmployeeName,
-        path: '/register/employee',
-        pageBuilder: (context, state) =>
-            const MaterialPage(child: RegisterScreenForEmployee()),
+        path: '/register/employee/:organizationId',
+        pageBuilder: (context, state) => MaterialPage(
+            child: RegisterScreenForEmployee(
+          organizationId: state.pathParameters['organizationId']!,
+        )),
       ),
       ShellRoute(
           builder: (context, state, child) => MainWrapper(child: child),
@@ -124,14 +128,41 @@ class MyAppRouter {
                     )),
                 routes: [
                   GoRoute(
-                    name: AppRouterConst.departamentsDetailsPage,
-                    path: ':departamentId/details',
-                    pageBuilder: (context, state) => MaterialPage(
-                        child: DepartamentDetailsPage(
-                      userId: state.pathParameters['userId']!,
-                      departamentId: state.pathParameters['departamentId']!,
-                    )),
-                  ),
+                      name: AppRouterConst.departamentsDetailsPage,
+                      path: ':departamentId/details',
+                      pageBuilder: (context, state) => MaterialPage(
+                            child: DepartamentDetailsPage(
+                              userId: state.pathParameters['userId']!,
+                              departamentId:
+                                  state.pathParameters['departamentId']!,
+                            ),
+                          ),
+                      routes: [
+                        GoRoute(
+                          name: AppRouterConst.departamentEmployeesPage,
+                          path: 'employees',
+                          pageBuilder: (context, state) => MaterialPage(
+                            child: DepartamentEmployeesPage(
+                              userId: state.pathParameters['userId']!,
+                              departamentId:
+                                  state.pathParameters['departamentId']!,
+                            ),
+                          ),
+                          routes: [
+                            GoRoute(
+                              name: AppRouterConst.addEmployeeToDepartament,
+                              path: 'add',
+                              pageBuilder: (context, state) => MaterialPage(
+                                child: AddEmployeeToDepartamentPage(
+                                  userId: state.pathParameters['userId']!,
+                                  departamentId:
+                                      state.pathParameters['departamentId']!,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ]),
                 ]),
             GoRoute(
               name: AppRouterConst.settingsMainScreen,

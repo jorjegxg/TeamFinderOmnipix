@@ -4,12 +4,14 @@ import 'package:team_finder_app/features/auth/presentation/widgets/register_scre
 class RegisterScreenForEmployee extends StatelessWidget {
   const RegisterScreenForEmployee({
     super.key,
+    required this.organizationId,
   });
-
+  final String organizationId;
   @override
   Widget build(BuildContext context) {
-    return const RegisterScreen(
+    return RegisterScreen(
       isEmployee: true,
+      organizationId: organizationId,
     );
   }
 }
