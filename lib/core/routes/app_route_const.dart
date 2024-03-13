@@ -42,4 +42,8 @@ class AppRouterConst {
   static const String skillValidationPage = 'skillValidationPage';
 
   static const String skillStatisticsPage = 'skillStatisticsPage';
+
+  static const String departamentSkillsPage = 'departamentSkillsPage';
+
+  static const String createSkillPage = 'createSkillPage';
 }

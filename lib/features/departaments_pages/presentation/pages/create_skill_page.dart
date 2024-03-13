@@ -1,41 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sizer/sizer.dart';
-import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_dropdown_button.dart';
+import 'package:team_finder_app/features/project_pages/presentation/widgets/suggestion_text_field.dart';
 
-class AssignmentProposalScreen extends HookWidget {
-  const AssignmentProposalScreen({
-    required this.employeeId,
+class CreateSkillPage extends HookWidget {
+  const CreateSkillPage({
     super.key,
-    required this.projectId,
+    required this.departamentId,
     required this.userId,
   });
 
-  final String employeeId;
-  final String projectId;
+  final String departamentId;
   final String userId;
   @override
   Widget build(BuildContext context) {
     final nameColtroler = useTextEditingController();
     final descriptionColtroler = useTextEditingController();
+    final skillCatColtroller = useTextEditingController();
 
     List<String> items = List.generate(10, (index) => 'Item $index');
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => context.goNamed(AppRouterConst.addProjectMember,
-                pathParameters: {'projectId': projectId, 'userId': userId}),
-          ),
           centerTitle: true,
           title: Text(
-            'Send Assignment Proposal',
+            'Create Skill',
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
@@ -62,30 +55,21 @@ class AssignmentProposalScreen extends HookWidget {
                                   children: [
                                     CustomTextField(
                                       nameConttroler: nameColtroler,
-                                      hintText: 'Work Hours',
+                                      hintText: 'Skill Name',
                                       width: 90.w,
                                       onSubmitted: (String s) {
                                         //TODO: implement onSubmitted logic
                                       },
                                     ),
                                     const SizedBox(height: 20),
-                                    Text('Project Roles',
+                                    Text('Skill Categories',
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleSmall),
-                                    CustomDropdownButton(
-                                      elements: const ['Software', 'Hardware'],
-                                      buttonWidth: 80.w,
-                                      onChanged: (String? value) {
-                                        //TODO: implement onChanged logic
-                                        //add item to items list, and display it as a chip
-                                        //and remove it from the elements list, so it can't be added again
-                                        //also add a delete button to the chip
-                                        //when the delete button is pressed, remove the item from the items list
-                                        //and add it back to the elements list
-                                      },
-                                      dropdownValue: 'Software',
-                                    ),
+                                    SuggestionTextField(
+                                        options: ['Software', 'Hardware'],
+                                        onSubmitted: (String s) {},
+                                        controller: skillCatColtroller),
                                     ConstrainedBox(
                                       constraints:
                                           BoxConstraints(maxHeight: 10.h),
@@ -135,11 +119,6 @@ class AssignmentProposalScreen extends HookWidget {
                       text: 'Done',
                       onPressed: () {
                         //TODO: implement done logic
-                        context.goNamed(AppRouterConst.addProjectMember,
-                            pathParameters: {
-                              'projectId': projectId,
-                              'userId': userId
-                            });
                       },
                     ),
                     const SizedBox(height: 20),

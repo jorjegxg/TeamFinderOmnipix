@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/item_with_checkbox.dart';
 
 class TeamRolesDialog extends StatelessWidget {
-  const TeamRolesDialog({super.key});
+  const TeamRolesDialog(
+      {super.key,
+      required this.title,
+      required this.description,
+      required this.items,
+      required this.onChanged});
 
+  final String title;
+  final String description;
+  final List<String> items;
+  final Function(bool?) onChanged;
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -14,24 +23,22 @@ class TeamRolesDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Add team roles',
+              title,
               style: Theme.of(context).textTheme.titleSmall,
             ),
             const SizedBox(height: 15),
             Text(
-              '   In this screen you shall be able to add team roles to your project. You can add as many as you want.',
+              description,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 200),
               child: ListView.builder(
-                  itemCount: 10,
+                  itemCount: items.length,
                   itemBuilder: (context, index) {
                     return ItemWithCheckBox(
-                      text: 'text',
-                      onChanged: (bool? b) {
-                        //IMplement the onChanged function
-                      },
+                      text: items[index],
+                      onChanged: onChanged,
                     );
                   }),
             ),

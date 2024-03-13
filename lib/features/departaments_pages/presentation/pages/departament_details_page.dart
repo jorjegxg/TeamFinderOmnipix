@@ -103,7 +103,13 @@ class DetailsBodyWidget extends StatelessWidget {
               ),
               OptionWidget(
                 text: 'Departament Skills',
-                onPressed: () {},
+                onPressed: () {
+                  context.goNamed(AppRouterConst.departamentSkillsPage,
+                      pathParameters: {
+                        'userId': 'userId',
+                        'departamentId': 'departamentId'
+                      });
+                },
               ),
             ],
           ),
