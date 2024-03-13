@@ -8,7 +8,6 @@ import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/functions.dart';
-import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 

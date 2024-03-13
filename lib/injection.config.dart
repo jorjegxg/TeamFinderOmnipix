@@ -19,12 +19,14 @@ import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart
 import 'package:team_finder_app/features/auth/domain/validators/authentication_validator.dart'
     as _i5;
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart'
-    as _i16;
+    as _i17;
 import 'package:team_finder_app/features/departaments_pages/data/department_repository_impl.dart'
     as _i6;
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart'
     as _i7;
-import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments/departments_cubit.dart'
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart'
+    as _i15;
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart'
     as _i8;
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_managers/departments_managers_cubit.dart'
     as _i9;
@@ -35,7 +37,7 @@ import 'package:team_finder_app/features/project_pages/domain/repositories/proje
 import 'package:team_finder_app/features/project_pages/domain/usecases/projects_usecase.dart'
     as _i13;
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart'
-    as _i15;
+    as _i16;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -55,8 +57,8 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i6.DepartmentRepositoryImpl());
     gh.factory<_i7.DepartmentUseCase>(
         () => _i7.DepartmentUseCase(gh<_i6.DepartmentRepositoryImpl>()));
-    gh.factory<_i8.DepartmentsCubit>(
-        () => _i8.DepartmentsCubit(gh<_i7.DepartmentUseCase>()));
+    gh.factory<_i8.DepartmentsGetCubit>(
+        () => _i8.DepartmentsGetCubit(gh<_i7.DepartmentUseCase>()));
     gh.factory<_i9.DepartmentsManagersCubit>(
         () => _i9.DepartmentsManagersCubit(gh<_i7.DepartmentUseCase>()));
     gh.singleton<_i10.MyAppRouter>(() => _i10.MyAppRouter());
@@ -67,9 +69,11 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i5.AuthenticationValidator>(),
           gh<_i3.AuthRepo>(),
         ));
-    gh.factory<_i15.ProjectsBloc>(
-        () => _i15.ProjectsBloc(gh<_i13.ProjectsUsecase>()));
-    gh.factory<_i16.AuthBloc>(() => _i16.AuthBloc(gh<_i14.AuthUsecase>()));
+    gh.factory<_i15.DepartmentCreateCubit>(
+        () => _i15.DepartmentCreateCubit(gh<_i7.DepartmentUseCase>()));
+    gh.factory<_i16.ProjectsBloc>(
+        () => _i16.ProjectsBloc(gh<_i13.ProjectsUsecase>()));
+    gh.factory<_i17.AuthBloc>(() => _i17.AuthBloc(gh<_i14.AuthUsecase>()));
     return this;
   }
 }

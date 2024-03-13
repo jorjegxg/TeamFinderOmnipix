@@ -8,7 +8,8 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:team_finder_app/core/util/constants.dart';
 
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments/departments_cubit.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
 import 'package:team_finder_app/firebase_options.dart';
 import 'package:team_finder_app/injection.dart';
@@ -54,7 +55,11 @@ class MyApp extends StatelessWidget {
           create: (context) => getIt<ProjectsBloc>(),
         ),
         BlocProvider(
-          create: (context) => getIt<DepartmentsCubit>(),
+          create: (context) => getIt<DepartmentCreateCubit>(),
+        ),
+        BlocProvider(
+          create: (context) =>
+              getIt<DepartmentsGetCubit>()..getDepartmentsFromOrganization(),
         ),
       ],
       child: ResponsiveApp(

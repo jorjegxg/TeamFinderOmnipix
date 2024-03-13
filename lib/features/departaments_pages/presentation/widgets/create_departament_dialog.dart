@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
-import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments/departments_cubit.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_managers/departments_managers_cubit.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_dropdown_button.dart';
 import 'package:team_finder_app/injection.dart';
@@ -96,7 +96,7 @@ class CreateDepartamentDialog extends HookWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        context.read<DepartmentsCubit>().createDepartment(
+                        context.read<DepartmentCreateCubit>().createDepartment(
                               name: nameConttroler.text,
                               managerId: context
                                   .read<DepartmentsManagersCubit>()

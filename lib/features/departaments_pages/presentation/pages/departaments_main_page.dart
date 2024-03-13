@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
-import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments/departments_cubit.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/create_departament_dialog.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_widget.dart';
 
@@ -16,7 +17,7 @@ class DepartamentMainPage extends StatelessWidget {
   final String userId;
   @override
   Widget build(BuildContext context) {
-    return BlocListener<DepartmentsCubit, DepartmentsState>(
+    return BlocListener<DepartmentCreateCubit, DepartmentsState>(
       listener: (context, state) {
         if (state is DepartmentsCreateSuccess) {
           showSnackBar(context, 'Departament created successfully');
@@ -43,34 +44,53 @@ class DepartamentMainPage extends StatelessWidget {
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
-        body: ListView.builder(
-            // physics: const NeverScrollableScrollPhysics(),
-            // shrinkWrap: true,
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  child: ProjectWidget(
-                      onLongPress: () {
-                        print('asdasd');
-                      },
-                      mainTitle: 'Departament Name',
-                      title1: 'Departament Manager:',
-                      title2: 'Number of employees:',
-                      content1: 'Name of the manager',
-                      content2: 'Number of employees in the departament',
-                      onPressed: () {
-                        context.goNamed(AppRouterConst.departamentsDetailsPage,
-                            pathParameters: {
-                              'userId': userId,
-                              'departamentId': 'departamentId'
-                            });
-                        //TODO: navigate to departament details, pass departament id
-                      }),
-                ),
+        body: BlocBuilder<DepartmentsGetCubit, DepartmentsGetState>(
+          builder: (context, state) {
+            if (state is DepartmentsGetManagersLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state is DepartmentsGetManagersFailure) {
+              return Center(
+                child: Text(state.errorMessage),
               );
-            }),
+            }
+
+            if (state is DepartmentsGetManagersSuccess) {
+              return ListView.builder(
+                  // physics: const NeverScrollableScrollPhysics(),
+                  // shrinkWrap: true,
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                        child: ProjectWidget(
+                            onLongPress: () {
+                              print('asdasd');
+                            },
+                            mainTitle: 'Departament Name',
+                            title1: 'Departament Manager:',
+                            title2: 'Number of employees:',
+                            content1: 'Name of the manager',
+                            content2: 'Number of employees in the departament',
+                            onPressed: () {
+                              context.goNamed(
+                                  AppRouterConst.departamentsDetailsPage,
+                                  pathParameters: {
+                                    'userId': userId,
+                                    'departamentId': 'departamentId'
+                                  });
+                              //TODO: navigate to departament details, pass departament id
+                            }),
+                      ),
+                    );
+                  });
+            }
+
+            return const SizedBox();
+          },
+        ),
       ),
     );
   }

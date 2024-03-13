@@ -2,14 +2,16 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/features/auth/data/models/manager.dart';
+import 'package:team_finder_app/features/departaments_pages/data/department_repository_impl.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/department.dart';
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart';
 
-part 'departments_state.dart';
+part 'department_create_state.dart';
 
 @injectable
-class DepartmentsCubit extends Cubit<DepartmentsState> {
+class DepartmentCreateCubit extends Cubit<DepartmentsState> {
   final DepartmentUseCase departmentUseCase;
-  DepartmentsCubit(
+  DepartmentCreateCubit(
     this.departmentUseCase,
   ) : super(DepartmentsInitial());
 

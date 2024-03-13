@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/features/auth/data/models/manager.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/department.dart';
 
 @injectable
 class DepartmentRepositoryImpl {
@@ -32,6 +33,23 @@ class DepartmentRepositoryImpl {
       (l) => left(l),
       (r) => right(
         (r as List).map((e) => Manager.fromJson(e)).toList(growable: false),
+      ),
+    );
+  }
+
+  Future<Either<Failure<String>, List<Department>>>
+      getDepartmentsFromOrganization() async {
+    var box = await Hive.openBox<String>(HiveConstants.authBox);
+    String organizationId = box.get(HiveConstants.organizationId)!;
+
+    return (await ApiService().dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/getdepartamentsfromorganization/$organizationId",
+    ))
+        .fold(
+      (l) => left(l),
+      (r) => right(
+        r.map((e) => Department.fromJson(e)).toList(growable: false),
       ),
     );
   }

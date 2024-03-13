@@ -17,7 +17,7 @@ class ApiService {
     _dio = Dio();
   }
 
-  Future<Either<Failure<String>, Map<String, dynamic>>> dioGet({
+  Future<Either<Failure<String>, T>> dioGet<T>({
     required String url,
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -52,7 +52,7 @@ class ApiService {
     }
   }
 
-  Future<Either<Failure<String>, Map<String, dynamic>>> dioPost({
+  Future<Either<Failure<String>, T>> dioPost<T>({
     required String url,
     Map<String, dynamic>? data,
   }) async {
@@ -85,7 +85,7 @@ class ApiService {
     }
   }
 
-  Future<Either<Failure<String>, Map<String, dynamic>>> dioPut({
+  Future<Either<Failure<String>, T>> dioPut<T>({
     required String url,
     Map<String, dynamic>? data,
   }) async {
@@ -119,7 +119,7 @@ class ApiService {
     }
   }
 
-  Future<Either<Failure<String>, Map<String, dynamic>>> dioDelete({
+  Future<Either<Failure<String>, T>> dioDelete<T>({
     required String url,
   }) async {
     try {
