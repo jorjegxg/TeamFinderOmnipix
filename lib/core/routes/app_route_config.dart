@@ -27,6 +27,7 @@ import 'package:team_finder_app/features/project_pages/presentation/pages/projec
 @singleton
 class MyAppRouter {
   final GoRouter _router = GoRouter(
+    // initialLocation: '/firstPage',
     initialLocation: '/register/admin',
     routes: [
       GoRoute(
@@ -77,8 +78,10 @@ class MyAppRouter {
       GoRoute(
         name: AppRouterConst.registerEmployeeName,
         path: '/register/employee',
-        pageBuilder: (context, state) =>
-            const MaterialPage(child: RegisterScreenForEmployee()),
+        pageBuilder: (context, state) => MaterialPage(
+            child: RegisterScreenForEmployee(
+          organizationId: state.pathParameters['organizationId']!,
+        )),
       ),
       ShellRoute(
           builder: (context, state, child) => MainWrapper(child: child),

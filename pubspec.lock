@@ -13,10 +13,10 @@ packages:
     dependency: transitive
     description:
       name: _flutterfire_internals
-      sha256: f5628cd9c92ed11083f425fd1f8f1bc60ecdda458c81d73b143aeda036c35fe7
+      sha256: "554f148e71e9e016d9c04d4af6b103ca3f74a1ceed7d7307b70a0f41e991eb77"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.16"
+    version: "1.3.26"
   analyzer:
     dependency: transitive
     description:
@@ -293,10 +293,10 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_core
-      sha256: "96607c0e829a581c2a483c658f04e8b159964c3bae2730f73297070bc85d40bb"
+      sha256: "67bf0d5fd78f12f51c6b54a72f6141314136a1a90e98b1b7c45e7fac883254ed"
       url: "https://pub.dev"
     source: hosted
-    version: "2.24.2"
+    version: "2.27.1"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -309,10 +309,26 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_web
-      sha256: d585bdf3c656c3f7821ba1bd44da5f13365d22fcecaf5eb75c4295246aaa83c0
+      sha256: "5377eaac3b9fe8aaf22638d87f92b62784f23572e132dfc029195e84d6cb37de"
       url: "https://pub.dev"
     source: hosted
-    version: "2.10.0"
+    version: "2.12.0"
+  firebase_dynamic_links:
+    dependency: "direct main"
+    description:
+      name: firebase_dynamic_links
+      sha256: "6f8180d1641ba274e241a690cd12d1163fdec75d807aa9daa37c27489e7ad3f7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.4.18"
+  firebase_dynamic_links_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_dynamic_links_platform_interface
+      sha256: "8b6c1827488fa1af56e9a4834ee9e356c510e35d89d1839761064eabad951cbb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.6+26"
   fixnum:
     dependency: transitive
     description:
@@ -1034,6 +1050,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
+  uni_links:
+    dependency: "direct main"
+    description:
+      name: uni_links
+      sha256: "051098acfc9e26a9fde03b487bef5d3d228ca8f67693480c6f33fd4fbb8e2b6e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.1"
+  uni_links_platform_interface:
+    dependency: transitive
+    description:
+      name: uni_links_platform_interface
+      sha256: "929cf1a71b59e3b7c2d8a2605a9cf7e0b125b13bc858e55083d88c62722d4507"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  uni_links_web:
+    dependency: transitive
+    description:
+      name: uni_links_web
+      sha256: "7539db908e25f67de2438e33cc1020b30ab94e66720b5677ba6763b25f6394df"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   universal_io:
     dependency: transitive
     description:

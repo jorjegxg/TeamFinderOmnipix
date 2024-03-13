@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:team_finder_app/core/util/constants.dart';
 
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
+import 'package:team_finder_app/firebase_options.dart';
 import 'package:team_finder_app/injection.dart';
 import 'package:team_finder_app/core/routes/app_route_config.dart';
 import 'package:team_finder_app/core/util/theme.dart';
@@ -20,6 +22,9 @@ Future<void> main() async {
   configureDependencies();
 
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   // GetIt.I.registerSingleton<MyAppRouter>(MyAppRouter());
   if (kIsWeb) {

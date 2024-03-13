@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "177371570048",
+    "project_id": "team-finder-app-c0d6a",
+    "storage_bucket": "team-finder-app-c0d6a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177371570048:android:bb07fb45430e2afc82eb65",
+        "android_client_info": {
+          "package_name": "com.george.alu.vasi.team_finder_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBunrFXapZBzQn9SP3MJYNvlmIOAZn968w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177371570048:android:87d8b63ad19b9f6f82eb65",
+        "android_client_info": {
+          "package_name": "gxg.vas.alu.team_finder_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBunrFXapZBzQn9SP3MJYNvlmIOAZn968w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
