@@ -9,7 +9,7 @@ class AdminRepoImpl {
     required String organizationName,
     required String address,
   }) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPost(
         url: EndpointConstants.baseUrl + EndpointConstants.createAdmin,
         data: {
           "name": name,
@@ -26,7 +26,7 @@ class AdminRepoImpl {
     required String name,
     required String organizationId,
   }) async {
-    return ApiService().dioPost<Map<String, dynamic>>(
+    return ApiService().dioPost(
         url: EndpointConstants.baseUrl + EndpointConstants.createCustomRole,
         data: {
           "name": name,
@@ -36,14 +36,14 @@ class AdminRepoImpl {
 
   Future<Either<Failure<String>, Map<String, dynamic>>> deleteAdmin(
       String email) async {
-    return ApiService().dioDelete<Map<String, dynamic>>(
+    return ApiService().dioDelete(
       url: EndpointConstants.baseUrl + EndpointConstants.deleteAdmin(email),
     );
   }
 
   Future<Either<Failure<String>, Map<String, dynamic>>> updateAdminPassword(
       String email, String password) async {
-    return ApiService().dioPut<Map<String, dynamic>>(
+    return ApiService().dioPut(
       url: EndpointConstants.baseUrl +
           EndpointConstants.updateAdminPassword(email, password),
     );

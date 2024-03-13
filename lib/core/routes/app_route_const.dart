@@ -1,5 +1,6 @@
 class AppRouterConst {
   static const String homeName = 'home';
+  static const String firstPage = 'firstPage';
   static const String loginEmployeeName = 'loginEmployee';
   static const String loginAdminName = 'loginAdmin';
   static const String registerEmployeeName = 'registerEmployee';

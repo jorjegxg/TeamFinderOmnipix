@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:team_finder_app/core/error/failures.dart';
 
 abstract class AuthRepo {
-  Future<Either<Failure<String>, void>> registerOrganizationAdmin({
+  Future<Either<Failure<String>, String>> registerOrganizationAdmin({
     required String name,
     required String email,
     required String password,

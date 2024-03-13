@@ -47,7 +47,7 @@ class TechnologiesDialog extends HookWidget {
                         children: [
                           // A SlidableAction can have an icon and/or a label.
                           SlidableAction(
-                            backgroundColor: Color(0xFFFE4A49),
+                            backgroundColor: const Color(0xFFFE4A49),
                             foregroundColor: Colors.white,
                             icon: Icons.delete,
                             label: 'Delete',
