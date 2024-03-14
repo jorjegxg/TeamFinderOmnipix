@@ -85,7 +85,7 @@ class CreateDepartamentDialog extends HookWidget {
                       );
                     }
 
-                    return const SizedBox();
+                    return const Text('Create a manager first');
                   },
                 ),
                 Row(
@@ -97,19 +97,22 @@ class CreateDepartamentDialog extends HookWidget {
                       },
                       child: const Text('Close'),
                     ),
-                    BlocBuilder<DepartmentsManagersCubit,
+                    BlocConsumer<DepartmentsManagersCubit,
                         DepartmentsManagersState>(
+                      listener: (context, state) {
+                        if (state is DepartmentsCreateSuccess) {
+                          Navigator.pop(secondContext);
+                        }
+                      },
                       builder: (context, state) {
                         return TextButton(
                           onPressed: () {
-                            Logger.warning("rsgrs", state.selectedManager!.id);
                             secondContext
                                 .read<DepartmentCreateCubit>()
                                 .createDepartment(
                                   name: nameConttroler.text,
-                                  managerId: state.selectedManager!.id,
+                                  manager: state.selectedManager,
                                 );
-                            Navigator.pop(secondContext);
                           },
                           child: const Text('Create'),
                         );

@@ -17,13 +17,13 @@ class DepartmentCreateCubit extends Cubit<DepartmentsState> {
 
   void createDepartment({
     required String name,
-    required String managerId,
+    Manager? manager,
   }) async {
     emit(DepartmentsCreateLoading());
 
     (await departmentUseCase.createDepartment(
       name: name,
-      managerId: managerId,
+      managerId: manager,
     ))
         .fold(
       (l) => emit(DepartmentsCreateFailure(l.message)),
