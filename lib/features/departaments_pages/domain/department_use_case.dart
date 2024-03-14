@@ -35,7 +35,7 @@ class DepartmentUseCase {
     return departmentRepository.getDepartmentManagers();
   }
 
-  Future<Either<Failure<String>, List<Department>>>
+  Future<Either<Failure<String>, List<DepartmentSummary>>>
       getDepartmentsFromOrganization() async {
     return departmentRepository.getDepartmentsFromOrganization();
   }

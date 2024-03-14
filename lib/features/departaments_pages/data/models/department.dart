@@ -1,18 +1,18 @@
-class Department {
+class DepartmentSummary {
   final String id;
   final String? managersName;
   final String departmentName;
   final int numberOfEmployees;
 
-  Department({
+  DepartmentSummary({
     required this.id,
     required this.managersName,
     required this.departmentName,
     required this.numberOfEmployees,
   });
 
-  factory Department.fromJson(Map<String, dynamic> json) {
-    return Department(
+  factory DepartmentSummary.fromJson(Map<String, dynamic> json) {
+    return DepartmentSummary(
       id: json['id'],
       managersName: json['managersName'],
       departmentName: json['name'],

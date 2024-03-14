@@ -12,7 +12,7 @@ final class DepartmentsGetInitial extends DepartmentsGetState {}
 final class DepartmentsGetManagersLoading extends DepartmentsGetState {}
 
 final class DepartmentsGetManagersSuccess extends DepartmentsGetState {
-  final List<Department> departments;
+  final List<DepartmentSummary> departments;
 
   const DepartmentsGetManagersSuccess(this.departments);
 

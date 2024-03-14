@@ -4,6 +4,7 @@ import 'package:team_finder_app/core/error/failures.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/employee_roles.dart';
 
 @injectable
 class EmployeeRepoImpl {
@@ -28,6 +29,106 @@ class EmployeeRepoImpl {
             employees.add(Employee.fromJson(employee));
           }
           return right(employees);
+        },
+      );
+    });
+  }
+
+  // make employee organization admin
+  ///admin/promoteadmin/{employeeId}/{organizationId}
+  Future<Either<Failure, void>> makeEmployeeOrganizationAdmin({
+    required String employeeId,
+    required String organizationId,
+  }) async {
+    final organizationId = await getOrganizationId();
+    return ApiService()
+        .dioPost(
+      url:
+          "${EndpointConstants.baseUrl}/employee/makeorganizationadmin/$employeeId/$organizationId",
+    )
+        .then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) => right(null),
+      );
+    });
+  }
+
+  //delete la organization admin:
+  //
+  //---trebuie facuta
+  Future<Either<Failure, void>> takeOrganizationAdminRoleFromEmployee(
+      {required String employeeId, required String organizationId}) async {
+    //TODO George Luta : implement this method
+
+    return right(null);
+  }
+
+  //make employee department manager
+  Future<Either<Failure, void>> makeEmployeeDepartmentManager(
+      String employeeId) async {
+    final organizationId = await getOrganizationId();
+    return ApiService().dioPost(
+      url: "${EndpointConstants.baseUrl}/departamentpromotion/",
+      data: {
+        "organizationId": organizationId,
+        "employeeId": employeeId,
+      },
+    ).then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) => right(null),
+      );
+    });
+  }
+
+  //update la department manager:
+  ///departament/updatemanager
+  ///(atunci cand dau switch off -- trebuie sa aleg un nou manager)
+  ///
+  ///foloseste endpoinul de departament manageri care nu au departament
+  /// departamentmanager/managersnodepartament/{id}
+  ///
+  /// o sa apara un dropdown
+  ///
+  ///
+  /// foloseste si noul endpoint
+  ///
+
+  //make employee project manager
+  Future<Either<Failure, void>> makeEmployeeProjectManager(
+    String employeeId,
+  ) async {
+    return ApiService()
+        .dioPost(
+      url:
+          "${EndpointConstants.baseUrl}/projectmanager/createprojectmanager/$employeeId",
+    )
+        .then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) => right(null),
+      );
+    });
+  }
+
+  //dealocate project manager
+  //
+  //---trebuie facuta
+
+  //get employee roles
+  Future<Either<Failure, EmployeesRoles>> getEmployeeRoles(String employeeId) {
+    return ApiService()
+        .dioGet(
+      url: "${EndpointConstants.baseUrl}/employee/roles/$employeeId",
+    )
+        .then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) {
+          final EmployeesRoles employeesRoles = EmployeesRoles.fromJson(r);
+
+          return right(employeesRoles);
         },
       );
     });

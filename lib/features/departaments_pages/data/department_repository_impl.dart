@@ -55,7 +55,7 @@ class DepartmentRepositoryImpl {
     );
   }
 
-  Future<Either<Failure<String>, List<Department>>>
+  Future<Either<Failure<String>, List<DepartmentSummary>>>
       getDepartmentsFromOrganization() async {
     var box = Hive.box<String>(HiveConstants.authBox);
     String organizationId = box.get(HiveConstants.organizationId)!;
@@ -67,7 +67,7 @@ class DepartmentRepositoryImpl {
         .fold(
       (l) => left(l),
       (r) => right(
-        r.map((e) => Department.fromJson(e)).toList(growable: false),
+        r.map((e) => DepartmentSummary.fromJson(e)).toList(growable: false),
       ),
     );
   }

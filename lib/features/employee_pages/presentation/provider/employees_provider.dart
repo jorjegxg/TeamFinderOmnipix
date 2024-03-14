@@ -4,13 +4,13 @@ import 'package:team_finder_app/features/employee_pages/data/models/employee.dar
 import 'package:team_finder_app/features/employee_pages/domain/employee_usecase.dart';
 
 @injectable
-class EmployeeProvider extends ChangeNotifier {
+class EmployeesProvider extends ChangeNotifier {
   final EmployeeUsecase _employeeUsecase;
   List<Employee> _employees = [];
   bool _isLoading = false;
   String? _error;
 
-  EmployeeProvider(this._employeeUsecase);
+  EmployeesProvider(this._employeeUsecase);
 
   List<Employee> get employees => _employees;
   bool get isLoading => _isLoading;
