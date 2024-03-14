@@ -23,21 +23,26 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
+    return SizedBox(
+      height: widget.buttonHeight,
+      width: widget.buttonWidth,
+      child: DropdownButtonFormField<String>(
+        isExpanded: true,
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+        ),
+        value: dropdownValue,
+        elevation: 16,
+        style: Theme.of(context).textTheme.bodyMedium,
+        borderRadius: BorderRadius.circular(12),
+        onChanged: widget.onChanged,
+        items: widget.elements.map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
       ),
-      value: dropdownValue,
-      elevation: 16,
-      style: Theme.of(context).textTheme.bodyMedium,
-      borderRadius: BorderRadius.circular(12),
-      onChanged: widget.onChanged,
-      items: widget.elements.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
     );
   }
 }

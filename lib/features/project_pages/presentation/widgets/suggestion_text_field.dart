@@ -10,37 +10,41 @@ class SuggestionTextField extends StatelessWidget {
     required this.options,
     required this.onSubmitted,
     required this.controller,
+    this.width,
   });
   final TextEditingController controller;
   final List<String> options;
   final void Function(String) onSubmitted;
+  final double? width;
   @override
   Widget build(BuildContext context) {
-    return TypeAheadField<String>(
-      emptyBuilder: (context) => const SizedBox(),
-      controller: controller,
-      suggestionsCallback: (search) {
-        return listToSuggestion(options, search);
-      },
-      builder: (context, controller, focusNode) {
-        return TextField(
-            onSubmitted: onSubmitted,
-            controller: controller,
-            focusNode: focusNode,
-            autofocus: true,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'City',
-            ));
-      },
-      itemBuilder: (context, city) {
-        return ListTile(
-          title: Text(city),
-        );
-      },
-      onSelected: (city) {
-        controller.text = city;
-      },
+    return SizedBox(
+      width: width,
+      child: TypeAheadField<String>(
+        emptyBuilder: (context) => const SizedBox(),
+        controller: controller,
+        suggestionsCallback: (search) {
+          return listToSuggestion(options, search);
+        },
+        builder: (context, controller, focusNode) {
+          return TextField(
+              onSubmitted: onSubmitted,
+              controller: controller,
+              focusNode: focusNode,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Enter Text',
+              ));
+        },
+        itemBuilder: (context, city) {
+          return ListTile(
+            title: Text(city),
+          );
+        },
+        onSelected: (city) {
+          controller.text = city;
+        },
+      ),
     );
   }
 }
