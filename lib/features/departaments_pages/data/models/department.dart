@@ -20,10 +20,3 @@ class Department {
     );
   }
 }
-
-/**{
-  "name": "Nume test dep",
-  "organizationId": "88E6HD3QK9x4QU1CxOuh",
-  "id": "f8XEN9GUe6Zlx2orfhiw",
-  "departamentManagerId": null
-} */

@@ -19,7 +19,7 @@ import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart
 import 'package:team_finder_app/features/auth/domain/validators/authentication_validator.dart'
     as _i5;
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart'
-    as _i19;
+    as _i20;
 import 'package:team_finder_app/features/departaments_pages/data/department_repository_impl.dart'
     as _i6;
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart'
@@ -34,6 +34,8 @@ import 'package:team_finder_app/features/employee_pages/data/employee_repo_impl.
     as _i10;
 import 'package:team_finder_app/features/employee_pages/domain/employee_usecase.dart'
     as _i11;
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_provider.dart'
+    as _i18;
 import 'package:team_finder_app/features/project_pages/data/repositories/project_repo_impl.dart'
     as _i14;
 import 'package:team_finder_app/features/project_pages/domain/repositories/project_repo.dart'
@@ -41,7 +43,7 @@ import 'package:team_finder_app/features/project_pages/domain/repositories/proje
 import 'package:team_finder_app/features/project_pages/domain/usecases/projects_usecase.dart'
     as _i15;
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart'
-    as _i18;
+    as _i19;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -78,9 +80,11 @@ extension GetItInjectableX on _i1.GetIt {
         ));
     gh.factory<_i17.DepartmentCreateCubit>(
         () => _i17.DepartmentCreateCubit(gh<_i7.DepartmentUseCase>()));
-    gh.factory<_i18.ProjectsBloc>(
-        () => _i18.ProjectsBloc(gh<_i15.ProjectsUsecase>()));
-    gh.factory<_i19.AuthBloc>(() => _i19.AuthBloc(gh<_i16.AuthUsecase>()));
+    gh.factory<_i18.EmployeeProvider>(
+        () => _i18.EmployeeProvider(gh<_i11.EmployeeUsecase>()));
+    gh.factory<_i19.ProjectsBloc>(
+        () => _i19.ProjectsBloc(gh<_i15.ProjectsUsecase>()));
+    gh.factory<_i20.AuthBloc>(() => _i20.AuthBloc(gh<_i16.AuthUsecase>()));
     return this;
   }
 }

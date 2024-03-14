@@ -28,7 +28,7 @@ class RegisterScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final nameConttroler = useTextEditingController(
-      text: kDebugMode ? 'Nume test' : '',
+      text: kDebugMode ? 'Nume test ${generateRandomString(3)}' : '',
     );
     final emailConttroler = useTextEditingController(
       text: kDebugMode

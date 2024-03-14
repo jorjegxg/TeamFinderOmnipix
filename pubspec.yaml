@@ -53,6 +53,7 @@ dependencies:
   injectable: ^2.3.3
   jwt_decoder: ^2.0.1
   path_provider: ^2.1.2
+  provider: ^6.1.2
   responsive_builder: ^0.7.0
   sizer: ^2.0.15
   uni_links: ^0.5.1

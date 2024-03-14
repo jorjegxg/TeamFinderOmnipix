@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/core/util/secure_storage_service.dart';
@@ -50,7 +51,14 @@ class AuthRepoImpl extends AuthRepo {
           "organizationId": organizationId,
         },
       ))
-          .fold((l) => left(l), (r) => right(r["Token"]));
+          .fold((l) => left(l), (r) {
+        final token = r["Token"];
+
+        Logger.info('AuthRepoImpl.registerEmployee',
+            'token: ${JwtDecoder.decode(token)}');
+
+        return right(token);
+      });
     } else {
       return left(StorageFailure<String>(message: "Error deleting data"));
     }
