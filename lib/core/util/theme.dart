@@ -15,7 +15,7 @@ ThemeData createLightTheme() {
       color: Color(0xFFD9D9D9),
       elevation: 0,
       iconTheme: IconThemeData(
-        color: Color(0xFF6750A4),
+        color: Color(0xFF000000),
       ),
       actionsIconTheme: IconThemeData(
         color: Color(0xFF6750A4),
