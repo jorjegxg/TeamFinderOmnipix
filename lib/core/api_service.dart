@@ -43,7 +43,22 @@ class ApiService {
         ));
       }
     } on DioException catch (e) {
-      _logUnexpectedError('Get', e);
+      if (e.response != null) {
+        if (e.response!.statusCode == 404) {
+          if (T == List) {
+            Logger.info('GET request', 'empty list returned');
+            return Right(<T>[] as T);
+          }
+
+          return Left(
+            UnexpectedFailure(
+              message: e.message.toString(),
+            ),
+          );
+        }
+      }
+
+      _logUnexpectedError('Get', e.response);
       return Left(
         UnexpectedFailure(
           message: e.message.toString(),

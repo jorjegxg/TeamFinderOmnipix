@@ -67,40 +67,45 @@ class DepartamentMainPage extends StatelessWidget {
                 }
 
                 if (state is DepartmentsGetManagersSuccess) {
-                  return ListView.builder(
-                      // physics: const NeverScrollableScrollPhysics(),
-                      // shrinkWrap: true,
-                      itemCount: 5,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: GestureDetector(
-                            child: ProjectWidget(
-                                onLongPress: () {
-                                  print('asdasd');
-                                },
-                                mainTitle:
-                                    state.departments[index].departmentName,
-                                title1: 'Departament Manager:',
-                                title2: 'Number of employees:',
-                                content1:
-                                    state.departments[index].managersName ??
-                                        'No manager',
-                                content2: state
-                                    .departments[index].numberOfEmployees
-                                    .toString(),
-                                onPressed: () {
-                                  context.goNamed(
-                                      AppRouterConst.departamentsDetailsPage,
-                                      pathParameters: {
-                                        'userId': userId,
-                                        'departamentId': 'departamentId'
-                                      });
-                                  //TODO: navigate to departament details, pass departament id
-                                }),
-                          ),
-                        );
-                      });
+                  if (state.departments.isNotEmpty) {
+                    return ListView.builder(
+                        // physics: const NeverScrollableScrollPhysics(),
+                        // shrinkWrap: true,
+                        itemCount: 5,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                              child: ProjectWidget(
+                                  onLongPress: () {
+                                    print('asdasd');
+                                  },
+                                  mainTitle:
+                                      state.departments[index].departmentName,
+                                  title1: 'Departament Manager:',
+                                  title2: 'Number of employees:',
+                                  content1:
+                                      state.departments[index].managersName ??
+                                          'No manager',
+                                  content2: state
+                                      .departments[index].numberOfEmployees
+                                      .toString(),
+                                  onPressed: () {
+                                    context.goNamed(
+                                        AppRouterConst.departamentsDetailsPage,
+                                        pathParameters: {
+                                          'userId': userId,
+                                          'departamentId': 'departamentId'
+                                        });
+                                    //TODO: navigate to departament details, pass departament id
+                                  }),
+                            ),
+                          );
+                        });
+                  } else {
+                    return const Center(
+                        child: Text('No departaments found <3'));
+                  }
                 }
 
                 return const SizedBox();
