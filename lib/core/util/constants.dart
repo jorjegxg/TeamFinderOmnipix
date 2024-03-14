@@ -91,6 +91,7 @@ class HiveConstants {
 }
 
 class DynamicLinkConstants {
-  static String getDynamicLink({required String organizationId}) =>
+  static String getAddEmployeeToOrganizationLink(
+          {required String organizationId}) =>
       'https://teamfinderio.page.link/?link=https://teamfinder.page.link/register/employee/$organizationId&apn=gxg.vas.alu.team_finder_app';
 }

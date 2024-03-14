@@ -58,7 +58,7 @@ class AuthUsecase {
   Future<Map<String, dynamic>> _saveLocalData(String r) async {
     final userData = JwtDecoder.decode(r);
 
-    var box = await Hive.openBox<String>(HiveConstants.authBox);
+    var box = Hive.box<String>(HiveConstants.authBox);
 
     box.put(HiveConstants.userId, userData['id']);
     box.put(HiveConstants.organizationId, userData['organizationId']);

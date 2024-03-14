@@ -9,7 +9,7 @@ class DepartmentRepositoryImpl {
   Future<Either<Failure<String>, void>> createDepartment({
     required String name,
   }) async {
-    var box = await Hive.openBox<String>(HiveConstants.authBox);
+    var box = Hive.box<String>(HiveConstants.authBox);
     String organizationId = box.get(HiveConstants.organizationId)!;
 
     return (ApiService().dioPost(
@@ -22,7 +22,7 @@ class DepartmentRepositoryImpl {
   }
 
   Future<Either<Failure<String>, List<Manager>>> getDepartmentManagers() async {
-    var box = await Hive.openBox<String>(HiveConstants.authBox);
+    var box = Hive.box<String>(HiveConstants.authBox);
     String organizationId = box.get(HiveConstants.organizationId)!;
 
     return (await ApiService().dioGet(
@@ -39,7 +39,7 @@ class DepartmentRepositoryImpl {
 
   Future<Either<Failure<String>, List<Department>>>
       getDepartmentsFromOrganization() async {
-    var box = await Hive.openBox<String>(HiveConstants.authBox);
+    var box = Hive.box<String>(HiveConstants.authBox);
     String organizationId = box.get(HiveConstants.organizationId)!;
 
     return (await ApiService().dioGet<List>(

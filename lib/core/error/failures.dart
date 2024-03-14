@@ -45,3 +45,7 @@ class UnexpectedFailure<T> extends Failure<T> {
 class CacheFailure<T> extends Failure<T> {
   CacheFailure({required String message}) : super(message);
 }
+
+class StorageFailure<T> extends Failure<T> {
+  StorageFailure({required String message}) : super(message);
+}
