@@ -107,7 +107,6 @@ class RegisterScreen extends HookWidget {
                                                   email: emailConttroler.text,
                                                   password:
                                                       passwordConttroler.text,
-                                                  //TODO George Luta : schimba din dummy data in ceva real
                                                   organizationId:
                                                       organizationId!,
                                                 )

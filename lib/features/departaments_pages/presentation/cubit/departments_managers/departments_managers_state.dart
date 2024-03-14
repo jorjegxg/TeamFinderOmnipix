@@ -14,7 +14,8 @@ class DepartmentsManagersState extends Equatable {
   });
 
   @override
-  List<Object?> get props => [managers, errorMessage, isLoading];
+  List<Object?> get props =>
+      [managers, errorMessage, isLoading, selectedManager];
 
   //copy with
   DepartmentsManagersState copyWith({
@@ -29,5 +30,11 @@ class DepartmentsManagersState extends Equatable {
       isLoading: isLoading ?? this.isLoading,
       selectedManager: selectedManager ?? this.selectedManager,
     );
+  }
+
+  //to string
+  @override
+  String toString() {
+    return 'Depart managers state: {managers: $managers, errorMessage: $errorMessage, isLoading: $isLoading, selectedManager: $selectedManager}';
   }
 }

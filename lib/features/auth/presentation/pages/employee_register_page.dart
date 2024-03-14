@@ -12,8 +12,9 @@ class RegisterScreenForEmployee extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Logger.info('RegisterScreenForEmployee', 'organizationId: $organizationId');
-    return const RegisterScreen(
+    return RegisterScreen(
       isEmployee: true,
+      organizationId: organizationId,
     );
   }
 }

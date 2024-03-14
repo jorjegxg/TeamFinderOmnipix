@@ -127,12 +127,22 @@ class AuthUsecase {
     );
   }
 
-  void logout({required BuildContext context}) {
-    SecureStorageService().delete(key: StorageConstants.token);
-
-    //replace route
-    context.goNamed(
-      AppRouterConst.registerAdminName,
+  Future<Either<Failure<String>, void>> logout(
+      {required BuildContext context}) async {
+    (await deleteAllStoredData()).fold(
+      (l) => left(l),
+      (r) async {
+        context.goNamed(
+          AppRouterConst.registerAdminName,
+        );
+        return right(r);
+      },
     );
+
+    return left(HardFailure(message: 'Error logging out'));
+  }
+
+  Future<Either<Failure<String>, void>> deleteAllStoredData() async {
+    return authRepo.deleteAllStoredData();
   }
 }

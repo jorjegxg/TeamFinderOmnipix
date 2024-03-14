@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:sizer/sizer.dart';
+import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
@@ -20,7 +21,7 @@ class CreateDepartamentDialog extends HookWidget {
     return BlocProvider(
       create: (context) =>
           getIt<DepartmentsManagersCubit>()..getDepartmentManagers(),
-      child: Builder(builder: (context) {
+      child: Builder(builder: (secondContext) {
         return Dialog(
           child: Padding(
             padding: const EdgeInsets.all(15),
@@ -31,12 +32,12 @@ class CreateDepartamentDialog extends HookWidget {
               children: <Widget>[
                 Text(
                   'Create Departament',
-                  style: Theme.of(context).textTheme.titleSmall,
+                  style: Theme.of(secondContext).textTheme.titleSmall,
                 ),
                 const SizedBox(height: 15),
                 Text(
                   'This link shall be used to add new employees to the app',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(secondContext).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 15),
                 CustomTextField(
@@ -65,9 +66,11 @@ class CreateDepartamentDialog extends HookWidget {
                             style: Theme.of(context).textTheme.bodyMedium,
                             borderRadius: BorderRadius.circular(12),
                             onChanged: (Manager? newValue) {
-                              context
+                              Logger.info('CreateDepartamentDialog',
+                                  'Manager selected: ${newValue!.name} ${newValue.id}');
+                              secondContext
                                   .read<DepartmentsManagersCubit>()
-                                  .selectManager(newValue!);
+                                  .selectManager(newValue);
                             },
                             items: state.managers
                                 .map<DropdownMenuItem<Manager>>(
@@ -90,23 +93,27 @@ class CreateDepartamentDialog extends HookWidget {
                   children: [
                     TextButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.pop(secondContext);
                       },
                       child: const Text('Close'),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        context.read<DepartmentCreateCubit>().createDepartment(
-                              name: nameConttroler.text,
-                              managerId: context
-                                  .read<DepartmentsManagersCubit>()
-                                  .state
-                                  .selectedManager
-                                  ?.id,
-                            );
-                        Navigator.pop(context);
+                    BlocBuilder<DepartmentsManagersCubit,
+                        DepartmentsManagersState>(
+                      builder: (context, state) {
+                        return TextButton(
+                          onPressed: () {
+                            Logger.warning("rsgrs", state.selectedManager!.id);
+                            secondContext
+                                .read<DepartmentCreateCubit>()
+                                .createDepartment(
+                                  name: nameConttroler.text,
+                                  managerId: state.selectedManager!.id,
+                                );
+                            Navigator.pop(secondContext);
+                          },
+                          child: const Text('Create'),
+                        );
                       },
-                      child: const Text('Create'),
                     ),
                   ],
                 ),

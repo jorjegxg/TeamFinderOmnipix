@@ -17,7 +17,7 @@ class DepartmentCreateCubit extends Cubit<DepartmentsState> {
 
   void createDepartment({
     required String name,
-    String? managerId,
+    required String managerId,
   }) async {
     emit(DepartmentsCreateLoading());
 

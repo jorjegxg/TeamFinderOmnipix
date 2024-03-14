@@ -11,16 +11,22 @@ class DepartmentUseCase {
   DepartmentUseCase(this.departmentRepository);
 
   Future<Either<Failure<String>, void>> createDepartment(
-      {required String name, String? managerId}) async {
+      {required String name, required String managerId}) async {
     //fa validarea aici
 
     if (name.isEmpty) {
       return left(FieldFailure(message: 'Name cannot be empty'));
     }
 
-    return departmentRepository.createDepartment(
+    return (await departmentRepository.createDepartment(
       name: name,
-    );
+    ))
+        .fold((l) => left(l), (r) async {
+      return (await departmentRepository.assignManagerToDepartment(
+        managerId: managerId,
+        departmentId: r,
+      ));
+    });
 
     //todo : daca departmentRepository.createDepartment fa assign si la manager (daca nu e null)
   }

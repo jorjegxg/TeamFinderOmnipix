@@ -6,17 +6,35 @@ import 'package:team_finder_app/features/departaments_pages/data/models/departme
 
 @injectable
 class DepartmentRepositoryImpl {
-  Future<Either<Failure<String>, void>> createDepartment({
+  Future<Either<Failure<String>, String>> createDepartment({
     required String name,
   }) async {
     var box = Hive.box<String>(HiveConstants.authBox);
     String organizationId = box.get(HiveConstants.organizationId)!;
 
-    return (ApiService().dioPost(
+    return (await ApiService().dioPost(
       url: "${EndpointConstants.baseUrl}/departament/create",
       data: {
         "name": name,
         "organizationId": organizationId,
+      },
+    ))
+        .fold(
+      (l) => left(l),
+      (r) => right(r['id']),
+    );
+  }
+
+  Future<Either<Failure<String>, void>> assignManagerToDepartment({
+    required String managerId,
+    required String departmentId,
+  }) async {
+    return (ApiService().dioPut(
+      url:
+          "${EndpointConstants.baseUrl}/departament/firstpromotedepartamentmanager",
+      data: {
+        "employeeId": managerId,
+        "departamentId": departmentId,
       },
     ));
   }

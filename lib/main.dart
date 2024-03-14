@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:team_finder_app/bloc_observer.dart';
 import 'package:team_finder_app/core/util/constants.dart';
 
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
@@ -36,6 +37,8 @@ Future<void> main() async {
     Hive.init(appDocumentDir.path);
     await Hive.openBox<String>(HiveConstants.authBox);
   }
+
+  Bloc.observer = MyBlocObserver();
 
   // runApp(const TestAppPage());
   runApp(const MyApp());

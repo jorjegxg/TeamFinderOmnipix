@@ -10,4 +10,7 @@ class Manager {
       name: json['name'],
     );
   }
+
+  @override
+  String toString() => 'Manager(name: $name)';
 }

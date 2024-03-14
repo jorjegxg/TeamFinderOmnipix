@@ -69,11 +69,13 @@ class DepartamentMainPage extends StatelessWidget {
                             onLongPress: () {
                               print('asdasd');
                             },
-                            mainTitle: 'Departament Name',
+                            mainTitle: state.departments[index].departmentName,
                             title1: 'Departament Manager:',
                             title2: 'Number of employees:',
-                            content1: 'Name of the manager',
-                            content2: 'Number of employees in the departament',
+                            content1: state.departments[index].managersName ??
+                                'No manager',
+                            content2: state.departments[index].numberOfEmployees
+                                .toString(),
                             onPressed: () {
                               context.goNamed(
                                   AppRouterConst.departamentsDetailsPage,

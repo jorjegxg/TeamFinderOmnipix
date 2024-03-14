@@ -15,8 +15,15 @@ class Department {
     return Department(
       id: json['id'],
       managersName: json['managersName'],
-      departmentName: json['departmentName'],
-      numberOfEmployees: json['numberOfEmployees'],
+      departmentName: json['name'],
+      numberOfEmployees: json['numberOfEmployees'] ?? 0,
     );
   }
 }
+
+/**{
+  "name": "Nume test dep",
+  "organizationId": "88E6HD3QK9x4QU1CxOuh",
+  "id": "f8XEN9GUe6Zlx2orfhiw",
+  "departamentManagerId": null
+} */

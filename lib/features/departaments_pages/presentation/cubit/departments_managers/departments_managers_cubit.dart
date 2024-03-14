@@ -36,6 +36,10 @@ class DepartmentsManagersCubit extends Cubit<DepartmentsManagersState> {
   }
 
   void selectManager(Manager manager) {
-    emit(state.copyWith(selectedManager: manager));
+    emit(
+      state.copyWith(
+        selectedManager: manager,
+      ),
+    );
   }
 }

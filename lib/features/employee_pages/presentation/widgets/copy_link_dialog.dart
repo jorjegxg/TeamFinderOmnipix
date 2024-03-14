@@ -78,13 +78,6 @@ class CopyLinkDialog extends HookWidget {
                   },
                   child: const Text('Close'),
                 ),
-                TextButton(
-                  onPressed: () {
-                    //TODO: add functionality to the add button to copy the link
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Copy'),
-                ),
               ],
             ),
           ],
