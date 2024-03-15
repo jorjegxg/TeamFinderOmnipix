@@ -152,4 +152,20 @@ class EmployeeRepoImpl {
       );
     });
   }
+
+  //TODO George Luta : trebuie rezolvat in back
+  Future<Either<Failure, void>> deleteProjectManagerRoleFromEmployee(
+      String employeeId) async {
+    return ApiService()
+        .dioDelete(
+      url:
+          "${EndpointConstants.baseUrl}/projectmanager/demoteprojectmanager/$employeeId",
+    )
+        .then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) => right(null),
+      );
+    });
+  }
 }

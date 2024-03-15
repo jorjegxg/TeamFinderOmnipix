@@ -81,9 +81,8 @@ class EmployeeUsecase {
       if (projectManager) {
         await employeeRepoImpl.makeEmployeeProjectManager(employeeId);
       } else {
-        //TODO George Luta : trebuie facut in backend
-        // return employeeRepoImpl
-        //     .takeProjectManagerRoleFromEmployee(employeeId);
+        return employeeRepoImpl
+            .deleteProjectManagerRoleFromEmployee(employeeId);
       }
     }
 
