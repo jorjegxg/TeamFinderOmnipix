@@ -141,9 +141,29 @@ class CreateProjectScreen extends HookWidget {
                                             text: 'Add team roles',
                                             onPressed: () {
                                               showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      const TeamRolesDialog());
+                                                context: context,
+                                                builder: (context) =>
+                                                    TeamRolesDialog(
+                                                  title: 'Add team roles',
+                                                  description:
+                                                      '   In this screen you shall be able to add team roles to your project. You can add as many as you want.',
+                                                  items: const [
+                                                    'Item 1',
+                                                    'Item 2',
+                                                    'Item 3',
+                                                    'Item 4',
+                                                    'Item 5',
+                                                    'Item 6',
+                                                    'Item 7',
+                                                    'Item 8',
+                                                    'Item 9',
+                                                    'Item 10'
+                                                  ],
+                                                  onChanged: (bool? b) {
+                                                    //IMplement the onChanged function
+                                                  },
+                                                ),
+                                              );
                                             },
                                             buttonWidth: 20.w,
                                             buttonHeight: 5.h,

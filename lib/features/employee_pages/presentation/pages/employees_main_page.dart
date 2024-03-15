@@ -10,7 +10,6 @@ import 'package:team_finder_app/features/employee_pages/presentation/widgets/cop
 
 import 'package:team_finder_app/features/employee_pages/presentation/widgets/employee_card.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/search_text_field.dart';
-import 'package:team_finder_app/injection.dart';
 
 class EmployeeMainPage extends HookWidget {
   const EmployeeMainPage({

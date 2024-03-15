@@ -32,6 +32,7 @@ class _MainWrapperState extends State<MainWrapper> {
       child: SafeArea(
         child: ScreenTypeLayout.builder(
           mobile: (BuildContext context) => Scaffold(
+            resizeToAvoidBottomInset: false,
             body: widget.child,
             bottomNavigationBar: BottomNavigationBar(
                 currentIndex: _selectedIndex,

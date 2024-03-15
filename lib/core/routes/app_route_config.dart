@@ -11,8 +11,16 @@ import 'package:team_finder_app/features/auth/presentation/pages/admin_login_pag
 import 'package:team_finder_app/features/auth/presentation/pages/admin_register_page.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/employee_login_page.dart';
 import 'package:team_finder_app/features/auth/presentation/pages/employee_register_page.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/pages/add_employee_departament.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/pages/confirmations_page.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/pages/create_skill_page.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/departament_details_page.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/pages/departament_employees_page.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/pages/departament_projects_page.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/pages/departament_skills_page.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/departaments_main_page.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/pages/skill_validations_page.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/pages/skills_statistics_page.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/pages/employee_profile_page.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/pages/employees_main_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/add_project_member_page.dart';
@@ -22,6 +30,10 @@ import 'package:team_finder_app/features/project_pages/presentation/pages/edit_p
 import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/project_details_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/project_members_page.dart';
+import 'package:team_finder_app/features/settings/presentation/pages/add_personal_skill.dart';
+import 'package:team_finder_app/features/settings/presentation/pages/main_settings_page.dart';
+import 'package:team_finder_app/features/settings/presentation/pages/personal_skills_page.dart';
+import 'package:team_finder_app/features/settings/presentation/pages/team_roles_page.dart';
 
 @singleton
 class MyAppRouter {
@@ -160,24 +172,155 @@ class MyAppRouter {
                     )),
                 routes: [
                   GoRoute(
-                    name: AppRouterConst.departamentsDetailsPage,
-                    path: ':departamentId/details',
-                    pageBuilder: (context, state) => MaterialPage(
-                        child: DepartamentDetailsPage(
-                      userId: state.pathParameters['userId']!,
-                      departamentId: state.pathParameters['departamentId']!,
-                    )),
-                  ),
+                      name: AppRouterConst.departamentsDetailsPage,
+                      path: ':departamentId/details',
+                      pageBuilder: (context, state) => MaterialPage(
+                            child: DepartamentDetailsPage(
+                              userId: state.pathParameters['userId']!,
+                              departamentId:
+                                  state.pathParameters['departamentId']!,
+                            ),
+                          ),
+                      routes: [
+                        GoRoute(
+                          name: AppRouterConst.departamentEmployeesPage,
+                          path: 'employees',
+                          pageBuilder: (context, state) => MaterialPage(
+                            child: DepartamentEmployeesPage(
+                              userId: state.pathParameters['userId']!,
+                              departamentId:
+                                  state.pathParameters['departamentId']!,
+                            ),
+                          ),
+                          routes: [
+                            GoRoute(
+                              name: AppRouterConst.addEmployeeToDepartament,
+                              path: 'add',
+                              pageBuilder: (context, state) => MaterialPage(
+                                child: AddEmployeeToDepartamentPage(
+                                  userId: state.pathParameters['userId']!,
+                                  departamentId:
+                                      state.pathParameters['departamentId']!,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        GoRoute(
+                            name: AppRouterConst.departamentProjectsPage,
+                            path: 'projects',
+                            pageBuilder: (context, state) {
+                              return MaterialPage(
+                                child: DepartamentProjectsPage(
+                                  userId: state.pathParameters['userId']!,
+                                  departamentId:
+                                      state.pathParameters['departamentId']!,
+                                ),
+                              );
+                            }),
+                        GoRoute(
+                            name: AppRouterConst.confirmationsPage,
+                            path: 'confirmations',
+                            pageBuilder: (context, state) {
+                              return MaterialPage(
+                                child: ConfirmationPage(
+                                  userId: state.pathParameters['userId']!,
+                                  departamentId:
+                                      state.pathParameters['departamentId']!,
+                                ),
+                              );
+                            }),
+                        GoRoute(
+                            name: AppRouterConst.skillValidationPage,
+                            path: 'skill_validations',
+                            pageBuilder: (context, state) {
+                              return MaterialPage(
+                                child: SkillValidationPage(
+                                  userId: state.pathParameters['userId']!,
+                                  departamentId:
+                                      state.pathParameters['departamentId']!,
+                                ),
+                              );
+                            }),
+                        GoRoute(
+                            name: AppRouterConst.skillStatisticsPage,
+                            path: 'skill_statistics',
+                            pageBuilder: (context, state) {
+                              return MaterialPage(
+                                child: SkillStatisticsPage(
+                                  userId: state.pathParameters['userId']!,
+                                  departamentId:
+                                      state.pathParameters['departamentId']!,
+                                ),
+                              );
+                            }),
+                        GoRoute(
+                            name: AppRouterConst.departamentSkillsPage,
+                            path: 'skills',
+                            pageBuilder: (context, state) {
+                              return MaterialPage(
+                                child: DepartmentSkillsPage(
+                                  userId: state.pathParameters['userId']!,
+                                  departamentId:
+                                      state.pathParameters['departamentId']!,
+                                ),
+                              );
+                            },
+                            routes: [
+                              GoRoute(
+                                name: AppRouterConst.createSkillPage,
+                                path: 'add',
+                                pageBuilder: (context, state) => MaterialPage(
+                                  child: CreateSkillPage(
+                                    userId: state.pathParameters['userId']!,
+                                    departamentId:
+                                        state.pathParameters['departamentId']!,
+                                  ),
+                                ),
+                              ),
+                            ]),
+                      ]),
                 ]),
             GoRoute(
-              name: AppRouterConst.settingsMainScreen,
-              path: '/:userId/settings',
-              pageBuilder: (context, state) => MaterialPage(
-                child: Container(
-                  color: Colors.blue,
-                ),
-              ),
-            ),
+                name: AppRouterConst.settingsMainScreen,
+                path: '/:userId/settings',
+                pageBuilder: (context, state) => MaterialPage(
+                      child: MainSettingsPage(
+                        userId: state.pathParameters['userId']!,
+                      ),
+                    ),
+                routes: [
+                  GoRoute(
+                    name: AppRouterConst.personalSkillsPage,
+                    path: 'personal_skills',
+                    pageBuilder: (context, state) => MaterialPage(
+                      child: PersonalSkillsPage(
+                        userId: state.pathParameters['userId']!,
+                      ),
+                    ),
+                    routes: [
+                      GoRoute(
+                        name: AppRouterConst.addSkillPage,
+                        path: 'add',
+                        pageBuilder: (context, state) => MaterialPage(
+                          child: AddPersonalSkillPage(
+                            userId: state.pathParameters['userId']!,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  GoRoute(
+                      name: AppRouterConst.teamRolesPage,
+                      path: 'team_roles',
+                      pageBuilder: (context, state) {
+                        return MaterialPage(
+                          child: TeamRolesPage(
+                            userId: state.pathParameters['userId']!,
+                          ),
+                        );
+                      }),
+                ]),
             GoRoute(
               name: AppRouterConst.employeesMainScreen,
               path: '/:userId/employees',

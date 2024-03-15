@@ -4,16 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
-import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:team_finder_app/bloc_observer.dart';
 import 'package:team_finder_app/core/util/constants.dart';
 
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
-import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
-import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart';
-import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
 import 'package:team_finder_app/firebase_options.dart';
 import 'package:team_finder_app/injection.dart';
 import 'package:team_finder_app/core/routes/app_route_config.dart';

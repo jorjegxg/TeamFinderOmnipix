@@ -31,4 +31,26 @@ class AppRouterConst {
   static const String employeeProfileScreen = 'employeeProfileScreen';
 
   static const String departamentsDetailsPage = 'departamentsDetailsPage';
+
+  static const String departamentEmployeesPage = 'departamentEmployeesPage';
+
+  static const String addEmployeeToDepartament = 'addEmployeeToDepartament';
+
+  static const String departamentProjectsPage = 'departamentProjectsPage';
+
+  static const String confirmationsPage = 'confirmationsPage';
+
+  static const String skillValidationPage = 'skillValidationPage';
+
+  static const String skillStatisticsPage = 'skillStatisticsPage';
+
+  static const String departamentSkillsPage = 'departamentSkillsPage';
+
+  static const String createSkillPage = 'createSkillPage';
+
+  static const String addSkillPage = 'addSkillPage';
+
+  static const String personalSkillsPage = 'personalSkillsPage';
+
+  static const String teamRolesPage = 'teamRolesPage';
 }

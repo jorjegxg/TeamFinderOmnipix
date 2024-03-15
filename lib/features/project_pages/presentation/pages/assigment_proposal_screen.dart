@@ -26,6 +26,7 @@ class AssignmentProposalScreen extends HookWidget {
     List<String> items = List.generate(10, (index) => 'Item $index');
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
