@@ -36,15 +36,14 @@ class EmployeeRepoImpl {
 
   // make employee organization admin
   ///admin/promoteadmin/{employeeId}/{organizationId}
-  Future<Either<Failure, void>> makeEmployeeOrganizationAdmin({
-    required String employeeId,
-    required String organizationId,
-  }) async {
+  Future<Either<Failure, void>> makeEmployeeOrganizationAdmin(
+    String employeeId,
+  ) async {
     final organizationId = await getOrganizationId();
     return ApiService()
-        .dioPost(
+        .dioPut(
       url:
-          "${EndpointConstants.baseUrl}/employee/makeorganizationadmin/$employeeId/$organizationId",
+          "${EndpointConstants.baseUrl}/admin/promoteadmin/$employeeId/$organizationId",
     )
         .then((response) {
       return response.fold(

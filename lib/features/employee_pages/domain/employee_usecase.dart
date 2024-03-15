@@ -29,8 +29,7 @@ class EmployeeUsecase {
     required String organizationId,
   }) {
     return employeeRepoImpl.makeEmployeeOrganizationAdmin(
-      employeeId: employeeId,
-      organizationId: organizationId,
+      employeeId,
     );
   }
 
@@ -60,32 +59,33 @@ class EmployeeUsecase {
       bool? admin,
       bool? departmentManager,
       bool? projectManager}) async {
-    // if (admin != null) {
-    //   if (admin) {
-    //     return employeeRepoImpl.makeEmployeeOrganizationAdmin(employeeId);
-    //   } else {
-    //     // return employeeRepoImpl
-    //     //     .takeOrganizationAdminRoleFromEmployee(employeeId);
-    //   }
-    // }
+    if (admin != null) {
+      if (admin) {
+        await employeeRepoImpl.makeEmployeeOrganizationAdmin(employeeId);
+      } else {
+        // return employeeRepoImpl
+        //     .takeOrganizationAdminRoleFromEmployee(employeeId);
+      }
+    }
 
     if (departmentManager != null) {
       if (departmentManager) {
-        return employeeRepoImpl.makeEmployeeDepartmentManager(employeeId);
+        await employeeRepoImpl.makeEmployeeDepartmentManager(employeeId);
       } else {
         // return employeeRepoImpl
         //     .takeDepartmentManagerRoleFromEmployee(employeeId);
       }
     }
 
-    // if (projectManager != null) {
-    //   if (projectManager) {
-    //     return employeeRepoImpl.makeEmployeeProjectManager(employeeId);
-    //   } else {
-    //     // return employeeRepoImpl
-    //     //     .takeProjectManagerRoleFromEmployee(employeeId);
-    //   }
-    // }
+    if (projectManager != null) {
+      if (projectManager) {
+        await employeeRepoImpl.makeEmployeeProjectManager(employeeId);
+      } else {
+        //TODO George Luta : trebuie facut in backend
+        // return employeeRepoImpl
+        //     .takeProjectManagerRoleFromEmployee(employeeId);
+      }
+    }
 
     return right(null);
   }
