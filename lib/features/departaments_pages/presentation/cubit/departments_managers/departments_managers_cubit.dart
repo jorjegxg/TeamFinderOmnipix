@@ -11,21 +11,34 @@ class DepartmentsManagersCubit extends Cubit<DepartmentsManagersState> {
   final DepartmentUseCase departmentUseCase;
   DepartmentsManagersCubit(
     this.departmentUseCase,
-  ) : super(
-          const DepartmentsManagersInitial(),
-        );
+  ) : super(const DepartmentsManagersState(
+          managers: [],
+          isLoading: false,
+        ));
 
   Future<void> getDepartmentManagers() async {
-    emit(const DepartmentsManagersInitial());
+    emit(state.copyWith(isLoading: true));
     final result = await departmentUseCase.getDepartmentManagers();
     result.fold(
       (l) => emit(
-        DepartmentsManagersError(
+        state.copyWith(
           errorMessage: l.message,
+          isLoading: false,
         ),
       ),
       (r) => emit(
-        DepartmentsManagersLoaded(r),
+        state.copyWith(
+          managers: r,
+          isLoading: false,
+        ),
+      ),
+    );
+  }
+
+  void selectManager(Manager manager) {
+    emit(
+      state.copyWith(
+        selectedManager: manager,
       ),
     );
   }

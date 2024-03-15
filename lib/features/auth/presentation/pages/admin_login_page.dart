@@ -8,7 +8,7 @@ class AdminLoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LoginScreen(
+    return const LoginScreen(
       isEmployee: false,
     );
   }

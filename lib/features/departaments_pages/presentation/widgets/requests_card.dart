@@ -51,14 +51,14 @@ class RequestsCard extends StatelessWidget {
                     text1,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
                     text2,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   if (text3 != null)

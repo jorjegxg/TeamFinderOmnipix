@@ -17,11 +17,14 @@ class ApiService {
     _dio = Dio();
   }
 
-  Future<Either<Failure<String>, Map<String, dynamic>>> dioGet({
+  Future<Either<Failure<String>, T>> dioGet<T>({
     required String url,
     Map<String, dynamic>? queryParameters,
   }) async {
     try {
+      Logger.info(
+          'GET request', 'url: $url, queryParameters: $queryParameters');
+
       _addBearerAuthorization();
 
       final response = await _dio.get(url, queryParameters: queryParameters);
@@ -40,7 +43,22 @@ class ApiService {
         ));
       }
     } on DioException catch (e) {
-      _logUnexpectedError('Get', e);
+      if (e.response != null) {
+        if (e.response!.statusCode == 404) {
+          if (T == List) {
+            Logger.info('GET request', 'empty list returned');
+            return Right(<T>[] as T);
+          }
+
+          return Left(
+            UnexpectedFailure(
+              message: e.message.toString(),
+            ),
+          );
+        }
+      }
+
+      _logUnexpectedError('Get', e.response);
       return Left(
         UnexpectedFailure(
           message: e.message.toString(),
@@ -49,11 +67,12 @@ class ApiService {
     }
   }
 
-  Future<Either<Failure<String>, Map<String, dynamic>>> dioPost({
+  Future<Either<Failure<String>, T>> dioPost<T>({
     required String url,
     Map<String, dynamic>? data,
   }) async {
     try {
+      Logger.info('POST request', 'url: $url, data: $data');
       _addBearerAuthorization();
 
       final response = await _dio.post(url, data: data);
@@ -81,11 +100,13 @@ class ApiService {
     }
   }
 
-  Future<Either<Failure<String>, Map<String, dynamic>>> dioPut({
+  Future<Either<Failure<String>, T>> dioPut<T>({
     required String url,
     Map<String, dynamic>? data,
   }) async {
     try {
+      Logger.info('PUT request', 'url: $url, data: $data');
+
       _addBearerAuthorization();
 
       final response = await _dio.put(url, data: data);
@@ -113,10 +134,11 @@ class ApiService {
     }
   }
 
-  Future<Either<Failure<String>, Map<String, dynamic>>> dioDelete({
+  Future<Either<Failure<String>, T>> dioDelete<T>({
     required String url,
   }) async {
     try {
+      Logger.info('DELETE request', 'url: $url');
       _addBearerAuthorization();
 
       final response = await _dio.delete(url);

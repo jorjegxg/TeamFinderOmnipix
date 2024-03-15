@@ -8,7 +8,6 @@ import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/functions.dart';
-import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 
@@ -29,7 +28,7 @@ class RegisterScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final nameConttroler = useTextEditingController(
-      text: kDebugMode ? 'Nume test' : '',
+      text: kDebugMode ? 'Nume test ${generateRandomString(3)}' : '',
     );
     final emailConttroler = useTextEditingController(
       text: kDebugMode
@@ -108,7 +107,6 @@ class RegisterScreen extends HookWidget {
                                                   email: emailConttroler.text,
                                                   password:
                                                       passwordConttroler.text,
-                                                  //TODO George Luta : schimba din dummy data in ceva real
                                                   organizationId:
                                                       organizationId!,
                                                 )

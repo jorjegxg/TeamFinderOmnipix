@@ -147,7 +147,7 @@ class CreateProjectScreen extends HookWidget {
                                                   title: 'Add team roles',
                                                   description:
                                                       '   In this screen you shall be able to add team roles to your project. You can add as many as you want.',
-                                                  items: [
+                                                  items: const [
                                                     'Item 1',
                                                     'Item 2',
                                                     'Item 3',

@@ -10,32 +10,42 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
-import 'package:team_finder_app/core/routes/app_route_config.dart' as _i10;
+import 'package:team_finder_app/core/routes/app_route_config.dart' as _i13;
 import 'package:team_finder_app/features/auth/data/repositories/auth_repo_impl.dart'
     as _i4;
-import 'package:team_finder_app/features/auth/domain/auth_usecase.dart' as _i14;
+import 'package:team_finder_app/features/auth/domain/auth_usecase.dart' as _i17;
 import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart'
     as _i3;
 import 'package:team_finder_app/features/auth/domain/validators/authentication_validator.dart'
     as _i5;
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart'
-    as _i16;
+    as _i21;
 import 'package:team_finder_app/features/departaments_pages/data/department_repository_impl.dart'
     as _i6;
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart'
     as _i7;
-import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments/departments_cubit.dart'
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart'
+    as _i18;
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart'
     as _i8;
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_managers/departments_managers_cubit.dart'
     as _i9;
-import 'package:team_finder_app/features/project_pages/data/repositories/project_repo_impl.dart'
-    as _i12;
-import 'package:team_finder_app/features/project_pages/domain/repositories/project_repo.dart'
+import 'package:team_finder_app/features/employee_pages/data/employee_repo_impl.dart'
+    as _i10;
+import 'package:team_finder_app/features/employee_pages/domain/employee_usecase.dart'
     as _i11;
-import 'package:team_finder_app/features/project_pages/domain/usecases/projects_usecase.dart'
-    as _i13;
-import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart'
+import 'package:team_finder_app/features/employee_pages/presentation/provider/edit_employee_provider.dart'
+    as _i19;
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart'
+    as _i12;
+import 'package:team_finder_app/features/project_pages/data/repositories/project_repo_impl.dart'
     as _i15;
+import 'package:team_finder_app/features/project_pages/domain/repositories/project_repo.dart'
+    as _i14;
+import 'package:team_finder_app/features/project_pages/domain/usecases/projects_usecase.dart'
+    as _i16;
+import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart'
+    as _i20;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -55,21 +65,30 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i6.DepartmentRepositoryImpl());
     gh.factory<_i7.DepartmentUseCase>(
         () => _i7.DepartmentUseCase(gh<_i6.DepartmentRepositoryImpl>()));
-    gh.factory<_i8.DepartmentsCubit>(
-        () => _i8.DepartmentsCubit(gh<_i7.DepartmentUseCase>()));
+    gh.factory<_i8.DepartmentsGetCubit>(
+        () => _i8.DepartmentsGetCubit(gh<_i7.DepartmentUseCase>()));
     gh.factory<_i9.DepartmentsManagersCubit>(
         () => _i9.DepartmentsManagersCubit(gh<_i7.DepartmentUseCase>()));
-    gh.singleton<_i10.MyAppRouter>(() => _i10.MyAppRouter());
-    gh.lazySingleton<_i11.ProjectRepo>(() => _i12.ProjectRepoImpl());
-    gh.factory<_i13.ProjectsUsecase>(
-        () => _i13.ProjectsUsecase(gh<_i11.ProjectRepo>()));
-    gh.singleton<_i14.AuthUsecase>(() => _i14.AuthUsecase(
+    gh.factory<_i10.EmployeeRepoImpl>(() => _i10.EmployeeRepoImpl());
+    gh.factory<_i11.EmployeeUsecase>(
+        () => _i11.EmployeeUsecase(gh<_i10.EmployeeRepoImpl>()));
+    gh.factory<_i12.EmployeesProvider>(
+        () => _i12.EmployeesProvider(gh<_i11.EmployeeUsecase>()));
+    gh.singleton<_i13.MyAppRouter>(() => _i13.MyAppRouter());
+    gh.lazySingleton<_i14.ProjectRepo>(() => _i15.ProjectRepoImpl());
+    gh.factory<_i16.ProjectsUsecase>(
+        () => _i16.ProjectsUsecase(gh<_i14.ProjectRepo>()));
+    gh.singleton<_i17.AuthUsecase>(() => _i17.AuthUsecase(
           gh<_i5.AuthenticationValidator>(),
           gh<_i3.AuthRepo>(),
         ));
-    gh.factory<_i15.ProjectsBloc>(
-        () => _i15.ProjectsBloc(gh<_i13.ProjectsUsecase>()));
-    gh.factory<_i16.AuthBloc>(() => _i16.AuthBloc(gh<_i14.AuthUsecase>()));
+    gh.factory<_i18.DepartmentCreateCubit>(
+        () => _i18.DepartmentCreateCubit(gh<_i7.DepartmentUseCase>()));
+    gh.factory<_i19.EditEmployeeProvider>(
+        () => _i19.EditEmployeeProvider(gh<_i11.EmployeeUsecase>()));
+    gh.factory<_i20.ProjectsBloc>(
+        () => _i20.ProjectsBloc(gh<_i16.ProjectsUsecase>()));
+    gh.factory<_i21.AuthBloc>(() => _i21.AuthBloc(gh<_i17.AuthUsecase>()));
     return this;
   }
 }
