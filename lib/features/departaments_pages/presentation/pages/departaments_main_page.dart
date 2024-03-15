@@ -19,13 +19,10 @@ class DepartamentMainPage extends StatelessWidget {
   final String userId;
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        BlocProvider(
-          create: (context) =>
-              getIt<DepartmentsGetCubit>()..getDepartmentsFromOrganization(),
-        ),
-      ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<DepartmentsGetCubit>().getDepartmentsFromOrganization();
+      },
       child: Builder(builder: (context) {
         return BlocListener<DepartmentCreateCubit, DepartmentsState>(
           listener: (context, state) {

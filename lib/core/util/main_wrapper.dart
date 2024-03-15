@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart';
 import 'package:team_finder_app/injection.dart';
 
@@ -21,7 +23,11 @@ class _MainWrapperState extends State<MainWrapper> {
       providers: [
         ChangeNotifierProvider<EmployeesProvider>(
           create: (context) => getIt<EmployeesProvider>()..fetchEmployees(),
-        )
+        ),
+        BlocProvider(
+          create: (context) =>
+              getIt<DepartmentsGetCubit>()..getDepartmentsFromOrganization(),
+        ),
       ],
       child: SafeArea(
         child: ScreenTypeLayout.builder(

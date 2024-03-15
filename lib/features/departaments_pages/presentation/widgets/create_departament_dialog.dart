@@ -7,6 +7,7 @@ import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_managers/departments_managers_cubit.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_dropdown_button.dart';
 import 'package:team_finder_app/injection.dart';
@@ -102,7 +103,8 @@ class CreateDepartamentDialog extends HookWidget {
                         DepartmentsManagersState>(
                       listener: (context, state) {
                         if (state is DepartmentsCreateSuccess) {
-                          Navigator.pop(context);
+                          Navigator.pop(secondContext);
+                          //TODO George Luta : atunci cand e DepartmentsCreateSuccess trebuie sa facem dam pop la dialog
                         }
                       },
                       builder: (context, state) {
@@ -114,6 +116,8 @@ class CreateDepartamentDialog extends HookWidget {
                                   name: nameConttroler.text,
                                   manager: state.selectedManager,
                                 );
+
+                            Navigator.pop(secondContext);
                           },
                           child: const Text('Create'),
                         );
