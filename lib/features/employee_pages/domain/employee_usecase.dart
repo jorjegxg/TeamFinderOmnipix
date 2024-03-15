@@ -54,4 +54,39 @@ class EmployeeUsecase {
       organizationId: organizationId,
     );
   }
+
+  Future<Either<Failure, void>> updateEmployeeRoles(
+      {required String employeeId,
+      bool? admin,
+      bool? departmentManager,
+      bool? projectManager}) async {
+    // if (admin != null) {
+    //   if (admin) {
+    //     return employeeRepoImpl.makeEmployeeOrganizationAdmin(employeeId);
+    //   } else {
+    //     // return employeeRepoImpl
+    //     //     .takeOrganizationAdminRoleFromEmployee(employeeId);
+    //   }
+    // }
+
+    if (departmentManager != null) {
+      if (departmentManager) {
+        return employeeRepoImpl.makeEmployeeDepartmentManager(employeeId);
+      } else {
+        // return employeeRepoImpl
+        //     .takeDepartmentManagerRoleFromEmployee(employeeId);
+      }
+    }
+
+    // if (projectManager != null) {
+    //   if (projectManager) {
+    //     return employeeRepoImpl.makeEmployeeProjectManager(employeeId);
+    //   } else {
+    //     // return employeeRepoImpl
+    //     //     .takeProjectManagerRoleFromEmployee(employeeId);
+    //   }
+    // }
+
+    return right(null);
+  }
 }

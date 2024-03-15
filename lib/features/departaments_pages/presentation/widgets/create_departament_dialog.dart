@@ -102,7 +102,7 @@ class CreateDepartamentDialog extends HookWidget {
                         DepartmentsManagersState>(
                       listener: (context, state) {
                         if (state is DepartmentsCreateSuccess) {
-                          Navigator.pop(secondContext);
+                          Navigator.pop(context);
                         }
                       },
                       builder: (context, state) {

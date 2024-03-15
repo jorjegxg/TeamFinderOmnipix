@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
+import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/logo_widget.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
@@ -67,86 +68,18 @@ class EmployeeProfilePage extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 40),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
-                        child: Consumer<EditEmployeeProvider>(
-                          builder: (context, prov, child) {
-                            if (prov.isLoading) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-
-                            return Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Organization admin',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
-                                    ),
-                                    //provider for one value
-
-                                    Switch(
-                                        value: prov.isEmployeeOrganizationAdmin,
-                                        onChanged: (newVal) {},
-                                        activeColor: Theme.of(context)
-                                            .colorScheme
-                                            .primary),
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Department manager',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
-                                    ),
-                                    Switch(
-                                        value: prov.isEmployeeDepartmentManager,
-                                        onChanged: (newVal) {},
-                                        activeColor: Theme.of(context)
-                                            .colorScheme
-                                            .primary),
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Project manager',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
-                                    ),
-                                    Switch(
-                                        value: prov.isEmployeeProjectManager,
-                                        onChanged: (newVal) {},
-                                        activeColor: Theme.of(context)
-                                            .colorScheme
-                                            .primary),
-                                  ],
-                                ),
-                              ],
-                            );
-                          },
-                        )),
+                    const SwitchesWidget(),
                     Expanded(child: Container()),
                     CustomButton(
                       buttonHeight: 40,
                       text: 'Save changes',
-                      onPressed: () {
-                        //TODO: implement save changes
+                      onPressed: () async {
+                        (await editEmployeeProvider.saveChanges(employeeId))
+                            .fold((l) {
+                          showSnackBar(context, l.message);
+                        }, (r) {
+                          showSnackBar(context, 'Changes saved');
+                        });
                       },
                     ),
                     const SizedBox(height: 20),
@@ -156,5 +89,81 @@ class EmployeeProfilePage extends StatelessWidget {
             ));
       }),
     );
+  }
+}
+
+class SwitchesWidget extends StatelessWidget {
+  const SwitchesWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 40),
+        child: Consumer<EditEmployeeProvider>(
+          builder: (context, prov, child) {
+            if (prov.isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            return Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Organization admin',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Switch(
+                      value: prov.isEmployeeOrganizationAdmin,
+                      onChanged: (newVal) {
+                        prov.changeOrganizationAdmin(newVal);
+                      },
+                      activeColor: Theme.of(context).colorScheme.primary,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Department manager',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Switch(
+                      value: prov.isEmployeeDepartmentManager,
+                      onChanged: (newVal) {
+                        prov.changeDepartmentManager(newVal);
+                      },
+                      activeColor: Theme.of(context).colorScheme.primary,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Project manager',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Switch(
+                      value: prov.isEmployeeProjectManager,
+                      onChanged: (newVal) {
+                        prov.changeProjectManager(newVal);
+                      },
+                      activeColor: Theme.of(context).colorScheme.primary,
+                    ),
+                  ],
+                ),
+              ],
+            );
+          },
+        ));
   }
 }

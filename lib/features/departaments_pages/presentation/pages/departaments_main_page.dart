@@ -71,7 +71,7 @@ class DepartamentMainPage extends StatelessWidget {
                     return ListView.builder(
                         // physics: const NeverScrollableScrollPhysics(),
                         // shrinkWrap: true,
-                        itemCount: 5,
+                        itemCount: state.departments.length,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),

@@ -133,4 +133,24 @@ class EmployeeRepoImpl {
       );
     });
   }
+
+  Future<Either<Failure, void>> updateEmployeeRoles(
+      {required String employeeId,
+      required bool admin,
+      required bool departmentManager,
+      required bool projectManager}) async {
+    return ApiService().dioPost(
+      url: "${EndpointConstants.baseUrl}/employee/updateroles/$employeeId",
+      data: {
+        "admin": admin,
+        "departmentManager": departmentManager,
+        "projectManager": projectManager,
+      },
+    ).then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) => right(null),
+      );
+    });
+  }
 }
