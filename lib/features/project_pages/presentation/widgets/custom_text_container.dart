@@ -14,7 +14,7 @@ class CustomTextContainer extends StatelessWidget {
         return Container(
           alignment: Alignment.centerLeft,
           width: getValueForScreenType(
-              context: context, mobile: 100.w, tablet: 55.w, desktop: 30.w),
+              context: context, mobile: 100.w, tablet: 300, desktop: 300),
           //height: getValueForScreenType(context: context, mobile: 40),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.onPrimaryContainer,
