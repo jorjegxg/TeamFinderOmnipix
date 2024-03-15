@@ -21,16 +21,18 @@ class DepartamentDetailsPage extends StatelessWidget {
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
-      body: const Column(
+      body: Column(
         children: [
-          SizedBox(height: 20),
-          Center(
+          const SizedBox(height: 20),
+          const Center(
               child: InfoWidget(
             text: 'Departament Name',
             icon: Icons.business,
           )),
-          SizedBox(height: 20),
-          DetailsBodyWidget()
+          const SizedBox(height: 20),
+          DetailsBodyWidget(
+            departamentId: departamentId,
+          )
         ],
       ),
     );
@@ -40,8 +42,9 @@ class DepartamentDetailsPage extends StatelessWidget {
 class DetailsBodyWidget extends StatelessWidget {
   const DetailsBodyWidget({
     super.key,
+    required this.departamentId,
   });
-
+  final String departamentId;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -58,7 +61,7 @@ class DetailsBodyWidget extends StatelessWidget {
                   context.goNamed(AppRouterConst.departamentEmployeesPage,
                       pathParameters: {
                         'userId': 'userId',
-                        'departamentId': 'departamentId'
+                        'departamentId': departamentId
                       });
                 },
               ),

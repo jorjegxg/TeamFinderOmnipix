@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/department.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 
 @injectable
 class DepartmentRepositoryImpl {
@@ -70,5 +71,28 @@ class DepartmentRepositoryImpl {
         r.map((e) => DepartmentSummary.fromJson(e)).toList(growable: false),
       ),
     );
+  }
+
+  Future<Either<Failure<String>, List<Employee>>> getDepartamentEmployees(
+      String departamentId) async {
+    return (await ApiService().dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/getdepartamentemployees/$departamentId",
+    ))
+        .fold(
+      (l) => left(l),
+      (r) => right(
+        r.map((e) => Employee.fromJson(e)).toList(growable: false),
+      ),
+    );
+  }
+
+  Future<Either<Failure<String>, void>> getFreeEmployees({
+    required String departamentId,
+  }) async {
+    return (ApiService().dioPut(
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/getfreeemployees/$departamentId",
+    ));
   }
 }
