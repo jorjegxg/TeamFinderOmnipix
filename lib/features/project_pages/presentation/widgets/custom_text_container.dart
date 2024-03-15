@@ -3,19 +3,22 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomTextContainer extends StatelessWidget {
-  const CustomTextContainer({super.key, required this.text});
+  const CustomTextContainer(
+      {super.key, required this.text, this.width, this.height});
   final String text;
-
+  final double? width;
+  final double? height;
   @override
   Widget build(BuildContext context) {
     return Sizer(
       builder: (BuildContext context, Orientation orientation,
           DeviceType deviceType) {
         return Container(
-          alignment: Alignment.centerLeft,
-          width: getValueForScreenType(
-              context: context, mobile: 100.w, tablet: 300, desktop: 300),
-          //height: getValueForScreenType(context: context, mobile: 40),
+          alignment: Alignment.topLeft,
+          width: width ??
+              getValueForScreenType(
+                  context: context, mobile: 100.w, tablet: 200, desktop: 180),
+          height: height,
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.onPrimaryContainer,
             borderRadius: BorderRadius.circular(15),

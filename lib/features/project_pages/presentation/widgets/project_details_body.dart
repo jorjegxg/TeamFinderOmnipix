@@ -1,15 +1,10 @@
 import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-
 import 'package:responsive_builder/responsive_builder.dart';
-
 import 'package:sizer/sizer.dart';
-
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
-
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_text_container.dart';
-
 import 'package:team_finder_app/features/project_pages/presentation/widgets/view_list_dialog.dart';
 
 class MobileProjectDetailsBody extends StatelessWidget {
@@ -120,8 +115,8 @@ class DesktopProjectDetailsScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ScrollController _scrollControler1 = useScrollController();
-    final ScrollController _scrollControler2 = useScrollController();
+    final ScrollController scrollControler1 = useScrollController();
+    final ScrollController scrollControler2 = useScrollController();
 
     List<String> items = [
       'Item 1',
@@ -199,8 +194,8 @@ class DesktopProjectDetailsScreen extends HookWidget {
                             width: getValueForScreenType(
                                 context: context,
                                 mobile: 50.w,
-                                tablet: 35.w,
-                                desktop: 25.w),
+                                // tablet: 35.w,
+                                desktop: 40.w),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -224,7 +219,9 @@ class DesktopProjectDetailsScreen extends HookWidget {
                         const SizedBox(height: 40),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 7.5.w),
-                          child: const CustomTextContainer(
+                          child: CustomTextContainer(
+                              width: 30.w,
+                              height: 200,
                               text:
                                   'descriptiodddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddn'),
                         ),
@@ -251,7 +248,7 @@ class DesktopProjectDetailsScreen extends HookWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                'Add team roles',
+                                'View team roles',
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
                               const SizedBox(height: 15),
@@ -262,9 +259,9 @@ class DesktopProjectDetailsScreen extends HookWidget {
                                   backgroundColor:
                                       Theme.of(context).colorScheme.primary,
                                   alwaysVisibleScrollThumb: true,
-                                  controller: _scrollControler1,
+                                  controller: scrollControler1,
                                   child: ListView.builder(
-                                      controller: _scrollControler1,
+                                      controller: scrollControler1,
                                       itemCount: 10,
                                       itemBuilder: (context, index) {
                                         return ListTile(
@@ -301,7 +298,7 @@ class DesktopProjectDetailsScreen extends HookWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                'Add technologies',
+                                'View technologies',
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
                               const SizedBox(height: 15),
@@ -312,9 +309,9 @@ class DesktopProjectDetailsScreen extends HookWidget {
                                   backgroundColor:
                                       Theme.of(context).colorScheme.primary,
                                   alwaysVisibleScrollThumb: true,
-                                  controller: _scrollControler2,
+                                  controller: scrollControler2,
                                   child: ListView.builder(
-                                    controller: _scrollControler2,
+                                    controller: scrollControler2,
                                     itemCount: items.length,
                                     itemBuilder: (context, index) {
                                       return ListTile(
@@ -356,8 +353,8 @@ class TabletProjectDetailsScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ScrollController _scrollControler1 = useScrollController();
-    final ScrollController _scrollControler2 = useScrollController();
+    final ScrollController scrollControler1 = useScrollController();
+    final ScrollController scrollControler2 = useScrollController();
 
     List<String> items = [
       'Item 1',
@@ -390,7 +387,6 @@ class TabletProjectDetailsScreen extends HookWidget {
                         padding:
                             EdgeInsets.symmetric(horizontal: 5.w, vertical: 10),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -427,11 +423,6 @@ class TabletProjectDetailsScreen extends HookWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 2.5.w),
                         child: SizedBox(
-                          width: getValueForScreenType(
-                              context: context,
-                              mobile: 50.w,
-                              tablet: 35.w,
-                              desktop: 25.w),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -480,7 +471,7 @@ class TabletProjectDetailsScreen extends HookWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'Add team roles',
+                              'View team roles',
                               style: Theme.of(context).textTheme.titleSmall,
                             ),
                             const SizedBox(height: 15),
@@ -491,9 +482,9 @@ class TabletProjectDetailsScreen extends HookWidget {
                                 backgroundColor:
                                     Theme.of(context).colorScheme.primary,
                                 alwaysVisibleScrollThumb: true,
-                                controller: _scrollControler1,
+                                controller: scrollControler1,
                                 child: ListView.builder(
-                                    controller: _scrollControler1,
+                                    controller: scrollControler1,
                                     itemCount: 10,
                                     itemBuilder: (context, index) {
                                       return ListTile(
@@ -530,7 +521,7 @@ class TabletProjectDetailsScreen extends HookWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'Add technologies',
+                              'View technologies',
                               style: Theme.of(context).textTheme.titleSmall,
                             ),
                             const SizedBox(height: 15),
@@ -541,9 +532,9 @@ class TabletProjectDetailsScreen extends HookWidget {
                                 backgroundColor:
                                     Theme.of(context).colorScheme.primary,
                                 alwaysVisibleScrollThumb: true,
-                                controller: _scrollControler2,
+                                controller: scrollControler2,
                                 child: ListView.builder(
-                                  controller: _scrollControler2,
+                                  controller: scrollControler2,
                                   itemCount: items.length,
                                   itemBuilder: (context, index) {
                                     return ListTile(
