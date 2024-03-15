@@ -74,7 +74,7 @@ class _ProjectMembersPageState extends State<ProjectMembersPage> {
                         CustomIconButton(
                           icon: Icons.person,
                           onPressed: () {},
-                          iconColor: Color(0xFF0d1290),
+                          iconColor: const Color(0xFF0d1290),
                         ),
                         CustomIconButton(
                           icon: Icons.person_add,

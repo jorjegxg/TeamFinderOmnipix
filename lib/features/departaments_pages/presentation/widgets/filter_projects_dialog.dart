@@ -28,14 +28,14 @@ class FilterProjectsDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
         ),
         TextButton(
           onPressed: () {
             // Add your logic for applying the filters
             Navigator.of(context).pop();
           },
-          child: Text('Apply'),
+          child: const Text('Apply'),
         ),
       ],
     );

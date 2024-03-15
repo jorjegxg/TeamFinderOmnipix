@@ -66,8 +66,7 @@ class SkillStatisticsPage extends HookWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             const Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
+                              padding: EdgeInsets.symmetric(horizontal: 20),
                               child: CustomTextContainer(text: "total count"),
                             ),
                             PieChart(
@@ -96,7 +95,7 @@ class SkillStatisticsPage extends HookWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              chartValuesOptions: ChartValuesOptions(
+                              chartValuesOptions: const ChartValuesOptions(
                                 showChartValueBackground: true,
                                 showChartValues: false,
                                 showChartValuesInPercentage: false,

@@ -25,7 +25,7 @@ class TeamRoleCard extends StatelessWidget {
         children: [
           // A SlidableAction can have an icon and/or a label.
           SlidableAction(
-            backgroundColor: Color(0xFFDCBABA),
+            backgroundColor: const Color(0xFFDCBABA),
             foregroundColor: Colors.white,
             icon: Icons.person_remove,
             label: 'Remove',
@@ -43,7 +43,7 @@ class TeamRoleCard extends StatelessWidget {
         children: [
           // A SlidableAction can have an icon and/or a label.
           SlidableAction(
-            backgroundColor: Color.fromARGB(255, 170, 240, 161),
+            backgroundColor: const Color.fromARGB(255, 170, 240, 161),
             foregroundColor: Colors.white,
             icon: Icons.edit,
             label: 'Edit',
@@ -53,8 +53,8 @@ class TeamRoleCard extends StatelessWidget {
       ),
       child: Container(
         width: double.infinity,
-        margin: EdgeInsets.all(8.0),
-        padding: EdgeInsets.all(16.0),
+        margin: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8.0),
@@ -63,7 +63,7 @@ class TeamRoleCard extends StatelessWidget {
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 2,
               blurRadius: 5,
-              offset: Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -72,12 +72,12 @@ class TeamRoleCard extends StatelessWidget {
           children: [
             Text(
               role,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
           ],
         ),
       ),

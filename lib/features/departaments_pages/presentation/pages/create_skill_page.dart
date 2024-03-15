@@ -66,7 +66,7 @@ class CreateSkillPage extends HookWidget {
                                             .textTheme
                                             .titleSmall),
                                     SuggestionTextField(
-                                        options: ['Software', 'Hardware'],
+                                        options: const ['Software', 'Hardware'],
                                         onSubmitted: (String s) {},
                                         controller: skillCatColtroller),
                                     ConstrainedBox(

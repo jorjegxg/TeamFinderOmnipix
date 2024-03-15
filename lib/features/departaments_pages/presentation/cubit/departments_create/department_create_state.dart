@@ -1,4 +1,4 @@
-part of 'departments_cubit.dart';
+part of 'department_create_cubit.dart';
 
 sealed class DepartmentsState extends Equatable {
   const DepartmentsState();
@@ -12,3 +12,12 @@ final class DepartmentsInitial extends DepartmentsState {}
 final class DepartmentsCreateLoading extends DepartmentsState {}
 
 final class DepartmentsCreateSuccess extends DepartmentsState {}
+
+final class DepartmentsCreateFailure extends DepartmentsState {
+  final String errorMessage;
+
+  const DepartmentsCreateFailure(this.errorMessage);
+
+  @override
+  List<Object> get props => [errorMessage];
+}

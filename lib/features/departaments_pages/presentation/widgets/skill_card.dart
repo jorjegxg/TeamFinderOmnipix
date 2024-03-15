@@ -28,7 +28,7 @@ class SkillCard extends StatelessWidget {
         children: [
           // A SlidableAction can have an icon and/or a label.
           SlidableAction(
-            backgroundColor: Color(0xFFDCBABA),
+            backgroundColor: const Color(0xFFDCBABA),
             foregroundColor: Colors.white,
             icon: Icons.person_remove,
             label: 'Remove',
@@ -39,8 +39,8 @@ class SkillCard extends StatelessWidget {
       child: GestureDetector(
         onTap: () {},
         child: Container(
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.symmetric(horizontal: 5),
+            margin: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(horizontal: 5),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -49,7 +49,7 @@ class SkillCard extends StatelessWidget {
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 5,
                   blurRadius: 7,
-                  offset: Offset(0, 3), // changes position of shadow
+                  offset: const Offset(0, 3), // changes position of shadow
                 ),
               ],
             ),
@@ -63,7 +63,7 @@ class SkillCard extends StatelessWidget {
                 Center(
                   child: Text(
                     skillName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -71,13 +71,13 @@ class SkillCard extends StatelessWidget {
                 ),
                 Text(
                   skillDescription,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),
                 Text(
                   skillAuthor,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),
