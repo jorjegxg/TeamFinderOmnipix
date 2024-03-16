@@ -32,6 +32,7 @@ class DepartamentDetailsPage extends StatelessWidget {
           const SizedBox(height: 20),
           DetailsBodyWidget(
             departamentId: departamentId,
+            userId: userId,
           )
         ],
       ),
@@ -43,8 +44,10 @@ class DetailsBodyWidget extends StatelessWidget {
   const DetailsBodyWidget({
     super.key,
     required this.departamentId,
+    required this.userId,
   });
   final String departamentId;
+  final String userId;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -60,7 +63,7 @@ class DetailsBodyWidget extends StatelessWidget {
                 onPressed: () {
                   context.goNamed(AppRouterConst.departamentEmployeesPage,
                       pathParameters: {
-                        'userId': 'userId',
+                        'userId': userId,
                         'departamentId': departamentId
                       });
                 },
@@ -70,8 +73,8 @@ class DetailsBodyWidget extends StatelessWidget {
                 onPressed: () {
                   context.goNamed(AppRouterConst.departamentProjectsPage,
                       pathParameters: {
-                        'userId': 'userId',
-                        'departamentId': 'departamentId'
+                        'userId': userId,
+                        'departamentId': departamentId
                       });
                 },
               ),
@@ -80,8 +83,8 @@ class DetailsBodyWidget extends StatelessWidget {
                 onPressed: () {
                   context.goNamed(AppRouterConst.confirmationsPage,
                       pathParameters: {
-                        'userId': 'userId',
-                        'departamentId': 'departamentId'
+                        'userId': userId,
+                        'departamentId': departamentId
                       });
                 },
               ),
@@ -90,8 +93,8 @@ class DetailsBodyWidget extends StatelessWidget {
                 onPressed: () {
                   context.goNamed(AppRouterConst.skillValidationPage,
                       pathParameters: {
-                        'userId': 'userId',
-                        'departamentId': 'departamentId'
+                        'userId': userId,
+                        'departamentId': departamentId
                       });
                 },
               ),
@@ -100,8 +103,8 @@ class DetailsBodyWidget extends StatelessWidget {
                 onPressed: () {
                   context.goNamed(AppRouterConst.skillStatisticsPage,
                       pathParameters: {
-                        'userId': 'userId',
-                        'departamentId': 'departamentId'
+                        'userId': userId,
+                        'departamentId': departamentId
                       });
                 },
               ),
@@ -110,8 +113,8 @@ class DetailsBodyWidget extends StatelessWidget {
                 onPressed: () {
                   context.goNamed(AppRouterConst.departamentSkillsPage,
                       pathParameters: {
-                        'userId': 'userId',
-                        'departamentId': 'departamentId'
+                        'userId': userId,
+                        'departamentId': departamentId
                       });
                 },
               ),

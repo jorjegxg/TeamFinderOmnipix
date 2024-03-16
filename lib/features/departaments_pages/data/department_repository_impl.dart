@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/department.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 
 @injectable
@@ -94,5 +95,53 @@ class DepartmentRepositoryImpl {
       url:
           "${EndpointConstants.baseUrl}/departamentmanager/getfreeemployees/$departamentId",
     ));
+  }
+
+  Future<Either<Failure<String>, String>> createSkill(
+      {required Skill skill}) async {
+    var box = Hive.box<String>(HiveConstants.authBox);
+    String organizationId = box.get(HiveConstants.organizationId)!;
+    String userId = box.get(HiveConstants.userId)!;
+
+    return (await ApiService().dioPost(
+      url: "${EndpointConstants.baseUrl}/departamentmanager/createskill",
+      data: {
+        "name": skill.name,
+        "category": skill.category,
+        "description": skill.description,
+        "organizationId": organizationId,
+        "authorId": userId,
+      },
+    ))
+        .fold(
+      (l) => left(l),
+      (r) => right(r['id']),
+    );
+  }
+
+  Future<Either<Failure<String>, void>> assignSkillToDepartament({
+    required String skillId,
+    required String departamentId,
+  }) async {
+    return (await ApiService().dioPost(
+      url: "${EndpointConstants.baseUrl}/departament/skilltodepartament",
+      data: {"skillId": skillId, "departamentId": departamentId},
+    ));
+  }
+
+  //get skills for departament
+
+  Future<Either<Failure<String>, List<Skill>>> getSkillsForDepartament(
+      String departamentId) async {
+    return (await ApiService().dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/departament/skillsofdepartament/$departamentId",
+    ))
+        .fold(
+      (l) => left(l),
+      (r) => right(
+        r.map((e) => Skill.fromJson(e)).toList(growable: false),
+      ),
+    );
   }
 }

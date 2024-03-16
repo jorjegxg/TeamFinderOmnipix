@@ -3,6 +3,7 @@ import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/departaments_pages/data/department_repository_impl.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/department.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 
 @injectable
@@ -44,8 +45,9 @@ class DepartmentUseCase {
       getDepartmentsFromOrganization() async {
     return departmentRepository.getDepartmentsFromOrganization();
   }
-  
-   Future<Either<Failure<String>, List<Employee>>>  getDepartamentEmployees(String departamentId) async{
+
+  Future<Either<Failure<String>, List<Employee>>> getDepartamentEmployees(
+      String departamentId) async {
     return departmentRepository.getDepartamentEmployees(departamentId);
   }
 
@@ -53,7 +55,32 @@ class DepartmentUseCase {
       {required String departamentId}) async {
     return departmentRepository.getFreeEmployees(
       departamentId: departamentId,
- 
     );
+  }
+
+  Future<Either<Failure<String>, void>> createSkillAndAssign(
+      {required Skill skill, required String departamentId}) async {
+    final answer = await departmentRepository.createSkill(skill: skill);
+
+    return answer.fold(
+      (l) => left(l),
+      (r) async {
+        return (await departmentRepository.assignSkillToDepartament(
+          skillId: r,
+          departamentId: departamentId,
+        ))
+            .fold(
+          (l) => left(l),
+          (r) => right(r),
+        );
+      },
+    );
+  }
+
+  //get skills for departament
+
+  Future<Either<Failure<String>, List<Skill>>> getSkillsForDepartament(
+      String departamentId) async {
+    return departmentRepository.getSkillsForDepartament(departamentId);
   }
 }

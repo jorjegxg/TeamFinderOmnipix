@@ -92,7 +92,8 @@ class DepartamentMainPage extends StatelessWidget {
                                         AppRouterConst.departamentsDetailsPage,
                                         pathParameters: {
                                           'userId': userId,
-                                          'departamentId': 'departamentId'
+                                          'departamentId':
+                                              state.departments[index].id
                                         });
                                     //TODO: navigate to departament details, pass departament id
                                   }),

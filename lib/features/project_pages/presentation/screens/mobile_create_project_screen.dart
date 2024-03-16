@@ -60,173 +60,191 @@ class MobileCreateProjectScreen extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Consumer<CreateProjectProvider>(
-                                    builder: (_, provider, __) => Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CustomTextField(
-                                          nameConttroler: nameColtroler,
-                                          hintText: 'Name',
-                                          width: 90.w,
-                                          onSubmitted: (String s) {
-                                            provider
-                                                .setName(nameColtroler.text);
-                                          },
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Text('Project period',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleSmall),
-                                        CustomDropdownButton(
-                                          elements: [
-                                            ProjectPeriod.fixed.toStringValue(),
-                                            ProjectPeriod.ongoing
-                                                .toStringValue()
-                                          ],
-                                          buttonWidth: 80.w,
-                                          onChanged: (String? value) {
-                                            provider.setPeriod(
-                                                ProjectPeriodX.fromString(
-                                                    value!));
-                                          },
-                                          dropdownValue: provider.getPeriod
-                                              .toStringValue(),
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Text('Project Status',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleSmall),
-                                        const SizedBox(height: 20),
-                                        CustomDropdownButton(
-                                          elements: [
-                                            ProjectStatus.NotStarted
+                                    builder: (_, provider, __) {
+                                      if (provider.isLoading) {
+                                        return const Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      }
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CustomTextField(
+                                            nameConttroler: nameColtroler,
+                                            hintText: 'Name',
+                                            width: 90.w,
+                                            onSubmitted: (String s) {
+                                              provider
+                                                  .setName(nameColtroler.text);
+                                            },
+                                          ),
+                                          const SizedBox(height: 20),
+                                          Text('Project period',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleSmall),
+                                          CustomDropdownButton(
+                                            elements: [
+                                              ProjectPeriod.fixed
+                                                  .toStringValue(),
+                                              ProjectPeriod.ongoing
+                                                  .toStringValue()
+                                            ],
+                                            buttonWidth: 80.w,
+                                            onChanged: (String? value) {
+                                              provider.setPeriod(
+                                                  ProjectPeriodX.fromString(
+                                                      value!));
+                                            },
+                                            dropdownValue: provider.getPeriod
                                                 .toStringValue(),
-                                            ProjectStatus.Starting
+                                          ),
+                                          const SizedBox(height: 20),
+                                          Text('Project Status',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleSmall),
+                                          const SizedBox(height: 20),
+                                          CustomDropdownButton(
+                                            elements: [
+                                              ProjectStatus.NotStarted
+                                                  .toStringValue(),
+                                              ProjectStatus.Starting
+                                                  .toStringValue(),
+                                            ],
+                                            buttonWidth: 80.w,
+                                            onChanged: (String? value) {
+                                              provider.setStatus(
+                                                  ProjectStatusX.fromString(
+                                                      value!));
+                                            },
+                                            dropdownValue: provider.getStatus
                                                 .toStringValue(),
-                                          ],
-                                          buttonWidth: 80.w,
-                                          onChanged: (String? value) {
-                                            provider.setStatus(
-                                                ProjectStatusX.fromString(
-                                                    value!));
-                                          },
-                                          dropdownValue: provider.getStatus
-                                              .toStringValue(),
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text('Start Date',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleSmall),
-                                            MyDatePickerWidget(
-                                              datePicked: provider.getStartDate,
-                                              function: (newValue) {
-                                                provider.setStartDate(newValue);
-                                              },
-                                            ),
-                                            SizedBox(width: 10.w),
-                                            Text('End Date',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleSmall),
-                                            MyDatePickerWidget(
-                                              datePicked:
-                                                  provider.getDeadlineDate,
-                                              function: (newValue) {
-                                                provider
-                                                    .setDeadlineDate(newValue);
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            CustomButton(
-                                              text: 'Add tehnologies',
-                                              onPressed: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (ctx) => Consumer<
-                                                      CreateProjectProvider>(
-                                                    builder: (BuildContext
-                                                                context,
-                                                            value,
-                                                            Widget? child) =>
-                                                        TechnologiesDialog(
-                                                      onSubmitted: (String s) {
-                                                        value.addTechnology(s);
-                                                      },
-                                                      onDissmised: (int index) {
-                                                        value.removeTechnology(
-                                                            value.getTechnologyStack[
-                                                                index]);
-                                                      },
-                                                      name: 'Add technologies',
-                                                      items: value
-                                                          .getTechnologyStack,
-                                                      sugestions:
-                                                          value.sugestions,
+                                          ),
+                                          const SizedBox(height: 20),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text('Start Date',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleSmall),
+                                              MyDatePickerWidget(
+                                                datePicked:
+                                                    provider.getStartDate,
+                                                function: (newValue) {
+                                                  provider
+                                                      .setStartDate(newValue);
+                                                },
+                                              ),
+                                              SizedBox(width: 10.w),
+                                              Text('End Date',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleSmall),
+                                              MyDatePickerWidget(
+                                                datePicked:
+                                                    provider.getDeadlineDate,
+                                                function: (newValue) {
+                                                  provider.setDeadlineDate(
+                                                      newValue);
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              CustomButton(
+                                                text: 'Add tehnologies',
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (ctx) => Consumer<
+                                                        CreateProjectProvider>(
+                                                      builder: (BuildContext
+                                                                  context,
+                                                              value,
+                                                              Widget? child) =>
+                                                          TechnologiesDialog(
+                                                        onSubmitted:
+                                                            (String s) {
+                                                          value
+                                                              .addTechnology(s);
+                                                        },
+                                                        onDissmised:
+                                                            (int index) {
+                                                          value.removeTechnology(
+                                                              value.getTechnologyStack[
+                                                                  index]);
+                                                        },
+                                                        name:
+                                                            'Add technologies',
+                                                        items: value
+                                                            .getTechnologyStack,
+                                                        sugestions:
+                                                            value.sugestions,
+                                                      ),
                                                     ),
-                                                  ),
-                                                );
-                                              },
-                                              buttonWidth: 20.w,
-                                              buttonHeight: 5.h,
-                                            ),
-                                            CustomButton(
-                                              text: 'Add team roles',
-                                              onPressed: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (ctx) => Consumer<
-                                                      CreateProjectProvider>(
-                                                    builder: (BuildContext
-                                                                context,
-                                                            CreateProjectProvider
-                                                                value,
-                                                            Widget? child) =>
-                                                        TeamRolesDialog(
-                                                      title: 'Add team roles',
-                                                      description:
-                                                          '   In this screen you shall be able to add team roles to your project. You can add as many as you want.',
-                                                      items: value.teamRoles,
-                                                      onChanged: (bool? b,
-                                                          int index,
-                                                          int number) {
-                                                        value.setTeamRoles(
-                                                            index, b!, number);
-                                                      },
+                                                  );
+                                                },
+                                                buttonWidth: 20.w,
+                                                buttonHeight: 5.h,
+                                              ),
+                                              CustomButton(
+                                                text: 'Add team roles',
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (ctx) => Consumer<
+                                                        CreateProjectProvider>(
+                                                      builder: (BuildContext
+                                                                  context,
+                                                              CreateProjectProvider
+                                                                  value,
+                                                              Widget? child) =>
+                                                          TeamRolesDialog(
+                                                        title: 'Add team roles',
+                                                        description:
+                                                            '   In this screen you shall be able to add team roles to your project. You can add as many as you want.',
+                                                        items: value.teamRoles,
+                                                        onChanged: (bool? b,
+                                                            int index,
+                                                            int number) {
+                                                          value.setTeamRoles(
+                                                              index,
+                                                              b!,
+                                                              number);
+                                                        },
+                                                      ),
                                                     ),
-                                                  ),
-                                                );
-                                              },
-                                              buttonWidth: 20.w,
-                                              buttonHeight: 5.h,
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 20),
-                                        CustomTextField(
-                                          nameConttroler: descriptionColtroler,
-                                          hintText: "description",
-                                          keyboardType: TextInputType.multiline,
-                                          minLines: 10,
-                                          width: 90.w,
-                                          onSubmitted: (String s) {
-                                            provider.setDescription(
-                                                descriptionColtroler.text);
-                                          },
-                                        ),
-                                      ],
-                                    ),
+                                                  );
+                                                },
+                                                buttonWidth: 20.w,
+                                                buttonHeight: 5.h,
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 20),
+                                          CustomTextField(
+                                            nameConttroler:
+                                                descriptionColtroler,
+                                            hintText: "description",
+                                            keyboardType:
+                                                TextInputType.multiline,
+                                            minLines: 10,
+                                            width: 90.w,
+                                            onSubmitted: (String s) {
+                                              provider.setDescription(
+                                                  descriptionColtroler.text);
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
