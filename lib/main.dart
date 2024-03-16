@@ -12,6 +12,7 @@ import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/theme.dart';
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
+import 'package:team_finder_app/features/project_pages/presentation/bloc/create_project_provider.dart';
 import 'package:team_finder_app/firebase_options.dart';
 import 'package:team_finder_app/injection.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -49,6 +50,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (context) => getIt<CreateProjectProvider>(),
+        ),
         BlocProvider(
           create: (context) => getIt<AuthBloc>(),
         ),

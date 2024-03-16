@@ -136,7 +136,14 @@ class EditProjectScreen extends HookWidget {
                                               showDialog(
                                                   context: context,
                                                   builder: (context) =>
-                                                      const TechnologiesDialog());
+                                                      TechnologiesDialog(
+                                                        onSubmitted:
+                                                            (String) {},
+                                                        onDissmised: (int) {},
+                                                        name: '',
+                                                        items: [],
+                                                        sugestions: [],
+                                                      ));
                                             },
                                             buttonWidth: 20.w,
                                             buttonHeight: 5.h,
@@ -151,19 +158,9 @@ class EditProjectScreen extends HookWidget {
                                                   title: 'Add team roles',
                                                   description:
                                                       '   In this screen you shall be able to add team roles to your project. You can add as many as you want.',
-                                                  items: [
-                                                    'Item 1',
-                                                    'Item 2',
-                                                    'Item 3',
-                                                    'Item 4',
-                                                    'Item 5',
-                                                    'Item 6',
-                                                    'Item 7',
-                                                    'Item 8',
-                                                    'Item 9',
-                                                    'Item 10'
-                                                  ],
-                                                  onChanged: (bool? b) {
+                                                  items: {},
+                                                  onChanged: (bool? b, index,
+                                                      int number) {
                                                     //IMplement the onChanged function
                                                   },
                                                 ),

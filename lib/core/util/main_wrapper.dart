@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
-import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_employees_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart';
 import 'package:team_finder_app/injection.dart';
@@ -25,7 +24,6 @@ class _MainWrapperState extends State<MainWrapper> {
         ChangeNotifierProvider<EmployeesProvider>(
           create: (context) => getIt<EmployeesProvider>()..fetchEmployees(),
         ),
-       
         BlocProvider(
           create: (context) =>
               getIt<DepartmentsGetCubit>()..getDepartmentsFromOrganization(),

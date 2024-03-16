@@ -10,12 +10,18 @@ abstract class ProjectsState extends Equatable {
 class ProjectInitial extends ProjectsState {}
 
 class ProjectsLoaded extends ProjectsState {
-  final List<ProjectEntity> projects;
+  final List<ProjectEntity>? activeProjects;
+  final List<ProjectEntity>? inactiveProjects;
+  final StatusOfProject switchState;
 
-  const ProjectsLoaded(this.projects);
+  const ProjectsLoaded({
+    required this.switchState,
+    this.activeProjects,
+    this.inactiveProjects,
+  });
 
   @override
-  List<Object> get props => [projects];
+  List<Object> get props => [activeProjects!, inactiveProjects!, switchState];
 }
 
 class ProjectsError extends ProjectsState {

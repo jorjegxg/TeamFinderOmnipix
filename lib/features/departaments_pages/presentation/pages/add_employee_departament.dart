@@ -50,8 +50,10 @@ class AddEmployeeToDepartamentPage extends HookWidget {
                           return Padding(
                             padding: const EdgeInsets.all(10),
                             child: ItemWithCheckBox(
+                              enabled: true,
+                              value: false,
                               text: 'name',
-                              onChanged: (bool? b) {
+                              onChanged: (bool? b, int number) {
                                 //TODO: implement onChanged
                               },
                             ),

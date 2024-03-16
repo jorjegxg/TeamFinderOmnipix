@@ -42,19 +42,8 @@ class DepartmentSkillsPage extends HookWidget {
                           title: 'Add a skill',
                           description:
                               'You can choose any skills from the list',
-                          items: const [
-                            'Item 1',
-                            'Item 2',
-                            'Item 3',
-                            'Item 4',
-                            'Item 5',
-                            'Item 6',
-                            'Item 7',
-                            'Item 8',
-                            'Item 9',
-                            'Item 10'
-                          ],
-                          onChanged: (bool? b) {
+                          items: {},
+                          onChanged: (bool? b, index, int number) {
                             //IMplement the onChanged function
                           },
                         ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/item_with_checkbox.dart';
 
-class TeamRolesDialog extends StatelessWidget {
+class TeamRolesDialog extends HookWidget {
   const TeamRolesDialog(
       {super.key,
       required this.title,
@@ -11,8 +12,9 @@ class TeamRolesDialog extends StatelessWidget {
 
   final String title;
   final String description;
-  final List<String> items;
-  final Function(bool?) onChanged;
+  final Map<Map<String, int>, bool> items;
+  final Function(bool?, int index, int number) onChanged;
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -37,8 +39,20 @@ class TeamRolesDialog extends StatelessWidget {
                   itemCount: items.length,
                   itemBuilder: (context, index) {
                     return ItemWithCheckBox(
-                      text: items[index],
-                      onChanged: onChanged,
+                      value: items.values.elementAt(index),
+                      text: items.keys.elementAt(index).keys.first,
+                      onChanged: (bool? value, int number) {
+                        onChanged(value, index, number);
+                      },
+                      enabled: true,
+                      number: items.keys.elementAt(index).values.first,
+                      onSubmited: (String s) {
+                        onChanged(
+                          items.values.elementAt(index),
+                          index,
+                          int.parse(s),
+                        );
+                      },
                     );
                   }),
             ),
@@ -50,13 +64,6 @@ class TeamRolesDialog extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   child: const Text('Close'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    //TODO: add functionality to the add button
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Add'),
                 ),
               ],
             ),

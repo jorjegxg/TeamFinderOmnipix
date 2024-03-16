@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +8,7 @@ import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_segmented_button.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_widget.dart';
@@ -20,7 +23,8 @@ class ProjectsMainScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => getIt<ProjectsBloc>(),
+          create: (context) =>
+              getIt<ProjectsBloc>()..add(const GetActiveProjectPages()),
         ),
       ],
       child: Builder(builder: (context) {
@@ -67,36 +71,111 @@ class ProjectsMainScreen extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      const Center(child: CustomSegmentedButton()),
+                      // BlocBuilder<ProjectsBloc, ProjectsState>(
+                      //   builder: (context, state) {
+                      //     if (state is ProjectsLoaded) {
+                      //       if (state.switchState == ProjectStatus.active) {
+                      //         {
+                      // return
+                      Center(
+                        child: CustomSegmentedButton(
+                          currentView: StatusOfProject.active,
+                          onSelectionChanged: (value) {
+                            context
+                                .read<ProjectsBloc>()
+                                .add(SwitchProjectPages(value.first));
+                          },
+                        ),
+                      ),
+                      //  }
+                      //       } else {
+                      //         return Center(
+                      //           child: CustomSegmentedButton(
+                      //             currentView: ProjectStatus.past,
+                      //             onSelectionChanged: (value) {
+                      //               context
+                      //                   .read<ProjectsBloc>()
+                      //                   .add(SwitchProjectPages(value.first));
+                      //             },
+                      //           ),
+                      //         );
+                      //       }
+                      //     } else {
+                      //       return const Center(
+                      //         child: CircularProgressIndicator(),
+                      //       );
+                      //     }
+                      //   },
+                      // ),
                       const SizedBox(
                         height: 40,
                       ),
                       Expanded(
-                        child: ListView.builder(
-                            // physics: const NeverScrollableScrollPhysics(),
-                            // shrinkWrap: true,
-                            itemCount: 5,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ProjectWidget(
-                                  onPressed: () {
-                                    //TODO: navigate to project details, pass project id
-                                    context.goNamed(
-                                        AppRouterConst.projectDetailsScreen,
-                                        pathParameters: {
-                                          'projectId': '1',
-                                          'userId': userId
-                                        });
-                                  },
-                                  mainTitle: 'Project Name',
-                                  title1: 'Roles:',
-                                  title2: 'Tehnologies Stack:',
-                                  content1: 'Roles....',
-                                  content2: 'Tehnologies....',
-                                ),
+                        child: BlocBuilder<ProjectsBloc, ProjectsState>(
+                          builder: (context, state) {
+                            if (state is ProjectsEmpty) {
+                              return const Center(
+                                child: Text('No projects found'),
                               );
-                            }),
+                            }
+                            if (state is ProjectsError) {
+                              return Center(
+                                child: Text(state.message),
+                              );
+                            }
+                            if (state is ProjectsLoaded) {
+                              if (state.switchState == StatusOfProject.active) {
+                                return ProjectsListWidget(
+                                  userId: userId,
+                                  projects: state.activeProjects!,
+                                  title: 'Active Projects',
+                                );
+                              } else {
+                                return ProjectsListWidget(
+                                  userId: userId,
+                                  projects: state.inactiveProjects!,
+                                  title: 'Past Projects',
+                                );
+                              }
+                            }
+                            return ListView.builder(
+                                // physics: const NeverScrollableScrollPhysics(),
+                                // shrinkWrap: true,
+                                itemCount: 5,
+                                itemBuilder: (context, index) {
+                                  if (state is ProjectsLoading) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                  if (state is ProjectsError) {
+                                    return Center(
+                                      child: Text(state.message),
+                                    );
+                                  }
+
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ProjectWidget(
+                                      onPressed: () {
+                                        //TODO: navigate to project details, pass project id
+                                        context.goNamed(
+                                            AppRouterConst.projectDetailsScreen,
+                                            pathParameters: {
+                                              'projectId': '1',
+                                              'userId': userId
+                                            });
+                                      },
+                                      mainTitle: 'Project Name',
+                                      title1: 'Roles:',
+                                      title2: 'Tehnologies Stack:',
+                                      content1: 'Roles....',
+                                      content2: 'Tehnologies....',
+                                    ),
+                                  );
+                                });
+                          },
+                        ),
                       ),
                     ],
                   );
@@ -183,7 +262,7 @@ class ProjectsListWidget extends StatelessWidget {
   });
 
   final String userId;
-  final List<String> projects;
+  final List<ProjectEntity> projects;
   final String title;
   @override
   Widget build(BuildContext context) {

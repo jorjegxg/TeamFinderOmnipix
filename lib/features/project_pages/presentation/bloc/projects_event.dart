@@ -8,11 +8,29 @@ abstract class ProjectsEvent extends Equatable {
 }
 
 //o sa iau o lista de project entities
-class GetProjectPages extends ProjectsEvent {
-  final List<ProjectEntity> projects;
+class GetActiveProjectPages extends ProjectsEvent {
+  // final List<ProjectEntity> projects;
 
-  const GetProjectPages(this.projects);
+  const GetActiveProjectPages();
 
   @override
-  List<Object> get props => [projects];
+  List<Object> get props => [];
+}
+
+class GetInActiveProjectPages extends ProjectsEvent {
+  // final List<ProjectEntity> projects;
+
+  const GetInActiveProjectPages();
+
+  @override
+  List<Object> get props => [];
+}
+
+class SwitchProjectPages extends ProjectsEvent {
+  final StatusOfProject switchState;
+
+  const SwitchProjectPages(this.switchState);
+
+  @override
+  List<Object> get props => [switchState];
 }

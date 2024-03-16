@@ -105,6 +105,64 @@ class AppLists {
   ];
 }
 
+enum ProjectPeriod { fixed, ongoing }
+
+extension ProjectPeriodX on ProjectPeriod {
+  static ProjectPeriod fromString(String period) {
+    if (period == 'fixed') {
+      return ProjectPeriod.fixed;
+    } else {
+      return ProjectPeriod.ongoing;
+    }
+  }
+
+  String toStringValue() {
+    if (this == ProjectPeriod.fixed) {
+      return 'fixed';
+    } else {
+      return 'ongoing';
+    }
+  }
+}
+
+enum ProjectStatus {
+  NotStarted,
+  Starting,
+  InProgress,
+  Closing,
+  Closed,
+}
+
+extension ProjectStatusX on ProjectStatus {
+  static ProjectStatus fromString(String status) {
+    if (status == 'Not Started') {
+      return ProjectStatus.NotStarted;
+    } else if (status == 'Starting') {
+      return ProjectStatus.Starting;
+    } else if (status == 'In Progress') {
+      return ProjectStatus.InProgress;
+    } else if (status == 'Closing') {
+      return ProjectStatus.Closing;
+    } else {
+      return ProjectStatus.Closed;
+    }
+  }
+
+  String toStringValue() {
+    if (this == ProjectStatus.NotStarted) {
+      return 'Not Started';
+    } else if (this == ProjectStatus.Starting) {
+      return 'Starting';
+    } else if (this == ProjectStatus.InProgress) {
+      return 'In Progress';
+    } else if (this == ProjectStatus.Closing) {
+      return 'Closing';
+    } else {
+      return 'Closed';
+    }
+  }
+}
+
 class StorageConstants {
   static const String token = 'token';
 }

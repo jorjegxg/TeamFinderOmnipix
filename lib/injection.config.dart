@@ -19,7 +19,7 @@ import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart
 import 'package:team_finder_app/features/auth/domain/validators/authentication_validator.dart'
     as _i5;
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart'
-    as _i23;
+    as _i24;
 import 'package:team_finder_app/features/departaments_pages/data/department_repository_impl.dart'
     as _i6;
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart'
@@ -27,9 +27,9 @@ import 'package:team_finder_app/features/departaments_pages/domain/department_us
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/add_employee_departament_provider.dart'
     as _i17;
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_employees_provider.dart'
-    as _i19;
-import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart'
     as _i20;
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart'
+    as _i21;
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart'
     as _i8;
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_managers/departments_managers_cubit.dart'
@@ -39,7 +39,7 @@ import 'package:team_finder_app/features/employee_pages/data/employee_repo_impl.
 import 'package:team_finder_app/features/employee_pages/domain/employee_usecase.dart'
     as _i11;
 import 'package:team_finder_app/features/employee_pages/presentation/provider/edit_employee_provider.dart'
-    as _i21;
+    as _i22;
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart'
     as _i12;
 import 'package:team_finder_app/features/project_pages/data/repositories/project_repo_impl.dart'
@@ -48,8 +48,10 @@ import 'package:team_finder_app/features/project_pages/domain/repositories/proje
     as _i14;
 import 'package:team_finder_app/features/project_pages/domain/usecases/projects_usecase.dart'
     as _i16;
+import 'package:team_finder_app/features/project_pages/presentation/bloc/create_project_provider.dart'
+    as _i19;
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart'
-    as _i22;
+    as _i23;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -88,15 +90,17 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i5.AuthenticationValidator>(),
           gh<_i3.AuthRepo>(),
         ));
-    gh.factory<_i19.DepartamentEmployeesProvider>(
-        () => _i19.DepartamentEmployeesProvider(gh<_i7.DepartmentUseCase>()));
-    gh.factory<_i20.DepartmentCreateCubit>(
-        () => _i20.DepartmentCreateCubit(gh<_i7.DepartmentUseCase>()));
-    gh.factory<_i21.EditEmployeeProvider>(
-        () => _i21.EditEmployeeProvider(gh<_i11.EmployeeUsecase>()));
-    gh.factory<_i22.ProjectsBloc>(
-        () => _i22.ProjectsBloc(gh<_i16.ProjectsUsecase>()));
-    gh.factory<_i23.AuthBloc>(() => _i23.AuthBloc(gh<_i18.AuthUsecase>()));
+    gh.factory<_i19.CreateProjectProvider>(
+        () => _i19.CreateProjectProvider(gh<_i16.ProjectsUsecase>()));
+    gh.factory<_i20.DepartamentEmployeesProvider>(
+        () => _i20.DepartamentEmployeesProvider(gh<_i7.DepartmentUseCase>()));
+    gh.factory<_i21.DepartmentCreateCubit>(
+        () => _i21.DepartmentCreateCubit(gh<_i7.DepartmentUseCase>()));
+    gh.factory<_i22.EditEmployeeProvider>(
+        () => _i22.EditEmployeeProvider(gh<_i11.EmployeeUsecase>()));
+    gh.factory<_i23.ProjectsBloc>(
+        () => _i23.ProjectsBloc(gh<_i16.ProjectsUsecase>()));
+    gh.factory<_i24.AuthBloc>(() => _i24.AuthBloc(gh<_i18.AuthUsecase>()));
     return this;
   }
 }
