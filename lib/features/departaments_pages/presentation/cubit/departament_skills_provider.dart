@@ -16,25 +16,40 @@ class DepartamentSkillsProvider extends ChangeNotifier {
   String get error => _error;
 
   Future<void> fetchSkillsForDepartament(String departamentId) async {
-    try {
-      _isLoading = true;
-      notifyListeners();
-      (await _departmentUseCase.getSkillsForDepartament(departamentId)).fold(
-        (l) {
-          _error = l.message;
-          _isLoading = false;
-          notifyListeners();
-        },
-        (r) {
-          _skills = r;
-          _isLoading = false;
-          notifyListeners();
-        },
-      );
-    } catch (e) {
-      _isLoading = false;
-      _error = 'Failed to fetch skills: $e';
-      notifyListeners();
-    }
+    _isLoading = true;
+    notifyListeners();
+    (await _departmentUseCase.getSkillsForDepartament(departamentId)).fold(
+      (l) {
+        _error = l.message;
+        _isLoading = false;
+        notifyListeners();
+      },
+      (r) {
+        _skills = r;
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
+  }
+
+  //delete skill from departament
+  Future<void> deleteSkillFromDepartament(
+      String departamentId, String skillId) async {
+    _isLoading = true;
+    notifyListeners();
+    (await _departmentUseCase.deleteSkillFromDepartament(
+            departamentId, skillId))
+        .fold(
+      (l) {
+        _error = l.message;
+        _isLoading = false;
+        notifyListeners();
+      },
+      (r) {
+        // _skills.removeWhere((element) => element.id == skillId);
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
   }
 }

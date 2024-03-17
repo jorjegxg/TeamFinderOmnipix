@@ -30,8 +30,10 @@ class ItemWithCheckBox extends HookWidget {
         onChanged: (bool? value) {
           onChanged(
               value,
-              int.parse(
-                  numberController.text == '' ? '0' : numberController.text));
+              int.parse((numberController.text.isEmpty ||
+                      numberController.text == "null")
+                  ? '0'
+                  : numberController.text));
         },
       ),
       title: Text(

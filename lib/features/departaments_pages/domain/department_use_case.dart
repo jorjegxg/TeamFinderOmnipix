@@ -5,6 +5,7 @@ import 'package:team_finder_app/features/departaments_pages/data/department_repo
 import 'package:team_finder_app/features/departaments_pages/data/models/department.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
+import 'package:team_finder_app/features/project_pages/data/models/project_model.dart';
 
 @injectable
 class DepartmentUseCase {
@@ -51,11 +52,8 @@ class DepartmentUseCase {
     return departmentRepository.getDepartamentEmployees(departamentId);
   }
 
-  Future<Either<Failure<String>, void>> getFreeEmployees(
-      {required String departamentId}) async {
-    return departmentRepository.getFreeEmployees(
-      departamentId: departamentId,
-    );
+  Future<Either<Failure<String>, List<Employee>>> getFreeEmployees() async {
+    return departmentRepository.getFreeEmployees();
   }
 
   Future<Either<Failure<String>, void>> createSkillAndAssign(
@@ -82,5 +80,49 @@ class DepartmentUseCase {
   Future<Either<Failure<String>, List<Skill>>> getSkillsForDepartament(
       String departamentId) async {
     return departmentRepository.getSkillsForDepartament(departamentId);
+  }
+
+  //statistics
+  Future<Either<Failure<String>, List<Map<String, int>>>>
+      getStatisticsForDepartament(String departamentId, String skillId) async {
+    return departmentRepository.getStatisticsForDepartament(
+      departamentId,
+      skillId,
+    );
+  }
+
+  //get projects for departament
+  Future<Either<Failure<String>, List<ProjectModel>>> getProjectsForDepartament(
+      String departamentId) async {
+    return departmentRepository.getProjectsForDepartament(departamentId);
+  }
+
+  //add employees to departament
+  Future<Either<Failure<String>, void>> addEmployeesToDepartment({
+    required String departmentId,
+    required List<Employee> employees,
+  }) async {
+    return departmentRepository.addEmployeesToDepartment(
+      departmentId: departmentId,
+      employees: employees,
+    );
+  }
+
+  //removeEmployeeFromDepartment
+  Future<Either<Failure<String>, void>> removeEmployeeFromDepartment(
+      String departamentId, String employeeId) async {
+    return departmentRepository.removeEmployeeFromDepartment(
+      departamentId,
+      employeeId,
+    );
+  }
+
+  //deleteSkillFromDepartament
+  Future<Either<Failure<String>, void>> deleteSkillFromDepartament(
+      String departamentId, String skillId) async {
+    return departmentRepository.deleteSkillFromDepartament(
+      departamentId,
+      skillId,
+    );
   }
 }

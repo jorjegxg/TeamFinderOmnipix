@@ -64,20 +64,17 @@ class ProjectModel extends ProjectEntity {
 //   "name": "TEAM FINDER APP"
 // }
   factory ProjectModel.fromMap(Map<String, dynamic> map) {
-    List<Map<String, String>> listOfTeamRoles =
-        map['teamRoles'].map((x) => x as Map<String, String>).toList();
     Map<String, int> teamRoles = {};
 
-    for (var element in listOfTeamRoles) {
-      teamRoles.addAll({element['name']!: int.parse(element['value']!)});
-    }
-
+    map['teamRoles'].forEach((element) {
+      teamRoles.putIfAbsent(element['name'], () => element['value']);
+    });
     return ProjectModel(
       id: map['id'],
       name: map['name'],
       period: ProjectPeriodX.fromString(map['period']),
-      startDate: (map['startDate'] as Timestamp).toDate(),
-      deadlineDate: (map['deadlineDate'] as Timestamp).toDate(),
+      startDate: DateTime.parse(map['startDate']),
+      deadlineDate: DateTime.parse(map['deadlineDate']),
       description: map['description'],
       technologyStack: List<TechnologyStack>.from(
           map['technologyStack'].map((x) => TechnologyStack.fromMap(x))),

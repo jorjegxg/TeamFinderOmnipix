@@ -17,15 +17,15 @@ class ProjectRepoImpl extends ProjectRepo {
       //TODO George Luta : vezi daca endpoint-ul este bun
 
       url:
-          "${EndpointConstants.baseUrl}/projects/projectdetailactive/${employeeId}",
+          "${EndpointConstants.baseUrl}/project/projectdetailactive/$employeeId",
     ))
         .fold(
       (l) => Left(l),
       (r) {
         final List<ProjectModel> projects = [];
         //TODO George Luta : vezi daca e bine : ['projects']
-        for (var project in r['projects']) {
-          projects.add(ProjectModel.fromJson(project));
+        for (var project in r) {
+          projects.add(ProjectModel.fromMap(project));
         }
         return Right(projects);
       },

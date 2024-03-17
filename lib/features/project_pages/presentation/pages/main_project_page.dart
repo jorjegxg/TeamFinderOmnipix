@@ -110,6 +110,11 @@ class ProjectsMainScreen extends StatelessWidget {
                       Expanded(
                         child: BlocBuilder<ProjectsBloc, ProjectsState>(
                           builder: (context, state) {
+                            if (state is ProjectsLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
                             if (state is ProjectsEmpty) {
                               return const Center(
                                 child: Text('No projects found'),
@@ -140,11 +145,6 @@ class ProjectsMainScreen extends StatelessWidget {
                                 // shrinkWrap: true,
                                 itemCount: 5,
                                 itemBuilder: (context, index) {
-                                  if (state is ProjectsLoading) {
-                                    return const Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  }
                                   if (state is ProjectsError) {
                                     return Center(
                                       child: Text(state.message),

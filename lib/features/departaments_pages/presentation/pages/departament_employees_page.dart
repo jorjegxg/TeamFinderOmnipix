@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -20,7 +21,6 @@ class DepartamentEmployeesPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> items = List.generate(10, (index) => 'Item $index');
     final TextEditingController nameConttroler = useTextEditingController();
     return SafeArea(
       child: ChangeNotifierProvider(
@@ -70,11 +70,39 @@ class DepartamentEmployeesPage extends HookWidget {
                                 itemBuilder: (context, index) {
                                   return Padding(
                                     padding: const EdgeInsets.all(10),
-                                    child: EmployeeCard(
-                                      name: provider.employees[index].name,
-                                      onTap: () {
-                                        //TODO: implement onTap
-                                      },
+                                    child: Slidable(
+                                      key: UniqueKey(),
+                                      endActionPane: ActionPane(
+                                        // A motion is a widget used to control how the pane animates.
+                                        motion: const ScrollMotion(),
+
+                                        // A pane can dismiss the Slidable.
+                                        dragDismissible: false,
+                                        // All actions are defined in the children parameter.
+                                        children: [
+                                          // A SlidableAction can have an icon and/or a label.
+                                          SlidableAction(
+                                            backgroundColor:
+                                                const Color(0xFFDCBABA),
+                                            foregroundColor: Colors.white,
+                                            icon: Icons.person_remove,
+                                            label: 'Remove',
+                                            onPressed: (BuildContext ctx) {
+                                              provider
+                                                  .removeEmployeeFromDepartment(
+                                                departamentId,
+                                                provider.employees[index].id,
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      child: EmployeeCard(
+                                        name: provider.employees[index].name,
+                                        onTap: () {
+                                          //TODO: implement onTap
+                                        },
+                                      ),
                                     ),
                                   );
                                 },

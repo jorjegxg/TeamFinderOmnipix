@@ -24,94 +24,97 @@ class DepartmentSkillsPage extends HookWidget {
     return ChangeNotifierProvider(
       create: (context) => getIt<DepartamentSkillsProvider>()
         ..fetchSkillsForDepartament(departamentId),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text(
-              'Departament Skills',
-              style: Theme.of(context).textTheme.titleLarge,
+      child: Builder(builder: (context) {
+        return SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(
+                'Departament Skills',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              await showDialog(
-                  context: context,
-                  builder: (context) {
-                    return ChoiceDialog(
-                      chooseSkillPress: () {
-                        Navigator.of(context).pop();
-                        showDialog(
-                          context: context,
-                          builder: (context) => TeamRolesDialog(
-                            title: 'Add a skill',
-                            description:
-                                'You can choose any skills from the list',
-                            items: {},
-                            onChanged: (bool? b, index, int number) {
-                              //IMplement the onChanged function
+            floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return ChoiceDialog(
+                        chooseSkillPress: () {
+                          Navigator.of(context).pop();
+                          showDialog(
+                            context: context,
+                            builder: (context) => TeamRolesDialog(
+                              title: 'Add a skill',
+                              description:
+                                  'You can choose any skills from the list',
+                              items: {},
+                              onChanged: (bool? b, index, int number) {
+                                //IMplement the onChanged function
+                              },
+                            ),
+                          );
+                        },
+                        createSkillPress: () {
+                          Navigator.of(context).pop();
+                          context.goNamed(
+                            AppRouterConst.createSkillPage,
+                            pathParameters: {
+                              'departamentId': departamentId,
+                              'userId': userId
                             },
-                          ),
-                        );
-                      },
-                      createSkillPress: () {
-                        Navigator.of(context).pop();
-                        context.goNamed(
-                          AppRouterConst.createSkillPage,
-                          pathParameters: {
-                            'departamentId': departamentId,
-                            'userId': userId
-                          },
-                        );
-                      },
-                    );
-                  });
-            },
-            child: const Icon(Icons.add, color: Colors.black),
-          ),
-          body: Sizer(
-            builder: (BuildContext context, Orientation orientation,
-                DeviceType deviceType) {
-              return Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 20),
-                      Expanded(
-                        child: Consumer<DepartamentSkillsProvider>(
-                          builder: (BuildContext context,
-                                  DepartamentSkillsProvider provider,
-                                  Widget? child) =>
-                              GridView.builder(
-                            itemCount: provider.skills.length,
-                            itemBuilder: (context, index) {
-                              return SkillCard(
-                                onPressed: (BuildContext ctx) {},
-                                skillName: provider.skills[index].name,
-                                skillDescription:
-                                    provider.skills[index].category,
-                                skillAuthor: provider.skills[index].description,
-                              );
-                            },
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisExtent: 40.h,
+                          );
+                        },
+                      );
+                    });
+              },
+              child: const Icon(Icons.add, color: Colors.black),
+            ),
+            body: Sizer(
+              builder: (BuildContext context, Orientation orientation,
+                  DeviceType deviceType) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 20),
+                        Expanded(
+                          child: Consumer<DepartamentSkillsProvider>(
+                            builder: (BuildContext context,
+                                    DepartamentSkillsProvider provider,
+                                    Widget? child) =>
+                                GridView.builder(
+                              itemCount: provider.skills.length,
+                              itemBuilder: (context, index) {
+                                return SkillCard(
+                                  onPressed: (BuildContext ctx) {},
+                                  skillName: provider.skills[index].name,
+                                  skillDescription:
+                                      provider.skills[index].category,
+                                  skillAuthor:
+                                      provider.skills[index].description,
+                                );
+                              },
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisExtent: 40.h,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                    ],
+                        const SizedBox(height: 10),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }
