@@ -84,13 +84,13 @@ class EmployeeRepoImpl {
 
   //make employee department manager
   Future<Either<Failure, void>> makeEmployeeDepartmentManager(
-      String employeeId) async {
+      String newManagerId) async {
     final organizationId = await getOrganizationId();
     return ApiService().dioPost(
       url: "${EndpointConstants.baseUrl}/departamentpromotion/",
       data: {
         "organizationId": organizationId,
-        "employeeId": employeeId,
+        "employeeId": newManagerId,
       },
     ).then((response) {
       return response.fold(
@@ -246,7 +246,7 @@ class EmployeeRepoImpl {
       url: "${EndpointConstants.baseUrl}/departament/updatemanager",
       data: {
         "employeeId": employeeId,
-        "departmentId": departmentId,
+        "departamentId": departmentId,
       },
     ).then((response) {
       return response.fold(

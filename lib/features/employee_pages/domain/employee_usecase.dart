@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/error/failures.dart';
+import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/employee_pages/data/employee_repo_impl.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee_roles_and_data.dart';
@@ -69,7 +70,9 @@ class EmployeeUsecase {
   }) async {
     if (_departmentManagerStatusHasChanged(departmentManager)) {
       if (departmentManager!) {
-        await employeeRepoImpl.makeEmployeeDepartmentManager(employeeId);
+        await employeeRepoImpl.makeEmployeeDepartmentManager(
+          employeeId,
+        );
       } else {
         if (departmentManagerHasToBeChanged) {
           //atunci schimba-l
@@ -82,8 +85,11 @@ class EmployeeUsecase {
               ),
             );
           } else {
+            Logger.info('gfseg',
+                'managerAndDepartmentId.departmentId : ${managerAndDepartmentId.departmentId}');
             await employeeRepoImpl.updateMangerForDepartmentManager(
-                employeeId, managerAndDepartmentId.departmentId!);
+                managerAndDepartmentId.newManager!.id,
+                managerAndDepartmentId.departmentId!);
           }
         } else {
           await employeeRepoImpl.deleteDepartmentManagerRoleFromEmployee(

@@ -34,8 +34,6 @@ class DepartmentUseCase {
         departmentId: r,
       ));
     });
-
-    //todo : daca departmentRepository.createDepartment fa assign si la manager (daca nu e null)
   }
 
   Future<Either<Failure<String>, List<Manager>>> getDepartmentManagers() async {

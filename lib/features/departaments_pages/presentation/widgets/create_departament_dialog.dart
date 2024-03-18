@@ -6,7 +6,10 @@ import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_managers/departments_managers_cubit.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/pages/employee_profile_page.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/widgets/department_managers_dropdown.dart';
 import 'package:team_finder_app/injection.dart';
 
 class CreateDepartamentDialog extends HookWidget {
@@ -56,35 +59,14 @@ class CreateDepartamentDialog extends HookWidget {
                         children: [
                           const Text('Department Manager:'),
                           const SizedBox(height: 7),
-                          DropdownButtonFormField<Manager>(
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                            ),
-                            value: state.selectedManager,
-                            elevation: 16,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                            borderRadius: BorderRadius.circular(12),
-                            onChanged: (Manager? newValue) {
-                              Logger.info('CreateDepartamentDialog',
-                                  'Manager selected: ${newValue!.name} ${newValue.id}');
-                              secondContext
-                                  .read<DepartmentsManagersCubit>()
-                                  .selectManager(newValue);
-                            },
-                            items: state.managers
-                                .map<DropdownMenuItem<Manager>>(
-                                    (Manager value) {
-                              return DropdownMenuItem<Manager>(
-                                value: value,
-                                child: Text(value.name),
-                              );
-                            }).toList(),
+                          DepartmentManagersDropdown(
+                            state: state,
                           ),
                         ],
                       );
                     }
 
-                    return const Text('Create a manager first');
+                    return const Text('Create a new department manager first');
                   },
                 ),
                 Row(
@@ -113,6 +95,10 @@ class CreateDepartamentDialog extends HookWidget {
                                   name: nameConttroler.text,
                                   manager: state.selectedManager,
                                 );
+
+                            context
+                                .read<DepartmentsGetCubit>()
+                                .getDepartmentsFromOrganization();
 
                             Navigator.pop(secondContext);
                           },

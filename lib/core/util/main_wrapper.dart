@@ -24,10 +24,6 @@ class _MainWrapperState extends State<MainWrapper> {
         ChangeNotifierProvider<EmployeesProvider>(
           create: (context) => getIt<EmployeesProvider>()..fetchEmployees(),
         ),
-        BlocProvider(
-          create: (context) =>
-              getIt<DepartmentsGetCubit>()..getDepartmentsFromOrganization(),
-        ),
       ],
       child: SafeArea(
         child: ScreenTypeLayout.builder(
