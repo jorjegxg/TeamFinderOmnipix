@@ -275,4 +275,19 @@ class EditProjectProvider extends ChangeNotifier {
       );
     });
   }
+
+  void clearAllData() {
+    name = '';
+    _isLoading = true;
+    _error = null;
+    period = ProjectPeriod.fixed;
+    status = ProjectStatus.NotStarted;
+    startDate = DateTime.now();
+    deadlineDate = DateTime.now();
+    description = '';
+    teamRoles = {};
+    technologyStack = [];
+    sugestions = [];
+    notifyListeners();
+  }
 }

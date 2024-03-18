@@ -61,8 +61,8 @@ class SkillAssignmentProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
     await _settingsUseCase
-        .addSkill(selectedSkill!.id, _skillLevel.index, _skillLevel.index,
-            _endorsmentsSkill, _listOfProjects)
+        .addSkill(selectedSkill!.id, _skillLevel.toInt(),
+            _experienceLevel.index, _endorsmentsSkill, _listOfProjects)
         .then((response) {
       response.fold(
         (l) {
@@ -99,7 +99,7 @@ class SkillAssignmentProvider extends ChangeNotifier {
         }
 
         _isLoading = false;
-        selectedSkill = _skills.first;
+        if (_skills.isNotEmpty) selectedSkill = _skills.first;
         notifyListeners();
       },
     );

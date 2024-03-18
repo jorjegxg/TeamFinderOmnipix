@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
           create: (context) => getIt<DepartmentCreateCubit>(),
         ),
         ChangeNotifierProvider(
-          create: (context) => getIt<ProfileProvider>()..fetchNameAndEmail(),
+          create: (context) => getIt<ProfileProvider>(),
         ),
         BlocProvider(
           create: (context) =>

@@ -36,8 +36,8 @@ class SkillStatisticsProvider extends ChangeNotifier {
 
   int getTotalCount() {
     int sum = 0;
-    for (var i = 0; i < _statistics.length; i++) {
-      sum += _statistics['totalCount'] ?? 0;
+    for (var val in _statistics.values) {
+      sum += val;
     }
     return sum;
   }

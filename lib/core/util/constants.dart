@@ -106,7 +106,13 @@ class AppLists {
 }
 
 //One of: 1 – Learns, 2 – Knows, 3 – Does, 4 – Helps, 5 – Teaches
-enum SkillLevel { learns, knows, does, helps, teaches }
+enum SkillLevel {
+  learns,
+  knows,
+  does,
+  helps,
+  teaches,
+}
 
 extension SkillLevelX on SkillLevel {
   static SkillLevel fromString(String level) {
@@ -134,6 +140,36 @@ extension SkillLevelX on SkillLevel {
       return 'Helps';
     } else {
       return 'Teaches';
+    }
+  }
+
+  //to int
+  int toInt() {
+    if (this == SkillLevel.learns) {
+      return 1;
+    } else if (this == SkillLevel.knows) {
+      return 2;
+    } else if (this == SkillLevel.does) {
+      return 3;
+    } else if (this == SkillLevel.helps) {
+      return 4;
+    } else {
+      return 5;
+    }
+  }
+
+  //from int
+  static SkillLevel fromInt(int level) {
+    if (level == 1) {
+      return SkillLevel.learns;
+    } else if (level == 2) {
+      return SkillLevel.knows;
+    } else if (level == 3) {
+      return SkillLevel.does;
+    } else if (level == 4) {
+      return SkillLevel.helps;
+    } else {
+      return SkillLevel.teaches;
     }
   }
 }

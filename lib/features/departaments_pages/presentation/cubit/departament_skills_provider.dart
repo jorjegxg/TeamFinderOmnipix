@@ -23,6 +23,15 @@ class DepartamentSkillsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  ///reset
+
+  void reset() {
+    _skills = [];
+    _skillsNotInDepartament = {};
+    _isLoading = false;
+    _error = null;
+  }
+
   Future<void> fetchSkillsForDepartament(String departamentId) async {
     _isLoading = true;
     notifyListeners();
@@ -105,5 +114,12 @@ class DepartamentSkillsProvider extends ChangeNotifier {
         },
       );
     }
+  }
+
+  void clearAllData() {
+    _skills = [];
+    _skillsNotInDepartament = {};
+    _isLoading = false;
+    _error = null;
   }
 }

@@ -321,6 +321,20 @@ class CreateProjectProvider extends ChangeNotifier {
     });
   }
 
+  void clearAllData() {
+    name = '';
+    _isLoading = false;
+    _error = null;
+    period = ProjectPeriod.fixed;
+    status = ProjectStatus.NotStarted;
+    startDate = DateTime.now();
+    deadlineDate = DateTime.now();
+    description = '';
+    teamRoles = {};
+    technologyStack = [];
+    sugestions = [];
+  }
+
   // Future<void> test() {
   //   var box = Hive.box<String>(HiveConstants.authBox);
   //   String organizationId = box.get(HiveConstants.organizationId)!;

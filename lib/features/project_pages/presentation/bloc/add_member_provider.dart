@@ -134,4 +134,11 @@ class AddMembersProvider extends ChangeNotifier {
       },
     );
   }
+
+  void clearAllData() {
+    members = [];
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+  }
 }

@@ -17,6 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<RegisterEmployeeStarted>(_onRegisterEmployeeStarted);
     on<LoginStarted>(_onLoginStarted);
     on<AuthLogoutRequested>(_onLogoutRequested);
+    on<AuthReset>(_clearData);
   }
 
   Future<void> _onRegisterOrganizationAdminStarted(
@@ -73,6 +74,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     (await authUsecase.login(
       email: event.email,
       password: event.password,
+      context: event.context,
     ))
         .fold(
       (failure) {
@@ -98,5 +100,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthInitial());
       },
     );
+  }
+
+  void _clearData(AuthReset event, Emitter<AuthState> emit) {
+    emit(AuthInitial());
   }
 }

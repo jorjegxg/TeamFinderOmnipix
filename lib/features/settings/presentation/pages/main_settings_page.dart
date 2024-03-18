@@ -7,7 +7,6 @@ import 'package:team_finder_app/features/departaments_pages/presentation/widgets
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/option_widget.dart';
 import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart';
 import 'package:team_finder_app/features/settings/presentation/widgets/field_dialog.dart';
-import 'package:team_finder_app/injection.dart';
 
 class MainSettingsPage extends StatelessWidget {
   const MainSettingsPage({super.key, required this.userId});
@@ -36,7 +35,7 @@ class MainSettingsPage extends StatelessWidget {
           ],
           centerTitle: true,
           title: Text(
-            'Departaments',
+            'Settings',
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),

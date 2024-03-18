@@ -34,3 +34,11 @@ class SwitchProjectPages extends ProjectsEvent {
   @override
   List<Object> get props => [switchState];
 }
+
+//reset
+class ResetProjects extends ProjectsEvent {
+  const ResetProjects();
+
+  @override
+  List<Object> get props => [];
+}

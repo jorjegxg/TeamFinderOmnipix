@@ -143,7 +143,7 @@ class CreateSkillPage extends HookWidget {
                             await Provider.of<CreateSkillProvider>(context,
                                     listen: false)
                                 .createSkill(departamentId);
-
+                            if (!context.mounted) return;
                             context.goNamed(
                                 AppRouterConst.departamentSkillsPage,
                                 pathParameters: {

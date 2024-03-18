@@ -29,4 +29,8 @@ class DepartmentCreateCubit extends Cubit<DepartmentsState> {
       (r) => emit(DepartmentsCreateSuccess()),
     );
   }
+
+  void clearAllData() {
+    emit(DepartmentsInitial());
+  }
 }

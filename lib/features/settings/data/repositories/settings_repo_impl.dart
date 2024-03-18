@@ -15,7 +15,7 @@ class SettingsRepoImpl {
   //get team roles
   Future<Either<Failure, List<RoleModel>>> getTeamRoles() async {
     return ApiService()
-        .dioGet(
+        .dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/organization/teamroles/${await getOrganizationId()}",
     )
@@ -72,7 +72,7 @@ class SettingsRepoImpl {
     final organizationId = box.get(HiveConstants.organizationId);
 
     return ApiService()
-        .dioGet(
+        .dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/employee/notassignedskills/$employeeId/$organizationId",
     )
@@ -175,6 +175,20 @@ class SettingsRepoImpl {
         .dioPut(
       url:
           "${EndpointConstants.baseUrl}/employee/editemailandname/$employeeId/$email/$name",
+    )
+        .then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) => right(null),
+      );
+    });
+  }
+
+  //delete skill
+  Future<Either<Failure, void>> deleteSkill(String skillId) async {
+    return ApiService()
+        .dioDelete(
+      url: "${EndpointConstants.baseUrl}/employee/deleteskill/$skillId",
     )
         .then((response) {
       return response.fold(

@@ -78,7 +78,7 @@ class SkillStatisticsPage extends HookWidget {
                                             MainAxisAlignment.start,
                                         children: [
                                           Padding(
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 horizontal: 20, vertical: 10),
                                             child: CustomTextContainer(
                                               text: provider
