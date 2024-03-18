@@ -9,9 +9,7 @@ import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/logo_widget.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_managers/departments_managers_cubit.dart';
-import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/edit_employee_provider.dart';
-import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_dropdown_button.dart';
 import 'package:team_finder_app/injection.dart';
 
 class EmployeeProfilePage extends StatelessWidget {

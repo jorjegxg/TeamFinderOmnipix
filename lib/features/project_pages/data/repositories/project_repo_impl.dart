@@ -20,6 +20,9 @@ class ProjectRepoImpl extends ProjectRepo {
 
       url:
           "${EndpointConstants.baseUrl}/project/projectdetailactive/$employeeId",
+      codeMessage: {
+        404: "No active projects found",
+      },
     ))
         .fold(
       (l) {
@@ -46,13 +49,15 @@ class ProjectRepoImpl extends ProjectRepo {
       //TODO George Luta : vezi daca endpoint-ul este bun
 
       url:
-          "${EndpointConstants.baseUrl}/projects/projectdetailinactive/${employeeId}",
+          "${EndpointConstants.baseUrl}/projects/projectdetailinactive/$employeeId",
+      codeMessage: {
+        404: "No inactive projects found",
+      },
     ))
         .fold(
       (l) => Left(l),
       (r) {
         final List<ProjectModel> projects = [];
-        //TODO George Luta : vezi daca e bine : ['projects']
         for (var project in r) {
           projects.add(ProjectModel.fromMap(project));
         }
@@ -142,6 +147,9 @@ class ProjectRepoImpl extends ProjectRepo {
     return (ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/organization/teamroles/$organizationId",
+      codeMessage: {
+        404: "No team roles found",
+      },
     )).then((value) {
       return value.fold(
         (l) => Left(l),

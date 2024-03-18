@@ -146,4 +146,11 @@ class AuthUsecase {
   Future<Either<Failure<String>, void>> deleteAllStoredData() async {
     return authRepo.deleteAllStoredData();
   }
+
+  Future<Either<Failure<String>, String>> getOrganizationName(
+      {required String organizationId}) async {
+    return authRepo.getOrganizationName(
+      organizationId,
+    );
+  }
 }

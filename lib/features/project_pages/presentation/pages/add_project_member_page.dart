@@ -61,7 +61,7 @@ class AddProjectMembersPage extends HookWidget {
                               showDialog(
                                   context: context,
                                   builder: (context) {
-                                    return FilterDialog();
+                                    return const FilterDialog();
                                   });
                               //TODO: add functionality to the icon button filter
                             }),

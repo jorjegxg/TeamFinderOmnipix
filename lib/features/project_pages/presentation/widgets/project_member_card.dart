@@ -27,7 +27,7 @@ class ProjectMemberCard extends StatelessWidget {
         children: [
           // A SlidableAction can have an icon and/or a label.
           SlidableAction(
-            backgroundColor: Color(0xFFDCBABA),
+            backgroundColor: const Color(0xFFDCBABA),
             foregroundColor: Colors.white,
             icon: Icons.person_remove,
             label: 'Remove',

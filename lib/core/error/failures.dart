@@ -14,7 +14,6 @@ class NoDataFetched<T> extends Failure<T> {
 class ServerFailure<T> extends Failure<T> {
   ServerFailure({
     required String message,
-    required int statusCode,
   }) : super(message);
 }
 

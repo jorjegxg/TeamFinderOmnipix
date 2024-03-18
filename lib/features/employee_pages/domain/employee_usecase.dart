@@ -2,12 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/error/failures.dart';
-import 'package:team_finder_app/core/util/logger.dart';
-import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/employee_pages/data/employee_repo_impl.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee_roles_and_data.dart';
-import 'package:team_finder_app/features/employee_pages/data/models/employee_roles.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/manager_and_department_id.dart';
 
 @injectable

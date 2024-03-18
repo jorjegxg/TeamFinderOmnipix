@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,12 +6,10 @@ import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:team_finder_app/features/project_pages/data/models/technology_stack.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_segmented_button.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_widget.dart';
-import 'package:team_finder_app/features/project_pages/presentation/widgets/technologies_dialog_button.dart';
 import 'package:team_finder_app/injection.dart';
 
 class ProjectsMainScreen extends StatelessWidget {
@@ -262,7 +259,7 @@ class ProjectsMainScreen extends StatelessWidget {
             state.activeProjects[index].teamRoles.keys.elementAt(i).name;
       } else {
         teamRoleString +=
-            state.activeProjects[index].teamRoles.keys.elementAt(i).name + ', ';
+            '${state.activeProjects[index].teamRoles.keys.elementAt(i).name}, ';
       }
     }
     return teamRoleString;
@@ -289,8 +286,7 @@ class ProjectsMainScreen extends StatelessWidget {
             state.inactiveProjects[index].teamRoles.keys.elementAt(i).name;
       } else {
         teamRoleString +=
-            state.inactiveProjects[index].teamRoles.keys.elementAt(i).name +
-                ', ';
+            '${state.inactiveProjects[index].teamRoles.keys.elementAt(i).name}, ';
       }
     }
     return teamRoleString;
@@ -356,12 +352,12 @@ class DesktopMainProjectPage extends StatelessWidget {
                 children: [
                   ProjectsListWidget(
                     userId: userId,
-                    projects: [],
+                    projects: const [],
                     title: 'Past Projects',
                   ),
                   ProjectsListWidget(
                     userId: userId,
-                    projects: [],
+                    projects: const [],
                     title: 'Active Projects',
                   ),
                 ],

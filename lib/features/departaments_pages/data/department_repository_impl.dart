@@ -49,6 +49,7 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet(
       url:
           "${EndpointConstants.baseUrl}/departamentmanager/managersnodepartament/$organizationId",
+      codeMessage: {404: "No managers found"},
     ))
         .fold(
       (l) => left(l),
@@ -66,6 +67,7 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/departamentmanager/getdepartamentsfromorganization/$organizationId",
+      codeMessage: {404: "No departments found"},
     ))
         .fold(
       (l) => left(l),
@@ -80,6 +82,9 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/employee/departamentemployees/$departamentId",
+      codeMessage: {
+        404: "No employees found",
+      },
     ))
         .fold(
       (l) => left(l),
@@ -95,6 +100,9 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet(
       url:
           "${EndpointConstants.baseUrl}/employee/employeesnodepartament/$organizationId",
+      codeMessage: {
+        404: "No employees found",
+      },
     ))
         .fold(
       (l) => left(l),
@@ -143,6 +151,9 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/departament/skillsofdepartament/$departamentId",
+      codeMessage: {
+        404: "No skills found",
+      },
     ))
         .fold(
       (l) => left(l),
@@ -161,7 +172,10 @@ class DepartmentRepositoryImpl {
   ) async {
     return (await ApiService().dioGet<List<Map<String, int>>>(
       url:
-          "${EndpointConstants.baseUrl}/departamentmanager/chartdiagramspecialistlevel/${departamentId}/${skillId}",
+          "${EndpointConstants.baseUrl}/departamentmanager/chartdiagramspecialistlevel/$departamentId/$skillId",
+      codeMessage: {
+        404: "No statistics found",
+      },
     ))
         .fold(
       (l) => left(l),
@@ -175,6 +189,9 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/departamentmanager/getdepartamentprojects/$departamentId",
+      codeMessage: {
+        404: "No projects found",
+      },
     ))
         .fold(
       (l) => left(l),
@@ -195,6 +212,9 @@ class DepartmentRepositoryImpl {
         data: {
           "employeeId": e.id,
           "departamentId": departmentId,
+        },
+        codeMessage: {
+          404: "No employees found",
         },
       ))
           .fold(

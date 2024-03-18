@@ -13,12 +13,13 @@ class SettingsRepoImpl {
 
   //get team roles
   Future<Either<Failure, List<RoleModel>>> getTeamRoles() async {
-    return ApiService()
-        .dioGet(
+    return ApiService().dioGet(
       url:
           "${EndpointConstants.baseUrl}/organization/teamroles/${await getOrganizationId()}",
-    )
-        .then((response) {
+      codeMessage: {
+        404: "No team roles found",
+      },
+    ).then((response) {
       return response.fold(
         (l) => left(l),
         (r) {
@@ -70,12 +71,13 @@ class SettingsRepoImpl {
     final employeeId = box.get(HiveConstants.userId);
     final organizationId = box.get(HiveConstants.organizationId);
 
-    return ApiService()
-        .dioGet(
+    return ApiService().dioGet(
       url:
           "${EndpointConstants.baseUrl}/employee/notassignedskills/$employeeId/$organizationId",
-    )
-        .then((response) {
+      codeMessage: {
+        404: "No skills found",
+      },
+    ).then((response) {
       return response.fold(
         (l) => left(l),
         (r) {
@@ -124,6 +126,9 @@ class SettingsRepoImpl {
 
     return (await ApiService().dioGet<List>(
       url: "${EndpointConstants.baseUrl}/employee/getskills/$employeeId",
+      codeMessage: {
+        404: "No skills found",
+      },
     ))
         .fold(
       (l) => left(l),

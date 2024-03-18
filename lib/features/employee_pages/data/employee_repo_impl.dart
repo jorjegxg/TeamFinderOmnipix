@@ -21,12 +21,13 @@ class EmployeeRepoImpl {
 
   Future<Either<Failure, List<Employee>>> getEmployees() async {
     final organizationId = await getOrganizationId();
-    return ApiService()
-        .dioGet(
+    return ApiService().dioGet(
       url:
           "${EndpointConstants.baseUrl}/employee/organizationemployees/$organizationId",
-    )
-        .then((response) {
+      codeMessage: {
+        404: "No employees found",
+      },
+    ).then((response) {
       return response.fold(
         (l) => left(l),
         (r) {
@@ -130,11 +131,12 @@ class EmployeeRepoImpl {
   }
 
   Future<Either<Failure, EmployeesRoles>> _getEmployeeRoles(String employeeId) {
-    return ApiService()
-        .dioGet(
+    return ApiService().dioGet(
       url: "${EndpointConstants.baseUrl}/employee/roles/$employeeId",
-    )
-        .then((response) {
+      codeMessage: {
+        404: "No roles found",
+      },
+    ).then((response) {
       return response.fold(
         (l) => left(l),
         (r) {
@@ -147,11 +149,12 @@ class EmployeeRepoImpl {
   }
 
   Future<Either<Failure, EmployeeModel>> _getEmployeeData(String employeeId) {
-    return ApiService()
-        .dioGet(
+    return ApiService().dioGet(
       url: "${EndpointConstants.baseUrl}/employee/info/$employeeId",
-    )
-        .then((response) {
+      codeMessage: {
+        404: "No data found",
+      },
+    ).then((response) {
       return response.fold(
         (l) => left(l),
         (r) {

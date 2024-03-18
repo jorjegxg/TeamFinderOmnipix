@@ -5,7 +5,7 @@ import 'package:team_finder_app/features/departaments_pages/domain/department_us
 
 @injectable
 class DepartamentSkillsProvider extends ChangeNotifier {
-  DepartmentUseCase _departmentUseCase;
+  final DepartmentUseCase _departmentUseCase;
   DepartamentSkillsProvider(this._departmentUseCase);
   List<Skill> _skills = [];
   bool _isLoading = false;

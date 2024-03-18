@@ -20,6 +20,7 @@ class ApiService {
   Future<Either<Failure<String>, T>> dioGet<T>({
     required String url,
     Map<String, dynamic>? queryParameters,
+    required Map<int, String> codeMessage,
   }) async {
     try {
       Logger.info(
@@ -39,22 +40,18 @@ class ApiService {
         return Left(ServerFailure(
           message: response.data['message'] ??
               'GET request returned an unexpected status code: ${response.statusCode}',
-          statusCode: response.statusCode ?? 0,
         ));
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        if (e.response!.statusCode == 404) {
-          if (T == List) {
-            Logger.info('GET request', 'empty list returned');
-            return Right(<T>[] as T);
-          }
+        if (e.response!.statusCode == 404 && T == List) {
+          return Right(<T>[] as T);
+        }
 
-          return Left(
-            UnexpectedFailure(
-              message: e.message.toString(),
-            ),
-          );
+        if (codeMessage[e.response!.statusCode] != null) {
+          return Left(ServerFailure(
+            message: codeMessage[e.response!.statusCode]!,
+          ));
         }
       }
 
@@ -70,6 +67,7 @@ class ApiService {
   Future<Either<Failure<String>, T>> dioPost<T>({
     required String url,
     Map<String, dynamic>? data,
+    Map<int, String> codeMessage = const {},
   }) async {
     try {
       Logger.info('POST request', 'url: $url, data: $data');
@@ -87,11 +85,19 @@ class ApiService {
         return Left(ServerFailure(
           message: response.data['message'] ??
               'POST request returned an unexpected status code: ${response.statusCode} ',
-          statusCode: response.statusCode ?? 0,
         ));
       }
     } on DioException catch (e) {
       _logUnexpectedError('Post', e);
+
+      if (e.response != null) {
+        if (codeMessage[e.response!.statusCode] != null) {
+          return Left(ServerFailure(
+            message: codeMessage[e.response!.statusCode]!,
+          ));
+        }
+      }
+
       return Left(
         UnexpectedFailure(
           message: e.message.toString(),
@@ -103,6 +109,7 @@ class ApiService {
   Future<Either<Failure<String>, T>> dioPut<T>({
     required String url,
     Map<String, dynamic>? data,
+    Map<int, String> codeMessage = const {},
   }) async {
     try {
       Logger.info('PUT request', 'url: $url, data: $data');
@@ -121,11 +128,19 @@ class ApiService {
         return Left(ServerFailure(
           message: response.data['message'] ??
               'PUT request returned an unexpected status code: ${response.statusCode}',
-          statusCode: response.statusCode ?? 0,
         ));
       }
     } on DioException catch (e) {
       _logUnexpectedError('Put', e);
+
+      if (e.response != null) {
+        if (codeMessage[e.response!.statusCode] != null) {
+          return Left(ServerFailure(
+            message: codeMessage[e.response!.statusCode]!,
+          ));
+        }
+      }
+
       return Left(
         UnexpectedFailure(
           message: e.message.toString(),
@@ -136,6 +151,7 @@ class ApiService {
 
   Future<Either<Failure<String>, T>> dioDelete<T>({
     required String url,
+    Map<int, String> codeMessage = const {},
   }) async {
     try {
       Logger.info('DELETE request', 'url: $url');
@@ -153,11 +169,19 @@ class ApiService {
         return Left(ServerFailure(
           message: response.data['message'] ??
               'DELETE request returned an unexpected status code: ${response.statusCode}',
-          statusCode: response.statusCode ?? 0,
         ));
       }
     } on DioException catch (e) {
       _logUnexpectedError('Delete', e);
+
+      if (e.response != null) {
+        if (codeMessage[e.response!.statusCode] != null) {
+          return Left(ServerFailure(
+            message: codeMessage[e.response!.statusCode]!,
+          ));
+        }
+      }
+
       return Left(
         UnexpectedFailure(
           message: e.message.toString(),

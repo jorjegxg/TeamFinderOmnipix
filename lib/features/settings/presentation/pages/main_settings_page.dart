@@ -59,7 +59,7 @@ class DetailsBodyWidget extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               OptionWidget(
                 text: 'Edit Profile',
                 onPressed: () {

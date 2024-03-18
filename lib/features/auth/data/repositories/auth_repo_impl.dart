@@ -27,6 +27,9 @@ class AuthRepoImpl extends AuthRepo {
         //TODO George Luta : nu trebuie facuta in front-end
         "url": "url"
       },
+      codeMessage: {
+        409: "Email already in use",
+      },
     ))
         .fold((l) => left(l), (r) => right(r["Token"]));
   }
@@ -49,6 +52,9 @@ class AuthRepoImpl extends AuthRepo {
           "email": email,
           "password": password,
           "organizationId": organizationId,
+        },
+        codeMessage: {
+          400: "Email already in use",
         },
       ))
           .fold((l) => left(l), (r) {
@@ -73,6 +79,9 @@ class AuthRepoImpl extends AuthRepo {
         "email": email,
         "password": password,
       },
+      codeMessage: {
+        400: "Invalid email or password",
+      },
     ))
         .fold((l) => left(l), (r) => right(r["Token"]));
   }
@@ -88,5 +97,17 @@ class AuthRepoImpl extends AuthRepo {
     }
 
     return right(null);
+  }
+
+  @override
+  Future<Either<Failure<String>, String>> getOrganizationName(
+      String organizationId) async {
+    return (await ApiService().dioGet(
+      url: "${EndpointConstants.baseUrl}/organization/$organizationId",
+      codeMessage: {
+        404: "Organization not found",
+      },
+    ))
+        .fold((l) => left(l), (r) => right(r["name"]));
   }
 }
