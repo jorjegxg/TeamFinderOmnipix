@@ -54,7 +54,6 @@ class FieldDialog extends HookWidget {
                 TextButton(
                   onPressed: () {
                     onPress(firstController.text, secondController.text);
-                    Navigator.pop(context);
                   },
                   child: const Text('Add'),
                 ),

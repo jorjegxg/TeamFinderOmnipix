@@ -42,6 +42,12 @@ class MyAppRouter {
     redirect: (_, state) async {
       final token =
           await SecureStorageService().read(key: StorageConstants.token);
+      if (state.fullPath == '/register/admin' ||
+          state.fullPath == '/register/employee' ||
+          state.fullPath == '/login/admin' ||
+          state.fullPath == '/login/employee') {
+        return null;
+      }
       if (token == null) {
         return '/register/admin';
       }

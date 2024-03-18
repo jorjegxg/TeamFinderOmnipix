@@ -52,6 +52,11 @@ class PersonalSkillsPage extends HookWidget {
                           child: Text(provider.error!),
                         );
                       }
+                      if (provider.skills.isEmpty) {
+                        return Center(
+                          child: Text('No skills added yet'),
+                        );
+                      }
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Column(

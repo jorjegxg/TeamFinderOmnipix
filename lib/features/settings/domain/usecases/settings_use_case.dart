@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/error/failures.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 import 'package:team_finder_app/features/settings/data/models/role_model.dart';
 import 'package:team_finder_app/features/settings/data/repositories/settings_repo_impl.dart';
 
@@ -50,5 +51,31 @@ class SettingsUseCase {
 
   Future<Either<Failure<String>, List<Skill>>> getSkillsForEmployee() async {
     return _repository.getSkillsForEmployee();
+  }
+
+  //getCure
+  Future<Either<Failure, Employee>> getCurrentEmployee() async {
+    return _repository.getCurrentEmployee();
+  }
+
+  //updateNameAndEmail
+  Future<Either<Failure, void>> updateNameAndEmail(
+      String name, String email) async {
+    return _repository.updateNameAndEmail(name, email);
+  }
+
+  //changePassword
+  Future<Either<Failure, void>> changePassword(
+      String newPassword, String newPassword2, String email) async {
+    if (newPassword.isEmpty || newPassword2.isEmpty) {
+      return left(EasyFailure(message: "Password can't be empty"));
+    } else if (newPassword.length < 6) {
+      return left(
+          EasyFailure(message: "Password must be at least 6 characters"));
+    } else if (newPassword != newPassword2) {
+      return left(EasyFailure(message: "Passwords do not match"));
+    }
+
+    return _repository.changePassword(newPassword, email);
   }
 }

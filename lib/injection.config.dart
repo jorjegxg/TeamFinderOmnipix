@@ -19,7 +19,7 @@ import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart
 import 'package:team_finder_app/features/auth/domain/validators/authentication_validator.dart'
     as _i5;
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart'
-    as _i33;
+    as _i34;
 import 'package:team_finder_app/features/departaments_pages/data/department_repository_impl.dart'
     as _i6;
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart'
@@ -59,7 +59,7 @@ import 'package:team_finder_app/features/project_pages/domain/usecases/projects_
 import 'package:team_finder_app/features/project_pages/presentation/bloc/create_project_provider.dart'
     as _i24;
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart'
-    as _i32;
+    as _i33;
 import 'package:team_finder_app/features/settings/data/repositories/settings_repo_impl.dart'
     as _i17;
 import 'package:team_finder_app/features/settings/domain/usecases/settings_use_case.dart'
@@ -68,6 +68,8 @@ import 'package:team_finder_app/features/settings/presentation/providers/add_ski
     as _i19;
 import 'package:team_finder_app/features/settings/presentation/providers/personal_skills_provider.dart'
     as _i31;
+import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart'
+    as _i32;
 import 'package:team_finder_app/features/settings/presentation/providers/team_roles_provider.dart'
     as _i21;
 
@@ -133,9 +135,11 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i30.EditEmployeeProvider(gh<_i11.EmployeeUsecase>()));
     gh.factory<_i31.PersonalSkillsProvider>(
         () => _i31.PersonalSkillsProvider(gh<_i18.SettingsUseCase>()));
-    gh.factory<_i32.ProjectsBloc>(
-        () => _i32.ProjectsBloc(gh<_i16.ProjectsUsecase>()));
-    gh.factory<_i33.AuthBloc>(() => _i33.AuthBloc(gh<_i23.AuthUsecase>()));
+    gh.factory<_i32.ProfileProvider>(
+        () => _i32.ProfileProvider(gh<_i18.SettingsUseCase>()));
+    gh.factory<_i33.ProjectsBloc>(
+        () => _i33.ProjectsBloc(gh<_i16.ProjectsUsecase>()));
+    gh.factory<_i34.AuthBloc>(() => _i34.AuthBloc(gh<_i23.AuthUsecase>()));
     return this;
   }
 }
