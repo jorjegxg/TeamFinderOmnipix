@@ -60,25 +60,28 @@ ThemeData createLightTheme() {
       ),
     ),
     brightness: Brightness.light,
+
+    //combina-le
+
     colorScheme: const ColorScheme(
       brightness: Brightness.light,
-      primary: Color(0xFF6750A4),
-      surface: Color(0xFFFEF7FF),
-      surfaceContainer: Color(0xFFF3EDF7),
-      outlineVariant: Color(0xFFCAC4D0),
-      onSurfaceVariant: Color(0xFF49454F),
-      outline: Color(0xFF79747E),
-      onPrimary: Color(0xFFFFFFFF),
-      onSurface: Color(0xFFE6E0E9),
-      surfaceContainerHigh: Color(0xFFECE6F0),
-      secondaryContainer: Color(0xFFE8DEF8),
-      secondary: Color(0xFF625B71),
-      onSecondary: Color(0xFFFFFFFF),
-      error: Color(0xFFB3261E),
-      onError: Color(0xFFFFFFFF),
-      shadow: Color(0x3F000000),
-      primaryContainer: Color(0xFFF7F2FA),
-      onPrimaryContainer: Color(0xFFEBE4EF),
+      primary: Color(0xFF6750A4), // Mov
+      surface: Color(0xFFF3E5F5), // Lavandă
+      surfaceContainer: Color(0xFFD1C4E9), // Mov deschis
+      outlineVariant: Color(0xFFAB47BC), // Lavandă intens
+      onSurfaceVariant: Color(0xFF4A148C), // Violet profund
+      outline: Color(0xFF9C27B0), // Violet
+      onPrimary: Color(0xFFFFFFFF), // Alb
+      onSurface: Color(0xFF6A1B9A), // Violet întunecat
+      surfaceContainerHigh: Color(0xFFBA68C8), // Violet deschis
+      secondaryContainer: Color(0xFFCE93D8), // Mov pal
+      secondary: Color(0xFF6A1B9A), // Violet închis
+      onSecondary: Color(0xFFFFFFFF), // Alb
+      error: Color(0xFFC2185B), // Roz
+      onError: Color(0xFFFFFFFF), // Alb
+      shadow: Color(0x3F000000), // Negru transparent
+      primaryContainer: Color(0xFFE1BEE7), // Lavandă deschis
+      onPrimaryContainer: Color(0xFFB39DDB), // Lavandă mai închis
     ),
   );
 }
