@@ -56,7 +56,6 @@ class EmployeeUsecase {
     );
   }
 
-<<<<<<< HEAD
   /// admin , departmentManager, projectManager
   /// daca sunt null , nu se schimba nimic
   /// daca sunt false, se sterge rolul
@@ -102,37 +101,14 @@ class EmployeeUsecase {
 
     if (_projectManagerStatusHsChanged(projectManager)) {
       if (projectManager!) {
-=======
-  Future<Either<Failure, void>> updateEmployeeRoles(
-      {required String employeeId,
-      bool? admin,
-      bool? departmentManager,
-      bool? projectManager}) async {
-    if (departmentManager != null) {
-      if (departmentManager) {
-        await employeeRepoImpl.makeEmployeeDepartmentManager(employeeId);
-      } else {
-        // await employeeRepoImpl
-        //     .takeDepartmentManagerRoleFromEmployee(employeeId);
-      }
-    }
-
-    if (projectManager != null) {
-      if (projectManager) {
->>>>>>> 474d3f566a4c788ddf0a9290c298aec3089c1752
         await employeeRepoImpl.makeEmployeeProjectManager(employeeId);
       } else {
         await employeeRepoImpl.deleteProjectManagerRoleFromEmployee(employeeId);
       }
     }
 
-<<<<<<< HEAD
     if (_adminStatusHasChanged(admin)) {
       if (admin!) {
-=======
-    if (admin != null) {
-      if (admin) {
->>>>>>> 474d3f566a4c788ddf0a9290c298aec3089c1752
         await employeeRepoImpl.makeEmployeeOrganizationAdmin(employeeId);
       } else {
         return employeeRepoImpl.demoteAdmin(employeeId: employeeId);

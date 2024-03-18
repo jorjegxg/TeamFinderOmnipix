@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 ThemeData createLightTheme() {
   return ThemeData(
@@ -65,23 +66,29 @@ ThemeData createLightTheme() {
 
     colorScheme: const ColorScheme(
       brightness: Brightness.light,
+
       primary: Color(0xFF6750A4), // Mov
-      surface: Color(0xFFF3E5F5), // Lavandă
-      surfaceContainer: Color(0xFFD1C4E9), // Mov deschis
-      outlineVariant: Color(0xFFAB47BC), // Lavandă intens
-      onSurfaceVariant: Color(0xFF4A148C), // Violet profund
-      outline: Color(0xFF9C27B0), // Violet
       onPrimary: Color(0xFFFFFFFF), // Alb
-      onSurface: Color(0xFF6A1B9A), // Violet întunecat
-      surfaceContainerHigh: Color(0xFFBA68C8), // Violet deschis
-      secondaryContainer: Color(0xFFCE93D8), // Mov pal
-      secondary: Color(0xFF6A1B9A), // Violet închis
-      onSecondary: Color(0xFFFFFFFF), // Alb
-      error: Color(0xFFC2185B), // Roz
-      onError: Color(0xFFFFFFFF), // Alb
-      shadow: Color(0x3F000000), // Negru transparent
       primaryContainer: Color(0xFFE1BEE7), // Lavandă deschis
       onPrimaryContainer: Color(0xFFB39DDB), // Lavandă mai închis
+      secondary: Color(0xFF6A1B9A), // Violet închis
+      onSecondary: Color(0xFFFFFFFF), // Alb
+      secondaryContainer: Color(0xFFCE93D8), // Mov pal
+      onSecondaryContainer: Color(0xFF1D192B),
+
+      tertiary: Color(0xFF7D5260),
+      onTertiary: Color(0xFFFFFFFF),
+      tertiaryContainer: Color(0xFFFFD8E4),
+      onTertiaryContainer: Color(0xFF31111D),
+      error: Color(0xFFB3261E),
+      onError: Color(0xFFFFFFFF),
+      errorContainer: Color(0xFFF9DEDC),
+      onErrorContainer: Color(0xFF410E0B),
+      surface: Color(0xFFFFFBFE),
+      onSurface: Color(0xFF1C1B1F),
+      outline: Color(0xFF79747E),
+      surfaceContainerHighest: Color(0xFFE7E0EC),
+      onSurfaceVariant: Color(0xFF49454F),
     ),
   );
 }
