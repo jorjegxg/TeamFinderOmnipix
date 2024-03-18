@@ -11,6 +11,11 @@ class EmployeeRepoImpl {
     return box.get(HiveConstants.organizationId)!;
   }
 
+  Future<String> getEmployeeId() async {
+    final box = Hive.box<String>(HiveConstants.authBox);
+    return box.get(HiveConstants.userId)!;
+  }
+
   Future<Either<Failure, List<Employee>>> getEmployees() async {
     final organizationId = await getOrganizationId();
     return ApiService()
@@ -51,14 +56,26 @@ class EmployeeRepoImpl {
     });
   }
 
-  //delete la organization admin:
-  //
-  //---trebuie facuta
-  Future<Either<Failure, void>> takeOrganizationAdminRoleFromEmployee(
-      {required String employeeId, required String organizationId}) async {
-    //TODO George Luta : implement this method
+  Future<Either<Failure, void>> demoteAdmin(
+      {required String employeeId}) async {
+    final currentUserId = await getEmployeeId();
 
-    return right(null);
+    if (currentUserId == employeeId) {
+      return left(
+          EasyFailure(message: "You can't demote yourself from admin role"));
+    }
+
+    return ApiService()
+        .dioDelete(
+      url:
+          "${EndpointConstants.baseUrl}/admin/demoteorganizationadmin/$employeeId",
+    )
+        .then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) => right(null),
+      );
+    });
   }
 
   //make employee department manager

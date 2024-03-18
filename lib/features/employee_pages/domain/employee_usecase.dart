@@ -46,11 +46,10 @@ class EmployeeUsecase {
     return employeeRepoImpl.getEmployeeRoles(employeeId);
   }
 
-  Future<Either<Failure, void>> takeOrganizationAdminRoleFromEmployee(
+  Future<Either<Failure, void>> demoteAdmin(
       {required String employeeId, required String organizationId}) {
-    return employeeRepoImpl.takeOrganizationAdminRoleFromEmployee(
+    return employeeRepoImpl.demoteAdmin(
       employeeId: employeeId,
-      organizationId: organizationId,
     );
   }
 
@@ -59,20 +58,11 @@ class EmployeeUsecase {
       bool? admin,
       bool? departmentManager,
       bool? projectManager}) async {
-    if (admin != null) {
-      if (admin) {
-        await employeeRepoImpl.makeEmployeeOrganizationAdmin(employeeId);
-      } else {
-        // return employeeRepoImpl
-        //     .takeOrganizationAdminRoleFromEmployee(employeeId);
-      }
-    }
-
     if (departmentManager != null) {
       if (departmentManager) {
         await employeeRepoImpl.makeEmployeeDepartmentManager(employeeId);
       } else {
-        // return employeeRepoImpl
+        // await employeeRepoImpl
         //     .takeDepartmentManagerRoleFromEmployee(employeeId);
       }
     }
@@ -81,8 +71,15 @@ class EmployeeUsecase {
       if (projectManager) {
         await employeeRepoImpl.makeEmployeeProjectManager(employeeId);
       } else {
-        return employeeRepoImpl
-            .deleteProjectManagerRoleFromEmployee(employeeId);
+        await employeeRepoImpl.deleteProjectManagerRoleFromEmployee(employeeId);
+      }
+    }
+
+    if (admin != null) {
+      if (admin) {
+        await employeeRepoImpl.makeEmployeeOrganizationAdmin(employeeId);
+      } else {
+        return employeeRepoImpl.demoteAdmin(employeeId: employeeId);
       }
     }
 
