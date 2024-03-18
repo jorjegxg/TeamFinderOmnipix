@@ -66,7 +66,7 @@ class DetailsBodyWidget extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (context) => FieldDialog(
-                      onPress: () {
+                      onPress: (String t1, String? t2) {
                         //TODO: add functionality to the edit button
                         Navigator.pop(context);
                       },
@@ -100,7 +100,7 @@ class DetailsBodyWidget extends StatelessWidget {
                       title: 'Change Password',
                       text1: 'New Password',
                       text2: 'Confirm Password',
-                      onPress: () {
+                      onPress: (String t1, String? t2) {
                         //TODO: add functionality to the edit button
                         Navigator.pop(context);
                       },

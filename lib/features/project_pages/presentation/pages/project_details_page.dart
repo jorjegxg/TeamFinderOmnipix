@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
+import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_details_body.dart';
 
 class ProjectDetailsScreen extends HookWidget {
   const ProjectDetailsScreen(
-      {required this.userId, super.key, required this.projectId});
+      {required this.userId,
+      super.key,
+      required this.projectId,
+      required this.project});
   final String projectId;
   final String userId;
+  final ProjectEntity project;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +36,7 @@ class ProjectDetailsScreen extends HookWidget {
                 context.goNamed(
                   AppRouterConst.editProjectScreen,
                   pathParameters: {'projectId': projectId, 'userId': userId},
+                  extra: project,
                 );
               },
             ),
@@ -50,7 +57,26 @@ class ProjectDetailsScreen extends HookWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 20),
-                    const ProjectDetailsBody(),
+                    //MobileProjectDetailsBody(),
+                    Expanded(
+                      child: ScreenTypeLayout.builder(
+                        mobile: (context) {
+                          return MobileProjectDetailsBody(
+                            project: project,
+                          );
+                        },
+                        desktop: (context) {
+                          return DesktopProjectDetailsScreen(
+                            userId: userId,
+                          );
+                        },
+                        tablet: (context) {
+                          return TabletProjectDetailsScreen(
+                            userId: userId,
+                          );
+                        },
+                      ),
+                    ),
                     const SizedBox(height: 20),
                     CustomButton(
                       text: 'View Members',

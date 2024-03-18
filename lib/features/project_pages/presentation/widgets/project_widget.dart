@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 
 class ProjectWidget extends StatelessWidget {
@@ -35,8 +36,10 @@ class ProjectWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
           ),
-          height: 250,
-          width: 100,
+          height: getValueForScreenType(
+              context: context, mobile: 250, desktop: 200, tablet: 200),
+          width: getValueForScreenType(
+              context: context, mobile: 100, desktop: 200, tablet: 200),
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Column(

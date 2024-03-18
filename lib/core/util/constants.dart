@@ -105,6 +105,141 @@ class AppLists {
   ];
 }
 
+//One of: 1 – Learns, 2 – Knows, 3 – Does, 4 – Helps, 5 – Teaches
+enum SkillLevel { learns, knows, does, helps, teaches }
+
+extension SkillLevelX on SkillLevel {
+  static SkillLevel fromString(String level) {
+    if (level == 'Learns') {
+      return SkillLevel.learns;
+    } else if (level == 'Knows') {
+      return SkillLevel.knows;
+    } else if (level == 'Does') {
+      return SkillLevel.does;
+    } else if (level == 'Helps') {
+      return SkillLevel.helps;
+    } else {
+      return SkillLevel.teaches;
+    }
+  }
+
+  String toStringValue() {
+    if (this == SkillLevel.learns) {
+      return 'Learns';
+    } else if (this == SkillLevel.knows) {
+      return 'Knows';
+    } else if (this == SkillLevel.does) {
+      return 'Does';
+    } else if (this == SkillLevel.helps) {
+      return 'Helps';
+    } else {
+      return 'Teaches';
+    }
+  }
+}
+
+//One of: 0-6 months, 6-12 months, 1-2 years, 2-4 years, 4-7 years, >7 years
+enum ExperienceLevel {
+  months0_6,
+  months6_12,
+  years1_2,
+  years2_4,
+  years4_7,
+  years7,
+}
+
+extension ExperienceLevelX on ExperienceLevel {
+  static ExperienceLevel fromString(String level) {
+    if (level == '0-6 months') {
+      return ExperienceLevel.months0_6;
+    } else if (level == '6-12 months') {
+      return ExperienceLevel.months6_12;
+    } else if (level == '1-2 years') {
+      return ExperienceLevel.years1_2;
+    } else if (level == '2-4 years') {
+      return ExperienceLevel.years2_4;
+    } else if (level == '4-7 years') {
+      return ExperienceLevel.years4_7;
+    } else {
+      return ExperienceLevel.years7;
+    }
+  }
+
+  String toStringValue() {
+    if (this == ExperienceLevel.months0_6) {
+      return '0-6 months';
+    } else if (this == ExperienceLevel.months6_12) {
+      return '6-12 months';
+    } else if (this == ExperienceLevel.years1_2) {
+      return '1-2 years';
+    } else if (this == ExperienceLevel.years2_4) {
+      return '2-4 years';
+    } else if (this == ExperienceLevel.years4_7) {
+      return '4-7 years';
+    } else {
+      return '>7 years';
+    }
+  }
+}
+
+enum ProjectPeriod { fixed, ongoing }
+
+extension ProjectPeriodX on ProjectPeriod {
+  static ProjectPeriod fromString(String period) {
+    if (period == 'fixed') {
+      return ProjectPeriod.fixed;
+    } else {
+      return ProjectPeriod.ongoing;
+    }
+  }
+
+  String toStringValue() {
+    if (this == ProjectPeriod.fixed) {
+      return 'fixed';
+    } else {
+      return 'ongoing';
+    }
+  }
+}
+
+enum ProjectStatus {
+  NotStarted,
+  Starting,
+  InProgress,
+  Closing,
+  Closed,
+}
+
+extension ProjectStatusX on ProjectStatus {
+  static ProjectStatus fromString(String status) {
+    if (status == 'Not Started') {
+      return ProjectStatus.NotStarted;
+    } else if (status == 'Starting') {
+      return ProjectStatus.Starting;
+    } else if (status == 'In Progress') {
+      return ProjectStatus.InProgress;
+    } else if (status == 'Closing') {
+      return ProjectStatus.Closing;
+    } else {
+      return ProjectStatus.Closed;
+    }
+  }
+
+  String toStringValue() {
+    if (this == ProjectStatus.NotStarted) {
+      return 'Not Started';
+    } else if (this == ProjectStatus.Starting) {
+      return 'Starting';
+    } else if (this == ProjectStatus.InProgress) {
+      return 'In Progress';
+    } else if (this == ProjectStatus.Closing) {
+      return 'Closing';
+    } else {
+      return 'Closed';
+    }
+  }
+}
+
 class StorageConstants {
   static const String token = 'token';
 }
@@ -115,6 +250,7 @@ class HiveConstants {
   static const String userId = 'userId';
   static const String departmentId = 'departmentId';
   static const String organizationId = 'organizationId';
+  static const String userEmail = 'userEmail';
 }
 
 class DynamicLinkConstants {

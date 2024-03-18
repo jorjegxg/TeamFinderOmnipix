@@ -1,7 +1,9 @@
 import 'dart:convert';
 
-class TechnologyStack {
-  final String id;
+import 'package:equatable/equatable.dart';
+
+class TechnologyStack extends Equatable {
+  String id;
   final String name;
 
   TechnologyStack({
@@ -32,4 +34,7 @@ class TechnologyStack {
 
   factory TechnologyStack.fromJson(String source) =>
       TechnologyStack.fromMap(json.decode(source));
+
+  @override
+  List<Object?> get props => [id, name];
 }

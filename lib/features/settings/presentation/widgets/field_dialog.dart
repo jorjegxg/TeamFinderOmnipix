@@ -12,7 +12,7 @@ class FieldDialog extends HookWidget {
   final String text1;
   final String? text2;
   final String title;
-  final Function() onPress;
+  final Function(String t1, String? t2) onPress;
   @override
   Widget build(BuildContext context) {
     final firstController = useTextEditingController();
@@ -52,8 +52,11 @@ class FieldDialog extends HookWidget {
                   child: const Text('Close'),
                 ),
                 TextButton(
-                  onPressed: onPress,
-                  child: const Text('Edit'),
+                  onPressed: () {
+                    onPress(firstController.text, secondController.text);
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Add'),
                 ),
               ],
             ),
