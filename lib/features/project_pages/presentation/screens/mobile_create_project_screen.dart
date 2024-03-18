@@ -28,6 +28,7 @@ class MobileCreateProjectScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
@@ -46,27 +47,28 @@ class MobileCreateProjectScreen extends StatelessWidget {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 20),
-                    Expanded(
-                      child: Card(
-                        color: Theme.of(context).colorScheme.surfaceContainer,
-                        child: SingleChildScrollView(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Consumer<CreateProjectProvider>(
-                                    builder: (_, provider, __) {
-                                      if (provider.isLoading) {
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      }
-                                      return Column(
+                child: Consumer<CreateProjectProvider>(
+                  builder: (_, provider, __) {
+                    if (provider.isLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 20),
+                        Expanded(
+                          child: Card(
+                            color:
+                                Theme.of(context).colorScheme.surfaceContainer,
+                            child: SingleChildScrollView(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
@@ -74,10 +76,7 @@ class MobileCreateProjectScreen extends StatelessWidget {
                                             nameConttroler: nameColtroler,
                                             hintText: 'Name',
                                             width: 90.w,
-                                            onSubmitted: (String s) {
-                                              provider
-                                                  .setName(nameColtroler.text);
-                                            },
+                                            onSubmitted: (String s) {},
                                           ),
                                           const SizedBox(height: 20),
                                           Text('Project period',
@@ -210,7 +209,17 @@ class MobileCreateProjectScreen extends StatelessWidget {
                                                         title: 'Add team roles',
                                                         description:
                                                             '   In this screen you shall be able to add team roles to your project. You can add as many as you want.',
-                                                        items: value.teamRoles,
+                                                        items:
+                                                            value.teamRoles.map(
+                                                          (key, value) {
+                                                            return MapEntry({
+                                                              key.keys.first
+                                                                      .name:
+                                                                  key.values
+                                                                      .first
+                                                            }, value);
+                                                          },
+                                                        ),
                                                         onChanged: (bool? b,
                                                             int index,
                                                             int number) {
@@ -237,33 +246,34 @@ class MobileCreateProjectScreen extends StatelessWidget {
                                                 TextInputType.multiline,
                                             minLines: 10,
                                             width: 90.w,
-                                            onSubmitted: (String s) {
-                                              provider.setDescription(
-                                                  descriptionColtroler.text);
-                                            },
+                                            onSubmitted: (String s) {},
                                           ),
                                         ],
-                                      );
-                                    },
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    CustomButton(
-                      text: 'Done',
-                      onPressed: () {
-                        context.read<CreateProjectProvider>().createProject();
-                        context.goNamed(AppRouterConst.projectsMainScreen,
-                            pathParameters: {'userId': userId});
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                  ],
+                        const SizedBox(height: 20),
+                        CustomButton(
+                          text: 'Done',
+                          onPressed: () {
+                            provider.setDescription(descriptionColtroler.text);
+                            provider.setName(nameColtroler.text);
+                            context
+                                .read<CreateProjectProvider>()
+                                .createProject();
+                            context.goNamed(AppRouterConst.projectsMainScreen,
+                                pathParameters: {'userId': userId});
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    );
+                  },
                 ),
               ),
             );

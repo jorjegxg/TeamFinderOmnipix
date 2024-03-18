@@ -1,38 +1,48 @@
 part of 'projects_bloc.dart';
 
-abstract class ProjectsState extends Equatable {
-  const ProjectsState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class ProjectInitial extends ProjectsState {}
-
-class ProjectsLoaded extends ProjectsState {
-  final List<ProjectEntity>? activeProjects;
-  final List<ProjectEntity>? inactiveProjects;
+class ProjectsState extends Equatable {
+  final List<ProjectEntity> activeProjects;
+  final List<ProjectEntity> inactiveProjects;
   final StatusOfProject switchState;
+  final String errorMessage;
+  final bool isLoading;
 
-  const ProjectsLoaded({
+  const ProjectsState({
+    required this.errorMessage,
     required this.switchState,
-    this.activeProjects,
-    this.inactiveProjects,
+    required this.activeProjects,
+    required this.inactiveProjects,
+    required this.isLoading,
   });
 
   @override
-  List<Object> get props => [activeProjects!, inactiveProjects!, switchState];
+  List<Object> get props => [activeProjects, inactiveProjects, switchState];
+
+  //copy with
+  ProjectsState copyWith({
+    List<ProjectEntity>? activeProjects,
+    List<ProjectEntity>? inactiveProjects,
+    StatusOfProject? switchState,
+    String? errorMessage,
+    bool? isLoading,
+  }) {
+    return ProjectsState(
+      activeProjects: activeProjects ?? this.activeProjects,
+      inactiveProjects: inactiveProjects ?? this.inactiveProjects,
+      switchState: switchState ?? this.switchState,
+      errorMessage: errorMessage ?? this.errorMessage,
+      isLoading: isLoading ?? this.isLoading,
+    );
+  }
+
+  //initital state
+  factory ProjectsState.initial() {
+    return ProjectsState(
+      activeProjects: [],
+      inactiveProjects: [],
+      switchState: StatusOfProject.active,
+      errorMessage: '',
+      isLoading: false,
+    );
+  }
 }
-
-class ProjectsError extends ProjectsState {
-  final String message;
-
-  const ProjectsError(this.message);
-
-  @override
-  List<Object> get props => [message];
-}
-
-class ProjectsLoading extends ProjectsState {}
-
-class ProjectsEmpty extends ProjectsState {}

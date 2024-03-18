@@ -26,7 +26,7 @@ class TeamRolesDialog extends HookWidget {
           children: <Widget>[
             Text(
               title,
-              style: Theme.of(context).textTheme.titleSmall,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 15),
             Text(

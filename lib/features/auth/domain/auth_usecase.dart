@@ -62,6 +62,7 @@ class AuthUsecase {
 
     box.put(HiveConstants.userId, userData['id']);
     box.put(HiveConstants.organizationId, userData['organizationId']);
+    box.put(HiveConstants.userEmail, userData['email']);
     if (userData['departmentId'] != null) {
       box.put(HiveConstants.departmentId, userData['departmentId']);
     }

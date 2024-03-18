@@ -23,6 +23,7 @@ import 'package:team_finder_app/features/departaments_pages/presentation/pages/s
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/skills_statistics_page.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/pages/employee_profile_page.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/pages/employees_main_page.dart';
+import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/add_project_member_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/assigment_proposal_screen.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/create_project_page.dart';
@@ -38,6 +39,21 @@ import 'package:team_finder_app/features/settings/presentation/pages/team_roles_
 @singleton
 class MyAppRouter {
   final GoRouter _router = GoRouter(
+    redirect: (_, state) async {
+      final token =
+          await SecureStorageService().read(key: StorageConstants.token);
+      if (token == null) {
+        return '/register/admin';
+      }
+
+      final isExpired = JwtDecoder.isExpired(token);
+
+      if (isExpired) {
+        await SecureStorageService().delete(key: StorageConstants.token);
+        return '/register/admin';
+      }
+      return null;
+    },
     // initialLocation: '/firstPage',
     initialLocation: '/register/admin',
     routes: [
@@ -115,6 +131,7 @@ class MyAppRouter {
                   child: ProjectDetailsScreen(
                 projectId: state.pathParameters['projectId']!,
                 userId: state.pathParameters['userId']!,
+                project: state.extra as ProjectEntity,
               )),
             ),
             GoRoute(
@@ -161,6 +178,7 @@ class MyAppRouter {
                   child: EditProjectScreen(
                 projectId: state.pathParameters['projectId']!,
                 userId: state.pathParameters['userId']!,
+                project: state.extra as ProjectEntity,
               )),
             ),
             GoRoute(

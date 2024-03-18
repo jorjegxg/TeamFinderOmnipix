@@ -31,7 +31,7 @@ class ViewListDialog extends HookWidget {
                   itemBuilder: (context, index) {
                     return ListTile(
                       title: Text(
-                        'Item ${list[index]}',
+                        list[index],
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     );

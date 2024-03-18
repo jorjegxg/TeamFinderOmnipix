@@ -3,12 +3,14 @@ class Skill {
   String category;
   String description;
   String currentManager;
+  String id;
 
   Skill(
       {required this.name,
       required this.category,
       required this.description,
-      required this.currentManager});
+      required this.currentManager,
+      required this.id});
 
   Map<String, dynamic> toJson() {
     return {
@@ -16,6 +18,7 @@ class Skill {
       'category': category,
       'description': description,
       'currentManager': currentManager,
+      'id': id,
     };
   }
 
@@ -25,6 +28,7 @@ class Skill {
       category: json['category'],
       description: json['description'],
       currentManager: json['currentManager'],
+      id: json['id'],
     );
   }
 }

@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sizer/sizer.dart';
+import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
+import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_text_container.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/view_list_dialog.dart';
 
 class MobileProjectDetailsBody extends StatelessWidget {
   const MobileProjectDetailsBody({
     super.key,
+    required this.project,
   });
-
+  final ProjectEntity project;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -26,22 +29,22 @@ class MobileProjectDetailsBody extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 5),
-                    Text('Project period',
+                    Text('Project Name',
                         style: Theme.of(context).textTheme.titleSmall),
-                    const CustomTextContainer(
-                      text: 'Project Name',
+                    CustomTextContainer(
+                      text: project.name,
                     ),
                     const SizedBox(height: 20),
                     Text('Project period',
                         style: Theme.of(context).textTheme.titleSmall),
-                    const CustomTextContainer(
-                      text: 'Project period',
+                    CustomTextContainer(
+                      text: project.period.toStringValue(),
                     ),
                     const SizedBox(height: 20),
                     Text('Project Status',
                         style: Theme.of(context).textTheme.titleSmall),
-                    const CustomTextContainer(
-                      text: 'Project status',
+                    CustomTextContainer(
+                      text: project.status,
                     ),
                     const SizedBox(height: 20),
                     Row(
@@ -49,12 +52,12 @@ class MobileProjectDetailsBody extends StatelessWidget {
                       children: [
                         Text('Start Date:',
                             style: Theme.of(context).textTheme.titleSmall),
-                        Text('10/02/2022',
+                        Text(project.startDateString,
                             style: Theme.of(context).textTheme.titleSmall),
                         SizedBox(width: 10.w),
                         Text('End Date:',
                             style: Theme.of(context).textTheme.titleSmall),
-                        Text('10/02/2024',
+                        Text(project.deadlineDateString,
                             style: Theme.of(context).textTheme.titleSmall),
                       ],
                     ),
@@ -67,8 +70,10 @@ class MobileProjectDetailsBody extends StatelessWidget {
                           onPressed: () {
                             showDialog(
                                 context: context,
-                                builder: (context) => const ViewListDialog(
-                                      list: ['1', '2', '3'],
+                                builder: (context) => ViewListDialog(
+                                      list: project.technologyStack
+                                          .map((e) => e.name)
+                                          .toList(),
                                       title: 'View Technologies',
                                     ));
                           },
@@ -80,8 +85,10 @@ class MobileProjectDetailsBody extends StatelessWidget {
                           onPressed: () {
                             showDialog(
                                 context: context,
-                                builder: (context) => const ViewListDialog(
-                                      list: ['1', '2', '3'],
+                                builder: (context) => ViewListDialog(
+                                      list: project.teamRoles.keys.map((e) {
+                                        return e.name;
+                                      }).toList(),
                                       title: 'View team roles',
                                     ));
                           },
@@ -91,9 +98,9 @@ class MobileProjectDetailsBody extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    const CustomTextContainer(
-                        text:
-                            'descriptiodddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddn'),
+                    CustomTextContainer(
+                      text: project.description,
+                    ),
                   ],
                 ),
               ),

@@ -57,6 +57,7 @@ class CreateSkillProvider extends ChangeNotifier {
       category: _category,
       description: _description,
       currentManager: '',
+      id: '',
     );
     await _departmentUseCase
         .createSkillAndAssign(skill: skill, departamentId: departamentId)

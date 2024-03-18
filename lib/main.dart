@@ -51,8 +51,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => getIt<CreateProjectProvider>(),
-        ),
+            create: (context) =>
+                getIt<CreateProjectProvider>()..getTeamRoles()),
         BlocProvider(
           create: (context) => getIt<AuthBloc>(),
         ),

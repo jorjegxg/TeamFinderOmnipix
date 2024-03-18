@@ -3,25 +3,21 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:team_finder_app/core/util/constants.dart';
+import 'package:team_finder_app/features/project_pages/data/models/team_role.dart';
 import 'package:team_finder_app/features/project_pages/data/models/technology_stack.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 
 class ProjectModel extends ProjectEntity {
-  final ProjectPeriod period;
-  final DateTime startDate;
-  final DateTime deadlineDate;
-  final String description;
   final String organizationId;
-  final String status;
 
   ProjectModel({
-    required this.status,
+    required super.status,
     required super.id,
     required super.name,
-    required this.period,
-    required this.startDate,
-    required this.deadlineDate,
-    required this.description,
+    required super.period,
+    required super.startDate,
+    required super.deadlineDate,
+    required super.description,
     required super.technologyStack,
     required super.teamRoles,
     required this.organizationId,
@@ -64,11 +60,14 @@ class ProjectModel extends ProjectEntity {
 //   "name": "TEAM FINDER APP"
 // }
   factory ProjectModel.fromMap(Map<String, dynamic> map) {
-    Map<String, int> teamRoles = {};
+    Map<TeamRole, int> teamRoles = {};
+    if (map['teamRoles'] != null && map['teamRoles'].isNotEmpty) {
+      map['teamRoles'].forEach((element) {
+        teamRoles.putIfAbsent(
+            TeamRole.fromJson(element), () => element['value']);
+      });
+    }
 
-    map['teamRoles'].forEach((element) {
-      teamRoles.putIfAbsent(element['name'], () => element['value']);
-    });
     return ProjectModel(
       id: map['id'],
       name: map['name'],

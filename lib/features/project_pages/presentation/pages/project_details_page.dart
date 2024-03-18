@@ -5,13 +5,18 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
+import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_details_body.dart';
 
 class ProjectDetailsScreen extends HookWidget {
   const ProjectDetailsScreen(
-      {required this.userId, super.key, required this.projectId});
+      {required this.userId,
+      super.key,
+      required this.projectId,
+      required this.project});
   final String projectId;
   final String userId;
+  final ProjectEntity project;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +36,7 @@ class ProjectDetailsScreen extends HookWidget {
                 context.goNamed(
                   AppRouterConst.editProjectScreen,
                   pathParameters: {'projectId': projectId, 'userId': userId},
+                  extra: project,
                 );
               },
             ),
@@ -55,7 +61,9 @@ class ProjectDetailsScreen extends HookWidget {
                     Expanded(
                       child: ScreenTypeLayout.builder(
                         mobile: (context) {
-                          return const MobileProjectDetailsBody();
+                          return MobileProjectDetailsBody(
+                            project: project,
+                          );
                         },
                         desktop: (context) {
                           return DesktopProjectDetailsScreen(
