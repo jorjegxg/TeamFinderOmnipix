@@ -38,7 +38,7 @@ class SuggestionTextField extends StatelessWidget {
         },
         itemBuilder: (context, city) {
           return ListTile(
-            title: Text(city),
+            title: Text(city, style: Theme.of(context).textTheme.bodyMedium),
           );
         },
         onSelected: (city) {

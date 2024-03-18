@@ -8,8 +8,8 @@ class RequestsCard extends StatelessWidget {
     required this.text1,
     this.text3,
     required this.text2,
-    required this.onPressed,
-    required this.onPressed2,
+    required this.onRefuse,
+    required this.onAccept,
   });
 
   final String mainTitle;
@@ -17,8 +17,8 @@ class RequestsCard extends StatelessWidget {
   final String? text3;
   final String text2;
 
-  final Function() onPressed;
-  final Function() onPressed2;
+  final Function() onRefuse;
+  final Function() onAccept;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -75,14 +75,14 @@ class RequestsCard extends StatelessWidget {
                   children: [
                     CustomButton(
                       text: 'Refuse',
-                      onPressed: onPressed,
+                      onPressed: onRefuse,
                       buttonHeight: 30,
                       buttonWidth: 60,
                     ),
                     const SizedBox(width: 10),
                     CustomButton(
                       text: 'Accept',
-                      onPressed: onPressed2,
+                      onPressed: onAccept,
                       buttonHeight: 30,
                       buttonWidth: 60,
                     ),

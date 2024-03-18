@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/error/failures.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 import 'package:team_finder_app/features/project_pages/data/models/project_model.dart';
 import 'package:team_finder_app/features/project_pages/data/models/team_role.dart';
 import 'package:team_finder_app/features/project_pages/data/models/technology_stack.dart';
@@ -58,5 +60,65 @@ class ProjectsUsecase {
   Future<Either<Failure<String>, void>> editProject(
       {required ProjectEntity editedProject}) async {
     return projectRepo.editProject(editedProject: editedProject);
+  }
+
+  //deleteProject
+  Future<Either<Failure<String>, void>> deleteProject(
+      {required String projectId}) async {
+    return projectRepo.deleteProject(projectId: projectId);
+  }
+
+  //getActiveMembers
+  Future<Either<Failure<String>, List<Employee>>> getActiveMembers(
+      String projectId) async {
+    return projectRepo.getActiveMembers(projectId);
+  }
+
+  //getInActiveMembers
+  Future<Either<Failure<String>, List<Employee>>> getInActiveMembers(
+      String projectId) async {
+    return projectRepo.getInActiveMembers(projectId);
+  }
+
+  //getFutureMembers
+  Future<Either<Failure<String>, List<Employee>>> getFutureMembers(
+      String projectId) async {
+    return projectRepo.getFutureMembers(projectId);
+  }
+
+  //fetchFullyAvalibleMembers
+  Future<Either<Failure<String>, List<Employee>>> fetchFullyAvalibleMembers(
+      String projectId) async {
+    return projectRepo.fetchFullyAvalibleMembers(projectId);
+  }
+
+  //fetch unavailable members
+
+  Future<Either<Failure<String>, List<Employee>>> fetchUnavailableMembers(
+      String projectId) async {
+    return projectRepo.fetchUnavailableMembers(projectId);
+  }
+
+  //fetch partialy avabile members
+  Future<Either<Failure<String>, List<Employee>>> fetchPartialyAvabileMembers(
+      String projectId) async {
+    return projectRepo.fetchPartialyAvabileMembers(projectId);
+  }
+
+  //getSkills
+  Future<Either<Failure<String>, List<Skill>>> getSkills() async {
+    return projectRepo.getSkills();
+  }
+
+  //post skill req
+  Future<Either<Failure<String>, void>> postSkillReq(
+      {required String projectId, required Map<String, int> skill}) async {
+    return projectRepo.postSkillReq(projectId: projectId, skill: skill);
+  }
+
+  //fetch members with chatGPT
+  Future<Either<Failure<String>, List<Employee>>> fetchMembersWithChatGPT(
+      String message) async {
+    return projectRepo.fetchMembersWithChatGPT(message: message);
   }
 }

@@ -91,7 +91,13 @@ class SkillAssignmentProvider extends ChangeNotifier {
         notifyListeners();
       },
       (r) {
-        _skills = r;
+        //remove skills with same name
+        for (var skill in r) {
+          if (!_skills.any((element) => element.name == skill.name)) {
+            _skills.add(skill);
+          }
+        }
+
         _isLoading = false;
         selectedSkill = _skills.first;
         notifyListeners();

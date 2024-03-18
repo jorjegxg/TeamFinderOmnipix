@@ -62,10 +62,12 @@ class ProjectModel extends ProjectEntity {
   factory ProjectModel.fromMap(Map<String, dynamic> map) {
     Map<TeamRole, int> teamRoles = {};
     if (map['teamRoles'] != null && map['teamRoles'].isNotEmpty) {
-      map['teamRoles'].forEach((element) {
+      for (var role in map['teamRoles']) {
         teamRoles.putIfAbsent(
-            TeamRole.fromJson(element), () => element['value']);
-      });
+          TeamRole.fromJson(role),
+          () => role['value'],
+        );
+      }
     }
 
     return ProjectModel(

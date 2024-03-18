@@ -108,7 +108,7 @@ class SettingsRepoImpl {
         "level": level,
         "experience": experience,
         "endorsements": endorsments,
-        "projectIds": projectsIds,
+        "projectId": projectsIds,
       },
     ).then((response) {
       return response.fold(

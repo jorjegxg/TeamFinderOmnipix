@@ -2,8 +2,11 @@ import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/departaments_pages/data/department_repository_impl.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/alocation.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/dealocation.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/department.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/validation.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 import 'package:team_finder_app/features/project_pages/data/models/project_model.dart';
 
@@ -66,12 +69,17 @@ class DepartmentUseCase {
         return (await departmentRepository.assignSkillToDepartament(
           skillId: r,
           departamentId: departamentId,
-        ))
-            .fold(
-          (l) => left(l),
-          (r) => right(r),
-        );
+        ));
       },
+    );
+  }
+
+//assign skill to departament
+  Future<Either<Failure<String>, void>> assignSkillToDepartament(
+      {required String skillId, required String departamentId}) async {
+    return departmentRepository.assignSkillToDepartament(
+      skillId: skillId,
+      departamentId: departamentId,
     );
   }
 
@@ -83,8 +91,8 @@ class DepartmentUseCase {
   }
 
   //statistics
-  Future<Either<Failure<String>, List<Map<String, int>>>>
-      getStatisticsForDepartament(String departamentId, String skillId) async {
+  Future<Either<Failure<String>, Map<String, int>>> getStatisticsForDepartament(
+      String departamentId, String skillId) async {
     return departmentRepository.getStatisticsForDepartament(
       departamentId,
       skillId,
@@ -124,5 +132,38 @@ class DepartmentUseCase {
       departamentId,
       skillId,
     );
+  }
+
+  //getSkillsNotInDepartament
+  Future<Either<Failure<String>, List<Skill>>> getSkillsNotInDepartament(
+      String departamentId) async {
+    return departmentRepository.getSkillsNotInDepartament(departamentId);
+  }
+
+  //allocation/dealocation
+  Future<Either<Failure<String>, List<Alocation>>> getAlocations(
+      String departamentId) async {
+    return departmentRepository.getAlocations(departamentId);
+  }
+
+  Future<Either<Failure<String>, List<Dealocation>>> getDealocations(
+      String departamentId) async {
+    return departmentRepository.getDealocations(departamentId);
+  }
+
+  //fetchAlocatoins
+  Future<Either<Failure<String>, List<Validation>>> fetchValidation(
+      String departamentId) async {
+    return departmentRepository.fetchValidation(departamentId);
+  }
+
+  //accept/refuze
+
+  Future<Either<Failure<String>, void>> acceptValidation(String validationId) {
+    return departmentRepository.acceptValidation(validationId);
+  }
+
+  Future<Either<Failure<String>, void>> refuseValidation(String validationId) {
+    return departmentRepository.refuseValidation(validationId);
   }
 }

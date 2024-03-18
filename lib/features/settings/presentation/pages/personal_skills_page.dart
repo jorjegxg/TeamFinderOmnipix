@@ -17,80 +17,86 @@ class PersonalSkillsPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> items = List.generate(10, (index) => 'Item $index');
     return ChangeNotifierProvider(
       create: (context) =>
           getIt<PersonalSkillsProvider>()..fetchSkillsForEmployee(userId),
       child: Builder(builder: (context) {
-        return SafeArea(
-          child: Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: Text(
-                'Personal Skills',
-                style: Theme.of(context).textTheme.titleLarge,
+        return RefreshIndicator(
+          onRefresh: () async {
+            context
+                .read<PersonalSkillsProvider>()
+                .fetchSkillsForEmployee(userId);
+          },
+          child: SafeArea(
+            child: Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                title: Text(
+                  'Personal Skills',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
               ),
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                context.goNamed(AppRouterConst.addSkillPage,
-                    pathParameters: {'userId': userId});
-              },
-              child: const Icon(Icons.add, color: Colors.black),
-            ),
-            body: Sizer(
-              builder: (BuildContext context, Orientation orientation,
-                  DeviceType deviceType) {
-                return Center(
-                  child: Consumer<PersonalSkillsProvider>(
-                    builder: (context, provider, child) {
-                      if (provider.isLoading) {
-                        return const CircularProgressIndicator();
-                      }
-                      if (provider.error != null) {
-                        return Center(
-                          child: Text(provider.error!),
-                        );
-                      }
-                      if (provider.skills.isEmpty) {
-                        return Center(
-                          child: Text('No skills added yet'),
-                        );
-                      }
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(height: 20),
-                            Expanded(
-                              child: GridView.builder(
-                                itemCount: provider.skills.length,
-                                itemBuilder: (context, index) {
-                                  return SkillCard(
-                                    skillName: provider.skills[index].name,
-                                    skillDescription:
-                                        provider.skills[index].description,
-                                    skillAuthor:
-                                        provider.skills[index].currentManager,
-                                    onPressed: (BuildContext ctx) {},
-                                  );
-                                },
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisExtent: 40.h,
+              floatingActionButton: FloatingActionButton(
+                onPressed: () async {
+                  context.goNamed(AppRouterConst.addSkillPage,
+                      pathParameters: {'userId': userId});
+                },
+                child: const Icon(Icons.add, color: Colors.black),
+              ),
+              body: Sizer(
+                builder: (BuildContext context, Orientation orientation,
+                    DeviceType deviceType) {
+                  return Center(
+                    child: Consumer<PersonalSkillsProvider>(
+                      builder: (context, provider, child) {
+                        if (provider.isLoading) {
+                          return const CircularProgressIndicator();
+                        }
+                        if (provider.error != null) {
+                          return Center(
+                            child: Text(provider.error!),
+                          );
+                        }
+                        if (provider.skills.isEmpty) {
+                          return const Center(
+                            child: Text('No skills added yet'),
+                          );
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: 20),
+                              Expanded(
+                                child: GridView.builder(
+                                  itemCount: provider.skills.length,
+                                  itemBuilder: (context, index) {
+                                    return SkillCard(
+                                      skillName: provider.skills[index].name,
+                                      skillDescription:
+                                          provider.skills[index].description,
+                                      skillAuthor:
+                                          provider.skills[index].category,
+                                      onPressed: (BuildContext ctx) {},
+                                    );
+                                  },
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisExtent: 40.h,
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 10),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         );

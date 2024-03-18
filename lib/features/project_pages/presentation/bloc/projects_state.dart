@@ -16,7 +16,8 @@ class ProjectsState extends Equatable {
   });
 
   @override
-  List<Object> get props => [activeProjects, inactiveProjects, switchState];
+  List<Object> get props =>
+      [activeProjects, inactiveProjects, switchState, errorMessage, isLoading];
 
   //copy with
   ProjectsState copyWith({

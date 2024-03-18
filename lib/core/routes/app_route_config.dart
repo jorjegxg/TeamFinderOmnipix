@@ -123,70 +123,81 @@ class MyAppRouter {
           builder: (context, state, child) => MainWrapper(child: child),
           routes: [
             GoRoute(
-              name: AppRouterConst.projectsMainScreen,
-              path: '/:userId/projects',
-              pageBuilder: (context, state) => MaterialPage(
-                  child: ProjectsMainScreen(
-                userId: state.pathParameters['userId']!,
-              )),
-            ),
-            GoRoute(
-              name: AppRouterConst.projectDetailsScreen,
-              path: '/:userId/projects/details/:projectId',
-              pageBuilder: (context, state) => MaterialPage(
-                  child: ProjectDetailsScreen(
-                projectId: state.pathParameters['projectId']!,
-                userId: state.pathParameters['userId']!,
-                project: state.extra as ProjectEntity,
-              )),
-            ),
-            GoRoute(
-              name: AppRouterConst.projectMembersScreen,
-              path: '/:userId/projects/details/:projectId/members',
-              pageBuilder: (context, state) => MaterialPage(
-                  child: ProjectMembersPage(
-                projectId: state.pathParameters['projectId']!,
-                userId: state.pathParameters['userId']!,
-              )),
-            ),
-            GoRoute(
-              name: AppRouterConst.addProjectMember,
-              path: '/:userId/projects/details/:projectId/members/add',
-              pageBuilder: (context, state) => MaterialPage(
-                  child: AddProjectMembersPage(
-                projectId: state.pathParameters['projectId']!,
-                userId: state.pathParameters['userId']!,
-              )),
-            ),
-            GoRoute(
-              name: AppRouterConst.sendAssignmentProposal,
-              path:
-                  '/:userId/projects/details/:projectId/members/add/:employeeId',
-              pageBuilder: (context, state) => MaterialPage(
-                  child: AssignmentProposalScreen(
-                projectId: state.pathParameters['projectId']!,
-                employeeId: state.pathParameters['employeeId']!,
-                userId: state.pathParameters['userId']!,
-              )),
-            ),
-            GoRoute(
-              name: AppRouterConst.createProjectScreen,
-              path: '/:userId/projects/create',
-              pageBuilder: (context, state) => MaterialPage(
-                  child: CreateProjectScreen(
-                userId: state.pathParameters['userId']!,
-              )),
-            ),
-            GoRoute(
-              name: AppRouterConst.editProjectScreen,
-              path: '/:userId/projects/edit/:projectId',
-              pageBuilder: (context, state) => MaterialPage(
-                  child: EditProjectScreen(
-                projectId: state.pathParameters['projectId']!,
-                userId: state.pathParameters['userId']!,
-                project: state.extra as ProjectEntity,
-              )),
-            ),
+                name: AppRouterConst.projectsMainScreen,
+                path: '/:userId/projects',
+                pageBuilder: (context, state) => MaterialPage(
+                        child: ProjectsMainScreen(
+                      userId: state.pathParameters['userId']!,
+                    )),
+                routes: [
+                  GoRoute(
+                      name: AppRouterConst.projectDetailsScreen,
+                      path: 'details/:projectId',
+                      pageBuilder: (context, state) => MaterialPage(
+                              child: ProjectDetailsScreen(
+                            projectId: state.pathParameters['projectId']!,
+                            userId: state.pathParameters['userId']!,
+                            project: state.extra as ProjectEntity,
+                          )),
+                      routes: [
+                        GoRoute(
+                            name: AppRouterConst.projectMembersScreen,
+                            path: 'members',
+                            pageBuilder: (context, state) => MaterialPage(
+                                    child: ProjectMembersPage(
+                                  projectId: state.pathParameters['projectId']!,
+                                  userId: state.pathParameters['userId']!,
+                                  project: state.extra as ProjectEntity,
+                                )),
+                            routes: [
+                              GoRoute(
+                                  name: AppRouterConst.addProjectMember,
+                                  path: 'add',
+                                  pageBuilder: (context, state) => MaterialPage(
+                                          child: AddProjectMembersPage(
+                                        projectId:
+                                            state.pathParameters['projectId']!,
+                                        userId: state.pathParameters['userId']!,
+                                        project: state.extra as ProjectEntity,
+                                      )),
+                                  routes: [
+                                    GoRoute(
+                                      name:
+                                          AppRouterConst.sendAssignmentProposal,
+                                      path: ':employeeId',
+                                      pageBuilder: (context, state) =>
+                                          MaterialPage(
+                                              child: AssignmentProposalScreen(
+                                        projectId:
+                                            state.pathParameters['projectId']!,
+                                        employeeId:
+                                            state.pathParameters['employeeId']!,
+                                        userId: state.pathParameters['userId']!,
+                                        project: state.extra as ProjectEntity,
+                                      )),
+                                    ),
+                                  ]),
+                            ]),
+                      ]),
+                  GoRoute(
+                    name: AppRouterConst.createProjectScreen,
+                    path: 'create',
+                    pageBuilder: (context, state) => MaterialPage(
+                        child: CreateProjectScreen(
+                      userId: state.pathParameters['userId']!,
+                    )),
+                  ),
+                  GoRoute(
+                    name: AppRouterConst.editProjectScreen,
+                    path: 'edit/:projectId',
+                    pageBuilder: (context, state) => MaterialPage(
+                        child: EditProjectScreen(
+                      projectId: state.pathParameters['projectId']!,
+                      userId: state.pathParameters['userId']!,
+                      project: state.extra as ProjectEntity,
+                    )),
+                  ),
+                ]),
             GoRoute(
                 name: AppRouterConst.departamentsMainScreen,
                 path: '/:userId/departaments',
@@ -346,27 +357,27 @@ class MyAppRouter {
                       }),
                 ]),
             GoRoute(
-              name: AppRouterConst.employeesMainScreen,
-              path: '/:userId/employees',
-              pageBuilder: (context, state) => MaterialPage(
-                child: EmployeeMainPage(
-                  userId: state.pathParameters['userId']!,
-                ),
-              ),
-            ),
-            GoRoute(
-              name: AppRouterConst.employeeProfileScreen,
-              path:
-                  '/:userId/employees/profile/:employeeId/:employeeName/:employeeEmail',
-              pageBuilder: (context, state) => MaterialPage(
-                child: EmployeeProfilePage(
-                  userId: state.pathParameters['userId']!,
-                  employeeId: state.pathParameters['employeeId']!,
-                  employeeName: state.pathParameters['employeeName']!,
-                  employeeEmail: state.pathParameters['employeeEmail']!,
-                ),
-              ),
-            ),
+                name: AppRouterConst.employeesMainScreen,
+                path: '/:userId/employees',
+                pageBuilder: (context, state) => MaterialPage(
+                      child: EmployeeMainPage(
+                        userId: state.pathParameters['userId']!,
+                      ),
+                    ),
+                routes: [
+                  GoRoute(
+                    name: AppRouterConst.employeeProfileScreen,
+                    path: 'profile/:employeeId/:employeeName/:employeeEmail',
+                    pageBuilder: (context, state) => MaterialPage(
+                      child: EmployeeProfilePage(
+                        userId: state.pathParameters['userId']!,
+                        employeeId: state.pathParameters['employeeId']!,
+                        employeeName: state.pathParameters['employeeName']!,
+                        employeeEmail: state.pathParameters['employeeEmail']!,
+                      ),
+                    ),
+                  ),
+                ]),
           ]),
     ],
     errorPageBuilder: (context, state) => const MaterialPage(

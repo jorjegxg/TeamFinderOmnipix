@@ -61,6 +61,7 @@ dependencies:
   uni_links: ^0.5.1
   url_strategy: ^0.2.0
   web_smooth_scroll: ^1.1.0
+  numberpicker: ^2.1.2
 
 dev_dependencies:
 
