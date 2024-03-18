@@ -1,7 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
+import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/employee_roles_and_data.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/employee_model.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee_roles.dart';
 
 @injectable
@@ -126,12 +129,7 @@ class EmployeeRepoImpl {
     });
   }
 
-  //dealocate project manager
-  //
-  //---trebuie facuta
-
-  //get employee roles
-  Future<Either<Failure, EmployeesRoles>> getEmployeeRoles(String employeeId) {
+  Future<Either<Failure, EmployeesRoles>> _getEmployeeRoles(String employeeId) {
     return ApiService()
         .dioGet(
       url: "${EndpointConstants.baseUrl}/employee/roles/$employeeId",
@@ -148,11 +146,51 @@ class EmployeeRepoImpl {
     });
   }
 
-  Future<Either<Failure, void>> updateEmployeeRoles(
-      {required String employeeId,
-      required bool admin,
-      required bool departmentManager,
-      required bool projectManager}) async {
+  Future<Either<Failure, EmployeeModel>> _getEmployeeData(String employeeId) {
+    return ApiService()
+        .dioGet(
+      url: "${EndpointConstants.baseUrl}/employee/info/$employeeId",
+    )
+        .then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) {
+          final EmployeeModel employee = EmployeeModel.fromJson(r);
+          return right(employee);
+        },
+      );
+    });
+  }
+
+  Future<Either<Failure, EmployeeRolesAndData>> getEmployeeRolesAndData(
+      String employeeId) async {
+    final employeeRoles = await _getEmployeeRoles(employeeId);
+    final employeeData = await _getEmployeeData(employeeId);
+
+    return employeeRoles.fold(
+      (l) => left(l),
+      (employeeRoles) {
+        return employeeData.fold(
+          (l) => left(l),
+          (employeeData) {
+            return right(
+              EmployeeRolesAndData(
+                employeesRoles: employeeRoles,
+                employeeModel: employeeData,
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<Either<Failure, void>> updateEmployeeRoles({
+    required String employeeId,
+    required bool admin,
+    required bool departmentManager,
+    required bool projectManager,
+  }) async {
     return ApiService().dioPost(
       url: "${EndpointConstants.baseUrl}/employee/updateroles/$employeeId",
       data: {
@@ -168,7 +206,6 @@ class EmployeeRepoImpl {
     });
   }
 
-  //TODO George Luta : trebuie rezolvat in back
   Future<Either<Failure, void>> deleteProjectManagerRoleFromEmployee(
       String employeeId) async {
     return ApiService()
@@ -177,6 +214,38 @@ class EmployeeRepoImpl {
           "${EndpointConstants.baseUrl}/projectmanager/demoteprojectmanager/$employeeId",
     )
         .then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) => right(null),
+      );
+    });
+  }
+
+  Future<Either<Failure, void>> deleteDepartmentManagerRoleFromEmployee(
+      String employeeId) async {
+    return ApiService()
+        .dioDelete(
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/demotedepartamentmanager/$employeeId",
+    )
+        .then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) => right(null),
+      );
+    });
+  }
+
+  //departament/updatemanager
+  Future<Either<Failure, void>> updateMangerForDepartmentManager(
+      String employeeId, String departmentId) async {
+    return ApiService().dioPut(
+      url: "${EndpointConstants.baseUrl}/departament/updatemanager",
+      data: {
+        "employeeId": employeeId,
+        "departmentId": departmentId,
+      },
+    ).then((response) {
       return response.fold(
         (l) => left(l),
         (r) => right(null),

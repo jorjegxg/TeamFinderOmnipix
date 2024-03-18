@@ -2,9 +2,13 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/error/failures.dart';
+import 'package:team_finder_app/core/util/logger.dart';
+import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/employee_pages/data/employee_repo_impl.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/employee_roles_and_data.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee_roles.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/manager_and_department_id.dart';
 
 @injectable
 class EmployeeUsecase {
@@ -42,8 +46,9 @@ class EmployeeUsecase {
     return employeeRepoImpl.makeEmployeeProjectManager(employeeId);
   }
 
-  Future<Either<Failure, EmployeesRoles>> getEmployeeRoles(String employeeId) {
-    return employeeRepoImpl.getEmployeeRoles(employeeId);
+  Future<Either<Failure, EmployeeRolesAndData>> getEmployeeRolesAndData(
+      String employeeId) {
+    return employeeRepoImpl.getEmployeeRolesAndData(employeeId);
   }
 
   Future<Either<Failure, void>> demoteAdmin(
@@ -53,30 +58,54 @@ class EmployeeUsecase {
     );
   }
 
-  Future<Either<Failure, void>> updateEmployeeRoles(
-      {required String employeeId,
-      bool? admin,
-      bool? departmentManager,
-      bool? projectManager}) async {
-    if (departmentManager != null) {
-      if (departmentManager) {
+  /// admin , departmentManager, projectManager
+  /// daca sunt null , nu se schimba nimic
+  /// daca sunt false, se sterge rolul
+  /// daca sunt true, se adauga rolul
+  Future<Either<Failure, void>> updateEmployeeRoles({
+    required String employeeId,
+    bool? admin,
+    bool? departmentManager,
+    bool? projectManager,
+    required ManagerAndDepartmentId managerAndDepartmentId,
+    required bool departmentManagerHasToBeChanged,
+  }) async {
+    if (_departmentManagerStatusHasChanged(departmentManager)) {
+      if (departmentManager!) {
         await employeeRepoImpl.makeEmployeeDepartmentManager(employeeId);
       } else {
-        // await employeeRepoImpl
-        //     .takeDepartmentManagerRoleFromEmployee(employeeId);
+        if (departmentManagerHasToBeChanged) {
+          //atunci schimba-l
+
+          //daca nu a selectat un nou manager (din dropdown)
+          if (managerAndDepartmentId.newManager == null) {
+            return left(
+              FieldFailure(
+                message: 'You need to select a new manager',
+              ),
+            );
+          } else {
+            await employeeRepoImpl.updateMangerForDepartmentManager(
+                employeeId, managerAndDepartmentId.departmentId!);
+          }
+        } else {
+          await employeeRepoImpl.deleteDepartmentManagerRoleFromEmployee(
+            employeeId,
+          );
+        }
       }
     }
 
-    if (projectManager != null) {
-      if (projectManager) {
+    if (_projectManagerStatusHsChanged(projectManager)) {
+      if (projectManager!) {
         await employeeRepoImpl.makeEmployeeProjectManager(employeeId);
       } else {
         await employeeRepoImpl.deleteProjectManagerRoleFromEmployee(employeeId);
       }
     }
 
-    if (admin != null) {
-      if (admin) {
+    if (_adminStatusHasChanged(admin)) {
+      if (admin!) {
         await employeeRepoImpl.makeEmployeeOrganizationAdmin(employeeId);
       } else {
         return employeeRepoImpl.demoteAdmin(employeeId: employeeId);
@@ -85,4 +114,12 @@ class EmployeeUsecase {
 
     return right(null);
   }
+
+  bool _adminStatusHasChanged(bool? admin) => admin != null;
+
+  bool _projectManagerStatusHsChanged(bool? projectManager) =>
+      projectManager != null;
+
+  bool _departmentManagerStatusHasChanged(bool? departmentManager) =>
+      departmentManager != null;
 }
