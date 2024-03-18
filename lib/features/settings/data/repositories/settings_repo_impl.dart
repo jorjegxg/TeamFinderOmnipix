@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 import 'package:team_finder_app/features/settings/data/models/role_model.dart';
 
 @injectable
@@ -55,7 +56,6 @@ class SettingsRepoImpl {
         .dioDelete(
       url: "${EndpointConstants.baseUrl}/teamroles/$role",
     )
-        //TODO: Implement deleteTeamRole
         .then((response) {
       return response.fold(
         (l) => left(l),
@@ -109,7 +109,7 @@ class SettingsRepoImpl {
         "level": level,
         "experience": experience,
         "endorsements": endorsments,
-        "projectIds": projectsIds,
+        "projectId": projectsIds,
       },
     ).then((response) {
       return response.fold(
@@ -139,13 +139,47 @@ class SettingsRepoImpl {
   }
 
   //change password
-  Future<Either<Failure, void>> changePassword(String newPassword) async {
-    final box = Hive.box<String>(HiveConstants.authBox);
-    final email = box.get(HiveConstants.userEmail);
+  Future<Either<Failure, void>> changePassword(
+      String newPassword, String email) async {
     return ApiService()
-        .dioPost(
+        .dioPut(
       url:
-          "${EndpointConstants.baseUrl}/admin/updatePassword/$email/$newPassword",
+          "${EndpointConstants.baseUrl}/admin/updatepassword/$email/$newPassword",
+    )
+        .then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) => right(null),
+      );
+    });
+  }
+
+  //get current employee
+  Future<Either<Failure, Employee>> getCurrentEmployee() async {
+    final box = Hive.box<String>(HiveConstants.authBox);
+    final employeeId = box.get(HiveConstants.userId);
+    return ApiService().dioGet(
+      url: "${EndpointConstants.baseUrl}/employee/info/$employeeId",
+      codeMessage: {
+        404: "No employee found",
+      },
+    ).then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) => right(Employee.fromJson(r)),
+      );
+    });
+  }
+
+  //update name and email
+  Future<Either<Failure, void>> updateNameAndEmail(
+      String name, String email) async {
+    final box = Hive.box<String>(HiveConstants.authBox);
+    final employeeId = box.get(HiveConstants.userId);
+    return ApiService()
+        .dioPut(
+      url:
+          "${EndpointConstants.baseUrl}/employee/editemailandname/$employeeId/$email/$name",
     )
         .then((response) {
       return response.fold(

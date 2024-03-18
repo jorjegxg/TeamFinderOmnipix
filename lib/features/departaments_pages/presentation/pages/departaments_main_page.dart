@@ -50,7 +50,6 @@ class _DepartamentMainPageState extends State<DepartamentMainPage> {
             floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.add, color: Colors.black),
               onPressed: () {
-                //TODO: get list of free managers
                 showDialog(
                     context: context,
                     builder: (context) => const CreateDepartamentDialog());
@@ -107,7 +106,6 @@ class _DepartamentMainPageState extends State<DepartamentMainPage> {
                                           'departamentId':
                                               state.departments[index].id
                                         });
-                                    //TODO: navigate to departament details, pass departament id
                                   }),
                             ),
                           );

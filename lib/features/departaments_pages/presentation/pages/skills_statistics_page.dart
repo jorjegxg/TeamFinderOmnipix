@@ -55,11 +55,12 @@ class SkillStatisticsPage extends HookWidget {
                                           .map((e) => e.name)
                                           .toList(),
                                       onChanged: (String? s) {
-                                        //TODO: implement to change pie chart data
                                         provider.updateCurrentlySelected(
                                             provider.skills.firstWhere(
                                                 (element) =>
                                                     element.name == s));
+                                        provider.fetchStatisticsForDepartament(
+                                            departamentId);
                                       },
                                       dropdownValue:
                                           provider.currentlySelected!.name,
@@ -73,66 +74,66 @@ class SkillStatisticsPage extends HookWidget {
                                           .onSurfaceVariant,
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.start,
                                         children: [
-                                          const Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 20),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 10),
                                             child: CustomTextContainer(
-                                                text: "total count"),
+                                              text: provider
+                                                  .getTotalCount()
+                                                  .toString(),
+                                            ),
                                           ),
-                                          PieChart(
-                                            dataMap: provider.statistics
-                                                .map((e) {
-                                              return MapEntry(
-                                                  e.keys.first.toString(),
-                                                  e.values.first);
-                                            }).fold<Map<String, double>>(
-                                                    <String, double>{},
-                                                    (previousValue, element) {
-                                              previousValue[element.key] =
-                                                  element.value.toDouble();
-                                              return previousValue;
-                                            }),
-                                            animationDuration: const Duration(
-                                                milliseconds: 800),
-                                            chartLegendSpacing: 32,
-                                            chartRadius: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3.2,
-                                            initialAngleInDegree: 0,
-                                            chartType: ChartType.disc,
-                                            ringStrokeWidth: 32,
-                                            legendOptions: const LegendOptions(
-                                              legendLabels: {
-                                                "Level 1": "Level 1 3",
-                                                "Level 2": "Level 2",
-                                                "Level 3": "Level 3",
-                                                "Level 4": "Level 4",
-                                                "Level 5": "Level 5",
-                                              },
-                                              showLegendsInRow: true,
-                                              legendPosition:
-                                                  LegendPosition.bottom,
-                                              showLegends: true,
-                                              legendShape: BoxShape.circle,
-                                              legendTextStyle: TextStyle(
-                                                fontWeight: FontWeight.bold,
+                                          if (provider.statistics.isNotEmpty)
+                                            PieChart(
+                                              dataMap: provider.statistics.map(
+                                                (key, value) => MapEntry(
+                                                  key,
+                                                  value.toDouble(),
+                                                ),
                                               ),
+                                              animationDuration: const Duration(
+                                                  milliseconds: 800),
+                                              chartLegendSpacing: 32,
+                                              chartRadius:
+                                                  MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      3.2,
+                                              initialAngleInDegree: 0,
+                                              chartType: ChartType.disc,
+                                              ringStrokeWidth: 32,
+                                              legendOptions:
+                                                  const LegendOptions(
+                                                legendLabels: {
+                                                  "Level 1": "Level 1",
+                                                  "Level 2": "Level 2",
+                                                  "Level 3": "Level 3",
+                                                  "Level 4": "Level 4",
+                                                  "Level 5": "Level 5",
+                                                },
+                                                showLegendsInRow: true,
+                                                legendPosition:
+                                                    LegendPosition.bottom,
+                                                showLegends: true,
+                                                legendShape: BoxShape.circle,
+                                                legendTextStyle: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              chartValuesOptions:
+                                                  const ChartValuesOptions(
+                                                showChartValueBackground: true,
+                                                showChartValues: false,
+                                                showChartValuesInPercentage:
+                                                    false,
+                                                showChartValuesOutside: false,
+                                                decimalPlaces: 1,
+                                              ),
+                                              // gradientList: ---To add gradient colors---
+                                              // emptyColorGradient: ---Empty Color gradient---
                                             ),
-                                            chartValuesOptions:
-                                                const ChartValuesOptions(
-                                              showChartValueBackground: true,
-                                              showChartValues: false,
-                                              showChartValuesInPercentage:
-                                                  false,
-                                              showChartValuesOutside: false,
-                                              decimalPlaces: 1,
-                                            ),
-                                            // gradientList: ---To add gradient colors---
-                                            // emptyColorGradient: ---Empty Color gradient---
-                                          ),
                                         ],
                                       ),
                                     ),

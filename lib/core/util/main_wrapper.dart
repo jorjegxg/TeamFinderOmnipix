@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
-import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart';
 import 'package:team_finder_app/injection.dart';
 
@@ -63,7 +61,6 @@ class _MainWrapperState extends State<MainWrapper> {
                 selectedItemColor: Theme.of(context).colorScheme.primary,
                 unselectedItemColor: Colors.black,
                 onTap: (int index) {
-                  //TODO: imlement navigation  with bloc
                   setState(() {
                     _selectedIndex = index;
                     switch (index) {
@@ -88,7 +85,6 @@ class _MainWrapperState extends State<MainWrapper> {
                             pathParameters: {'userId': '1'});
                         break;
                     }
-                    //TODO: imlement navigation  with bloc
                   });
                 }),
           ),
@@ -122,8 +118,6 @@ class _MainWrapperState extends State<MainWrapper> {
                               pathParameters: {'userId': '1'});
                           break;
                       }
-
-                      //TODO: imlement navigation  with bloc
                     });
                   },
                   labelType: NavigationRailLabelType.none,

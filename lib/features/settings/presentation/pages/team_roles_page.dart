@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/settings/data/models/role_model.dart';
 import 'package:team_finder_app/features/settings/presentation/providers/team_roles_provider.dart';
 import 'package:team_finder_app/features/settings/presentation/widgets/field_dialog.dart';
@@ -28,16 +26,9 @@ class TeamRolesPage extends HookWidget {
           if (provider.error != null) {
             return Text(provider.error!);
           }
-
           return SafeArea(
             child: Scaffold(
               appBar: AppBar(
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.black),
-                  onPressed: () => context.goNamed(
-                      AppRouterConst.projectsMainScreen,
-                      pathParameters: {'userId': userId}),
-                ),
                 centerTitle: true,
                 title: Text(
                   'Team Roles',
@@ -124,7 +115,6 @@ class TeamRolesPage extends HookWidget {
                                               );
                                             });
                                       },
-                                      onEdit: (BuildContext ctx) {},
                                     );
                                   }),
                             ),

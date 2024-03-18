@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
-import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee_roles_and_data.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee_model.dart';

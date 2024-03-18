@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:team_finder_app/core/error/failures.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 import 'package:team_finder_app/features/project_pages/data/models/project_model.dart';
 import 'package:team_finder_app/features/project_pages/data/models/team_role.dart';
 import 'package:team_finder_app/features/project_pages/data/models/technology_stack.dart';
@@ -13,10 +15,6 @@ abstract class ProjectRepo {
   //create project
   Future<Either<Failure<String>, void>> createProject(
       {required ProjectModel newProject});
-
-  //get list of suggestions for technologies
-  Future<Either<Failure<String>, List<TechnologyStack>>>
-      getTechnologySuggestions();
 
   //create technologie
   Future<Either<Failure<String>, String>> createTechnology(
@@ -32,4 +30,41 @@ abstract class ProjectRepo {
   //edit project
   Future<Either<Failure<String>, void>> editProject(
       {required ProjectEntity editedProject});
+
+  //deleteProject
+  Future<Either<Failure<String>, void>> deleteProject(
+      {required String projectId});
+
+  //get active members
+  Future<Either<Failure<String>, List<Employee>>> getActiveMembers(
+      String projectId);
+
+  //get inactive members
+  Future<Either<Failure<String>, List<Employee>>> getInActiveMembers(
+      String projectId);
+
+  //get future members
+  Future<Either<Failure<String>, List<Employee>>> getFutureMembers(
+      String projectId);
+
+  //fetchFullyAvalibleMembers
+  Future<Either<Failure<String>, List<Employee>>> fetchFullyAvalibleMembers(
+      String projectId);
+
+  //fetch unavailable members
+  Future<Either<Failure<String>, List<Employee>>> fetchUnavailableMembers(
+      String projectId);
+
+  Future<Either<Failure<String>, List<Employee>>> fetchPartialyAvabileMembers(
+      String projectId);
+
+  Future<Either<Failure<String>, List<Skill>>> getSkills();
+
+  //post skill req
+  Future<Either<Failure<String>, void>> postSkillReq(
+      {required String projectId, required Map<String, int> skill});
+
+  //fetchMembersWithChatGPT
+  Future<Either<Failure<String>, List<Employee>>> fetchMembersWithChatGPT(
+      {required String message});
 }

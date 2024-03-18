@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
+import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/departament_info_widget.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/option_widget.dart';
+import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart';
 import 'package:team_finder_app/features/settings/presentation/widgets/field_dialog.dart';
 
 class MainSettingsPage extends StatelessWidget {
@@ -12,36 +15,45 @@ class MainSettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {
-              //TODO: Implement Logout
-            },
-            icon: const Icon(Icons.logout, color: Colors.black),
+    return Consumer<ProfileProvider>(builder: (context, provider, child) {
+      if (provider.isLoading) {
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
           ),
-        ],
-        centerTitle: true,
-        title: Text(
-          'Departaments',
-          style: Theme.of(context).textTheme.titleLarge,
+        );
+      }
+      return Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () {
+                //TODO: Implement Logout
+              },
+              icon: const Icon(Icons.logout, color: Colors.black),
+            ),
+          ],
+          centerTitle: true,
+          title: Text(
+            'Departaments',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
         ),
-      ),
-      body: const Column(
-        children: [
-          SizedBox(height: 20),
-          Center(
-              child: InfoWidget(
-            text: 'Employee Name',
-            text2: 'Employee email',
-            icon: Icons.person,
-          )),
-          SizedBox(height: 20),
-          DetailsBodyWidget()
-        ],
-      ),
-    );
+        body: Column(
+          children: [
+            const SizedBox(height: 20),
+            Center(
+                child: InfoWidget(
+              text: provider.name,
+              text2: provider.email,
+              icon: Icons.person,
+            )),
+            const SizedBox(height: 20),
+            const DetailsBodyWidget()
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -51,11 +63,11 @@ class DetailsBodyWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext buildContext) {
     return Expanded(
       child: Card(
         margin: const EdgeInsets.all(10),
-        color: Theme.of(context).colorScheme.onSecondary,
+        color: Theme.of(buildContext).colorScheme.onSurface,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -64,15 +76,23 @@ class DetailsBodyWidget extends StatelessWidget {
                 text: 'Edit Profile',
                 onPressed: () {
                   showDialog(
-                    context: context,
-                    builder: (context) => FieldDialog(
-                      onPress: (String t1, String? t2) {
-                        //TODO: add functionality to the edit button
-                        Navigator.pop(context);
-                      },
-                      title: 'Edit Profile',
-                      text1: 'Name',
-                      text2: 'Email',
+                    context: buildContext,
+                    builder: (ctx) => Consumer<ProfileProvider>(
+                      builder: (context, provider, _) => FieldDialog(
+                        onPress: (String t1, String? t2) async {
+                          if (t1.isEmpty || t2!.isEmpty) {
+                            showSnackBar(ctx, "Name and email cannot be empty");
+                          } else {
+                            provider.setNewName(t1);
+                            provider.setNewEmail(t2);
+                            Navigator.pop(context);
+                            await provider.updateNameAndEmail();
+                          }
+                        },
+                        title: 'Edit Profile',
+                        text1: 'Name',
+                        text2: 'Email',
+                      ),
                     ),
                   );
                 },
@@ -80,14 +100,14 @@ class DetailsBodyWidget extends StatelessWidget {
               OptionWidget(
                 text: 'Personal Skills',
                 onPressed: () {
-                  context.goNamed(AppRouterConst.personalSkillsPage,
+                  buildContext.goNamed(AppRouterConst.personalSkillsPage,
                       pathParameters: {'userId': 'userId'});
                 },
               ),
               OptionWidget(
                 text: 'Create Team Roles',
                 onPressed: () {
-                  context.goNamed(AppRouterConst.teamRolesPage,
+                  buildContext.goNamed(AppRouterConst.teamRolesPage,
                       pathParameters: {'userId': 'userId'});
                 },
               ),
@@ -95,15 +115,24 @@ class DetailsBodyWidget extends StatelessWidget {
                 text: 'Change Password',
                 onPressed: () {
                   showDialog(
-                    context: context,
-                    builder: (context) => FieldDialog(
-                      title: 'Change Password',
-                      text1: 'New Password',
-                      text2: 'Confirm Password',
-                      onPress: (String t1, String? t2) {
-                        //TODO: add functionality to the edit button
-                        Navigator.pop(context);
-                      },
+                    context: buildContext,
+                    builder: (ctx) => Consumer<ProfileProvider>(
+                      builder: (context, provider, _) => FieldDialog(
+                        title: 'Change Password',
+                        text1: 'New Password',
+                        text2: 'Confirm Password',
+                        onPress: (String t1, String? t2) async {
+                          await provider.changePassword(t1, t2!);
+                          if (provider.error != null) {
+                            if (!context.mounted) return;
+                            showSnackBar(ctx, provider.error!);
+                          } else {
+                            if (!context.mounted) return;
+                            showSnackBar(ctx, "Password changed successfully");
+                            Navigator.pop(ctx);
+                          }
+                        },
+                      ),
                     ),
                   );
                 },

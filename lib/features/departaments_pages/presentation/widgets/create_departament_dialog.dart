@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:sizer/sizer.dart';
-import 'package:team_finder_app/core/util/logger.dart';
-import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_managers/departments_managers_cubit.dart';
-import 'package:team_finder_app/features/employee_pages/presentation/pages/employee_profile_page.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/widgets/department_managers_dropdown.dart';
 import 'package:team_finder_app/injection.dart';
 
@@ -74,7 +71,7 @@ class CreateDepartamentDialog extends HookWidget {
                   children: [
                     TextButton(
                       onPressed: () {
-                        Navigator.pop(secondContext);
+                        Navigator.of(context).pop(secondContext);
                       },
                       child: const Text('Close'),
                     ),
@@ -83,7 +80,6 @@ class CreateDepartamentDialog extends HookWidget {
                       listener: (context, state) {
                         if (state is DepartmentsCreateSuccess) {
                           Navigator.pop(secondContext);
-                          //TODO George Luta : atunci cand e DepartmentsCreateSuccess trebuie sa facem dam pop la dialog
                         }
                       },
                       builder: (context, state) {

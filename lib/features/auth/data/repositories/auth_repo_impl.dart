@@ -24,7 +24,7 @@ class AuthRepoImpl extends AuthRepo {
         "password": password,
         "organizationName": organizationName,
         "adress": organizationAddress,
-        //TODO George Luta : nu trebuie facuta in front-end
+        //TODO George Luta : degeaba , scoate din back
         "url": "url"
       },
       codeMessage: {

@@ -13,7 +13,7 @@ class SkillAssignmentProvider extends ChangeNotifier {
   SkillLevel _skillLevel = SkillLevel.learns;
   ExperienceLevel _experienceLevel = ExperienceLevel.months0_6;
   Skill? selectedSkill;
-  List<Skill> _skills = [];
+  final List<Skill> _skills = [];
   bool _isLoading = false;
   String? _error;
   final List<Map<String, String>> _endorsmentsSkill = [];
@@ -91,7 +91,13 @@ class SkillAssignmentProvider extends ChangeNotifier {
         notifyListeners();
       },
       (r) {
-        _skills = r;
+        //remove skills with same name
+        for (var skill in r) {
+          if (!_skills.any((element) => element.name == skill.name)) {
+            _skills.add(skill);
+          }
+        }
+
         _isLoading = false;
         selectedSkill = _skills.first;
         notifyListeners();

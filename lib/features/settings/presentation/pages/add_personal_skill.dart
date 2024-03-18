@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
@@ -17,7 +19,6 @@ class AddPersonalSkillPage extends HookWidget {
   Widget build(BuildContext context) {
     final nameColtroler = useTextEditingController();
     final descriptionColtroler = useTextEditingController();
-    List<String> items = List.generate(10, (index) => 'Item $index');
     return ChangeNotifierProvider(
       create: (context) => getIt<SkillAssignmentProvider>()..getFreeSkills(),
       child: Builder(builder: (context) {
@@ -55,7 +56,8 @@ class AddPersonalSkillPage extends HookWidget {
                                 : BodyWidget(
                                     nameColtroler: nameColtroler,
                                     descriptionColtroler: descriptionColtroler,
-                                    items: items);
+                                    userId: userId,
+                                  );
                       },
                     ),
                   ),
@@ -74,12 +76,13 @@ class BodyWidget extends StatelessWidget {
     super.key,
     required this.nameColtroler,
     required this.descriptionColtroler,
-    required this.items,
+    required this.userId,
   });
 
   final TextEditingController nameColtroler;
   final TextEditingController descriptionColtroler;
-  final List<String> items;
+
+  final String userId;
 
   @override
   Widget build(BuildContext context) => Consumer(builder:
@@ -255,8 +258,11 @@ class BodyWidget extends StatelessWidget {
             const SizedBox(height: 20),
             CustomButton(
               text: 'Add',
-              onPressed: () {
-                //TODO: implement done logic
+              onPressed: () async {
+                await skillAssignmentProvider.addSkillToEmployee();
+                if (!context.mounted) return;
+                context.goNamed(AppRouterConst.personalSkillsPage,
+                    pathParameters: {'userId': userId});
               },
             ),
             const SizedBox(height: 20),

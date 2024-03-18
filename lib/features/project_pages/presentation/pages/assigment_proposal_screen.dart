@@ -5,6 +5,7 @@ import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
+import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_dropdown_button.dart';
 
 class AssignmentProposalScreen extends HookWidget {
@@ -13,11 +14,13 @@ class AssignmentProposalScreen extends HookWidget {
     super.key,
     required this.projectId,
     required this.userId,
+    required this.project,
   });
 
   final String employeeId;
   final String projectId;
   final String userId;
+  final ProjectEntity project;
   @override
   Widget build(BuildContext context) {
     final nameColtroler = useTextEditingController();
@@ -134,7 +137,6 @@ class AssignmentProposalScreen extends HookWidget {
                     CustomButton(
                       text: 'Done',
                       onPressed: () {
-                        //TODO: implement done logic
                         context.goNamed(AppRouterConst.addProjectMember,
                             pathParameters: {
                               'projectId': projectId,
