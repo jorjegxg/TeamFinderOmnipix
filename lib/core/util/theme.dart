@@ -60,34 +60,25 @@ ThemeData createLightTheme() {
       ),
     ),
     brightness: Brightness.light,
-
-    //combina-le
-
     colorScheme: const ColorScheme(
       brightness: Brightness.light,
-
-      primary: Color(0xFF6750A4), // Mov
-      onPrimary: Color(0xFFFFFFFF), // Alb
-      primaryContainer: Color(0xFFE1BEE7), // Lavandă deschis
-      onPrimaryContainer: Color(0xFFB39DDB), // Lavandă mai închis
-      secondary: Color(0xFF6A1B9A), // Violet închis
-      onSecondary: Color(0xFFFFFFFF), // Alb
-      secondaryContainer: Color(0xFFCE93D8), // Mov pal
-      onSecondaryContainer: Color(0xFF1D192B),
-
-      tertiary: Color(0xFF7D5260),
-      onTertiary: Color(0xFFFFFFFF),
-      tertiaryContainer: Color(0xFFFFD8E4),
-      onTertiaryContainer: Color(0xFF31111D),
+      primary: Color(0xFF6750A4),
+      surface: Color(0xFFFEF7FF),
+      surfaceContainer: Color(0xFFF3EDF7),
+      outlineVariant: Color(0xFFCAC4D0),
+      onSurfaceVariant: Color(0xFF49454F),
+      outline: Color(0xFF79747E),
+      onPrimary: Color(0xFFFFFFFF),
+      onSurface: Color(0xFFE6E0E9),
+      surfaceContainerHigh: Color(0xFFECE6F0),
+      secondaryContainer: Color(0xFFE8DEF8),
+      secondary: Color(0xFF625B71),
+      onSecondary: Color(0xFFFFFFFF),
       error: Color(0xFFB3261E),
       onError: Color(0xFFFFFFFF),
-      errorContainer: Color(0xFFF9DEDC),
-      onErrorContainer: Color(0xFF410E0B),
-      surface: Color(0xFFFFFBFE),
-      onSurface: Color(0xFF1C1B1F),
-      outline: Color(0xFF79747E),
-      surfaceContainerHighest: Color(0xFFE7E0EC),
-      onSurfaceVariant: Color(0xFF49454F),
+      shadow: Color(0x3F000000),
+      primaryContainer: Color(0xFFF7F2FA),
+      onPrimaryContainer: Color(0xFFEBE4EF),
     ),
   );
 }
