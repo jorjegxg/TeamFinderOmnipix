@@ -251,6 +251,12 @@ class HiveConstants {
   static const String departmentId = 'departmentId';
   static const String organizationId = 'organizationId';
   static const String userEmail = 'userEmail';
+
+  //
+  static const String rolesBox = 'rolesBox';
+  static const String adminRole = 'adminRole';
+  static const String employeeRole = 'employeeRole';
+  static const String departamentManagerRole = 'departamentManagerRole';
 }
 
 class DynamicLinkConstants {

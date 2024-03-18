@@ -13,7 +13,7 @@ class EmployeeRepoImpl {
     return box.get(HiveConstants.organizationId)!;
   }
 
-  Future<String> getEmployeeId() async {
+  Future<String> getCurrentEmployeeId() async {
     final box = Hive.box<String>(HiveConstants.authBox);
     return box.get(HiveConstants.userId)!;
   }
@@ -61,7 +61,7 @@ class EmployeeRepoImpl {
 
   Future<Either<Failure, void>> demoteAdmin(
       {required String employeeId}) async {
-    final currentUserId = await getEmployeeId();
+    final currentUserId = await getCurrentEmployeeId();
 
     if (currentUserId == employeeId) {
       return left(
@@ -129,7 +129,8 @@ class EmployeeRepoImpl {
     });
   }
 
-  Future<Either<Failure, EmployeesRoles>> _getEmployeeRoles(String employeeId) {
+  Future<Either<Failure<String>, EmployeesRoles>> getEmployeeRoles(
+      String employeeId) {
     return ApiService().dioGet(
       url: "${EndpointConstants.baseUrl}/employee/roles/$employeeId",
       codeMessage: {
@@ -145,6 +146,12 @@ class EmployeeRepoImpl {
         },
       );
     });
+  }
+
+  Future<Either<Failure<String>, EmployeesRoles>>
+      getCurrentEmployeeRoles() async {
+    final employeeId = await getCurrentEmployeeId();
+    return getEmployeeRoles(employeeId);
   }
 
   Future<Either<Failure, EmployeeModel>> _getEmployeeData(String employeeId) {
@@ -166,7 +173,7 @@ class EmployeeRepoImpl {
 
   Future<Either<Failure, EmployeeRolesAndData>> getEmployeeRolesAndData(
       String employeeId) async {
-    final employeeRoles = await _getEmployeeRoles(employeeId);
+    final employeeRoles = await getEmployeeRoles(employeeId);
     final employeeData = await _getEmployeeData(employeeId);
 
     return employeeRoles.fold(

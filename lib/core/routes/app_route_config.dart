@@ -58,6 +58,7 @@ class MyAppRouter {
         await SecureStorageService().delete(key: StorageConstants.token);
         return '/register/admin';
       }
+
       return null;
     },
     // initialLocation: '/firstPage',

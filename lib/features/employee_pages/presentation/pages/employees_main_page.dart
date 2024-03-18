@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/logger.dart';
+import 'package:team_finder_app/core/util/snack_bar.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/widgets/copy_link_dialog.dart';
 
@@ -73,32 +75,47 @@ class EmployeeMainPage extends HookWidget {
                               itemCount: employeeProvider.employees.length,
                               itemBuilder: (context, index) {
                                 return Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: EmployeeCard(
-                                    name:
-                                        employeeProvider.employees[index].name,
-                                    onTap: () {
-                                      Logger.info(
-                                          'EmployeeCard.onTap',
-                                          employeeProvider
-                                              .employees[index].name);
-
-                                      context.goNamed(
-                                        AppRouterConst.employeeProfileScreen,
-                                        pathParameters: {
-                                          'employeeId': employeeProvider
-                                              .employees[index].id,
-                                          'userId': userId,
-                                          'employeeName': employeeProvider
+                                    padding: const EdgeInsets.all(10),
+                                    child: Consumer<EmployeeRolesProvider>(
+                                      builder: (context, prov, child) {
+                                        return EmployeeCard(
+                                          name: employeeProvider
                                               .employees[index].name,
-                                          'employeeEmail': employeeProvider
-                                              .employees[index].email,
-                                        },
-                                      );
-                                      //TODO: implement onTap
-                                    },
-                                  ),
-                                );
+                                          onTap: prov.isOrganizationAdmin
+                                              ? () {
+                                                  Logger.info(
+                                                      'EmployeeCard.onTap',
+                                                      employeeProvider
+                                                          .employees[index]
+                                                          .name);
+
+                                                  context.goNamed(
+                                                    AppRouterConst
+                                                        .employeeProfileScreen,
+                                                    pathParameters: {
+                                                      'employeeId':
+                                                          employeeProvider
+                                                              .employees[index]
+                                                              .id,
+                                                      'userId': userId,
+                                                      'employeeName':
+                                                          employeeProvider
+                                                              .employees[index]
+                                                              .name,
+                                                      'employeeEmail':
+                                                          employeeProvider
+                                                              .employees[index]
+                                                              .email,
+                                                    },
+                                                  );
+                                                }
+                                              : () {
+                                                  showSnackBar(context,
+                                                      'You are not an admin');
+                                                },
+                                        );
+                                      },
+                                    ));
                               },
                             );
                           }

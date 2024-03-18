@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
+import 'package:team_finder_app/core/util/logger.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart';
 import 'package:team_finder_app/injection.dart';
 
@@ -14,6 +16,14 @@ class MainWrapper extends StatefulWidget {
 }
 
 class _MainWrapperState extends State<MainWrapper> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Logger.info(
+        'MainWrapper didChangeDependencies', 'getCurrentEmployeeRoles()');
+    getIt<EmployeeRolesProvider>().getCurrentEmployeeRoles();
+  }
+
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -25,69 +35,87 @@ class _MainWrapperState extends State<MainWrapper> {
       ],
       child: SafeArea(
         child: ScreenTypeLayout.builder(
-          mobile: (BuildContext context) => Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: widget.child,
-            bottomNavigationBar: BottomNavigationBar(
-                currentIndex: _selectedIndex,
-                showSelectedLabels: false,
-                showUnselectedLabels: false,
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.group_work,
-                    ),
-                    label: 'Projects',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.person,
-                    ),
-                    label: 'Employees',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.business,
-                    ),
-                    label: 'Departaments',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.settings,
-                    ),
-                    label: 'Settings',
-                  ),
-                ],
-                selectedItemColor: Theme.of(context).colorScheme.primary,
-                unselectedItemColor: Colors.black,
-                onTap: (int index) {
-                  setState(() {
-                    _selectedIndex = index;
-                    switch (index) {
-                      case 0:
-                        context.goNamed(AppRouterConst.projectsMainScreen,
-                            pathParameters: {'userId': '1'});
-                        break;
-                      case 1:
-                        context.goNamed(
-                          AppRouterConst.employeesMainScreen,
-                          pathParameters: {'userId': '1'},
-                        );
-                        break;
-                      case 2:
-                        context.goNamed(
-                          AppRouterConst.departamentsMainScreen,
-                          pathParameters: {'userId': '1'},
-                        );
-                        break;
-                      case 3:
-                        context.goNamed(AppRouterConst.settingsMainScreen,
-                            pathParameters: {'userId': '1'});
-                        break;
-                    }
-                  });
-                }),
-          ),
+          mobile: (BuildContext context) {
+            const projectsNavigationBarItem = BottomNavigationBarItem(
+              icon: Icon(
+                Icons.group_work,
+              ),
+              label: 'Projects',
+            );
+            const employeesNavigationBarItem = BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+              ),
+              label: 'Employees',
+            );
+            const departmentsNavigationBarItem = BottomNavigationBarItem(
+              icon: Icon(
+                Icons.business,
+              ),
+              label: 'Departaments',
+            );
+            const settingsNavigationBarItem = BottomNavigationBarItem(
+              icon: Icon(
+                Icons.settings,
+              ),
+              label: 'Settings',
+            );
+            return Scaffold(
+                resizeToAvoidBottomInset: false,
+                body: widget.child,
+                bottomNavigationBar: Consumer<EmployeeRolesProvider>(
+                  builder: (context, prov, child) {
+                    return BottomNavigationBar(
+                      currentIndex: _selectedIndex,
+                      showSelectedLabels: false,
+                      showUnselectedLabels: false,
+                      items:
+                      //TODO George Luta : de ce nu merge ??
+                      //  prov.isOrganizationAdmin? 
+                          const <BottomNavigationBarItem>[
+                              projectsNavigationBarItem,
+                              employeesNavigationBarItem,
+                              departmentsNavigationBarItem,
+                              settingsNavigationBarItem,
+                            ]
+                          // : [
+                          //     departmentsNavigationBarItem,
+                          //     settingsNavigationBarItem,
+                          //   ],
+                      //TODO George Luta : daca e department manager sa mai adaugi o optiune de a vedea angajatii din departamentul lui (item no 3)
+                      selectedItemColor: Theme.of(context).colorScheme.primary,
+                      unselectedItemColor: Colors.black,
+                      onTap: (int index) {
+                        setState(() {
+                          _selectedIndex = index;
+                          switch (index) {
+                            case 0:
+                              context.goNamed(AppRouterConst.projectsMainScreen,
+                                  pathParameters: {'userId': '1'});
+                              break;
+                            case 1:
+                              context.goNamed(
+                                AppRouterConst.employeesMainScreen,
+                                pathParameters: {'userId': '1'},
+                              );
+                              break;
+                            case 2:
+                              context.goNamed(
+                                AppRouterConst.departamentsMainScreen,
+                                pathParameters: {'userId': '1'},
+                              );
+                              break;
+                            case 3:
+                              context.goNamed(AppRouterConst.settingsMainScreen,
+                                  pathParameters: {'userId': '1'});
+                              break;
+                          }
+                        });
+                      },
+                    );
+                  },
+                ));
+          },
           desktop: (BuildContext context) => Scaffold(
             body: Row(
               children: [

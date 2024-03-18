@@ -19,7 +19,7 @@ import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart
 import 'package:team_finder_app/features/auth/domain/validators/authentication_validator.dart'
     as _i5;
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart'
-    as _i40;
+    as _i41;
 import 'package:team_finder_app/features/departaments_pages/data/department_repository_impl.dart'
     as _i6;
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart'
@@ -52,6 +52,8 @@ import 'package:team_finder_app/features/employee_pages/domain/employee_usecase.
     as _i11;
 import 'package:team_finder_app/features/employee_pages/presentation/provider/edit_employee_provider.dart'
     as _i34;
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart'
+    as _i36;
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart'
     as _i12;
 import 'package:team_finder_app/features/project_pages/data/repositories/project_repo_impl.dart'
@@ -67,9 +69,9 @@ import 'package:team_finder_app/features/project_pages/presentation/bloc/create_
 import 'package:team_finder_app/features/project_pages/presentation/bloc/edit_project_provider.dart'
     as _i35;
 import 'package:team_finder_app/features/project_pages/presentation/bloc/project_members_provider.dart'
-    as _i38;
-import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart'
     as _i39;
+import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart'
+    as _i40;
 import 'package:team_finder_app/features/project_pages/presentation/bloc/skill_req_provider.dart'
     as _i20;
 import 'package:team_finder_app/features/settings/data/repositories/settings_repo_impl.dart'
@@ -79,9 +81,9 @@ import 'package:team_finder_app/features/settings/domain/usecases/settings_use_c
 import 'package:team_finder_app/features/settings/presentation/providers/add_skill_provider.dart'
     as _i19;
 import 'package:team_finder_app/features/settings/presentation/providers/personal_skills_provider.dart'
-    as _i36;
-import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart'
     as _i37;
+import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart'
+    as _i38;
 import 'package:team_finder_app/features/settings/presentation/providers/team_roles_provider.dart'
     as _i22;
 
@@ -155,15 +157,17 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i34.EditEmployeeProvider(gh<_i11.EmployeeUsecase>()));
     gh.factory<_i35.EditProjectProvider>(
         () => _i35.EditProjectProvider(gh<_i16.ProjectsUsecase>()));
-    gh.factory<_i36.PersonalSkillsProvider>(
-        () => _i36.PersonalSkillsProvider(gh<_i18.SettingsUseCase>()));
-    gh.factory<_i37.ProfileProvider>(
-        () => _i37.ProfileProvider(gh<_i18.SettingsUseCase>()));
-    gh.factory<_i38.ProjectMembersProvider>(
-        () => _i38.ProjectMembersProvider(gh<_i16.ProjectsUsecase>()));
-    gh.factory<_i39.ProjectsBloc>(
-        () => _i39.ProjectsBloc(gh<_i16.ProjectsUsecase>()));
-    gh.factory<_i40.AuthBloc>(() => _i40.AuthBloc(gh<_i26.AuthUsecase>()));
+    gh.factory<_i36.EmployeeRolesProvider>(
+        () => _i36.EmployeeRolesProvider(gh<_i11.EmployeeUsecase>()));
+    gh.factory<_i37.PersonalSkillsProvider>(
+        () => _i37.PersonalSkillsProvider(gh<_i18.SettingsUseCase>()));
+    gh.factory<_i38.ProfileProvider>(
+        () => _i38.ProfileProvider(gh<_i18.SettingsUseCase>()));
+    gh.factory<_i39.ProjectMembersProvider>(
+        () => _i39.ProjectMembersProvider(gh<_i16.ProjectsUsecase>()));
+    gh.factory<_i40.ProjectsBloc>(
+        () => _i40.ProjectsBloc(gh<_i16.ProjectsUsecase>()));
+    gh.factory<_i41.AuthBloc>(() => _i41.AuthBloc(gh<_i26.AuthUsecase>()));
     return this;
   }
 }
