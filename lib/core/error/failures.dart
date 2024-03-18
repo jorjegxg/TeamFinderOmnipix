@@ -49,3 +49,7 @@ class CacheFailure<T> extends Failure<T> {
 class StorageFailure<T> extends Failure<T> {
   StorageFailure({required String message}) : super(message);
 }
+
+class CantBeEmpty<T> extends Failure<T> {
+  CantBeEmpty({required String message}) : super(message);
+}

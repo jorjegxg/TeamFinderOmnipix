@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -9,6 +8,8 @@ import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_f
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/presentation/bloc/create_project_provider.dart';
+import 'package:team_finder_app/features/project_pages/presentation/bloc/edit_project_provider.dart';
+import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_dropdown_button.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/date_picker.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/team_roles_dialog.dart';
@@ -33,14 +34,15 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
   final nameColtroler = TextEditingController();
   final descriptionColtroler = TextEditingController();
 
-  //TODO: implement edit project to have preexisting data
-
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<CreateProjectProvider>(context, listen: false)
-        ..getTeamRoles()
-        ..fillForm(widget.project);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await Provider.of<EditProjectProvider>(context, listen: false)
+          .getTeamRoles();
+      await Provider.of<EditProjectProvider>(context, listen: false)
+          .fetchTechnologyStack();
+      Provider.of<EditProjectProvider>(context, listen: false)
+          .fillForm(widget.project);
       nameColtroler.text = widget.project.name;
       descriptionColtroler.text = widget.project.description;
     });
@@ -57,10 +59,52 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreateProjectProvider>(
-      builder: (context, provider, child) => SafeArea(
+    return Consumer<EditProjectProvider>(builder: (context, provider, child) {
+      if (provider.isLoading) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      return SafeArea(
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
+            actions: [
+              IconButton(
+                  icon: const Icon(Icons.delete),
+                  color: Colors.black,
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                                title: const Text('Delete project'),
+                                content: const Text(
+                                    'Are you sure you want to delete this project?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('No'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      provider.deleteProject(widget.project.id);
+                                      Navigator.of(context).pop();
+                                      context
+                                          .read<ProjectsBloc>()
+                                          .add(const GetActiveProjectPages());
+                                      context.goNamed(
+                                          AppRouterConst.projectsMainScreen,
+                                          pathParameters: {
+                                            'userId': widget.userId
+                                          });
+                                    },
+                                    child: const Text("Yes"),
+                                  )
+                                ]));
+                  })
+            ],
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () => context.goNamed(
@@ -100,7 +144,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                           nameConttroler: nameColtroler,
                                           hintText: 'Name',
                                           width: 90.w,
-                                          onSubmitted: (String) {
+                                          onSubmitted: (String s) {
                                             //TODO: implement onSubmitted logic
                                           },
                                         ),
@@ -119,7 +163,9 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                             ],
                                             buttonWidth: 80.w,
                                             onChanged: (String? value) {
-                                              //TODO: implement onChanged logic
+                                              provider.setPeriod(
+                                                  ProjectPeriodX.fromString(
+                                                      value!));
                                             },
                                             dropdownValue: provider.getPeriod
                                                 .toStringValue(),
@@ -147,7 +193,9 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                             ],
                                             buttonWidth: 80.w,
                                             onChanged: (String? value) {
-                                              //TODO: implement onChanged logic
+                                              provider.setStatus(
+                                                  ProjectStatusX.fromString(
+                                                      value!));
                                             },
                                             dropdownValue: provider.getStatus
                                                 .toStringValue(),
@@ -165,7 +213,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                             MyDatePickerWidget(
                                               datePicked: provider.getStartDate,
                                               function: (newValue) {
-                                                //TODO: implement date logic
+                                                provider.setStartDate(newValue);
                                               },
                                             ),
                                             SizedBox(width: 10.w),
@@ -177,7 +225,8 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                               datePicked:
                                                   provider.getDeadlineDate,
                                               function: (newValue) {
-                                                //TODO: implement date logic
+                                                provider
+                                                    .setDeadlineDate(newValue);
                                               },
                                             ),
                                           ],
@@ -193,7 +242,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                                     context: context,
                                                     builder: (context) =>
                                                         Consumer<
-                                                            CreateProjectProvider>(
+                                                            EditProjectProvider>(
                                                           builder: (context,
                                                                   provider,
                                                                   _) =>
@@ -226,8 +275,9 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                               onPressed: () {
                                                 showDialog(
                                                   context: context,
-                                                  builder: (context) => Consumer<
-                                                      CreateProjectProvider>(
+                                                  builder: (context) =>
+                                                      Consumer<
+                                                          EditProjectProvider>(
                                                     builder: (context, provider,
                                                             _) =>
                                                         TeamRolesDialog(
@@ -282,7 +332,12 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                       CustomButton(
                         text: 'Done',
                         onPressed: () {
-                          //TODO: implement done logic
+                          provider.setName(nameColtroler.text);
+                          provider.setDescription(descriptionColtroler.text);
+
+                          provider.editProject(widget.projectId);
+                          context.goNamed(AppRouterConst.projectsMainScreen,
+                              pathParameters: {'userId': widget.userId});
                         },
                       ),
                       const SizedBox(height: 20),
@@ -293,7 +348,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
             },
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

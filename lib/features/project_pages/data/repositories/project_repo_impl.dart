@@ -1,6 +1,8 @@
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/util/logger.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 import 'package:team_finder_app/features/project_pages/data/models/project_model.dart';
 import 'package:team_finder_app/features/project_pages/data/models/team_role.dart';
 import 'package:team_finder_app/features/project_pages/data/models/technology_stack.dart';
@@ -81,6 +83,11 @@ class ProjectRepoImpl extends ProjectRepo {
 //   "organizationId": "string",
 //   "employeeId": "string"
 // }
+    //make from map<TeamRole,int> to map<teamrole.id,int>
+    Map<String, int> teamRoles = {};
+    newProject.teamRoles.forEach((key, value) {
+      teamRoles.putIfAbsent(key.id, () => value);
+    });
     return (await ApiService().dioPost(
       url: "${EndpointConstants.baseUrl}/project",
       data: {
@@ -90,7 +97,7 @@ class ProjectRepoImpl extends ProjectRepo {
         "deadlineDate": newProject.deadlineDate.toString(),
         "description": newProject.description,
         "technologyStack": newProject.technologyStack.map((e) => e.id).toList(),
-        "teamRoles": newProject.teamRoles,
+        "teamRoles": teamRoles,
         "status": newProject.status,
         "organizationId": organizationId,
         "employeeId": userId,
@@ -104,13 +111,6 @@ class ProjectRepoImpl extends ProjectRepo {
         return Right(r);
       },
     );
-  }
-
-  @override
-  Future<Either<Failure<String>, List<TechnologyStack>>>
-      getTechnologySuggestions() async {
-    // TODO: implement getTechnologySuggestions
-    throw UnimplementedError();
   }
 
   @override
@@ -158,20 +158,37 @@ class ProjectRepoImpl extends ProjectRepo {
 
   @override
   Future<Either<Failure<String>, List<TechnologyStack>>> getTechnologyStack() {
-    // TODO: implement getTechnologyStack
-    throw UnimplementedError();
+    ///projectmanager/gettechnologystacks/{organizationId}
+    var box = Hive.box<String>(HiveConstants.authBox);
+    String organizationId = box.get(HiveConstants.organizationId)!;
+    return (ApiService().dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/projectmanager/gettechnologystacks/$organizationId",
+    )).then((value) {
+      return value.fold(
+        (l) => Left(l),
+        (r) {
+          final List<TechnologyStack> technologyStack = [];
+          for (var tech in r) {
+            technologyStack.add(TechnologyStack.fromMap(tech));
+          }
+          return Right(technologyStack);
+        },
+      );
+    });
   }
 
   @override
   Future<Either<Failure<String>, void>> editProject(
       {required ProjectEntity editedProject}) async {
-    var box = Hive.box<String>(HiveConstants.authBox);
-    String organizationId = box.get(HiveConstants.organizationId)!;
-    String userId = box.get(HiveConstants.userId)!;
+    Map<String, int> teamRoles = {};
+    editedProject.teamRoles.forEach((key, value) {
+      teamRoles.putIfAbsent(key.id, () => value);
+    });
     return (await ApiService().dioPut(
       url: "${EndpointConstants.baseUrl}/project/updateproject",
       data: {
-        "id": editedProject.id,
+        "projectId": editedProject.id,
         "name": editedProject.name,
         "period": editedProject.period.toStringValue(),
         "startDate": editedProject.startDate.toString(),
@@ -179,10 +196,8 @@ class ProjectRepoImpl extends ProjectRepo {
         "description": editedProject.description,
         "technologyStack":
             editedProject.technologyStack.map((e) => e.id).toList(),
-        "teamRoles": editedProject.teamRoles,
+        "teamRoles": teamRoles,
         "status": editedProject.status,
-        "organizationId": organizationId,
-        "employeeId": userId,
       },
     ))
         .fold(
@@ -195,19 +210,186 @@ class ProjectRepoImpl extends ProjectRepo {
     );
   }
 
-  //get list of sugestoins
+  @override
+  Future<Either<Failure<String>, void>> deleteProject(
+      {required String projectId}) {
+    return ApiService()
+        .dioDelete(
+      url: "${EndpointConstants.baseUrl}/project/deleteproject/$projectId",
+    )
+        .then((value) {
+      return value.fold(
+        (l) => Left(l),
+        (r) => Right(r),
+      );
+    });
+  }
+
+  @override
+  Future<Either<Failure<String>, List<Employee>>> getActiveMembers(
+      String projectId) {
+    return ApiService()
+        .dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/project/activemembersproject/$projectId",
+    )
+        .then((value) {
+      return value.fold(
+        (l) => Left(l),
+        (r) => Right(r.map((e) => Employee.fromJson(e)).toList()),
+      );
+    });
+  }
+
+  @override
+  Future<Either<Failure<String>, List<Employee>>> getInActiveMembers(
+      String projectId) {
+    return ApiService()
+        .dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/project/inactivemembersproject/$projectId",
+    )
+        .then((value) {
+      return value.fold(
+        (l) => Left(l),
+        (r) => Right(r.map((e) => Employee.fromJson(e)).toList()),
+      );
+    });
+  }
+
+  @override
+  Future<Either<Failure<String>, List<Employee>>> getFutureMembers(
+      String projectId) {
+    return ApiService()
+        .dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/project/futuremembersproject/$projectId",
+    )
+        .then((value) {
+      return value.fold(
+        (l) => Left(l),
+        (r) => Right(r.map((e) => Employee.fromJson(e)).toList()),
+      );
+    });
+  }
+
+  @override
+  Future<Either<Failure<String>, List<Employee>>> fetchFullyAvalibleMembers(
+    String projectId,
+  ) {
+    //hive
+    var box = Hive.box<String>(HiveConstants.authBox);
+    String organizationId = box.get(HiveConstants.organizationId)!;
+
+    return ApiService()
+        .dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/project/freeemployees/$organizationId/$projectId",
+    )
+        .then((value) {
+      return value.fold(
+        (l) => Left(l),
+        (r) => Right(r.map((e) => Employee.fromJson(e)).toList()),
+      );
+    });
+  }
+
+  //fetch unavailable members
+  @override
+  Future<Either<Failure<String>, List<Employee>>> fetchUnavailableMembers(
+      String projectId) {
+    //hive
+    var box = Hive.box<String>(HiveConstants.authBox);
+    String organizationId = box.get(HiveConstants.organizationId)!;
+
+    return ApiService()
+        .dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/project/unavailableavailableemployees/$organizationId/$projectId",
+    )
+        .then((value) {
+      return value.fold(
+        (l) => Left(l),
+        (r) => Right(r.map((e) => Employee.fromJson(e)).toList()),
+      );
+    });
+  }
+
+  //fetch partially available members
+  @override
+  Future<Either<Failure<String>, List<Employee>>> fetchPartialyAvabileMembers(
+      String projectId) {
+    var box = Hive.box<String>(HiveConstants.authBox);
+    String organizationId = box.get(HiveConstants.organizationId)!;
+
+    return ApiService()
+        .dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/project/getpartialyavailableemployees/$organizationId/$projectId",
+    )
+        .then((value) {
+      return value.fold(
+        (l) => Left(l),
+        (r) => Right(r.map((e) => Employee.fromJson(e)).toList()),
+      );
+    });
+  }
+
+  @override
+  Future<Either<Failure<String>, List<Skill>>> getSkills() {
+    var box = Hive.box<String>(HiveConstants.authBox);
+    String organizationId = box.get(HiveConstants.organizationId)!;
+
+    return ApiService()
+        .dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/getskills/$organizationId",
+    )
+        .then((value) {
+      return value.fold(
+        (l) => Left(l),
+        (r) => Right(r.map((e) => Skill.fromJson(e)).toList()),
+      );
+    });
+  }
+
+  @override
+  Future<Either<Failure<String>, void>> postSkillReq(
+      {required String projectId, required Map<String, int> skill}) {
+    return ApiService().dioPost(
+      url: "${EndpointConstants.baseUrl}/employee/postskillinproject",
+      data: {
+        "projectId": projectId,
+        "skillId": skill.keys.first,
+        "minimumLevel": skill.values.first,
+      },
+    ).then((value) {
+      return value.fold(
+        (l) => Left(l),
+        (r) => Right(r),
+      );
+    });
+  }
+
+  @override
+  Future<Either<Failure<String>, List<Employee>>> fetchMembersWithChatGPT(
+      {required String message}) {
+    //  "content": "string",
+    //"organizationId": "string"
+
+    var box = Hive.box<String>(HiveConstants.authBox);
+    String organizationId = box.get(HiveConstants.organizationId)!;
+    return ApiService().dioPost(
+      url: "${EndpointConstants.baseUrl}/openai/",
+      data: {
+        "content": message,
+        "organizationId": organizationId,
+      },
+    ).then((value) {
+      return value.fold(
+        (l) => Left(l),
+        (r) => Right(r.map((e) => Employee.fromJson(e)).toList()),
+      );
+    });
+  }
 }
-// {
-//   "name": "string",
-//   "period": "string",
-//   "startDate": "2024-03-16T08:47:07.850Z",
-//   "deadlineDate": "2024-03-16T08:47:07.850Z",
-//   "description": "string",
-//   "technologyStack": [
-//     "string"
-//   ],
-//   "teamRoles": {},
-//   "status": "string",
-//   "organizationId": "string",
-//   "employeeId": "string"
-// }

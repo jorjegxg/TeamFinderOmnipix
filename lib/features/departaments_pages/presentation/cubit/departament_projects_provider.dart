@@ -36,15 +36,18 @@ class DepartamentProjectsProvider extends ChangeNotifier {
 
     final result =
         await _departmentUseCase.getProjectsForDepartament(departamentId);
-    result.fold((l) {
-      _error = l.message;
-      _isLoading = false;
-      notifyListeners();
-    }, (r) {
-      _isLoading = false;
-      _projects = r;
-      notifyListeners();
-    });
+    result.fold(
+      (l) {
+        _error = l.message;
+        _isLoading = false;
+        notifyListeners();
+      },
+      (r) {
+        _isLoading = false;
+        _projects = r;
+        notifyListeners();
+      },
+    );
     // Add your logic here
   }
 }

@@ -1,11 +1,15 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sizer/sizer.dart';
-import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
+
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
+import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:team_finder_app/features/project_pages/presentation/bloc/create_project_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/screens/mobile_create_project_screen.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_dropdown_button.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/date_picker.dart';
@@ -14,29 +18,55 @@ import 'package:team_finder_app/features/project_pages/presentation/widgets/sugg
 
 enum ProjectPeriod { fixed, ongoing }
 
-class CreateProjectScreen extends HookWidget {
-  const CreateProjectScreen({super.key, required this.userId});
+class CreateProjectScreen extends StatefulWidget {
+  const CreateProjectScreen({
+    Key? key,
+    required this.userId,
+  }) : super(key: key);
   final String userId;
+
+  @override
+  State<CreateProjectScreen> createState() => _CreateProjectScreenState();
+}
+
+class _CreateProjectScreenState extends State<CreateProjectScreen> {
+  final nameColtroler = TextEditingController();
+  final descriptionColtroler = TextEditingController();
+  @override
+  void didChangeDependencies() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<CreateProjectProvider>(context, listen: false)
+        ..getTeamRoles()
+        ..fetchTechnologyStack();
+    });
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    nameColtroler.dispose();
+    descriptionColtroler.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final nameColtroler = useTextEditingController();
-    final descriptionColtroler = useTextEditingController();
     return ScreenTypeLayout.builder(
       mobile: (context) {
         return MobileCreateProjectScreen(
-            userId: userId,
+            userId: widget.userId,
             nameColtroler: nameColtroler,
             descriptionColtroler: descriptionColtroler);
       },
       tablet: (context) {
         return TabletCreateProjectScreen(
-            userId: userId,
+            userId: widget.userId,
             nameColtroler: nameColtroler,
             descriptionColtroler: descriptionColtroler);
       },
       desktop: (context) {
         return DesktopCreateProjectScreen(
-            userId: userId,
+            userId: widget.userId,
             nameColtroler: nameColtroler,
             descriptionColtroler: descriptionColtroler);
       },

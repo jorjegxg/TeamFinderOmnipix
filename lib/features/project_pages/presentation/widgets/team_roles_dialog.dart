@@ -3,17 +3,20 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/item_with_checkbox.dart';
 
 class TeamRolesDialog extends HookWidget {
-  const TeamRolesDialog(
-      {super.key,
-      required this.title,
-      required this.description,
-      required this.items,
-      required this.onChanged});
+  const TeamRolesDialog({
+    super.key,
+    required this.title,
+    required this.description,
+    required this.items,
+    required this.onChanged,
+    this.enabled = true,
+  });
 
   final String title;
   final String description;
   final Map<Map<String, int>, bool> items;
   final Function(bool?, int index, int number) onChanged;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,7 @@ class TeamRolesDialog extends HookWidget {
                       onChanged: (bool? value, int number) {
                         onChanged(value, index, number);
                       },
-                      enabled: true,
+                      enabled: enabled,
                       number: items.keys.elementAt(index).values.first,
                       onSubmited: (String s) {
                         onChanged(

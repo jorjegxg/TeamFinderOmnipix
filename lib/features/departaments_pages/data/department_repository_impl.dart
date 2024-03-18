@@ -2,8 +2,11 @@ import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/features/auth/data/models/manager.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/alocation.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/dealocation.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/department.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/validation.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 import 'package:team_finder_app/features/project_pages/data/models/project_model.dart';
 
@@ -154,19 +157,19 @@ class DepartmentRepositoryImpl {
 
 //get statistics for departametn
 
-  Future<Either<Failure<String>, List<Map<String, int>>>>
-      getStatisticsForDepartament(
+  Future<Either<Failure<String>, Map<String, int>>> getStatisticsForDepartament(
     String departamentId,
     String skillId,
   ) async {
-    return (await ApiService().dioGet<List<Map<String, int>>>(
+    return (await ApiService().dioGet(
       url:
           "${EndpointConstants.baseUrl}/departamentmanager/chartdiagramspecialistlevel/${departamentId}/${skillId}",
     ))
         .fold(
-      (l) => left(l),
-      (r) => right(r),
-    );
+            (l) => left(l),
+            (r) => right(
+                  (r as Map).map((key, value) => MapEntry(key, value as int)),
+                ));
   }
 
   //get projects for departament
@@ -174,12 +177,12 @@ class DepartmentRepositoryImpl {
       String departamentId) async {
     return (await ApiService().dioGet<List>(
       url:
-          "${EndpointConstants.baseUrl}/departamentmanager/getdepartamentprojects/$departamentId",
+          "${EndpointConstants.baseUrl}/project/getprojectsfromadepartamentmembers/$departamentId",
     ))
         .fold(
       (l) => left(l),
       (r) => right(
-        r.map((e) => ProjectModel.fromJson(e)).toList(growable: false),
+        r.map((e) => ProjectModel.fromMap(e)).toList(growable: false),
       ),
     );
   }
@@ -237,5 +240,99 @@ class DepartmentRepositoryImpl {
       (l) => left(l),
       (r) => right(r),
     );
+  }
+
+//getSkillsNotInDepartament
+  Future<Either<Failure<String>, List<Skill>>> getSkillsNotInDepartament(
+      String departamentId) async {
+    var box = Hive.box<String>(HiveConstants.authBox);
+    String organizationId = box.get(HiveConstants.organizationId)!;
+    return (await ApiService().dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/departament/notassignedskills/$departamentId/$organizationId",
+    ))
+        .fold(
+      (l) => left(l),
+      (r) => right(
+        r.map((e) => Skill.fromJson(e)).toList(growable: false),
+      ),
+    );
+  }
+
+  //allocation/dealocation
+  Future<Either<Failure<String>, List<Alocation>>> getAlocations(
+      String departamentId) async {
+    return (await ApiService().dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/departamentallocationproposal/$departamentId",
+    ))
+        .fold(
+      (l) => left(l),
+      (r) => right(
+        r.map((e) => Alocation.fromMap(e)).toList(growable: false),
+      ),
+    );
+  }
+
+  Future<Either<Failure<String>, List<Dealocation>>> getDealocations(
+      String departamentId) async {
+    return (await ApiService().dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/departamentdeallocationonproposal/$departamentId",
+    ))
+        .fold(
+      (l) => left(l),
+      (r) => right(
+        r.map((e) => Dealocation.fromMap(e)).toList(growable: false),
+      ),
+    );
+  }
+
+  Future<Either<Failure<String>, List<Validation>>> fetchValidation(
+      String departamentId) {
+    return ApiService()
+        .dioGet<List>(
+          url:
+              "${EndpointConstants.baseUrl}/departamentmanager/getproposalsforskills/$departamentId",
+        )
+        .then(
+          (value) => value.fold(
+            (l) => left(l),
+            (r) => right(
+              r.map((e) => Validation.fromMap(e)).toList(growable: false),
+            ),
+          ),
+        );
+  }
+
+  //accept/refuze
+
+  Future<Either<Failure<String>, void>> acceptValidation(String validationId) {
+    return ApiService().dioPut(
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/approveproposalsforskills/$validationId",
+      data: {
+        "proposalId": validationId,
+      },
+    ).then(
+      (value) => value.fold(
+        (l) => left(l),
+        (r) => right(r),
+      ),
+    );
+  }
+
+  Future<Either<Failure<String>, void>> refuseValidation(String validationId) {
+    return ApiService()
+        .dioDelete(
+          url:
+              "${EndpointConstants.baseUrl}/departamentmanager/denyproposalsforskills/$validationId",
+        )
+        .then(
+          (value) => value.fold(
+            (l) => left(l),
+            (r) => right(r),
+          ),
+        );
   }
 }

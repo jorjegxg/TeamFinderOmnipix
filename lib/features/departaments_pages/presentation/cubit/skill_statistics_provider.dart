@@ -10,20 +10,15 @@ class SkillStatisticsProvider extends ChangeNotifier {
   SkillStatisticsProvider(this._departmentUseCase);
   bool _isLoading = false;
   String? _error;
-  List<Map<String, int>> _statistics = [];
+  Map<String, int> _statistics = {};
   List<Skill> _skills = [];
   Skill? currentlySelected;
 
   bool get isLoading => _isLoading;
   String? get error => _error;
-  List<Map<String, int>> get statistics => _statistics;
+  Map<String, int> get statistics => _statistics;
   List<Skill> get skills => _skills;
   Skill get currentlySelectedSkill => currentlySelected!;
-
-  void updateTotalSkills(List<Map<String, int>> statistics) {
-    _statistics = List.from(statistics);
-    notifyListeners();
-  }
 
   void updateCurrentlySelected(Skill skill) {
     currentlySelected = skill;
@@ -36,6 +31,17 @@ class SkillStatisticsProvider extends ChangeNotifier {
   }
   //get Skills for departament
 
+  //total count
+  //total count of employees with that skill
+
+  int getTotalCount() {
+    int sum = 0;
+    for (var i = 0; i < _statistics.length; i++) {
+      sum += _statistics['totalCount'] ?? 0;
+    }
+    return sum;
+  }
+
   Future<void> getSkills(String departamentId) async {
     _isLoading = true;
     _error = null;
@@ -47,28 +53,30 @@ class SkillStatisticsProvider extends ChangeNotifier {
       _error = l.message;
       _isLoading = false;
       notifyListeners();
-    }, (r) {
-      _isLoading = false;
+    }, (r) async {
       updateSkills(r);
       updateCurrentlySelected(r.first);
+      await fetchStatisticsForDepartament(departamentId);
+      _isLoading = false;
+      notifyListeners();
     });
   }
 
-  Future<void> fetchStatisticsForDepartament(
-      String departamentId, String skillId) async {
+  Future<void> fetchStatisticsForDepartament(String departamentId) async {
     _isLoading = true;
     _error = null;
     notifyListeners();
 
     final result = await _departmentUseCase.getStatisticsForDepartament(
-        departamentId, skillId);
+        departamentId, currentlySelected!.id);
     result.fold((l) {
       _error = l.message;
       _isLoading = false;
       notifyListeners();
     }, (r) {
       _isLoading = false;
-      updateTotalSkills(r);
+      _statistics = Map.from(r);
+      notifyListeners();
     });
   }
 }

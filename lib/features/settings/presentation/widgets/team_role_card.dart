@@ -4,12 +4,12 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class TeamRoleCard extends StatelessWidget {
   final String role;
   final Function(BuildContext) onDelete;
-  final Function(BuildContext) onEdit;
-  const TeamRoleCard(
-      {super.key,
-      required this.role,
-      required this.onDelete,
-      required this.onEdit});
+
+  const TeamRoleCard({
+    super.key,
+    required this.role,
+    required this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,24 +30,6 @@ class TeamRoleCard extends StatelessWidget {
             icon: Icons.person_remove,
             label: 'Remove',
             onPressed: onDelete,
-          ),
-        ],
-      ),
-      startActionPane: ActionPane(
-        // A motion is a widget used to control how the pane animates.
-        motion: const ScrollMotion(),
-
-        // A pane can dismiss the Slidable.
-        dragDismissible: false,
-        // All actions are defined in the children parameter.
-        children: [
-          // A SlidableAction can have an icon and/or a label.
-          SlidableAction(
-            backgroundColor: const Color.fromARGB(255, 170, 240, 161),
-            foregroundColor: Colors.white,
-            icon: Icons.edit,
-            label: 'Edit',
-            onPressed: onEdit,
           ),
         ],
       ),

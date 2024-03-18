@@ -2,14 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class FilterDialog extends HookWidget {
-  const FilterDialog({super.key});
+  const FilterDialog(
+      {required this.onChanged,
+      required this.value,
+      required this.partiallyAvailable,
+      required this.isUnavailable,
+      required this.closeToFinish,
+      required this.onPartiallyAvailable,
+      required this.onIsUnavailable,
+      required this.onCloseToFinish,
+      required this.onAdd,
+      super.key});
+
+  final bool partiallyAvailable;
+  final bool isUnavailable;
+  final bool closeToFinish;
+  final Function(bool?) onPartiallyAvailable;
+  final Function(bool?) onIsUnavailable;
+  final Function(bool?) onCloseToFinish;
+  final Function(double) onChanged;
+  final double value;
+  final Function() onAdd;
 
   @override
   Widget build(BuildContext context) {
-    bool partiallyAvailable = false;
-    bool unavaileble = false;
-    bool closeToFinish = false;
-
     return Dialog(
       child: Padding(
         padding: const EdgeInsets.all(15),
@@ -31,10 +47,7 @@ class FilterDialog extends HookWidget {
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 Checkbox(
-                    value: partiallyAvailable,
-                    onChanged: (newValue) {
-                      partiallyAvailable = newValue!;
-                    }),
+                    value: partiallyAvailable, onChanged: onPartiallyAvailable),
               ],
             ),
             Row(
@@ -44,11 +57,7 @@ class FilterDialog extends HookWidget {
                   'Unavailable',
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
-                Checkbox(
-                    value: unavaileble,
-                    onChanged: (newValue) {
-                      unavaileble = newValue!;
-                    }),
+                Checkbox(value: isUnavailable, onChanged: onIsUnavailable),
               ],
             ),
             Row(
@@ -58,20 +67,13 @@ class FilterDialog extends HookWidget {
                   'Close To Finish',
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
-                Checkbox(
-                    value: closeToFinish,
-                    onChanged: (newValue) {
-                      closeToFinish = newValue!;
-                    }),
+                Checkbox(value: closeToFinish, onChanged: onCloseToFinish),
               ],
             ),
             const SizedBox(height: 15),
             Slider(
-              value: 4,
-              onChanged: (newValue) {
-                //TODO: add functionality to the slider
-                //max value should be how in many weeks the employee is available
-              },
+              value: value,
+              onChanged: onChanged,
               divisions: 8,
               min: 0,
               max: 8,
@@ -87,8 +89,7 @@ class FilterDialog extends HookWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    //TODO: add functionality to the add button
-                    Navigator.pop(context);
+                    onAdd();
                   },
                   child: const Text('Add'),
                 ),

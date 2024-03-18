@@ -30,11 +30,6 @@ class TechnologyStack extends Equatable {
 
   //toJSON and fromJSON methods with convert
 
-  String toJson() => json.encode(toMap());
-
-  factory TechnologyStack.fromJson(String source) =>
-      TechnologyStack.fromMap(json.decode(source));
-
   @override
   List<Object?> get props => [id, name];
 }

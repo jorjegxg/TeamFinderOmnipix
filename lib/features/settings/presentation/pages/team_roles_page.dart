@@ -28,16 +28,9 @@ class TeamRolesPage extends HookWidget {
           if (provider.error != null) {
             return Text(provider.error!);
           }
-
           return SafeArea(
             child: Scaffold(
               appBar: AppBar(
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.black),
-                  onPressed: () => context.goNamed(
-                      AppRouterConst.projectsMainScreen,
-                      pathParameters: {'userId': userId}),
-                ),
                 centerTitle: true,
                 title: Text(
                   'Team Roles',
@@ -124,7 +117,6 @@ class TeamRolesPage extends HookWidget {
                                               );
                                             });
                                       },
-                                      onEdit: (BuildContext ctx) {},
                                     );
                                   }),
                             ),
