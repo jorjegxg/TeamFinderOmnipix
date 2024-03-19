@@ -96,7 +96,7 @@ class MyAppRouter {
       ),
       GoRoute(
         name: AppRouterConst.loginEmployeeName,
-        path: '/login/employee',
+        path: '/login/employee/:organizationId',
         pageBuilder: (context, state) =>
             const MaterialPage(child: EmployeeLoginPage()),
       ),
@@ -306,7 +306,7 @@ class MyAppRouter {
                                 ),
                               );
                             },
-                            routes: []),
+                            routes: const []),
                       ]),
                 ]),
             GoRoute(

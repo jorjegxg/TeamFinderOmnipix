@@ -16,6 +16,12 @@ class AuthRepoImpl extends AuthRepo {
     required String organizationName,
     required String organizationAddress,
   }) async {
+    final deleteStoredDataRequest = await deleteAllStoredData();
+
+    if (deleteStoredDataRequest.isLeft()) {
+      return left(StorageFailure<String>(message: "Error deleting data"));
+    }
+
     return (await ApiService().dioPost(
       url: "${EndpointConstants.baseUrl}/admin/create",
       data: {
@@ -41,6 +47,12 @@ class AuthRepoImpl extends AuthRepo {
     required String password,
     required String organizationId,
   }) async {
+    final deleteStoredDataRequest = await deleteAllStoredData();
+
+    if (deleteStoredDataRequest.isLeft()) {
+      return left(StorageFailure<String>(message: "Error deleting data"));
+    }
+
     return (await ApiService().dioPost(
       url: "${EndpointConstants.baseUrl}/employee/create",
       data: {
@@ -66,6 +78,12 @@ class AuthRepoImpl extends AuthRepo {
   @override
   Future<Either<Failure<String>, String>> login(
       {required String email, required String password}) async {
+    final deleteStoredDataRequest = await deleteAllStoredData();
+
+    if (deleteStoredDataRequest.isLeft()) {
+      return left(StorageFailure<String>(message: "Error deleting data"));
+    }
+
     return (await ApiService().dioPost(
       url: "${EndpointConstants.baseUrl}/login/",
       data: {
@@ -81,14 +99,15 @@ class AuthRepoImpl extends AuthRepo {
 
   @override
   Future<Either<Failure<String>, void>> deleteAllStoredData() async {
-    // try {
-    //   await SecureStorageService().delete(key: StorageConstants.token);
-    //   var box = Hive.box<String>(HiveConstants.authBox);
+    try {
+      await SecureStorageService().delete(key: StorageConstants.token);
+      var box = Hive.box<String>(HiveConstants.authBox);
 
-    //   await box.clear();
-    // } catch (e) {
-    //   return left(StorageFailure<String>(message: e.toString()));
-    // }
+      await box.clear();
+      Logger.success('Stored data deleteAllStoredData', 'deleted data');
+    } catch (e) {
+      return left(StorageFailure<String>(message: e.toString()));
+    }
 
     return right(null);
   }

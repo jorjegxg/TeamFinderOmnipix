@@ -6,7 +6,7 @@ import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee_roles.dart';
 import 'package:team_finder_app/features/employee_pages/domain/employee_usecase.dart';
 
-@injectable
+@singleton
 class EmployeeRolesProvider extends ChangeNotifier {
   final EmployeeUsecase employeeUsecase;
 

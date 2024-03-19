@@ -39,16 +39,6 @@ class ProjectsMainScreen extends StatelessWidget {
               'Projects',
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  context.read<AuthBloc>().add(AuthLogoutRequested(
-                        context: context,
-                      ));
-                },
-                icon: const Icon(Icons.logout),
-              ),
-            ],
           ),
           body: RefreshIndicator(
             onRefresh: () async {

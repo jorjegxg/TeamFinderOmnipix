@@ -38,12 +38,6 @@ class AuthUsecase {
     required String organizationAddress,
     required BuildContext context,
   }) async {
-    final response = await deleteAllStoredDataAndProviders(context);
-
-    if (response.isLeft()) {
-      return left(StorageFailure(message: 'Error logging out'));
-    }
-
     return fieldValidator
         .areRegisterAdminInformationValid(
       name,
@@ -94,12 +88,6 @@ class AuthUsecase {
     required String organizationId,
     required BuildContext context,
   }) async {
-    final response = await deleteAllStoredDataAndProviders(context);
-
-    if (response.isLeft()) {
-      return left(StorageFailure(message: 'Error logging out'));
-    }
-
     return fieldValidator
         .areRegisterEmployeeInformationValid(
       name,
@@ -133,12 +121,6 @@ class AuthUsecase {
       {required String email,
       required String password,
       required BuildContext context}) async {
-    final response = await deleteAllStoredDataAndProviders(context);
-
-    if (response.isLeft()) {
-      return left(StorageFailure(message: 'Error logging out'));
-    }
-
     return fieldValidator.areLoginInformationValid(email, password).fold(
       left,
       (r) async {
@@ -153,12 +135,7 @@ class AuthUsecase {
             SecureStorageService().write(key: StorageConstants.token, value: r);
 
             final userData = await _saveLocalData(r);
-            await Provider.of<ProfileProvider>(context, listen: false)
-                .fetchNameAndEmail();
-            if (context.mounted) {
-              BlocProvider.of<ProjectsBloc>(context, listen: false)
-                  .add(const GetActiveProjectPages());
-            }
+
             return right(userData['id']);
           },
         );
@@ -168,7 +145,7 @@ class AuthUsecase {
 
   Future<Either<Failure<String>, void>> logout(
       {required BuildContext context}) async {
-    (await deleteAllStoredDataAndProviders(context)).fold(
+    return (await authRepo.deleteAllStoredData()).fold(
       (l) => left(l),
       (r) async {
         context.goNamed(
@@ -177,29 +154,6 @@ class AuthUsecase {
         return right(r);
       },
     );
-
-    return left(HardFailure(message: 'Error logging out'));
-  }
-
-  Future<Either<Failure<String>, void>> deleteAllStoredDataAndProviders(
-      BuildContext context) async {
-    //clear all stored data from providers
-    Provider.of<DepartamentSkillsProvider>(context, listen: false)
-        .clearAllData();
-    Provider.of<AddMembersProvider>(context, listen: false).clearAllData();
-    Provider.of<CreateProjectProvider>(context, listen: false).clearAllData();
-    Provider.of<EditProjectProvider>(context, listen: false).clearAllData();
-    Provider.of<ProfileProvider>(context, listen: false).clearAllData();
-    Provider.of<EmployeeRolesProvider>(context, listen: false).clearAllData();
-
-    //for bloc
-    BlocProvider.of<AuthBloc>(context, listen: false).add(const AuthReset());
-    BlocProvider.of<ProjectsBloc>(context, listen: false)
-        .add(const ResetProjects());
-    BlocProvider.of<DepartmentCreateCubit>(context, listen: false)
-        .clearAllData();
-
-    return authRepo.deleteAllStoredData();
   }
 
   Future<Either<Failure<String>, String>> getOrganizationName(
