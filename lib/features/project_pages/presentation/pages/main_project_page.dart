@@ -125,9 +125,8 @@ class ProjectsMainScreen extends StatelessWidget {
                           }
                           if (state.activeProjects.isEmpty &&
                               state.inactiveProjects.isEmpty) {
-                            return const Center(
-                              child: Text('No projects found'),
-                            );
+                            return const NotFoundWidget(
+                                text: 'Projects not found');
                           }
                           if (state.errorMessage.isNotEmpty) {
                             return Center(
@@ -189,8 +188,8 @@ class ProjectsMainScreen extends StatelessWidget {
                                 });
                           } else {
                             if (state.inactiveProjects.isEmpty) {
-                              return const Center(
-                                child: Text('No projects found'),
+                              return const NotFoundWidget(
+                                text: 'Projects not found',
                               );
                             }
                             return ListView.builder(
@@ -207,12 +206,11 @@ class ProjectsMainScreen extends StatelessWidget {
                                       onPressed: () {
                                         //TODO: navigate to project details, pass project id
                                         context.goNamed(
-                                            AppRouterConst.projectDetailsScreen,
-                                            pathParameters: {
-                                              'projectId': state
-                                                  .inactiveProjects[index].id,
-                                              'userId': userId
-                                            });
+                                          AppRouterConst
+                                              .projectInactiveDetailsScreen,
+                                          pathParameters: {'userId': userId},
+                                          extra: state.inactiveProjects[index],
+                                        );
                                       },
                                       mainTitle:
                                           state.inactiveProjects[index].name,
@@ -290,6 +288,25 @@ class ProjectsMainScreen extends StatelessWidget {
       }
     }
     return techStackString;
+  }
+}
+
+class NotFoundWidget extends StatelessWidget {
+  const NotFoundWidget({
+    required this.text,
+    super.key,
+  });
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Center(
+          child: Text(
+            text,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ));
   }
 }
 

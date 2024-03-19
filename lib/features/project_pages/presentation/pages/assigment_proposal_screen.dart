@@ -19,12 +19,14 @@ class AssignmentProposalScreen extends HookWidget {
     required this.projectId,
     required this.userId,
     required this.project,
+    required this.workingHours,
   });
 
   final String employeeId;
   final String projectId;
   final String userId;
   final ProjectEntity project;
+  final String workingHours;
   @override
   Widget build(BuildContext context) {
     final descriptionColtroler = useTextEditingController();
@@ -79,7 +81,8 @@ class AssignmentProposalScreen extends HookWidget {
                                                 NumberPicker(
                                                   axis: Axis.horizontal,
                                                   minValue: 1,
-                                                  maxValue: 8,
+                                                  maxValue: 8 -
+                                                      int.parse(workingHours),
                                                   value: provider.getWorkHours,
                                                   onChanged: (int nr) {
                                                     provider.workHours = nr;
@@ -106,7 +109,7 @@ class AssignmentProposalScreen extends HookWidget {
                                                 ),
                                                 ConstrainedBox(
                                                   constraints: BoxConstraints(
-                                                      maxHeight: 10.h),
+                                                      maxHeight: 100),
                                                   child: ListView.builder(
                                                     scrollDirection:
                                                         Axis.horizontal,
@@ -171,7 +174,8 @@ class AssignmentProposalScreen extends HookWidget {
                                   onPressed: () async {
                                     provider.proposal =
                                         descriptionColtroler.text;
-                                    await provider.sendProposal(context);
+                                    await provider.sendProposal(
+                                        context, employeeId);
                                     if (context.mounted) {
                                       context.goNamed(
                                         AppRouterConst.addProjectMember,

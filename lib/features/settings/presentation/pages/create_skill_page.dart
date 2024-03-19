@@ -143,6 +143,11 @@ class CreateSkillPage extends HookWidget {
                               await Provider.of<CreateSkillProvider>(context,
                                       listen: false)
                                   .createSkill();
+                              if (!context.mounted) return;
+                              context.goNamed(
+                                AppRouterConst.settingsMainScreen,
+                                pathParameters: {'userId': userId},
+                              );
                             },
                           ),
                           const SizedBox(height: 20),

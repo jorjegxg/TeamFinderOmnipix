@@ -29,6 +29,7 @@ class ProjectMembersPage extends StatelessWidget {
       child: Builder(builder: (context) {
         return SafeArea(
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.add, color: Colors.black),
               onPressed: () {
@@ -59,97 +60,110 @@ class ProjectMembersPage extends StatelessWidget {
                   );
                 }
 
-                return Sizer(
-                  builder: (BuildContext context, Orientation orientation,
-                      DeviceType deviceType) {
-                    return Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                //TODO: add functionality to the icon buttons,the selected icon should be highlighted
-                                CustomIconButton(
-                                  icon: Icons.person_off,
-                                  onPressed: () {
-                                    provider.setIsSelected(0);
-                                    if (provider.getSelectedMembers().isEmpty) {
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    if (provider.getIsSelected[0]) {
+                      provider.getPastMembers(projectId);
+                    } else if (provider.getIsSelected[1]) {
+                      provider.getActiveMembers(projectId);
+                    } else {
+                      provider.getFutureMembers(projectId);
+                    }
+                  },
+                  child: Sizer(
+                    builder: (BuildContext context, Orientation orientation,
+                        DeviceType deviceType) {
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  //TODO: add functionality to the icon buttons,the selected icon should be highlighted
+                                  CustomIconButton(
+                                    icon: Icons.person_off,
+                                    onPressed: () {
+                                      provider.setIsSelected(0);
+
                                       provider.getPastMembers(projectId);
-                                    }
-                                  },
-                                  iconColor: provider.getIsSelected[0]
-                                      ? const Color(0xFF0d1290)
-                                      : Theme.of(context).colorScheme.surface,
-                                ),
-                                CustomIconButton(
-                                  icon: Icons.person,
-                                  onPressed: () {
-                                    provider.setIsSelected(1);
-                                    if (provider.getSelectedMembers().isEmpty) {
+                                    },
+                                    iconColor: provider.getIsSelected[0]
+                                        ? const Color(0xFF0d1290)
+                                        : Theme.of(context).colorScheme.surface,
+                                  ),
+                                  CustomIconButton(
+                                    icon: Icons.person,
+                                    onPressed: () {
+                                      provider.setIsSelected(1);
+
                                       provider.getActiveMembers(projectId);
-                                    }
-                                  },
-                                  iconColor: provider.getIsSelected[1]
-                                      ? const Color(0xFF0d1290)
-                                      : Theme.of(context).colorScheme.surface,
-                                ),
-                                CustomIconButton(
-                                  icon: Icons.person_add,
-                                  onPressed: () {
-                                    provider.setIsSelected(2);
-                                    if (provider.getSelectedMembers().isEmpty) {
+                                    },
+                                    iconColor: provider.getIsSelected[1]
+                                        ? const Color(0xFF0d1290)
+                                        : Theme.of(context).colorScheme.surface,
+                                  ),
+                                  CustomIconButton(
+                                    icon: Icons.person_add,
+                                    onPressed: () {
+                                      provider.setIsSelected(2);
+
                                       provider.getFutureMembers(projectId);
-                                    }
-                                  },
-                                  iconColor: provider.getIsSelected[2]
-                                      ? Colors.black
-                                      : Theme.of(context).colorScheme.surface,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-                            Expanded(
-                              child: Card(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .surfaceContainer,
-                                child: ListView.builder(
-                                  itemCount:
-                                      provider.getSelectedMembers().length,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: ProjectMemberCard(
-                                        name: provider
-                                            .getSelectedMembers()[index]
-                                            .name,
-                                        email: provider
-                                            .getSelectedMembers()[index]
-                                            .email,
-                                        onPressed: (BuildContext ctx) {
-                                          showDialog(
-                                              context: context,
-                                              builder: (ctx) =>
-                                                  DealocationDialog(
-                                                    projectId: projectId,
-                                                  ));
-                                        },
-                                      ),
-                                    );
-                                  },
+                                    },
+                                    iconColor: provider.getIsSelected[2]
+                                        ? Colors.black
+                                        : Theme.of(context).colorScheme.surface,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Expanded(
+                                child: Card(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .surfaceContainer,
+                                  child: ListView.builder(
+                                    itemCount:
+                                        provider.getSelectedMembers().length,
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: ProjectMemberCard(
+                                          name: provider
+                                              .getSelectedMembers()[index]
+                                              .name,
+                                          email: provider
+                                              .getSelectedMembers()[index]
+                                              .email,
+                                          onPressed: (BuildContext ctx) {
+                                            showDialog(
+                                                context: context,
+                                                builder: (ctx) =>
+                                                    DealocationDialog(
+                                                      projectId: projectId,
+                                                      employeeId: provider
+                                                          .getSelectedMembers()[
+                                                              index]
+                                                          .id,
+                                                    ));
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 60),
-                          ],
+                              const SizedBox(height: 60),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 );
               },
             ),

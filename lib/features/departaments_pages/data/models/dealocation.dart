@@ -13,7 +13,7 @@ class Dealocation {
   factory Dealocation.fromMap(Map<String, dynamic> map) {
     return Dealocation(
       id: map['id'],
-      dealocationReason: map['reason'],
+      dealocationReason: map['comment'],
       employeeName: map['employeeName'],
     );
   }

@@ -3,8 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:team_finder_app/core/error/failures.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
+import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 import 'package:team_finder_app/features/settings/data/models/role_model.dart';
 import 'package:team_finder_app/features/settings/presentation/providers/team_roles_provider.dart';
 import 'package:team_finder_app/features/settings/presentation/widgets/field_dialog.dart';
@@ -68,12 +70,7 @@ class TeamRolesPage extends HookWidget {
                   builder: (BuildContext context, Orientation orientation,
                       DeviceType deviceType) {
                     if (provider.teamRoles.isEmpty) {
-                      return Center(
-                        child: Text(
-                          'No Team Roles',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      );
+                      return const NotFoundWidget(text: 'No roles found');
                     }
                     return Center(
                       child: Padding(
@@ -134,6 +131,35 @@ class TeamRolesPage extends HookWidget {
                                                   ],
                                                 );
                                               });
+                                        },
+                                        onEdit: (BuildContext context) {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return FieldDialog(
+                                                text1: provider
+                                                    .teamRoles[index].name,
+                                                title: 'Edit Role',
+                                                onPress:
+                                                    (String t1, String? t2) {
+                                                  if (t1.isNotEmpty) {
+                                                    provider.editRole(
+                                                        RoleModel(
+                                                            name: t1,
+                                                            id: provider
+                                                                .teamRoles[
+                                                                    index]
+                                                                .id),
+                                                        buildContext);
+                                                    Navigator.of(context).pop();
+                                                  } else {
+                                                    showSnackBar(context,
+                                                        'New name cannot be empty');
+                                                  }
+                                                },
+                                              );
+                                            },
+                                          );
                                         },
                                       );
                                     }),

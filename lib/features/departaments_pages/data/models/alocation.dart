@@ -33,7 +33,7 @@ class Alocation {
       'id': id,
       'comments': comments,
       'workHours': workHours,
-      'teamRoles': teamRoles.map((e) => e.toJson()).toList(),
+      'teamRolesId': teamRoles.map((e) => e.toJson()).toList(),
       'employeeName': employeeName,
     };
   }

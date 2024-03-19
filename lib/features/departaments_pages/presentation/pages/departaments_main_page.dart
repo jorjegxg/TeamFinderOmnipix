@@ -8,6 +8,7 @@ import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/create_departament_dialog.dart';
+import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_widget.dart';
 
 class DepartamentMainPage extends StatelessWidget {
@@ -93,20 +94,23 @@ class DepartamentMainPage extends StatelessWidget {
                                         pathParameters: {
                                           'userId': userId,
                                           'departamentId':
-                                              state.departments[index].id
+                                              state.departments[index].id,
+                                          'departamentName': state
+                                              .departments[index].departmentName
                                         });
-                                    //TODO: navigate to departament details, pass departament id
                                   }),
                             ),
                           );
                         });
                   } else {
-                    return const Center(
-                        child: Text('No departaments found <3'));
+                    return const NotFoundWidget(
+                        text: 'No departaments found <3');
                   }
                 }
 
-                return const SizedBox();
+                return const NotFoundWidget(
+                  text: 'Departament not found',
+                );
               },
             ),
           ),

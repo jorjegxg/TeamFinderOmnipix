@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/skill_card.dart';
+import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 import 'package:team_finder_app/features/settings/presentation/providers/owned_skills_provider.dart';
 import 'package:team_finder_app/injection.dart';
 
@@ -55,9 +56,8 @@ class OwnedSkillsPage extends HookWidget {
                           );
                         }
                         if (provider.skills.isEmpty) {
-                          return const Center(
-                            child: Text('No skills added yet'),
-                          );
+                          return const NotFoundWidget(
+                              text: 'No skills added yet');
                         }
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),

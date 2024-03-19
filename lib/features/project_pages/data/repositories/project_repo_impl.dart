@@ -47,16 +47,13 @@ class ProjectRepoImpl extends ProjectRepo {
     var box = Hive.box<String>(HiveConstants.authBox);
     String employeeId = box.get(HiveConstants.userId)!;
     return (await ApiService().dioGet<List>(
-      //TODO George Luta : vezi daca endpoint-ul este bun
-
       url:
-          "${EndpointConstants.baseUrl}/projects/projectdetailinactive/${employeeId}",
+          "${EndpointConstants.baseUrl}/project/projectdetailinactive/$employeeId",
     ))
         .fold(
       (l) => Left(l),
       (r) {
         final List<ProjectModel> projects = [];
-        //TODO George Luta : vezi daca e bine : ['projects']
         for (var project in r) {
           projects.add(ProjectModel.fromMap(project));
         }
@@ -264,13 +261,12 @@ class ProjectRepoImpl extends ProjectRepo {
       String projectId) {
     return ApiService()
         .dioGet<List>(
-      url:
-          "${EndpointConstants.baseUrl}/project/futuremembersproject/$projectId",
+      url: "${EndpointConstants.baseUrl}/project/getproposedmembers/$projectId",
     )
         .then((value) {
       return value.fold(
         (l) => Left(l),
-        (r) => Right(r.map((e) => Employee.fromJson(e)).toList()),
+        (r) => Right(r.map((e) => Employee.fromJson(e['employeeId'])).toList()),
       );
     });
   }
@@ -385,12 +381,14 @@ class ProjectRepoImpl extends ProjectRepo {
         "organizationId": organizationId,
       },
     ).then((value) {
-      return value.fold(
-        (l) => Left(l),
-        (r) => Right(r['message']['response']['employees']
-            .map((e) => Employee.fromJson(e))
-            .toList()),
-      );
+      return value.fold((l) => Left(l), (r) {
+        Logger.info("VALUE:", r.toString());
+        if (r['message']['message'] is String) {
+          return Left(EasyFailure(message: "No employees found"));
+        }
+        return Right(
+            r['message']['message'].map((e) => Employee.fromJson(e)).toList());
+      });
     });
   }
 
@@ -400,14 +398,11 @@ class ProjectRepoImpl extends ProjectRepo {
     required String proposal,
     required int workHours,
     required List<TeamRole> teamRoles,
-  }) {
-    var box = Hive.box<String>(HiveConstants.authBox);
-    String employeeId = box.get(HiveConstants.userId)!;
-
-    return ApiService().dioPost(
+    required String employeeId,
+  }) async {
+    return await ApiService().dioPost(
       url: "${EndpointConstants.baseUrl}/project/assignproposal",
       data: {
-        //TODO: to be continued
         "projectId": project.id,
         "employeeId": employeeId,
         "numberOfHours": workHours,
@@ -424,10 +419,9 @@ class ProjectRepoImpl extends ProjectRepo {
 
   @override
   Future<Either<Failure<String>, void>> sendDealocationProposal(
-      {required String projectId, required String proposal}) {
-    var box = Hive.box<String>(HiveConstants.authBox);
-    String employeeId = box.get(HiveConstants.userId)!;
-
+      {required String projectId,
+      required String proposal,
+      required String employeeId}) {
     return ApiService().dioPost(
       url:
           "${EndpointConstants.baseUrl}/departament/createadealocationproposal",

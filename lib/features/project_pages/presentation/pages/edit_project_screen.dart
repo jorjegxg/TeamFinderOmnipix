@@ -72,47 +72,44 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             actions: [
-              IconButton(
-                  icon: const Icon(Icons.delete),
-                  color: Colors.black,
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                                title: const Text('Delete project'),
-                                content: const Text(
-                                    'Are you sure you want to delete this project?'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('No'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      provider.deleteProject(widget.project.id);
-                                      Navigator.of(context).pop();
-                                      context
-                                          .read<ProjectsBloc>()
-                                          .add(const GetActiveProjectPages());
-                                      context.goNamed(
-                                          AppRouterConst.projectsMainScreen,
-                                          pathParameters: {
-                                            'userId': widget.userId
-                                          });
-                                    },
-                                    child: const Text("Yes"),
-                                  )
-                                ]));
-                  })
+              ProjectStatusX.fromString(widget.project.status)
+                      .isNotStartedOrStarting()
+                  ? IconButton(
+                      icon: const Icon(Icons.delete),
+                      color: Colors.black,
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                    title: const Text('Delete project'),
+                                    content: const Text(
+                                        'Are you sure you want to delete this project?'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('No'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          provider
+                                              .deleteProject(widget.project.id);
+                                          Navigator.of(context).pop();
+                                          context.read<ProjectsBloc>().add(
+                                              const GetActiveProjectPages());
+                                          context.goNamed(
+                                              AppRouterConst.projectsMainScreen,
+                                              pathParameters: {
+                                                'userId': widget.userId
+                                              });
+                                        },
+                                        child: const Text("Yes"),
+                                      )
+                                    ]));
+                      })
+                  : Container(),
             ],
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () => context.goNamed(
-                  AppRouterConst.projectsMainScreen,
-                  pathParameters: {'userId': widget.userId}),
-            ),
             centerTitle: true,
             title: Text(
               'Edit project',

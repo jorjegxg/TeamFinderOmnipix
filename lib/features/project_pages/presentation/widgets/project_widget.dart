@@ -12,6 +12,7 @@ class ProjectWidget extends StatelessWidget {
     required this.content2,
     required this.onPressed,
     this.onLongPress,
+    this.showButton = true,
   });
 
   final String mainTitle;
@@ -21,6 +22,7 @@ class ProjectWidget extends StatelessWidget {
   final String content2;
   final Function() onPressed;
   final Function()? onLongPress;
+  final bool showButton;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -68,15 +70,16 @@ class ProjectWidget extends StatelessWidget {
                   content2,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: CustomButton(
-                    text: 'View Details',
-                    onPressed: onPressed,
-                    buttonHeight: 30,
-                    buttonWidth: 60,
+                if (showButton!)
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: CustomButton(
+                      text: 'View Details',
+                      onPressed: onPressed,
+                      buttonHeight: 30,
+                      buttonWidth: 60,
+                    ),
                   ),
-                ),
               ],
             ),
           ),

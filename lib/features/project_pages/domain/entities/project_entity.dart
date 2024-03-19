@@ -12,7 +12,6 @@ class ProjectEntity {
   final DateTime startDate;
   final DateTime deadlineDate;
   final String description;
-
   final String status;
 
   ProjectEntity({

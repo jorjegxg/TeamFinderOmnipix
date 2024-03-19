@@ -230,4 +230,18 @@ class SettingsRepoImpl {
       );
     });
   }
+
+  Future<Either<Failure<String>, void>> editRole(RoleModel roleModel) {
+    return ApiService()
+        .dioPut(
+      url:
+          "${EndpointConstants.baseUrl}/admin/updatecustomrole/${roleModel.id}/${roleModel.name}",
+    )
+        .then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) => right(null),
+      );
+    });
+  }
 }

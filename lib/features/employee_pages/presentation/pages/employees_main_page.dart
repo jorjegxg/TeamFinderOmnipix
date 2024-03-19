@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +11,7 @@ import 'package:team_finder_app/features/employee_pages/presentation/provider/em
 import 'package:team_finder_app/features/employee_pages/presentation/widgets/copy_link_dialog.dart';
 
 import 'package:team_finder_app/features/employee_pages/presentation/widgets/employee_card.dart';
+import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/search_text_field.dart';
 
 class EmployeeMainPage extends HookWidget {
@@ -22,94 +25,101 @@ class EmployeeMainPage extends HookWidget {
   Widget build(BuildContext context) {
     final TextEditingController nameConttroler = TextEditingController();
     return Builder(builder: (context) {
-      return SafeArea(
-        child: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add, color: Colors.black),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (ctx) {
-                    return const CopyLinkDialog();
-                  });
-            },
-          ),
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text(
-              'Employees',
-              style: Theme.of(context).textTheme.titleLarge,
+      return RefreshIndicator(
+        onRefresh: () async {
+          await context.read<EmployeesProvider>().fetchEmployees();
+        },
+        child: SafeArea(
+          child: Scaffold(
+            floatingActionButton: FloatingActionButton(
+              child: const Icon(Icons.add, color: Colors.black),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (ctx) {
+                      return const CopyLinkDialog();
+                    });
+              },
             ),
-          ),
-          body: Sizer(
-            builder: (BuildContext context, Orientation orientation,
-                DeviceType deviceType) {
-              return Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 20),
-                      SearchTextField(
-                        nameConttroler: nameConttroler,
-                        onSubmitted: (String s) {},
-                      ),
-                      const SizedBox(height: 10),
-                      Expanded(child: Consumer<EmployeesProvider>(
-                        builder: (context, employeeProvider, child) {
-                          if (employeeProvider.isLoading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(
+                'Employees',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
+            body: Sizer(
+              builder: (BuildContext context, Orientation orientation,
+                  DeviceType deviceType) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 20),
+                        SearchTextField(
+                          nameConttroler: nameConttroler,
+                          onSubmitted: (String s) {},
+                        ),
+                        const SizedBox(height: 10),
+                        Expanded(child: Consumer<EmployeesProvider>(
+                          builder: (context, employeeProvider, child) {
+                            if (employeeProvider.isLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (employeeProvider.employees.isEmpty) {
+                              return const NotFoundWidget(
+                                  text: 'No employees found');
+                            }
+                            if (employeeProvider.error != null) {
+                              return Center(
+                                child: Text(employeeProvider.error!),
+                              );
+                            } else {
+                              return ListView.builder(
+                                itemCount: employeeProvider.employees.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: EmployeeCard(
+                                      name: employeeProvider
+                                          .employees[index].name,
+                                      onTap: () {
+                                        Logger.info(
+                                            'EmployeeCard.onTap',
+                                            employeeProvider
+                                                .employees[index].name);
 
-                          if (employeeProvider.error != null) {
-                            return Center(
-                              child: Text(employeeProvider.error!),
-                            );
-                          } else {
-                            return ListView.builder(
-                              itemCount: employeeProvider.employees.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: EmployeeCard(
-                                    name:
-                                        employeeProvider.employees[index].name,
-                                    onTap: () {
-                                      Logger.info(
-                                          'EmployeeCard.onTap',
-                                          employeeProvider
-                                              .employees[index].name);
-
-                                      context.goNamed(
-                                        AppRouterConst.employeeProfileScreen,
-                                        pathParameters: {
-                                          'employeeId': employeeProvider
-                                              .employees[index].id,
-                                          'userId': userId,
-                                          'employeeName': employeeProvider
-                                              .employees[index].name,
-                                          'employeeEmail': employeeProvider
-                                              .employees[index].email,
-                                        },
-                                      );
-                                      //TODO: implement onTap
-                                    },
-                                  ),
-                                );
-                              },
-                            );
-                          }
-                        },
-                      )),
-                      const SizedBox(height: 60),
-                    ],
+                                        context.goNamed(
+                                          AppRouterConst.employeeProfileScreen,
+                                          pathParameters: {
+                                            'employeeId': employeeProvider
+                                                .employees[index].id,
+                                            'userId': userId,
+                                            'employeeName': employeeProvider
+                                                .employees[index].name,
+                                            'employeeEmail': employeeProvider
+                                                .employees[index].email,
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                          },
+                        )),
+                        const SizedBox(height: 60),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       );

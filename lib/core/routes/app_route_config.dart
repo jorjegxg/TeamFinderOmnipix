@@ -13,6 +13,7 @@ import 'package:team_finder_app/features/auth/presentation/pages/employee_login_
 import 'package:team_finder_app/features/auth/presentation/pages/employee_register_page.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/add_employee_departament.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/confirmations_page.dart';
+import 'package:team_finder_app/features/project_pages/presentation/pages/Project_inactive_details_screen.dart';
 import 'package:team_finder_app/features/settings/presentation/pages/create_skill_page.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/departament_details_page.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/departament_employees_page.dart';
@@ -132,6 +133,17 @@ class MyAppRouter {
                     )),
                 routes: [
                   GoRoute(
+                      path: "inactiveDetails",
+                      name: AppRouterConst.projectInactiveDetailsScreen,
+                      pageBuilder: (context, state) {
+                        return MaterialPage(
+                          child: ProjectInactiveDetailsScreen(
+                            userId: state.pathParameters['userId']!,
+                            project: state.extra as ProjectEntity,
+                          ),
+                        );
+                      }),
+                  GoRoute(
                       name: AppRouterConst.projectDetailsScreen,
                       path: 'details/:projectId',
                       pageBuilder: (context, state) => MaterialPage(
@@ -165,7 +177,7 @@ class MyAppRouter {
                                     GoRoute(
                                       name:
                                           AppRouterConst.sendAssignmentProposal,
-                                      path: ':employeeId',
+                                      path: ':employeeId/:workingHours',
                                       pageBuilder: (context, state) =>
                                           MaterialPage(
                                               child: AssignmentProposalScreen(
@@ -175,6 +187,8 @@ class MyAppRouter {
                                             state.pathParameters['employeeId']!,
                                         userId: state.pathParameters['userId']!,
                                         project: state.extra as ProjectEntity,
+                                        workingHours: state
+                                            .pathParameters['workingHours']!,
                                       )),
                                     ),
                                   ]),
@@ -209,12 +223,14 @@ class MyAppRouter {
                 routes: [
                   GoRoute(
                       name: AppRouterConst.departamentsDetailsPage,
-                      path: ':departamentId/details',
+                      path: ':departamentId/:departamentName/details',
                       pageBuilder: (context, state) => MaterialPage(
                             child: DepartamentDetailsPage(
                               userId: state.pathParameters['userId']!,
                               departamentId:
                                   state.pathParameters['departamentId']!,
+                              departamentName:
+                                  state.pathParameters['departamentName']!,
                             ),
                           ),
                       routes: [
@@ -226,6 +242,8 @@ class MyAppRouter {
                               userId: state.pathParameters['userId']!,
                               departamentId:
                                   state.pathParameters['departamentId']!,
+                              departamentName:
+                                  state.pathParameters['departamentName']!,
                             ),
                           ),
                           routes: [
@@ -237,6 +255,8 @@ class MyAppRouter {
                                   userId: state.pathParameters['userId']!,
                                   departamentId:
                                       state.pathParameters['departamentId']!,
+                                  departamentName:
+                                      state.pathParameters['departamentName']!,
                                 ),
                               ),
                             ),
@@ -251,6 +271,8 @@ class MyAppRouter {
                                   userId: state.pathParameters['userId']!,
                                   departamentId:
                                       state.pathParameters['departamentId']!,
+                                  departamentName:
+                                      state.pathParameters['departamentName']!,
                                 ),
                               );
                             }),
@@ -263,6 +285,8 @@ class MyAppRouter {
                                   userId: state.pathParameters['userId']!,
                                   departamentId:
                                       state.pathParameters['departamentId']!,
+                                  departamentName:
+                                      state.pathParameters['departamentName']!,
                                 ),
                               );
                             }),
@@ -275,6 +299,8 @@ class MyAppRouter {
                                   userId: state.pathParameters['userId']!,
                                   departamentId:
                                       state.pathParameters['departamentId']!,
+                                  departamentName:
+                                      state.pathParameters['departamentName']!,
                                 ),
                               );
                             }),
@@ -287,22 +313,26 @@ class MyAppRouter {
                                   userId: state.pathParameters['userId']!,
                                   departamentId:
                                       state.pathParameters['departamentId']!,
+                                  departamentName:
+                                      state.pathParameters['departamentName']!,
                                 ),
                               );
                             }),
                         GoRoute(
-                            name: AppRouterConst.departamentSkillsPage,
-                            path: 'skills',
-                            pageBuilder: (context, state) {
-                              return MaterialPage(
-                                child: DepartmentSkillsPage(
-                                  userId: state.pathParameters['userId']!,
-                                  departamentId:
-                                      state.pathParameters['departamentId']!,
-                                ),
-                              );
-                            },
-                            routes: []),
+                          name: AppRouterConst.departamentSkillsPage,
+                          path: 'skills',
+                          pageBuilder: (context, state) {
+                            return MaterialPage(
+                              child: DepartmentSkillsPage(
+                                userId: state.pathParameters['userId']!,
+                                departamentId:
+                                    state.pathParameters['departamentId']!,
+                                departamentName:
+                                    state.pathParameters['departamentName']!,
+                              ),
+                            );
+                          },
+                        ),
                       ]),
                 ]),
             GoRoute(

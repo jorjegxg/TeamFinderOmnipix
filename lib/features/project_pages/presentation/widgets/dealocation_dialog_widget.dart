@@ -6,8 +6,10 @@ import 'package:team_finder_app/features/project_pages/domain/repositories/proje
 import 'package:team_finder_app/features/project_pages/domain/usecases/projects_usecase.dart';
 
 class DealocationDialog extends HookWidget {
-  const DealocationDialog({required this.projectId, super.key});
+  const DealocationDialog(
+      {required this.projectId, super.key, required this.employeeId});
   final String projectId;
+  final String employeeId;
   @override
   Widget build(BuildContext context) {
     final TextEditingController dealocationController =
@@ -52,7 +54,8 @@ class DealocationDialog extends HookWidget {
                         ProjectsUsecase(ProjectRepoImpl());
                     projectUsecase.sendDealocationProposal(
                         projectId: projectId,
-                        proposal: dealocationController.text);
+                        proposal: dealocationController.text,
+                        employeeId: employeeId);
                     Navigator.pop(context);
                   },
                   child: const Text('Add'),
