@@ -37,7 +37,6 @@ class LoginScreen extends HookWidget {
           );
         }
         if (state is AuthError) {
-          //TODO George Luta : vezi sa nu fie prea lungi mesajele de eroare
           showSnackBar(context, state.message);
         }
       },

@@ -13,6 +13,8 @@ import 'package:team_finder_app/core/util/theme.dart';
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_skills_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/add_member_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/create_project_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/edit_project_provider.dart';
@@ -71,12 +73,18 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => getIt<DepartmentCreateCubit>(),
         ),
+        BlocProvider(
+          create: (context) => getIt<DepartmentsGetCubit>(),
+        ),
         ChangeNotifierProvider(
           create: (context) => getIt<ProfileProvider>()..fetchNameAndEmail(),
         ),
         BlocProvider(
           create: (context) =>
               getIt<ProjectsBloc>()..add(const GetActiveProjectPages()),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => getIt<EmployeeRolesProvider>(),
         ),
       ],
       child: ResponsiveApp(

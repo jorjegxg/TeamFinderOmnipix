@@ -38,7 +38,7 @@ class ProjectsState extends Equatable {
 
   //initital state
   factory ProjectsState.initial() {
-    return ProjectsState(
+    return const ProjectsState(
       activeProjects: [],
       inactiveProjects: [],
       switchState: StatusOfProject.active,

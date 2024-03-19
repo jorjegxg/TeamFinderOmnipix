@@ -23,6 +23,7 @@ import 'package:team_finder_app/features/departaments_pages/presentation/pages/s
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/skills_statistics_page.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/pages/employee_profile_page.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/pages/employees_main_page.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/add_project_member_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/assigment_proposal_screen.dart';
@@ -36,6 +37,7 @@ import 'package:team_finder_app/features/settings/presentation/pages/main_settin
 import 'package:team_finder_app/features/settings/presentation/pages/owned_skills_page.dart';
 import 'package:team_finder_app/features/settings/presentation/pages/personal_skills_page.dart';
 import 'package:team_finder_app/features/settings/presentation/pages/team_roles_page.dart';
+import 'package:team_finder_app/injection.dart';
 
 @singleton
 class MyAppRouter {
@@ -59,6 +61,7 @@ class MyAppRouter {
         await SecureStorageService().delete(key: StorageConstants.token);
         return '/register/admin';
       }
+
       return null;
     },
     // initialLocation: '/firstPage',
@@ -86,6 +89,7 @@ class MyAppRouter {
           final userData = JwtDecoder.decode(token);
 
           Logger.info('User data', userData.toString());
+          getIt<EmployeeRolesProvider>().getCurrentEmployeeRoles();
 
           return '/${userData['id']}/projects';
         },

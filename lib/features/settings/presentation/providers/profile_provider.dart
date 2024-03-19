@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/features/settings/domain/usecases/settings_use_case.dart';
 
-@injectable
+@lazySingleton
 class ProfileProvider extends ChangeNotifier {
   String name = '';
   String email = '';
@@ -10,7 +10,7 @@ class ProfileProvider extends ChangeNotifier {
   String newEmail = '';
   bool _isLoading = false;
   String? _error;
-  SettingsUseCase _settingsUseCase;
+  final SettingsUseCase _settingsUseCase;
 
   ProfileProvider(this._settingsUseCase);
 
@@ -25,12 +25,12 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   void setNewName(String name) {
-    this.newName = name;
+    newName = name;
     notifyListeners();
   }
 
   void setNewEmail(String email) {
-    this.newEmail = email;
+    newEmail = email;
     notifyListeners();
   }
 

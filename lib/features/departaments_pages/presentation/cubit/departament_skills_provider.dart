@@ -7,12 +7,12 @@ import 'package:team_finder_app/features/departaments_pages/domain/department_us
 
 @injectable
 class DepartamentSkillsProvider extends ChangeNotifier {
-  DepartmentUseCase _departmentUseCase;
+  final DepartmentUseCase _departmentUseCase;
   DepartamentSkillsProvider(this._departmentUseCase);
   List<Skill> _skills = List.from([]);
   Map<Skill, bool> _skillsNotInDepartament = {};
   bool _isLoading = false;
-  String? _error = null;
+  String? _error;
 
   List<Skill> get skills => _skills;
   bool get isLoading => _isLoading;
@@ -87,7 +87,7 @@ class DepartamentSkillsProvider extends ChangeNotifier {
       },
       (r) {
         _skillsNotInDepartament =
-            Map.fromIterable(r, key: (e) => e, value: (e) => false);
+            { for (var e in r) e : false };
         _isLoading = false;
         notifyListeners();
       },

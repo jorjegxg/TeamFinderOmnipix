@@ -15,6 +15,7 @@ import 'package:team_finder_app/features/auth/domain/validators/authentication_v
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_skills_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/add_member_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/create_project_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/edit_project_provider.dart';
@@ -35,7 +36,14 @@ class AuthUsecase {
     required String password,
     required String organizationName,
     required String organizationAddress,
+    required BuildContext context,
   }) async {
+    final response = await deleteAllStoredDataAndProviders(context);
+
+    if (response.isLeft()) {
+      return left(StorageFailure(message: 'Error logging out'));
+    }
+
     return fieldValidator
         .areRegisterAdminInformationValid(
       name,
@@ -84,7 +92,14 @@ class AuthUsecase {
     required String email,
     required String password,
     required String organizationId,
+    required BuildContext context,
   }) async {
+    final response = await deleteAllStoredDataAndProviders(context);
+
+    if (response.isLeft()) {
+      return left(StorageFailure(message: 'Error logging out'));
+    }
+
     return fieldValidator
         .areRegisterEmployeeInformationValid(
       name,
@@ -118,6 +133,12 @@ class AuthUsecase {
       {required String email,
       required String password,
       required BuildContext context}) async {
+    final response = await deleteAllStoredDataAndProviders(context);
+
+    if (response.isLeft()) {
+      return left(StorageFailure(message: 'Error logging out'));
+    }
+
     return fieldValidator.areLoginInformationValid(email, password).fold(
       left,
       (r) async {
@@ -147,7 +168,7 @@ class AuthUsecase {
 
   Future<Either<Failure<String>, void>> logout(
       {required BuildContext context}) async {
-    (await deleteAllStoredData(context)).fold(
+    (await deleteAllStoredDataAndProviders(context)).fold(
       (l) => left(l),
       (r) async {
         context.goNamed(
@@ -160,7 +181,7 @@ class AuthUsecase {
     return left(HardFailure(message: 'Error logging out'));
   }
 
-  Future<Either<Failure<String>, void>> deleteAllStoredData(
+  Future<Either<Failure<String>, void>> deleteAllStoredDataAndProviders(
       BuildContext context) async {
     //clear all stored data from providers
     Provider.of<DepartamentSkillsProvider>(context, listen: false)
@@ -169,36 +190,22 @@ class AuthUsecase {
     Provider.of<CreateProjectProvider>(context, listen: false).clearAllData();
     Provider.of<EditProjectProvider>(context, listen: false).clearAllData();
     Provider.of<ProfileProvider>(context, listen: false).clearAllData();
+    Provider.of<EmployeeRolesProvider>(context, listen: false).clearAllData();
 
     //for bloc
-    BlocProvider.of<AuthBloc>(context, listen: false).add(AuthReset());
-    BlocProvider.of<ProjectsBloc>(context, listen: false).add(ResetProjects());
+    BlocProvider.of<AuthBloc>(context, listen: false).add(const AuthReset());
+    BlocProvider.of<ProjectsBloc>(context, listen: false)
+        .add(const ResetProjects());
     BlocProvider.of<DepartmentCreateCubit>(context, listen: false)
         .clearAllData();
 
     return authRepo.deleteAllStoredData();
   }
+
+  Future<Either<Failure<String>, String>> getOrganizationName(
+      {required String organizationId}) async {
+    return authRepo.getOrganizationName(
+      organizationId,
+    );
+  }
 }
-//  ChangeNotifierProvider(
-//           create: (context) => getIt<DepartamentSkillsProvider>(),
-//         ),
-//         ChangeNotifierProvider(
-//           create: (context) => getIt<AddMembersProvider>(),
-//         ),
-//         ChangeNotifierProvider(
-//             create: (context) => getIt<CreateProjectProvider>()),
-//         ChangeNotifierProvider(
-//             create: (context) => getIt<EditProjectProvider>()),
-//         BlocProvider(
-//           create: (context) => getIt<AuthBloc>(),
-//         ),
-//         BlocProvider(
-//           create: (context) => getIt<DepartmentCreateCubit>(),
-//         ),
-//         ChangeNotifierProvider(
-//           create: (context) => getIt<ProfileProvider>()..fetchNameAndEmail(),
-//         ),
-//         BlocProvider(
-//           create: (context) =>
-//               getIt<ProjectsBloc>()..add(const GetActiveProjectPages()),
-//         ),

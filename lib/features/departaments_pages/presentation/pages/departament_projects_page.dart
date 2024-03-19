@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
-import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_employees_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_projects_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/filter_projects_dialog.dart';
 
@@ -78,7 +77,7 @@ class DepartamentProjectsPage extends HookWidget {
                                     .isLoading
                                 ? const Center(
                                     child: CircularProgressIndicator())
-                                : provider.projects.length == 0
+                                : provider.projects.isEmpty
                                     ? Text(
                                         'No projects found',
                                         style: Theme.of(context)

@@ -58,7 +58,6 @@ class SkillStatisticsPage extends HookWidget {
                                           .map((e) => e.name)
                                           .toList(),
                                       onChanged: (String? s) {
-                                        //TODO: implement to change pie chart data
                                         provider.updateCurrentlySelected(
                                             provider.skills.firstWhere(
                                                 (element) =>

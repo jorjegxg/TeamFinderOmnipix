@@ -180,7 +180,6 @@ class ProjectsMainScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(8.0),
                                       child: ProjectWidget(
                                         onPressed: () {
-                                          //TODO: navigate to project details, pass project id
                                           context.goNamed(
                                             AppRouterConst.projectDetailsScreen,
                                             pathParameters: {
@@ -218,7 +217,6 @@ class ProjectsMainScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(8.0),
                                       child: ProjectWidget(
                                         onPressed: () {
-                                          //TODO: navigate to project details, pass project id
                                           context.goNamed(
                                               AppRouterConst
                                                   .projectDetailsScreen,
@@ -260,7 +258,7 @@ class ProjectsMainScreen extends StatelessWidget {
             state.activeProjects[index].teamRoles.keys.elementAt(i).name;
       } else {
         teamRoleString +=
-            state.activeProjects[index].teamRoles.keys.elementAt(i).name + ', ';
+            '${state.activeProjects[index].teamRoles.keys.elementAt(i).name}, ';
       }
     }
     return teamRoleString;
@@ -287,8 +285,7 @@ class ProjectsMainScreen extends StatelessWidget {
             state.inactiveProjects[index].teamRoles.keys.elementAt(i).name;
       } else {
         teamRoleString +=
-            state.inactiveProjects[index].teamRoles.keys.elementAt(i).name +
-                ', ';
+            '${state.inactiveProjects[index].teamRoles.keys.elementAt(i).name}, ';
       }
     }
     return teamRoleString;
@@ -334,17 +331,6 @@ class DesktopMainProjectPage extends StatelessWidget {
             'Projects',
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          //TODO George Luta : e pus pentru testare sterge-l
-          actions: [
-            IconButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(AuthLogoutRequested(
-                      context: context,
-                    ));
-              },
-              icon: const Icon(Icons.logout),
-            ),
-          ],
         ),
         body: Sizer(
           builder: (BuildContext context, Orientation orientation,
@@ -354,12 +340,12 @@ class DesktopMainProjectPage extends StatelessWidget {
                 children: [
                   ProjectsListWidget(
                     userId: userId,
-                    projects: [],
+                    projects: const [],
                     title: 'Past Projects',
                   ),
                   ProjectsListWidget(
                     userId: userId,
-                    projects: [],
+                    projects: const [],
                     title: 'Active Projects',
                   ),
                 ],
