@@ -14,12 +14,13 @@ class SettingsRepoImpl {
 
   //get team roles
   Future<Either<Failure, List<RoleModel>>> getTeamRoles() async {
-    return ApiService()
-        .dioGet<List>(
+    return ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/organization/teamroles/${await getOrganizationId()}",
-    )
-        .then((response) {
+      codeMessage: {
+        404: "No team roles found",
+      },
+    ).then((response) {
       return response.fold(
         (l) => left(l),
         (r) {
@@ -56,7 +57,6 @@ class SettingsRepoImpl {
       url:
           "${EndpointConstants.baseUrl}/admin/deletecustomrole/${role.id}/${await getOrganizationId()}",
     )
-        //TODO: Implement deleteTeamRole
         .then((response) {
       return response.fold(
         (l) => left(l),
@@ -72,12 +72,13 @@ class SettingsRepoImpl {
     final employeeId = box.get(HiveConstants.userId);
     final organizationId = box.get(HiveConstants.organizationId);
 
-    return ApiService()
-        .dioGet<List>(
+    return ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/employee/notassignedskills/$employeeId/$organizationId",
-    )
-        .then((response) {
+      codeMessage: {
+        404: "No skills found",
+      },
+    ).then((response) {
       return response.fold(
         (l) => left(l),
         (r) {
@@ -126,6 +127,9 @@ class SettingsRepoImpl {
 
     return (await ApiService().dioGet<List>(
       url: "${EndpointConstants.baseUrl}/employee/getskills/$employeeId",
+      codeMessage: {
+        404: "No skills found",
+      },
     ))
         .fold(
       (l) => left(l),
@@ -142,6 +146,9 @@ class SettingsRepoImpl {
     return (await ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/departamentmanager/ownedskills/$employeeId",
+      codeMessage: {
+        404: "No skills found",
+      },
     ))
         .fold(
       (l) => left(l),
@@ -171,11 +178,12 @@ class SettingsRepoImpl {
   Future<Either<Failure, Employee>> getCurrentEmployee() async {
     final box = Hive.box<String>(HiveConstants.authBox);
     final employeeId = box.get(HiveConstants.userId);
-    return ApiService()
-        .dioGet(
+    return ApiService().dioGet(
       url: "${EndpointConstants.baseUrl}/employee/info/$employeeId",
-    )
-        .then((response) {
+      codeMessage: {
+        404: "No employee found",
+      },
+    ).then((response) {
       return response.fold(
         (l) => left(l),
         (r) => right(Employee.fromJson(r)),

@@ -5,13 +5,13 @@ import 'package:team_finder_app/features/project_pages/domain/usecases/projects_
 
 @injectable
 class SkillReqProvider extends ChangeNotifier {
-  ProjectsUsecase _projectsUsecase;
+  final ProjectsUsecase _projectsUsecase;
 
   SkillReqProvider(this._projectsUsecase);
 
   bool _isLoading = false;
   String? _error;
-  Map<Map<Skill, int>, bool> _skills = {};
+  final Map<Map<Skill, int>, bool> _skills = {};
 
   bool get isLoading => _isLoading;
   String? get error => _error;

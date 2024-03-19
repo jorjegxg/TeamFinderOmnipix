@@ -6,18 +6,18 @@ import 'package:team_finder_app/features/settings/domain/usecases/settings_use_c
 
 @injectable
 class SkillAssignmentProvider extends ChangeNotifier {
-  SettingsUseCase _settingsUseCase;
+  final SettingsUseCase _settingsUseCase;
 
   SkillAssignmentProvider(this._settingsUseCase);
 
   SkillLevel _skillLevel = SkillLevel.learns;
   ExperienceLevel _experienceLevel = ExperienceLevel.months0_6;
   Skill? selectedSkill;
-  List<Skill> _skills = [];
+  final List<Skill> _skills = [];
   bool _isLoading = false;
   String? _error;
-  List<Map<String, String>> _endorsmentsSkill = [];
-  List<String> _listOfProjects = [];
+  final List<Map<String, String>> _endorsmentsSkill = [];
+  final List<String> _listOfProjects = [];
 
   SkillLevel get skillLevel => _skillLevel;
   ExperienceLevel get experienceLevel => _experienceLevel;

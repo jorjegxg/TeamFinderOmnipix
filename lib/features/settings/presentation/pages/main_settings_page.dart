@@ -73,7 +73,7 @@ class DetailsBodyWidget extends StatelessWidget {
     return Expanded(
       child: Card(
         margin: const EdgeInsets.all(10),
-        color: Theme.of(buildContext).colorScheme.onSurface,
+        // color: Theme.of(buildContext).colorScheme.primaryContainer,
         child: SingleChildScrollView(
           child: Column(
             children: [

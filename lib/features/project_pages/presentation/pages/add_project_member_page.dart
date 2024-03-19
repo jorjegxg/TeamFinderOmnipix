@@ -122,7 +122,6 @@ class _AddProjectMembersPageState extends State<AddProjectMembersPage> {
                                                       }),
                                             );
                                           });
-                                      //TODO: add functionality to the icon button filter
                                     }),
                               ],
                             ),
@@ -160,7 +159,6 @@ class _AddProjectMembersPageState extends State<AddProjectMembersPage> {
                                         name: provider.getMembers[index].name,
                                         email: provider.getMembers[index].email,
                                         onDoubleTap: () {
-                                          //TODO: add functionality to the card
                                           context.goNamed(
                                             AppRouterConst
                                                 .sendAssignmentProposal,

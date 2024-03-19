@@ -6,7 +6,6 @@ import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/alocation.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/dealocation.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_confirmation_provider.dart';
-import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_employees_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/filter_projects_dialog.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/requests_card.dart';
 
@@ -145,6 +144,7 @@ class ConfirmationPage extends HookWidget {
                                                     ),
                                                   );
                                                 }
+                                                return null;
                                               },
                                             ),
                                     ),

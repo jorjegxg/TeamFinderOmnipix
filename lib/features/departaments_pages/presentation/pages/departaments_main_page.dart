@@ -10,13 +10,25 @@ import 'package:team_finder_app/features/departaments_pages/presentation/cubit/d
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/create_departament_dialog.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_widget.dart';
 
-class DepartamentMainPage extends StatelessWidget {
+class DepartamentMainPage extends StatefulWidget {
   const DepartamentMainPage({
     super.key,
     required this.userId,
   });
 
   final String userId;
+
+  @override
+  State<DepartamentMainPage> createState() => _DepartamentMainPageState();
+}
+
+class _DepartamentMainPageState extends State<DepartamentMainPage> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    context.read<DepartmentsGetCubit>().getDepartmentsFromOrganization();
+  }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -38,7 +50,6 @@ class DepartamentMainPage extends StatelessWidget {
             floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.add, color: Colors.black),
               onPressed: () {
-                //TODO: get list of free managers
                 showDialog(
                     context: context,
                     builder: (context) => const CreateDepartamentDialog());
@@ -91,11 +102,10 @@ class DepartamentMainPage extends StatelessWidget {
                                     context.goNamed(
                                         AppRouterConst.departamentsDetailsPage,
                                         pathParameters: {
-                                          'userId': userId,
+                                          'userId': widget.userId,
                                           'departamentId':
                                               state.departments[index].id
                                         });
-                                    //TODO: navigate to departament details, pass departament id
                                   }),
                             ),
                           );

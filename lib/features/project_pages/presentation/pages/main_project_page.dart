@@ -170,7 +170,6 @@ class ProjectsMainScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(8.0),
                                       child: ProjectWidget(
                                         onPressed: () {
-                                          //TODO: navigate to project details, pass project id
                                           context.goNamed(
                                             AppRouterConst.projectDetailsScreen,
                                             pathParameters: {
@@ -208,7 +207,6 @@ class ProjectsMainScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(8.0),
                                       child: ProjectWidget(
                                         onPressed: () {
-                                          //TODO: navigate to project details, pass project id
                                           context.goNamed(
                                               AppRouterConst
                                                   .projectDetailsScreen,
@@ -323,17 +321,6 @@ class DesktopMainProjectPage extends StatelessWidget {
             'Projects',
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          //TODO George Luta : e pus pentru testare sterge-l
-          actions: [
-            IconButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(AuthLogoutRequested(
-                      context: context,
-                    ));
-              },
-              icon: const Icon(Icons.logout),
-            ),
-          ],
         ),
         body: Sizer(
           builder: (BuildContext context, Orientation orientation,

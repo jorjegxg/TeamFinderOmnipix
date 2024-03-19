@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/logo_widget.dart';
-import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_managers/departments_managers_cubit.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/edit_employee_provider.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/widgets/department_managers_dropdown.dart';
 import 'package:team_finder_app/injection.dart';
 
 class EmployeeProfilePage extends StatelessWidget {
@@ -29,8 +31,12 @@ class EmployeeProfilePage extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<EditEmployeeProvider>(
           create: (context) =>
-              getIt<EditEmployeeProvider>()..getEmployeeRoles(employeeId),
-        )
+              getIt<EditEmployeeProvider>()..getEmployeeData(employeeId),
+        ),
+        BlocProvider(
+          create: (context) =>
+              getIt<DepartmentsManagersCubit>()..getDepartmentManagers(),
+        ),
       ],
       child: Builder(builder: (context) {
         return Scaffold(
@@ -70,16 +76,24 @@ class EmployeeProfilePage extends StatelessWidget {
                     const SizedBox(height: 40),
                     const SwitchesWidget(),
                     Expanded(child: Container()),
-                    CustomButton(
-                      buttonHeight: 40,
-                      text: 'Save changes',
-                      onPressed: () async {
-                        (await editEmployeeProvider.saveChanges(employeeId))
-                            .fold((l) {
-                          showSnackBar(context, l.message);
-                        }, (r) {
-                          showSnackBar(context, 'Changes saved');
-                        });
+                    BlocBuilder<DepartmentsManagersCubit,
+                        DepartmentsManagersState>(
+                      builder: (context, state) {
+                        return CustomButton(
+                          buttonHeight: 40,
+                          text: 'Save changes',
+                          onPressed: () async {
+                            final newManager = state.selectedManager;
+
+                            (await editEmployeeProvider.saveChanges(
+                                    employeeId, newManager))
+                                .fold((l) {
+                              showSnackBar(context, l.message);
+                            }, (r) {
+                              showSnackBar(context, 'Changes saved');
+                            });
+                          },
+                        );
                       },
                     ),
                     const SizedBox(height: 20),
@@ -145,6 +159,31 @@ class SwitchesWidget extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 10),
+                if (prov.departmentManagerHasToBeChanged)
+                  BlocBuilder<DepartmentsManagersCubit,
+                      DepartmentsManagersState>(
+                    builder: (context, state) {
+                      if (state.isLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      if (state.managers.isNotEmpty) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Select the new department manager:'),
+                            const SizedBox(height: 7),
+                            DepartmentManagersDropdown(
+                              state: state,
+                            ),
+                          ],
+                        );
+                      }
+
+                      return const Text(
+                          'Create a new department manager first');
+                    },
+                  ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

@@ -7,7 +7,7 @@ import 'package:team_finder_app/features/settings/domain/usecases/settings_use_c
 
 @injectable
 class TeamRolesProvider extends ChangeNotifier {
-  SettingsUseCase _settingsUseCase;
+  final SettingsUseCase _settingsUseCase;
   TeamRolesProvider(this._settingsUseCase);
 
   bool _isLoading = false;

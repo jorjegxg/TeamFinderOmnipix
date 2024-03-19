@@ -7,7 +7,6 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
-import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_skills_provider.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/skill_req_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/item_with_checkbox.dart';
@@ -38,7 +37,6 @@ class ProjectDetailsScreen extends HookWidget {
             IconButton(
               icon: const Icon(Icons.edit, color: Colors.black),
               onPressed: () {
-                //TODO: implement edit project
                 context.goNamed(
                   AppRouterConst.editProjectScreen,
                   pathParameters: {'projectId': projectId, 'userId': userId},

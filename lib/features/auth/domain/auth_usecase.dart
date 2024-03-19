@@ -132,12 +132,7 @@ class AuthUsecase {
             SecureStorageService().write(key: StorageConstants.token, value: r);
 
             final userData = await _saveLocalData(r);
-            await Provider.of<ProfileProvider>(context, listen: false)
-                .fetchNameAndEmail();
-            if (context.mounted) {
-              BlocProvider.of<ProjectsBloc>(context, listen: false)
-                  .add(const GetActiveProjectPages());
-            }
+
             return right(userData['id']);
           },
         );
@@ -160,6 +155,7 @@ class AuthUsecase {
     return left(HardFailure(message: 'Error logging out'));
   }
 
+  //TODO George Luta : ia-le de aici
   Future<Either<Failure<String>, void>> deleteAllStoredData(
       BuildContext context) async {
     //clear all stored data from providers
@@ -171,12 +167,20 @@ class AuthUsecase {
     Provider.of<ProfileProvider>(context, listen: false).clearAllData();
 
     //for bloc
-    BlocProvider.of<AuthBloc>(context, listen: false).add(AuthReset());
-    BlocProvider.of<ProjectsBloc>(context, listen: false).add(ResetProjects());
+    BlocProvider.of<AuthBloc>(context, listen: false).add(const AuthReset());
+    BlocProvider.of<ProjectsBloc>(context, listen: false)
+        .add(const ResetProjects());
     BlocProvider.of<DepartmentCreateCubit>(context, listen: false)
         .clearAllData();
 
     return authRepo.deleteAllStoredData();
+  }
+
+  Future<Either<Failure<String>, String>> getOrganizationName(
+      {required String organizationId}) async {
+    return authRepo.getOrganizationName(
+      organizationId,
+    );
   }
 }
 //  ChangeNotifierProvider(

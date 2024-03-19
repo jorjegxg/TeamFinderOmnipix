@@ -6,15 +6,15 @@ import 'package:team_finder_app/features/departaments_pages/domain/department_us
 
 @injectable
 class DepartamentConfirmationProvider extends ChangeNotifier {
-  DepartmentUseCase _departmentUseCase;
+  final DepartmentUseCase _departmentUseCase;
 
   DepartamentConfirmationProvider(this._departmentUseCase);
 
   List<Dealocation> _dealocations = [];
   bool _isLoading = false;
-  String? _error = null;
-  List<Alocation> _alocations = [];
-  List<dynamic> _allItems = [];
+  String? _error;
+  final List<Alocation> _alocations = [];
+  final List<dynamic> _allItems = [];
 
   List<Dealocation> get dealocations => _dealocations;
   bool get isLoading => _isLoading;
