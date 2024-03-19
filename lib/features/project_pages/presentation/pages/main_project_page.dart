@@ -331,17 +331,6 @@ class DesktopMainProjectPage extends StatelessWidget {
             'Projects',
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          //TODO George Luta : e pus pentru testare sterge-l
-          actions: [
-            IconButton(
-              onPressed: () {
-                context.read<AuthBloc>().add(AuthLogoutRequested(
-                      context: context,
-                    ));
-              },
-              icon: const Icon(Icons.logout),
-            ),
-          ],
         ),
         body: Sizer(
           builder: (BuildContext context, Orientation orientation,

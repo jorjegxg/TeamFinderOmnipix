@@ -14,29 +14,34 @@ class EmployeeRolesProvider extends ChangeNotifier {
   bool _isDepartmentManager = false;
   bool _isProjectManager = false;
 
+  bool _isLoading = false;
+
   EmployeeRolesProvider(this.employeeUsecase);
 
   bool get isOrganizationAdmin => _isOrganizationAdmin;
   bool get isDepartmentManager => _isDepartmentManager;
   bool get isProjectManager => _isProjectManager;
 
+  bool get isLoading => _isLoading;
+
   Future<void> getCurrentEmployeeRoles() async {
     final result = await employeeUsecase.getCurrentEmployeeRoles();
     return result.fold(
       (l) {
         Logger.error('getCurrentEmployeeRoles ', l.message);
+        _isLoading = false;
       },
       (roles) {
         Logger.info('getCurrentEmployeeRoles (provider)', 'roles: $roles');
-        if (roles.admin) {
-          _isOrganizationAdmin = true;
-        }
-        if (roles.departmentManager) {
-          _isDepartmentManager = true;
-        }
-        if (roles.projectManager) {
-          _isProjectManager = true;
-        }
+
+        _isOrganizationAdmin = roles.admin;
+        _isDepartmentManager = roles.departmentManager;
+        _isProjectManager = roles.projectManager;
+
+        _isLoading = false;
+        Logger.info('getCurrentEmployeeRoles (provider2)',
+            'roles: $_isOrganizationAdmin $_isDepartmentManager $_isProjectManager');
+
         notifyListeners();
       },
     );
@@ -46,6 +51,7 @@ class EmployeeRolesProvider extends ChangeNotifier {
     _isOrganizationAdmin = false;
     _isDepartmentManager = false;
     _isProjectManager = false;
+    _isLoading = false;
     notifyListeners();
   }
 }

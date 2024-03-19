@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
+import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/departament_info_widget.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/option_widget.dart';
 import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart';
@@ -28,9 +29,11 @@ class MainSettingsPage extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-                //TODO: Implement Logout
+                context.read<AuthBloc>().add(AuthLogoutRequested(
+                      context: context,
+                    ));
               },
-              icon: const Icon(Icons.logout, color: Colors.black),
+              icon: const Icon(Icons.logout),
             ),
           ],
           centerTitle: true,

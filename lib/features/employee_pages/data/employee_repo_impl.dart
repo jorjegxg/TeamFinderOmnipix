@@ -13,9 +13,9 @@ class EmployeeRepoImpl {
     return box.get(HiveConstants.organizationId)!;
   }
 
-  Future<String> getCurrentEmployeeId() async {
+  Future<String?> getCurrentEmployeeId() async {
     final box = Hive.box<String>(HiveConstants.authBox);
-    return box.get(HiveConstants.userId)!;
+    return box.get(HiveConstants.userId);
   }
 
   Future<Either<Failure, List<Employee>>> getEmployees() async {
@@ -150,7 +150,12 @@ class EmployeeRepoImpl {
 
   Future<Either<Failure<String>, EmployeesRoles>>
       getCurrentEmployeeRoles() async {
-    final employeeId = await getCurrentEmployeeId();
+    final String? employeeId = await getCurrentEmployeeId();
+
+    if (employeeId == null) {
+      return left(EasyFailure(message: "No employee id found"));
+    }
+
     return getEmployeeRoles(employeeId);
   }
 

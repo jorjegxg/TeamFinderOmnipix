@@ -3,6 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/features/auth/domain/auth_usecase.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
+import 'package:team_finder_app/injection.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -37,6 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       },
       (userId) {
+        getIt<EmployeeRolesProvider>().getCurrentEmployeeRoles();
         emit(AuthSuccess(
           userId: userId,
         ));
@@ -59,6 +62,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthError(message: failure.message));
       },
       (userId) {
+        getIt<EmployeeRolesProvider>().getCurrentEmployeeRoles();
         emit(AuthSuccess(
           userId: userId,
         ));
@@ -79,6 +83,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthError(message: failure.message));
       },
       (userId) {
+        getIt<EmployeeRolesProvider>().getCurrentEmployeeRoles();
         emit(AuthSuccess(
           userId: userId,
         ));
