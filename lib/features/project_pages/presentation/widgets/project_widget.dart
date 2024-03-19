@@ -14,6 +14,7 @@ class ProjectWidget extends StatelessWidget {
     this.onLongPress,
     this.color,
     this.buttonText,
+    this.isLoading = false,
   });
 
   final String mainTitle;
@@ -25,6 +26,7 @@ class ProjectWidget extends StatelessWidget {
   final Function()? onLongPress;
   final Color? color;
   final String? buttonText;
+  final bool isLoading;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -80,6 +82,7 @@ class ProjectWidget extends StatelessWidget {
                     buttonHeight: 30,
                     buttonWidth: 60,
                     color: color,
+                    isLoading: isLoading,
                   ),
                 ),
               ],

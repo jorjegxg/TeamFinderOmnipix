@@ -111,7 +111,7 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i6.DepartmentRepositoryImpl());
     gh.factory<_i7.DepartmentUseCase>(
         () => _i7.DepartmentUseCase(gh<_i6.DepartmentRepositoryImpl>()));
-    gh.factory<_i8.DepartmentsGetCubit>(
+    gh.singleton<_i8.DepartmentsGetCubit>(
         () => _i8.DepartmentsGetCubit(gh<_i7.DepartmentUseCase>()));
     gh.factory<_i9.DepartmentsManagersCubit>(
         () => _i9.DepartmentsManagersCubit(gh<_i7.DepartmentUseCase>()));

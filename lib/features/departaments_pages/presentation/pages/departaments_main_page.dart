@@ -108,62 +108,75 @@ class ListOfDepartments extends StatelessWidget {
                     child:
                         GestureDetector(child: Consumer<EmployeeRolesProvider>(
                       builder: (context, prov, child) {
-                        return ProjectWidget(
-                            color: prov.isOrganizationAdmin
-                                ? Theme.of(context).colorScheme.error
-                                : null,
-                            buttonText:
-                                prov.isOrganizationAdmin ? 'Delete' : null,
-                            onLongPress: () {
-                              log('asdasd');
-                            },
-                            mainTitle: state.departments[index].departmentName,
-                            title1: 'Departament Manager:',
-                            title2: 'Number of employees:',
-                            content1: state.departments[index].managersName ??
-                                'No manager',
-                            content2: state.departments[index].numberOfEmployees
-                                .toString(),
-                            onPressed: prov.isOrganizationAdmin
-                                ? () {
-                                    //alert dialog with delete option:
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                              title: const Text(
-                                                  'Delete Departament'),
-                                              content: const Text(
-                                                  'Are you sure you want to delete this departament?'),
-                                              actions: [
-                                                TextButton(
-                                                    onPressed: () {
-                                                      getIt<DeleteDepartmentProvider>()
-                                                          .deleteDepartment(
-                                                              state
-                                                                  .departments[
-                                                                      index]
-                                                                  .id);
+                        return Consumer<DeleteDepartmentProvider>(
+                          builder: (context, deleteDepartmentProvider, child) {
+                            return ProjectWidget(
+                                isLoading: deleteDepartmentProvider.isLoading,
+                                color: prov.isOrganizationAdmin
+                                    ? Theme.of(context).colorScheme.error
+                                    : null,
+                                buttonText:
+                                    prov.isOrganizationAdmin ? 'Delete' : null,
+                                onLongPress: () {
+                                  log('asdasd');
+                                },
+                                mainTitle:
+                                    state.departments[index].departmentName,
+                                title1: 'Departament Manager:',
+                                title2: 'Number of employees:',
+                                content1:
+                                    state.departments[index].managersName ??
+                                        'No manager',
+                                content2: state
+                                    .departments[index].numberOfEmployees
+                                    .toString(),
+                                onPressed: prov.isOrganizationAdmin
+                                    ? () {
+                                        //alert dialog with delete option:
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                                  title: const Text(
+                                                      'Delete Departament'),
+                                                  content: const Text(
+                                                      'Are you sure you want to delete this departament?'),
+                                                  actions: [
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          getIt<DeleteDepartmentProvider>()
+                                                              .deleteDepartment(
+                                                                  state
+                                                                      .departments[
+                                                                          index]
+                                                                      .id);
 
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text('Yes')),
-                                                TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text('No')),
-                                              ],
-                                            ));
-                                  }
-                                : () {
-                                    context.goNamed(
-                                        AppRouterConst.departamentsDetailsPage,
-                                        pathParameters: {
-                                          'userId': widget.userId,
-                                          'departamentId':
-                                              state.departments[index].id
-                                        });
-                                  });
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child:
+                                                            const Text('Yes')),
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child:
+                                                            const Text('No')),
+                                                  ],
+                                                ));
+                                      }
+                                    : () {
+                                        context.goNamed(
+                                            AppRouterConst
+                                                .departamentsDetailsPage,
+                                            pathParameters: {
+                                              'userId': widget.userId,
+                                              'departamentId':
+                                                  state.departments[index].id
+                                            });
+                                      });
+                          },
+                        );
                       },
                     )),
                   );
