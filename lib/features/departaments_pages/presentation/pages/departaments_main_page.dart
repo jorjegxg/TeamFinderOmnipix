@@ -136,8 +136,13 @@ class ListOfDepartments extends StatelessWidget {
                                         showDialog(
                                             context: context,
                                             builder: (context) => AlertDialog(
-                                                  title: const Text(
-                                                      'Delete Departament'),
+                                                  title: Text(
+                                                      'Delete Departament',
+                                                      style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .primary)),
                                                   content: const Text(
                                                       'Are you sure you want to delete this departament?'),
                                                   actions: [
