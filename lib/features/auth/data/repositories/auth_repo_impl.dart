@@ -92,6 +92,7 @@ class AuthRepoImpl extends AuthRepo {
       },
       codeMessage: {
         400: "Invalid email or password",
+        404: "User not found",
       },
     ))
         .fold((l) => left(l), (r) => right(r["Token"]));
