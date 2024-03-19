@@ -15,6 +15,7 @@ import 'package:team_finder_app/features/auth/domain/validators/authentication_v
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_skills_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/add_member_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/create_project_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/edit_project_provider.dart';
@@ -35,6 +36,7 @@ class AuthUsecase {
     required String password,
     required String organizationName,
     required String organizationAddress,
+    required BuildContext context,
   }) async {
     return fieldValidator
         .areRegisterAdminInformationValid(
@@ -84,6 +86,7 @@ class AuthUsecase {
     required String email,
     required String password,
     required String organizationId,
+    required BuildContext context,
   }) async {
     return fieldValidator
         .areRegisterEmployeeInformationValid(
@@ -142,7 +145,7 @@ class AuthUsecase {
 
   Future<Either<Failure<String>, void>> logout(
       {required BuildContext context}) async {
-    return (await deleteAllStoredData(context)).fold(
+    return (await authRepo.deleteAllStoredData()).fold(
       (l) => left(l),
       (r) async {
         context.goNamed(
@@ -151,11 +154,6 @@ class AuthUsecase {
         return right(r);
       },
     );
-  }
-
-  Future<Either<Failure<String>, void>> deleteAllStoredData(
-      BuildContext context) async {
-    return authRepo.deleteAllStoredData();
   }
 
   Future<Either<Failure<String>, String>> getOrganizationName(

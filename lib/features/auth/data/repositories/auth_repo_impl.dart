@@ -49,31 +49,30 @@ class AuthRepoImpl extends AuthRepo {
   }) async {
     final deleteStoredDataRequest = await deleteAllStoredData();
 
-    if (deleteStoredDataRequest.isRight()) {
-      Logger.success('AuthRepoImpl.registerEmployee', 'deleted data');
-      return (await ApiService().dioPost(
-        url: "${EndpointConstants.baseUrl}/employee/create",
-        data: {
-          "name": name,
-          "email": email,
-          "password": password,
-          "organizationId": organizationId,
-        },
-        codeMessage: {
-          400: "Email already in use",
-        },
-      ))
-          .fold((l) => left(l), (r) {
-        final token = r["Token"];
-
-        Logger.info('AuthRepoImpl.registerEmployee',
-            'token: ${JwtDecoder.decode(token)}');
-
-        return right(token);
-      });
-    } else {
+    if (deleteStoredDataRequest.isLeft()) {
       return left(StorageFailure<String>(message: "Error deleting data"));
     }
+
+    return (await ApiService().dioPost(
+      url: "${EndpointConstants.baseUrl}/employee/create",
+      data: {
+        "name": name,
+        "email": email,
+        "password": password,
+        "organizationId": organizationId,
+      },
+      codeMessage: {
+        400: "Email already in use",
+      },
+    ))
+        .fold((l) => left(l), (r) {
+      final token = r["Token"];
+
+      Logger.info('AuthRepoImpl.registerEmployee',
+          'token: ${JwtDecoder.decode(token)}');
+
+      return right(token);
+    });
   }
 
   @override
