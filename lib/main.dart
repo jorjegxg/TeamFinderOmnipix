@@ -11,6 +11,7 @@ import 'package:team_finder_app/core/routes/app_route_config.dart';
 import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/theme.dart';
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/delete_department_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_skills_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
@@ -84,6 +85,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => getIt<EmployeeRolesProvider>(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => getIt<DeleteDepartmentProvider>(),
         ),
       ],
       child: ResponsiveApp(

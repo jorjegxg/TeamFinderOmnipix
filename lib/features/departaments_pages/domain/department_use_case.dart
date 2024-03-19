@@ -165,4 +165,9 @@ class DepartmentUseCase {
   Future<Either<Failure<String>, List<String>>> getCategories() async {
     return departmentRepository.getCategories();
   }
+
+  Future<Either<Failure<String>, void>> deleteDepartment(
+      String departamentId) async {
+    return departmentRepository.deleteDepartment(departamentId);
+  }
 }
