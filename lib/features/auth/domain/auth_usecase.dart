@@ -1,26 +1,15 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:provider/provider.dart';
 import 'package:team_finder_app/core/error/failures.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/secure_storage_service.dart';
 import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:team_finder_app/features/auth/domain/validators/authentication_validator.dart';
-import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_skills_provider.dart';
-import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
-import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
-import 'package:team_finder_app/features/project_pages/presentation/providers/add_member_provider.dart';
-import 'package:team_finder_app/features/project_pages/presentation/providers/create_project_provider.dart';
-import 'package:team_finder_app/features/project_pages/presentation/providers/edit_project_provider.dart';
-import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
-import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart';
 
 @singleton
 class AuthUsecase {

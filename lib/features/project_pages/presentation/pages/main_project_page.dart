@@ -85,12 +85,6 @@ class ProjectsMainScreen extends StatelessWidget {
                       const SizedBox(
                         height: 20,
                       ),
-                      // BlocBuilder<ProjectsBloc, ProjectsState>(
-                      //   builder: (context, state) {
-                      //     if (state is ProjectsLoaded) {
-                      //       if (state.switchState == ProjectStatus.active) {
-                      //         {
-                      // return
                       BlocBuilder<ProjectsBloc, ProjectsState>(
                         builder: (context, state) {
                           return Center(
@@ -105,26 +99,6 @@ class ProjectsMainScreen extends StatelessWidget {
                           );
                         },
                       ),
-                      //  }
-                      //       } else {
-                      //         return Center(
-                      //           child: CustomSegmentedButton(
-                      //             currentView: ProjectStatus.past,
-                      //             onSelectionChanged: (value) {
-                      //               context
-                      //                   .read<ProjectsBloc>()
-                      //                   .add(SwitchProjectPages(value.first));
-                      //             },
-                      //           ),
-                      //         );
-                      //       }
-                      //     } else {
-                      //       return const Center(
-                      //         child: CircularProgressIndicator(),
-                      //       );
-                      //     }
-                      //   },
-                      // ),
                       const SizedBox(
                         height: 40,
                       ),
@@ -147,21 +121,7 @@ class ProjectsMainScreen extends StatelessWidget {
                                 child: Text(state.errorMessage),
                               );
                             }
-                            // if (stat) {
-                            //   if (state.switchState == StatusOfProject.active) {
-                            //     return ProjectsListWidget(
-                            //       userId: userId,
-                            //       projects: state.activeProjects!,
-                            //       title: 'Active Projects',
-                            //     );
-                            //   } else {
-                            //     return ProjectsListWidget(
-                            //       userId: userId,
-                            //       projects: state.inactiveProjects!,
-                            //       title: 'Past Projects',
-                            //     );
-                            //   }
-                            // }
+
                             if (state.switchState == StatusOfProject.active) {
                               if (state.activeProjects.isEmpty) {
                                 return const Center(
