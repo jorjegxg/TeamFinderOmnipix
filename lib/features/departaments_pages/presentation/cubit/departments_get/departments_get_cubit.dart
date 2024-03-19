@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
-import 'package:team_finder_app/features/departaments_pages/data/models/department.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/department_summary.dart';
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart';
 
 part 'departments_get_state.dart';

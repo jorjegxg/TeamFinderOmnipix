@@ -4,7 +4,7 @@ import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/alocation.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/dealocation.dart';
-import 'package:team_finder_app/features/departaments_pages/data/models/department.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/department_summary.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/validation.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
@@ -66,6 +66,7 @@ class DepartmentRepositoryImpl {
       getDepartmentsFromOrganization() async {
     var box = Hive.box<String>(HiveConstants.authBox);
     String organizationId = box.get(HiveConstants.organizationId)!;
+    String userId = box.get(HiveConstants.userId)!;
 
     return (await ApiService().dioGet<List>(
       url:
@@ -74,9 +75,26 @@ class DepartmentRepositoryImpl {
     ))
         .fold(
       (l) => left(l),
-      (r) => right(
-        r.map((e) => DepartmentSummary.fromJson(e)).toList(growable: false),
-      ),
+      (r) {
+        List<DepartmentSummary> myDepartments;
+        List<DepartmentSummary> notMyDepartments;
+
+        myDepartments = r
+            .map((e) => DepartmentSummary.fromJson(e))
+            .where((element) => element.departamentManagerId == userId)
+            .toList(growable: false);
+
+        for (var d in myDepartments) {
+          d.isCurrentUserManager = true;
+        }
+
+        notMyDepartments = r
+            .map((e) => DepartmentSummary.fromJson(e))
+            .where((element) => element.departamentManagerId != userId)
+            .toList(growable: false);
+
+        return right(myDepartments + notMyDepartments);
+      },
     );
   }
 
