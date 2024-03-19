@@ -1,11 +1,17 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
+import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart';
+import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart';
 import 'package:team_finder_app/injection.dart';
 
 class MainWrapper extends StatefulWidget {
@@ -17,10 +23,15 @@ class MainWrapper extends StatefulWidget {
 
 class _MainWrapperState extends State<MainWrapper> {
   @override
+  void dispose() {
+    getIt<EmployeeRolesProvider>().clearAllData();
+    super.dispose();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Logger.info(
-        'MainWrapper didChangeDependencies', 'getCurrentEmployeeRoles()');
+    getIt<ProfileProvider>().fetchNameAndEmail();
   }
 
   int _selectedIndex = 0;
@@ -67,20 +78,17 @@ class _MainWrapperState extends State<MainWrapper> {
                       currentIndex: _selectedIndex,
                       showSelectedLabels: false,
                       showUnselectedLabels: false,
-                      items:
-                          //TODO George Luta : de ce nu merge ??
-                          prov.isOrganizationAdmin
-                              ? const <BottomNavigationBarItem>[
-                                  projectsNavigationBarItem,
-                                  employeesNavigationBarItem,
-                                  departmentsNavigationBarItem,
-                                  settingsNavigationBarItem,
-                                ]
-                              : [
-                                  departmentsNavigationBarItem,
-                                  settingsNavigationBarItem,
-                                ],
-                      //TODO George Luta : daca e department manager sa mai adaugi o optiune de a vedea angajatii din departamentul lui (item no 3)
+                      items: prov.isOrganizationAdmin
+                          ? const <BottomNavigationBarItem>[
+                              projectsNavigationBarItem,
+                              employeesNavigationBarItem,
+                              departmentsNavigationBarItem,
+                              settingsNavigationBarItem,
+                            ]
+                          : [
+                              departmentsNavigationBarItem,
+                              settingsNavigationBarItem,
+                            ],
                       selectedItemColor: Theme.of(context).colorScheme.primary,
                       unselectedItemColor: Colors.black,
                       onTap: prov.isOrganizationAdmin

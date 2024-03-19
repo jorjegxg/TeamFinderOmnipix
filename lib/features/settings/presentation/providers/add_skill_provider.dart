@@ -4,7 +4,7 @@ import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
 import 'package:team_finder_app/features/settings/domain/usecases/settings_use_case.dart';
 
-@injectable
+@singleton
 class SkillAssignmentProvider extends ChangeNotifier {
   final SettingsUseCase _settingsUseCase;
 

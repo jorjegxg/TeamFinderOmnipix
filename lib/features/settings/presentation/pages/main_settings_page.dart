@@ -16,15 +16,7 @@ class MainSettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ProfileProvider>(builder: (context, provider, child) {
-      if (provider.isLoading) {
-        return const Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
-      }
-      return Scaffold(
+    return Scaffold(
         appBar: AppBar(
           actions: [
             IconButton(
@@ -45,20 +37,27 @@ class MainSettingsPage extends StatelessWidget {
         body: Column(
           children: [
             const SizedBox(height: 20),
-            Center(
-                child: InfoWidget(
-              text: provider.name,
-              text2: provider.email,
-              icon: Icons.person,
-            )),
+            Consumer<ProfileProvider>(builder: (context, provider, child) {
+              if (provider.isLoading) {
+                return const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+              return Center(
+                  child: InfoWidget(
+                text: provider.name,
+                text2: provider.email,
+                icon: Icons.person,
+              ));
+            }),
             const SizedBox(height: 20),
             DetailsBodyWidget(
               userId: userId,
             )
           ],
-        ),
-      );
-    });
+        ));
   }
 }
 

@@ -21,6 +21,7 @@ import 'package:team_finder_app/features/project_pages/presentation/providers/cr
 import 'package:team_finder_app/features/project_pages/presentation/providers/edit_project_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
 import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart';
+import 'package:team_finder_app/injection.dart';
 
 @singleton
 class AuthUsecase {
@@ -64,8 +65,11 @@ class AuthUsecase {
       return authResponse.fold(
         left,
         (r) async {
-          SecureStorageService().write(key: StorageConstants.token, value: r);
+          await SecureStorageService()
+              .write(key: StorageConstants.token, value: r);
           final userData = await _saveLocalData(r);
+
+          // await fillProviders();
 
           return right(userData['id']);
         },
@@ -119,8 +123,11 @@ class AuthUsecase {
         return authResponse.fold(
           left,
           (r) async {
-            SecureStorageService().write(key: StorageConstants.token, value: r);
+            await SecureStorageService()
+                .write(key: StorageConstants.token, value: r);
             final userData = await _saveLocalData(r);
+
+            // await fillProviders();
 
             return right(userData['id']);
           },
@@ -150,11 +157,11 @@ class AuthUsecase {
         return authResponse.fold(
           left,
           (r) async {
-            SecureStorageService().write(key: StorageConstants.token, value: r);
+            await SecureStorageService()
+                .write(key: StorageConstants.token, value: r);
 
             final userData = await _saveLocalData(r);
-            await Provider.of<ProfileProvider>(context, listen: false)
-                .fetchNameAndEmail();
+            // await fillProviders();
             if (context.mounted) {
               BlocProvider.of<ProjectsBloc>(context, listen: false)
                   .add(const GetActiveProjectPages());
@@ -184,20 +191,18 @@ class AuthUsecase {
   Future<Either<Failure<String>, void>> deleteAllStoredDataAndProviders(
       BuildContext context) async {
     //clear all stored data from providers
+
     Provider.of<DepartamentSkillsProvider>(context, listen: false)
         .clearAllData();
-    Provider.of<AddMembersProvider>(context, listen: false).clearAllData();
-    Provider.of<CreateProjectProvider>(context, listen: false).clearAllData();
-    Provider.of<EditProjectProvider>(context, listen: false).clearAllData();
-    Provider.of<ProfileProvider>(context, listen: false).clearAllData();
-    Provider.of<EmployeeRolesProvider>(context, listen: false).clearAllData();
+    getIt<AddMembersProvider>().clearAllData();
+    getIt<CreateProjectProvider>().clearAllData();
+    getIt<EditProjectProvider>().clearAllData();
+    getIt<ProfileProvider>().clearAllData();
 
     //for bloc
-    BlocProvider.of<AuthBloc>(context, listen: false).add(const AuthReset());
-    BlocProvider.of<ProjectsBloc>(context, listen: false)
-        .add(const ResetProjects());
-    BlocProvider.of<DepartmentCreateCubit>(context, listen: false)
-        .clearAllData();
+    getIt<AuthBloc>().add(const AuthReset());
+    getIt<ProjectsBloc>().add(const ResetProjects());
+    getIt<DepartmentCreateCubit>().clearAllData();
 
     return authRepo.deleteAllStoredData();
   }
@@ -208,4 +213,8 @@ class AuthUsecase {
       organizationId,
     );
   }
+
+  // Future<void> fillProviders() async {
+  //   await getIt<EmployeeRolesProvider>().getCurrentEmployeeRoles();
+  // }
 }

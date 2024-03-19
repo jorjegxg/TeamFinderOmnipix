@@ -5,7 +5,7 @@ import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/settings/data/models/role_model.dart';
 import 'package:team_finder_app/features/settings/domain/usecases/settings_use_case.dart';
 
-@injectable
+@singleton
 class TeamRolesProvider extends ChangeNotifier {
   final SettingsUseCase _settingsUseCase;
   TeamRolesProvider(this._settingsUseCase);

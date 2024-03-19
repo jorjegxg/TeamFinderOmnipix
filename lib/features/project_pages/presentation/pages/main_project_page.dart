@@ -9,11 +9,23 @@ import 'package:team_finder_app/features/project_pages/domain/entities/project_e
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_segmented_button.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_widget.dart';
+import 'package:team_finder_app/injection.dart';
 
-class ProjectsMainScreen extends StatelessWidget {
+class ProjectsMainScreen extends StatefulWidget {
   const ProjectsMainScreen({super.key, required this.userId});
 
   final String userId;
+
+  @override
+  State<ProjectsMainScreen> createState() => _ProjectsMainScreenState();
+}
+
+class _ProjectsMainScreenState extends State<ProjectsMainScreen> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getIt<ProjectsBloc>().add(const GetActiveProjectPages());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +40,7 @@ class ProjectsMainScreen extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               context.goNamed(AppRouterConst.createProjectScreen,
-                  pathParameters: {'userId': userId});
+                  pathParameters: {'userId': widget.userId});
             },
             backgroundColor: Theme.of(context).colorScheme.primary,
             child: const Icon(Icons.add),
@@ -39,16 +51,6 @@ class ProjectsMainScreen extends StatelessWidget {
               'Projects',
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  context.read<AuthBloc>().add(AuthLogoutRequested(
-                        context: context,
-                      ));
-                },
-                icon: const Icon(Icons.logout),
-              ),
-            ],
           ),
           body: RefreshIndicator(
             onRefresh: () async {
@@ -185,7 +187,7 @@ class ProjectsMainScreen extends StatelessWidget {
                                             pathParameters: {
                                               'projectId': state
                                                   .activeProjects[index].id,
-                                              'userId': userId
+                                              'userId': widget.userId
                                             },
                                             extra: state.activeProjects[index],
                                           );
@@ -223,7 +225,7 @@ class ProjectsMainScreen extends StatelessWidget {
                                               pathParameters: {
                                                 'projectId': state
                                                     .inactiveProjects[index].id,
-                                                'userId': userId
+                                                'userId': widget.userId
                                               });
                                         },
                                         mainTitle:

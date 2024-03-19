@@ -44,7 +44,7 @@ Future<void> main() async {
     await Hive.openBox<String>(HiveConstants.authBox);
   }
 
-  Bloc.observer = MyBlocObserver();
+  // Bloc.observer = MyBlocObserver();
 
   // runApp(const TestAppPage());
   runApp(const MyApp());
@@ -77,11 +77,10 @@ class MyApp extends StatelessWidget {
           create: (context) => getIt<DepartmentsGetCubit>(),
         ),
         ChangeNotifierProvider(
-          create: (context) => getIt<ProfileProvider>()..fetchNameAndEmail(),
+          create: (context) => getIt<ProfileProvider>(),
         ),
         BlocProvider(
-          create: (context) =>
-              getIt<ProjectsBloc>()..add(const GetActiveProjectPages()),
+          create: (context) => getIt<ProjectsBloc>(),
         ),
         ChangeNotifierProvider(
           create: (context) => getIt<EmployeeRolesProvider>(),

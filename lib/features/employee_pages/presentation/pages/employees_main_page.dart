@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
-import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart';
@@ -25,8 +24,6 @@ class EmployeeMainPage extends HookWidget {
     final TextEditingController nameConttroler = TextEditingController();
     return Builder(builder: (context) {
       return Consumer<EmployeeRolesProvider>(builder: (context, prov, child) {
-        Logger.info('EmployeeMainPage',
-            'admin : ${prov.isOrganizationAdmin} departmentManager : ${prov.isDepartmentManager} projectManager : ${prov.isProjectManager}');
         return SafeArea(
           child: Scaffold(
             floatingActionButton: FloatingActionButton(
@@ -85,11 +82,6 @@ class EmployeeMainPage extends HookWidget {
                                         //TODO George Luta : de ce nu merge nici aici ?
                                         onTap: prov.isOrganizationAdmin
                                             ? () {
-                                                Logger.info(
-                                                    'EmployeeCard.onTap',
-                                                    employeeProvider
-                                                        .employees[index].name);
-
                                                 context.goNamed(
                                                   AppRouterConst
                                                       .employeeProfileScreen,

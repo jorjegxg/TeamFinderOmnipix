@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/core/util/constants.dart';
-import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/project_pages/data/models/project_model.dart';
 import 'package:team_finder_app/features/project_pages/data/models/team_role.dart';
 import 'package:team_finder_app/features/project_pages/data/models/technology_stack.dart';
@@ -73,7 +72,6 @@ class CreateProjectProvider extends ChangeNotifier {
   }
 
   void setTeamRoles(int index, bool value, int number) {
-    Logger.info('prov', 'index: $index, value: $value');
     teamRoles[teamRoles.keys.elementAt(index)] = value;
     teamRoles.keys.elementAt(index).update(
           teamRoles.keys.elementAt(index).keys.first,
@@ -334,22 +332,4 @@ class CreateProjectProvider extends ChangeNotifier {
     technologyStack = [];
     sugestions = [];
   }
-
-  // Future<void> test() {
-  //   var box = Hive.box<String>(HiveConstants.authBox);
-  //   String organizationId = box.get(HiveConstants.organizationId)!;
-  //   return (ApiService()
-  //       .dioPost(url: "${EndpointConstants.baseUrl}/openai/", data: {
-  //     "content": "Give me best employees for a flask app",
-  //     "organizationId": "Aa7xIWqSHdYrJX1KuqAY"
-  //   })).then((value) {
-  //     return value.fold(
-  //       (l) => Left(l),
-  //       (r) {
-  //         Logger.info('prov', r.toString());
-  //         return Right(r);
-  //       },
-  //     );
-  //   });
-  // }
 }

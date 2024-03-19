@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart';
 
-@injectable
+@singleton
 class CreateSkillProvider extends ChangeNotifier {
   final DepartmentUseCase _departmentUseCase;
 

@@ -6,7 +6,7 @@ import 'package:team_finder_app/features/departaments_pages/domain/department_us
 
 part 'departments_get_state.dart';
 
-@injectable
+@lazySingleton
 class DepartmentsGetCubit extends Cubit<DepartmentsGetState> {
   final DepartmentUseCase departmentUseCase;
 

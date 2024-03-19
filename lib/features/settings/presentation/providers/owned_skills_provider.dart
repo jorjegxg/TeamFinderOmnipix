@@ -5,9 +5,9 @@ import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
 import 'package:team_finder_app/features/settings/domain/usecases/settings_use_case.dart';
 
-@injectable
+@singleton
 class OwnedSkillsProvider extends ChangeNotifier {
-  SettingsUseCase _settingsUseCase;
+  final SettingsUseCase _settingsUseCase;
 
   OwnedSkillsProvider(this._settingsUseCase);
 

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
+import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/auth/domain/auth_usecase.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/injection.dart';

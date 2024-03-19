@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 
+@singleton
 class ChangePasswordProvider with ChangeNotifier {
   String _newPassword = '';
   bool _isLoading = false;

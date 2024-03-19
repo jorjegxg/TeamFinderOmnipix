@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_managers/departments_managers_cubit.dart';
 
@@ -24,9 +23,7 @@ class DepartmentManagersDropdown extends StatelessWidget {
       style: Theme.of(context).textTheme.bodyMedium,
       borderRadius: BorderRadius.circular(12),
       onChanged: (Manager? newValue) {
-        Logger.info('CreateDepartamentDialog',
-            'Manager selected: ${newValue!.name} ${newValue.id}');
-        context.read<DepartmentsManagersCubit>().selectManager(newValue);
+        context.read<DepartmentsManagersCubit>().selectManager(newValue!);
       },
       items: state.managers.map<DropdownMenuItem<Manager>>((Manager value) {
         return DropdownMenuItem<Manager>(

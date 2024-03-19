@@ -46,7 +46,7 @@ class MyAppRouter {
       final token =
           await SecureStorageService().read(key: StorageConstants.token);
       if (state.fullPath == '/register/admin' ||
-          state.fullPath == '/register/employee' ||
+          state.fullPath == '/register/employee/:organizationId' ||
           state.fullPath == '/login/admin' ||
           state.fullPath == '/login/employee') {
         return null;
@@ -61,6 +61,9 @@ class MyAppRouter {
         await SecureStorageService().delete(key: StorageConstants.token);
         return '/register/admin';
       }
+      final userData = JwtDecoder.decode(token);
+
+      Logger.info('User data', userData.toString());
 
       return null;
     },
@@ -89,7 +92,6 @@ class MyAppRouter {
           final userData = JwtDecoder.decode(token);
 
           Logger.info('User data', userData.toString());
-          getIt<EmployeeRolesProvider>().getCurrentEmployeeRoles();
 
           return '/${userData['id']}/projects';
         },
@@ -306,7 +308,7 @@ class MyAppRouter {
                                 ),
                               );
                             },
-                            routes: []),
+                            routes: const []),
                       ]),
                 ]),
             GoRoute(

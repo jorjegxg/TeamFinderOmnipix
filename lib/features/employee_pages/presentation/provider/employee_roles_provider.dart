@@ -6,7 +6,7 @@ import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee_roles.dart';
 import 'package:team_finder_app/features/employee_pages/domain/employee_usecase.dart';
 
-@injectable
+@singleton
 class EmployeeRolesProvider extends ChangeNotifier {
   final EmployeeUsecase employeeUsecase;
 
@@ -32,15 +32,11 @@ class EmployeeRolesProvider extends ChangeNotifier {
         _isLoading = false;
       },
       (roles) {
-        Logger.info('getCurrentEmployeeRoles (provider)', 'roles: $roles');
-
         _isOrganizationAdmin = roles.admin;
         _isDepartmentManager = roles.departmentManager;
         _isProjectManager = roles.projectManager;
 
         _isLoading = false;
-        Logger.info('getCurrentEmployeeRoles (provider2)',
-            'roles: $_isOrganizationAdmin $_isDepartmentManager $_isProjectManager');
 
         notifyListeners();
       },

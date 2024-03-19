@@ -73,7 +73,7 @@ class AuthRepoImpl extends AuthRepo {
         "password": password,
       },
       codeMessage: {
-        400: "Invalid email or password",
+        404: "Invalid email or password",
       },
     ))
         .fold((l) => left(l), (r) => right(r["Token"]));
@@ -81,14 +81,14 @@ class AuthRepoImpl extends AuthRepo {
 
   @override
   Future<Either<Failure<String>, void>> deleteAllStoredData() async {
-    // try {
-    //   await SecureStorageService().delete(key: StorageConstants.token);
-    //   var box = Hive.box<String>(HiveConstants.authBox);
+    try {
+      await SecureStorageService().delete(key: StorageConstants.token);
+      var box = Hive.box<String>(HiveConstants.authBox);
 
-    //   await box.clear();
-    // } catch (e) {
-    //   return left(StorageFailure<String>(message: e.toString()));
-    // }
+      await box.clear();
+    } catch (e) {
+      return left(StorageFailure<String>(message: e.toString()));
+    }
 
     return right(null);
   }

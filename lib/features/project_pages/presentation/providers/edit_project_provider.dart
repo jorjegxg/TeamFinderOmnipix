@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/core/util/constants.dart';
-import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/project_pages/data/models/team_role.dart';
 import 'package:team_finder_app/features/project_pages/data/models/technology_stack.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
@@ -70,7 +69,6 @@ class EditProjectProvider extends ChangeNotifier {
   }
 
   void setTeamRoles(int index, bool value, int number) {
-    Logger.info('prov', 'index: $index, value: $value');
     teamRoles[teamRoles.keys.elementAt(index)] = value;
     teamRoles.keys.elementAt(index).update(
           teamRoles.keys.elementAt(index).keys.first,

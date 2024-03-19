@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/error/failures.dart';
-import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/manager_and_department_id.dart';
 import 'package:team_finder_app/features/employee_pages/domain/employee_usecase.dart';
@@ -46,9 +45,6 @@ class EditEmployeeProvider extends ChangeNotifier {
       (emlRolesAndData) {
         _hasDepartment = emlRolesAndData.employeeModel.departamentId != null;
         _departmentId = emlRolesAndData.employeeModel.departamentId;
-
-        Logger.warning('getEmployeeData',
-            'departmentId: ${emlRolesAndData.employeeModel.departamentId}');
 
         //baga intr-o variabila employee-ul curent (sau doar departmentId)
         if (emlRolesAndData.employeesRoles.admin) {

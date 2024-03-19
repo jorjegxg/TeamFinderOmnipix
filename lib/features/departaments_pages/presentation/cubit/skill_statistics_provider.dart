@@ -55,7 +55,10 @@ class SkillStatisticsProvider extends ChangeNotifier {
       notifyListeners();
     }, (r) async {
       updateSkills(r);
-      updateCurrentlySelected(r.first);
+
+      if (r.isNotEmpty) {
+        updateCurrentlySelected(r.first);
+      }
       await fetchStatisticsForDepartament(departamentId);
       _isLoading = false;
       notifyListeners();
@@ -66,6 +69,8 @@ class SkillStatisticsProvider extends ChangeNotifier {
     _isLoading = true;
     _error = null;
     notifyListeners();
+
+    if (currentlySelected == null) return;
 
     final result = await _departmentUseCase.getStatisticsForDepartament(
         departamentId, currentlySelected!.id);

@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/features/settings/domain/usecases/settings_use_case.dart';
 
-@lazySingleton
+@singleton
 class ProfileProvider extends ChangeNotifier {
   String name = '';
   String email = '';
@@ -47,7 +47,7 @@ class ProfileProvider extends ChangeNotifier {
     _error = null;
     notifyListeners();
     //fetch current employee
-    final result = await _settingsUseCase.getCurrentEmployee().then(
+    await _settingsUseCase.getCurrentEmployee().then(
       (value) {
         value.fold(
           (l) {
