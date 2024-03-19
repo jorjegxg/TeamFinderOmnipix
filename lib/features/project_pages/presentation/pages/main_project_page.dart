@@ -39,16 +39,6 @@ class ProjectsMainScreen extends StatelessWidget {
               'Projects',
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  context.read<AuthBloc>().add(AuthLogoutRequested(
-                        context: context,
-                      ));
-                },
-                icon: const Icon(Icons.logout),
-              ),
-            ],
           ),
           body: RefreshIndicator(
             onRefresh: () async {
@@ -260,7 +250,7 @@ class ProjectsMainScreen extends StatelessWidget {
             state.activeProjects[index].teamRoles.keys.elementAt(i).name;
       } else {
         teamRoleString +=
-            state.activeProjects[index].teamRoles.keys.elementAt(i).name + ', ';
+            '${state.activeProjects[index].teamRoles.keys.elementAt(i).name}, ';
       }
     }
     return teamRoleString;
@@ -287,8 +277,7 @@ class ProjectsMainScreen extends StatelessWidget {
             state.inactiveProjects[index].teamRoles.keys.elementAt(i).name;
       } else {
         teamRoleString +=
-            state.inactiveProjects[index].teamRoles.keys.elementAt(i).name +
-                ', ';
+            '${state.inactiveProjects[index].teamRoles.keys.elementAt(i).name}, ';
       }
     }
     return teamRoleString;
@@ -354,12 +343,12 @@ class DesktopMainProjectPage extends StatelessWidget {
                 children: [
                   ProjectsListWidget(
                     userId: userId,
-                    projects: [],
+                    projects: const [],
                     title: 'Past Projects',
                   ),
                   ProjectsListWidget(
                     userId: userId,
-                    projects: [],
+                    projects: const [],
                     title: 'Active Projects',
                   ),
                 ],
