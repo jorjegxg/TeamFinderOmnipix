@@ -163,7 +163,7 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i35.EditEmployeeProvider(gh<_i11.EmployeeUsecase>()));
     gh.factory<_i36.EditProjectProvider>(
         () => _i36.EditProjectProvider(gh<_i16.ProjectsUsecase>()));
-    gh.factory<_i37.EmployeeRolesProvider>(
+    gh.singleton<_i37.EmployeeRolesProvider>(
         () => _i37.EmployeeRolesProvider(gh<_i11.EmployeeUsecase>()));
     gh.factory<_i38.OwnedSkillsProvider>(
         () => _i38.OwnedSkillsProvider(gh<_i19.SettingsUseCase>()));
