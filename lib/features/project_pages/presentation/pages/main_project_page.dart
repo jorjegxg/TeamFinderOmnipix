@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_segmented_button.dart';
@@ -25,13 +27,21 @@ class ProjectsMainScreen extends StatelessWidget {
       },
       child: SafeArea(
         child: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              context.goNamed(AppRouterConst.createProjectScreen,
-                  pathParameters: {'userId': userId});
+          floatingActionButton: Consumer<EmployeeRolesProvider>(
+            builder: (context, prov, child) {
+              if (prov.isOrganizationAdmin) {
+                return FloatingActionButton(
+                  onPressed: () {
+                    context.goNamed(AppRouterConst.createProjectScreen,
+                        pathParameters: {'userId': userId});
+                  },
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  child: const Icon(Icons.add),
+                );
+              } else {
+                return const SizedBox();
+              }
             },
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            child: const Icon(Icons.add),
           ),
           appBar: AppBar(
             centerTitle: true,
