@@ -142,7 +142,7 @@ class AuthUsecase {
 
   Future<Either<Failure<String>, void>> logout(
       {required BuildContext context}) async {
-    (await deleteAllStoredData(context)).fold(
+    return (await deleteAllStoredData(context)).fold(
       (l) => left(l),
       (r) async {
         context.goNamed(
@@ -151,28 +151,10 @@ class AuthUsecase {
         return right(r);
       },
     );
-
-    return left(HardFailure(message: 'Error logging out'));
   }
 
-  //TODO George Luta : ia-le de aici
   Future<Either<Failure<String>, void>> deleteAllStoredData(
       BuildContext context) async {
-    //clear all stored data from providers
-    // Provider.of<DepartamentSkillsProvider>(context, listen: false)
-    //     .clearAllData();
-    // Provider.of<AddMembersProvider>(context, listen: false).clearAllData();
-    // Provider.of<CreateProjectProvider>(context, listen: false).clearAllData();
-    // Provider.of<EditProjectProvider>(context, listen: false).clearAllData();
-    // Provider.of<ProfileProvider>(context, listen: false).clearAllData();
-
-    // //for bloc
-    // BlocProvider.of<AuthBloc>(context, listen: false).add(const AuthReset());
-    // BlocProvider.of<ProjectsBloc>(context, listen: false)
-    //     .add(const ResetProjects());
-    // BlocProvider.of<DepartmentCreateCubit>(context, listen: false)
-    //     .clearAllData();
-
     return authRepo.deleteAllStoredData();
   }
 
@@ -183,26 +165,3 @@ class AuthUsecase {
     );
   }
 }
-//  ChangeNotifierProvider(
-//           create: (context) => getIt<DepartamentSkillsProvider>(),
-//         ),
-//         ChangeNotifierProvider(
-//           create: (context) => getIt<AddMembersProvider>(),
-//         ),
-//         ChangeNotifierProvider(
-//             create: (context) => getIt<CreateProjectProvider>()),
-//         ChangeNotifierProvider(
-//             create: (context) => getIt<EditProjectProvider>()),
-//         BlocProvider(
-//           create: (context) => getIt<AuthBloc>(),
-//         ),
-//         BlocProvider(
-//           create: (context) => getIt<DepartmentCreateCubit>(),
-//         ),
-//         ChangeNotifierProvider(
-//           create: (context) => getIt<ProfileProvider>()..fetchNameAndEmail(),
-//         ),
-//         BlocProvider(
-//           create: (context) =>
-//               getIt<ProjectsBloc>()..add(const GetActiveProjectPages()),
-//         ),
