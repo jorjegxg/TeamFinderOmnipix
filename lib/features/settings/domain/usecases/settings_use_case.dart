@@ -23,7 +23,7 @@ class SettingsUseCase {
   }
 
   //delete team role
-  Future<Either<Failure, void>> deleteTeamRole(RoleModel role) async {
+  Future<Either<Failure, String>> deleteTeamRole(RoleModel role) async {
     return _repository.deleteTeamRole(role);
   }
 
@@ -53,6 +53,10 @@ class SettingsUseCase {
     return _repository.getSkillsForEmployee();
   }
 
+  Future<Either<Failure<String>, List<Skill>>> getOwnedSkills() async {
+    return _repository.getOwnedSkills();
+  }
+
   //getCure
   Future<Either<Failure, Employee>> getCurrentEmployee() async {
     return _repository.getCurrentEmployee();
@@ -77,5 +81,10 @@ class SettingsUseCase {
     }
 
     return _repository.changePassword(newPassword, email);
+  }
+
+  //deleteSkill
+  Future<Either<Failure<String>, void>> deleteOwnedSkill(Skill skill) async {
+    return _repository.deleteOwnedSkill(skill);
   }
 }

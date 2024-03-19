@@ -47,7 +47,7 @@ class CreateSkillProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createSkill(String departamentId) async {
+  Future<void> createSkill() async {
     _isLoading = true;
     _error = null;
     notifyListeners();
@@ -59,9 +59,7 @@ class CreateSkillProvider extends ChangeNotifier {
       currentManager: '',
       id: '',
     );
-    await _departmentUseCase
-        .createSkillAndAssign(skill: skill, departamentId: departamentId)
-        .then((value) {
+    await _departmentUseCase.createSkill(skill: skill).then((value) {
       value.fold(
         (left) {
           _error = left.message;
@@ -74,5 +72,22 @@ class CreateSkillProvider extends ChangeNotifier {
         },
       );
     });
+  }
+
+  Future<void> fetchCategoriesSugestions() async {
+    _isLoading = true;
+    notifyListeners();
+    (await _departmentUseCase.getCategories()).fold(
+      (l) {
+        _error = l.message;
+        _isLoading = false;
+        notifyListeners();
+      },
+      (r) {
+        _categoriesSugestions = r;
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
   }
 }

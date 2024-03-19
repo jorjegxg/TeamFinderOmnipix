@@ -60,6 +60,7 @@ class RegisterScreen extends HookWidget {
       },
       child: SafeArea(
         child: Scaffold(
+          // resizeToAvoidBottomInset: false,
           backgroundColor: Theme.of(context).colorScheme.surface,
           body: Sizer(
             builder: (BuildContext context, Orientation orientation,

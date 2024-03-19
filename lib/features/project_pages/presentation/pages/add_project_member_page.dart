@@ -5,7 +5,7 @@ import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
-import 'package:team_finder_app/features/project_pages/presentation/bloc/add_member_provider.dart';
+import 'package:team_finder_app/features/project_pages/presentation/providers/add_member_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/filter_dialog.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/new_members_card.dart';
 

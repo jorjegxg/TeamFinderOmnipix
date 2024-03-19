@@ -53,4 +53,6 @@ class AppRouterConst {
   static const String personalSkillsPage = 'personalSkillsPage';
 
   static const String teamRolesPage = 'teamRolesPage';
+
+  static const String ownedSkillPage = 'ownedSkillPage';
 }

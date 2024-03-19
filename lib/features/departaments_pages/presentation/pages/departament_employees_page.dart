@@ -27,95 +27,163 @@ class DepartamentEmployeesPage extends HookWidget {
         create: (context) => getIt<DepartamentEmployeesProvider>()
           ..fetchEmployeesForDepartments(departamentId),
         child: Builder(builder: (context) {
-          return Scaffold(
-            floatingActionButton: FloatingActionButton(
-              child: const Icon(Icons.add, color: Colors.black),
-              onPressed: () {
-                context.goNamed(
-                  AppRouterConst.addEmployeeToDepartament,
-                  pathParameters: {
-                    'userId': userId,
-                    'departamentId': departamentId,
-                  },
-                );
-              },
-            ),
-            appBar: AppBar(
-              centerTitle: true,
-              title: Text(
-                'Employees',
-                style: Theme.of(context).textTheme.titleLarge,
+          return RefreshIndicator(
+            onRefresh: () async {
+              await context
+                  .read<DepartamentEmployeesProvider>()
+                  .fetchEmployeesForDepartments(departamentId);
+            },
+            child: Scaffold(
+              floatingActionButton: FloatingActionButton(
+                child: const Icon(Icons.add, color: Colors.black),
+                onPressed: () {
+                  context.goNamed(
+                    AppRouterConst.addEmployeeToDepartament,
+                    pathParameters: {
+                      'userId': userId,
+                      'departamentId': departamentId,
+                    },
+                  );
+                },
               ),
-            ),
-            body: Sizer(
-              builder: (BuildContext context, Orientation orientation,
-                  DeviceType deviceType) {
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 20),
-                        SearchTextField(
-                          nameConttroler: nameConttroler,
-                          onSubmitted: (String s) {},
-                        ),
-                        const SizedBox(height: 10),
-                        Expanded(
-                          child: Consumer<DepartamentEmployeesProvider>(
-                            builder: (context, provider, state) {
-                              return ListView.builder(
-                                itemCount: provider.employees.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Slidable(
-                                      key: UniqueKey(),
-                                      endActionPane: ActionPane(
-                                        // A motion is a widget used to control how the pane animates.
-                                        motion: const ScrollMotion(),
-
-                                        // A pane can dismiss the Slidable.
-                                        dragDismissible: false,
-                                        // All actions are defined in the children parameter.
-                                        children: [
-                                          // A SlidableAction can have an icon and/or a label.
-                                          SlidableAction(
-                                            backgroundColor:
-                                                const Color(0xFFDCBABA),
-                                            foregroundColor: Colors.white,
-                                            icon: Icons.person_remove,
-                                            label: 'Remove',
-                                            onPressed: (BuildContext ctx) {
-                                              provider
-                                                  .removeEmployeeFromDepartment(
-                                                departamentId,
-                                                provider.employees[index].id,
-                                              );
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                      child: EmployeeCard(
-                                        name: provider.employees[index].name,
-                                        onTap: () {
-                                          //TODO: implement onTap
-                                        },
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
+              appBar: AppBar(
+                centerTitle: true,
+                title: Text(
+                  'Employees',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+              body: Sizer(
+                builder: (BuildContext context, Orientation orientation,
+                    DeviceType deviceType) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 20),
+                          SearchTextField(
+                            nameConttroler: nameConttroler,
+                            onSubmitted: (String s) {},
                           ),
-                        ),
-                        const SizedBox(height: 60),
-                      ],
+                          const SizedBox(height: 10),
+                          Expanded(
+                            child: Consumer<DepartamentEmployeesProvider>(
+                              builder: (context, provider, state) {
+                                return ListView.builder(
+                                  itemCount: provider.employees.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Slidable(
+                                        key: UniqueKey(),
+                                        endActionPane: ActionPane(
+                                          // A motion is a widget used to control how the pane animates.
+                                          motion: const ScrollMotion(),
+
+                                          // A pane can dismiss the Slidable.
+                                          dragDismissible: false,
+                                          // All actions are defined in the children parameter.
+                                          children: [
+                                            // A SlidableAction can have an icon and/or a label.
+                                            SlidableAction(
+                                              backgroundColor:
+                                                  const Color(0xFFDCBABA),
+                                              foregroundColor: Colors.white,
+                                              icon: Icons.person_remove,
+                                              label: 'Remove',
+                                              onPressed: (BuildContext ctx) {
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (dialogContext) {
+                                                      return AlertDialog(
+                                                        title: Text(
+                                                          "Remove Employee",
+                                                          style: Theme.of(
+                                                                  dialogContext)
+                                                              .textTheme
+                                                              .titleMedium,
+                                                        ),
+                                                        content: const Text(
+                                                            "Are you sure you want to remove this employee from the department?"),
+                                                        actions: [
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      dialogContext)
+                                                                  .pop();
+                                                            },
+                                                            child: const Text(
+                                                                'No'),
+                                                          ),
+                                                          TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              await provider
+                                                                  .removeEmployeeFromDepartment(
+                                                                context,
+                                                                provider
+                                                                    .employees[
+                                                                        index]
+                                                                    .id,
+                                                              );
+                                                              if (dialogContext
+                                                                  .mounted) {
+                                                                Navigator.of(
+                                                                        dialogContext)
+                                                                    .pop();
+                                                              }
+                                                            },
+                                                            child: const Text(
+                                                                'Yes'),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    });
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        startActionPane: ActionPane(
+                                          // A motion is a widget used to control how the pane animates.
+                                          motion: const ScrollMotion(),
+
+                                          // A pane can dismiss the Slidable.
+                                          dragDismissible: false,
+                                          // All actions are defined in the children parameter.
+                                          children: [
+                                            // A SlidableAction can have an icon and/or a label.
+                                            SlidableAction(
+                                              backgroundColor:
+                                                  const Color(0xFFDCBABA),
+                                              foregroundColor: Colors.white,
+                                              icon: Icons.add_task,
+                                              label: 'Add Skill',
+                                              onPressed: (BuildContext ctx) {},
+                                            )
+                                          ],
+                                        ),
+                                        child: EmployeeCard(
+                                          name: provider.employees[index].name,
+                                          onTap: () {
+                                            //TODO: implement onTap
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(height: 60),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           );
         }),

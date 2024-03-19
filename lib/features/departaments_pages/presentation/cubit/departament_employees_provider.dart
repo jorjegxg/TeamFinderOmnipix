@@ -1,12 +1,14 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
+import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 
 @injectable
 class DepartamentEmployeesProvider extends ChangeNotifier {
   final DepartmentUseCase _departmentUseCase;
-  final List<Employee> _employees = [];
+  List<Employee> _employees = [];
   bool _isLoading = false;
   String? _error;
 
@@ -30,7 +32,7 @@ class DepartamentEmployeesProvider extends ChangeNotifier {
         notifyListeners();
       },
       (right) {
-        _employees.addAll(right);
+        _employees = List.from(right);
         _isLoading = false;
         notifyListeners();
       },
@@ -40,13 +42,13 @@ class DepartamentEmployeesProvider extends ChangeNotifier {
 
   //remove employee from department
   Future<void> removeEmployeeFromDepartment(
-      String departamentId, String employeeId) async {
+      BuildContext context, String employeeId) async {
     _isLoading = true;
     _error = null;
     notifyListeners();
 
-    final result = await _departmentUseCase.removeEmployeeFromDepartment(
-        departamentId, employeeId);
+    final result =
+        await _departmentUseCase.removeEmployeeFromDepartment(employeeId);
     result.fold(
       (left) {
         _error = left.message;
@@ -56,9 +58,30 @@ class DepartamentEmployeesProvider extends ChangeNotifier {
       (right) {
         _employees.removeWhere((element) => element.id == employeeId);
         _isLoading = false;
+        showSnackBar(context, 'Employee removed from department');
         notifyListeners();
       },
     );
     notifyListeners();
   }
+
+  // Future<void> assignSkillDirectly(Employee employee){
+  //   _isLoading = true;
+  //   _error = null;
+  //   notifyListeners();
+
+  //   final result = _departmentUseCase.assignSkillDirectly(employee);
+  //   result.fold(
+  //     (left) {
+  //       _error = left.message;
+  //       _isLoading = false;
+  //       notifyListeners();
+  //     },
+  //     (right) {
+  //       _isLoading = false;
+  //       notifyListeners();
+  //     },
+  //   );
+  //   notifyListeners();
+  // }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
+import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/settings/data/models/role_model.dart';
 import 'package:team_finder_app/features/settings/domain/usecases/settings_use_case.dart';
 
@@ -68,7 +70,7 @@ class TeamRolesProvider extends ChangeNotifier {
   }
 
   //delete team role
-  Future<void> deleteRole(RoleModel role) async {
+  Future<void> deleteRole(RoleModel role, BuildContext context) async {
     _isLoading = true;
     _error = null;
     notifyListeners();
@@ -82,6 +84,7 @@ class TeamRolesProvider extends ChangeNotifier {
         (r) {
           _isLoading = false;
           teamRoles.remove(role);
+          showSnackBar(context, r);
           notifyListeners();
         },
       );

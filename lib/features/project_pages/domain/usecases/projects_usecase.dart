@@ -121,4 +121,19 @@ class ProjectsUsecase {
       String message) async {
     return projectRepo.fetchMembersWithChatGPT(message: message);
   }
+
+  //sendProposal({required ProjectEntity project, required String proposal, required int workHours, required List<TeamRole> teamRoles}) {}
+  Future<Either<Failure<String>, void>> sendProposal({
+    required ProjectEntity project,
+    required String proposal,
+    required int workHours,
+    required List<TeamRole> teamRoles,
+  }) async {
+    return projectRepo.sendProposal(
+      project: project,
+      proposal: proposal,
+      workHours: workHours,
+      teamRoles: teamRoles,
+    );
+  }
 }

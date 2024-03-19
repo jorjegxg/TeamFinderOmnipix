@@ -67,4 +67,11 @@ abstract class ProjectRepo {
   //fetchMembersWithChatGPT
   Future<Either<Failure<String>, List<Employee>>> fetchMembersWithChatGPT(
       {required String message});
+
+  Future<Either<Failure<String>, void>> sendProposal({
+    required ProjectEntity project,
+    required String proposal,
+    required int workHours,
+    required List<TeamRole> teamRoles,
+  });
 }

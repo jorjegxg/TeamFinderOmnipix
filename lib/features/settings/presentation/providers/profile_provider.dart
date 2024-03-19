@@ -114,4 +114,14 @@ class ProfileProvider extends ChangeNotifier {
       );
     });
   }
+
+  void clearAllData() {
+    name = '';
+    email = '';
+    newName = '';
+    newEmail = '';
+    _isLoading = false;
+    _error = null;
+    notifyListeners();
+  }
 }
