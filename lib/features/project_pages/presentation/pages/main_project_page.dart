@@ -29,7 +29,7 @@ class ProjectsMainScreen extends StatelessWidget {
         child: Scaffold(
           floatingActionButton: Consumer<EmployeeRolesProvider>(
             builder: (context, prov, child) {
-              if (prov.isOrganizationAdmin) {
+              if (prov.isProjectManager) {
                 return FloatingActionButton(
                   onPressed: () {
                     context.goNamed(AppRouterConst.createProjectScreen,
