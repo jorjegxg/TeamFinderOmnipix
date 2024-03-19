@@ -6,6 +6,7 @@ import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/departament_info_widget.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/option_widget.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart';
 import 'package:team_finder_app/features/settings/presentation/widgets/field_dialog.dart';
 
@@ -110,11 +111,18 @@ class DetailsBodyWidget extends StatelessWidget {
                       pathParameters: {'userId': userId});
                 },
               ),
-              OptionWidget(
-                text: 'Create Team Roles',
-                onPressed: () {
-                  buildContext.goNamed(AppRouterConst.teamRolesPage,
-                      pathParameters: {'userId': userId});
+              Consumer<EmployeeRolesProvider>(
+                builder: (context, prov, child) {
+                  if (prov.isOrganizationAdmin) {
+                    return OptionWidget(
+                      text: 'Create Team Roles',
+                      onPressed: () {
+                        buildContext.goNamed(AppRouterConst.teamRolesPage,
+                            pathParameters: {'userId': userId});
+                      },
+                    );
+                  }
+                  return const SizedBox();
                 },
               ),
               OptionWidget(
@@ -143,11 +151,18 @@ class DetailsBodyWidget extends StatelessWidget {
                   );
                 },
               ),
-              OptionWidget(
-                text: 'Create Skill',
-                onPressed: () {
-                  buildContext.goNamed(AppRouterConst.ownedSkillPage,
-                      pathParameters: {'userId': userId});
+              Consumer<EmployeeRolesProvider>(
+                builder: (context, prov, child) {
+                  if (prov.isDepartmentManager) {
+                    return OptionWidget(
+                      text: 'Create Skill',
+                      onPressed: () {
+                        buildContext.goNamed(AppRouterConst.ownedSkillPage,
+                            pathParameters: {'userId': userId});
+                      },
+                    );
+                  }
+                  return const SizedBox();
                 },
               ),
             ],

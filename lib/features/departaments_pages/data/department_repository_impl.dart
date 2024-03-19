@@ -397,4 +397,19 @@ class DepartmentRepositoryImpl {
       ),
     );
   }
+
+  Future<Either<Failure<String>, void>> deleteDepartment(
+      String departamentId) async {
+    return ApiService()
+        .dioDelete(
+          url:
+              "${EndpointConstants.baseUrl}/departament/deletedepartament/$departamentId",
+        )
+        .then(
+          (value) => value.fold(
+            (l) => left(l),
+            (r) => right(null),
+          ),
+        );
+  }
 }

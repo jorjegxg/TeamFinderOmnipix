@@ -10,12 +10,14 @@ class CustomButton extends StatelessWidget {
     this.buttonHeight = 50,
     this.buttonWidth,
     this.isLoading = false,
+    this.color,
   });
   final String text;
   final Function() onPressed;
   final double buttonHeight;
   final double? buttonWidth;
   final bool isLoading;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
@@ -23,7 +25,7 @@ class CustomButton extends StatelessWidget {
       minWidth: buttonWidth ??
           getValueForScreenType(
               context: context, mobile: 50.w, tablet: 30.w, desktop: 10.w),
-      color: Theme.of(context).colorScheme.primary,
+      color: color ?? Theme.of(context).colorScheme.primary,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),

@@ -6,7 +6,7 @@ import 'package:team_finder_app/features/departaments_pages/domain/department_us
 
 part 'departments_get_state.dart';
 
-@injectable
+@singleton
 class DepartmentsGetCubit extends Cubit<DepartmentsGetState> {
   final DepartmentUseCase departmentUseCase;
 
@@ -21,5 +21,9 @@ class DepartmentsGetCubit extends Cubit<DepartmentsGetState> {
       (l) => emit(DepartmentsGetManagersFailure(l.message)),
       (r) => emit(DepartmentsGetManagersSuccess(r)),
     );
+  }
+
+  void clearAllData() {
+    emit(DepartmentsGetInitial());
   }
 }

@@ -11,6 +11,7 @@ import 'package:team_finder_app/core/util/secure_storage_service.dart';
 import 'package:team_finder_app/features/auth/domain/auth_usecase.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_skills_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/add_member_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/create_project_provider.dart';
@@ -150,6 +151,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     getIt<AuthBloc>().add(const AuthReset());
     getIt<ProjectsBloc>().add(const ResetProjects());
     getIt<DepartmentCreateCubit>().clearAllData();
+    getIt<DepartmentsGetCubit>().clearAllData();
   }
 }
 

@@ -6,6 +6,7 @@ import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart';
+import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart';
 import 'package:team_finder_app/injection.dart';
 
 class MainWrapper extends StatefulWidget {
@@ -16,13 +17,6 @@ class MainWrapper extends StatefulWidget {
 }
 
 class _MainWrapperState extends State<MainWrapper> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Logger.info(
-        'MainWrapper didChangeDependencies', 'getCurrentEmployeeRoles()');
-  }
-
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {

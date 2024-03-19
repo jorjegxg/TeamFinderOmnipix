@@ -80,6 +80,8 @@ class EmployeeMainPage extends HookWidget {
                                   return Padding(
                                       padding: const EdgeInsets.all(10),
                                       child: EmployeeCard(
+                                        isCurrentUser: employeeProvider
+                                            .employees[index].isCurrentUser,
                                         name: employeeProvider
                                             .employees[index].name,
                                         //TODO George Luta : de ce nu merge nici aici ?
@@ -107,6 +109,11 @@ class EmployeeMainPage extends HookWidget {
                                                         employeeProvider
                                                             .employees[index]
                                                             .email,
+                                                    'isCurrentUser':
+                                                        employeeProvider
+                                                            .employees[index]
+                                                            .isCurrentUser
+                                                            .toString(),
                                                   },
                                                 );
                                               }
