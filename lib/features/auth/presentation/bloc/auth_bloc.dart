@@ -3,6 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/features/auth/domain/auth_usecase.dart';
+import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart';
+import 'package:team_finder_app/injection.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -38,6 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       },
       (userId) {
+        addDataToProviders();
         emit(AuthSuccess(
           userId: userId,
         ));
@@ -104,5 +107,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _clearData(AuthReset event, Emitter<AuthState> emit) {
     emit(AuthInitial());
+  }
+
+  void addDataToProviders() {
+    getIt<ProfileProvider>().fetchNameAndEmail();
   }
 }

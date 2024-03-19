@@ -165,7 +165,7 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i37.OwnedSkillsProvider(gh<_i19.SettingsUseCase>()));
     gh.factory<_i38.PersonalSkillsProvider>(
         () => _i38.PersonalSkillsProvider(gh<_i19.SettingsUseCase>()));
-    gh.factory<_i39.ProfileProvider>(
+    gh.singleton<_i39.ProfileProvider>(
         () => _i39.ProfileProvider(gh<_i19.SettingsUseCase>()));
     gh.factory<_i40.ProjectMembersProvider>(
         () => _i40.ProjectMembersProvider(gh<_i16.ProjectsUsecase>()));
