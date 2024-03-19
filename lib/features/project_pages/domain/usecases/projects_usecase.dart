@@ -136,4 +136,13 @@ class ProjectsUsecase {
       teamRoles: teamRoles,
     );
   }
+
+  //send dealocationProposal
+  Future<Either<Failure<String>, void>> sendDealocationProposal(
+      {required String projectId, required String proposal}) async {
+    return projectRepo.sendDealocationProposal(
+      projectId: projectId,
+      proposal: proposal,
+    );
+  }
 }

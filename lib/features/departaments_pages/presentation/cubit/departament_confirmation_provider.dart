@@ -57,4 +57,77 @@ class DepartamentConfirmationProvider extends ChangeNotifier {
       },
     );
   }
+
+  //accept/refuse
+  Future<void> acceptDealocation(String id) async {
+    _isLoading = true;
+    notifyListeners();
+    (await _departmentUseCase.acceptDealocation(id)).fold(
+      (l) {
+        _error = l.message;
+        _isLoading = false;
+        notifyListeners();
+      },
+      (r) {
+        _dealocations.removeWhere((element) => element.id == id);
+        _allItems.removeWhere((element) => element.id == id);
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
+  }
+
+  Future<void> refuseDealocation(String id) async {
+    _isLoading = true;
+    notifyListeners();
+    (await _departmentUseCase.refuseDealocation(id)).fold(
+      (l) {
+        _error = l.message;
+        _isLoading = false;
+        notifyListeners();
+      },
+      (r) {
+        _dealocations.removeWhere((element) => element.id == id);
+        _allItems.removeWhere((element) => element.id == id);
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
+  }
+
+  Future<void> acceptAlocation(String id) async {
+    _isLoading = true;
+    notifyListeners();
+    (await _departmentUseCase.acceptAlocation(id)).fold(
+      (l) {
+        _error = l.message;
+        _isLoading = false;
+        notifyListeners();
+      },
+      (r) {
+        _alocations.removeWhere((element) => element.id == id);
+        _allItems.removeWhere((element) => element.id == id);
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
+  }
+
+  Future<void> refuseAlocation(String id) async {
+    _isLoading = true;
+    notifyListeners();
+    (await _departmentUseCase.refuseAlocation(id)).fold(
+      (l) {
+        _error = l.message;
+        _isLoading = false;
+        notifyListeners();
+      },
+      (r) {
+        _alocations.removeWhere((element) => element.id == id);
+        _allItems.removeWhere((element) => element.id == id);
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
+  }
 }

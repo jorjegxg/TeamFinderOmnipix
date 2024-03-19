@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
+import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/settings/data/models/role_model.dart';
 import 'package:team_finder_app/features/settings/presentation/providers/team_roles_provider.dart';
 import 'package:team_finder_app/features/settings/presentation/widgets/field_dialog.dart';
@@ -20,7 +21,7 @@ class TeamRolesPage extends HookWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => getIt<TeamRolesProvider>()..getTeamRoles(),
-      child: Builder(builder: (context) {
+      child: Builder(builder: (buildContext) {
         return Consumer(builder: (context, TeamRolesProvider provider, _) {
           if (provider.isLoading) {
             return const Center(child: CircularProgressIndicator());
@@ -50,8 +51,13 @@ class TeamRolesPage extends HookWidget {
                             text1: 'Role',
                             title: 'Add Role',
                             onPress: (String t1, String? t2) {
-                              provider.addRole(RoleModel(name: t1, id: ''));
-                              Navigator.of(context).pop();
+                              if (t1.isNotEmpty) {
+                                provider.addRole(RoleModel(name: t1, id: ''));
+                                Navigator.of(context).pop();
+                              } else {
+                                showSnackBar(
+                                    context, 'Role name cannot be empty');
+                              }
                             },
                           );
                         },
@@ -107,7 +113,7 @@ class TeamRolesPage extends HookWidget {
                                                         await provider.deleteRole(
                                                             provider.teamRoles[
                                                                 index],
-                                                            context);
+                                                            buildContext);
                                                         if (dialogContext
                                                             .mounted) {
                                                           Navigator.of(

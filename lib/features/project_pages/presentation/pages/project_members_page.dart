@@ -134,7 +134,9 @@ class ProjectMembersPage extends StatelessWidget {
                                           showDialog(
                                               context: context,
                                               builder: (ctx) =>
-                                                  const DealocationDialog());
+                                                  DealocationDialog(
+                                                    projectId: projectId,
+                                                  ));
                                         },
                                       ),
                                     );

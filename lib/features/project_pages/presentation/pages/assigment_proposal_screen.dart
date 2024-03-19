@@ -168,16 +168,20 @@ class AssignmentProposalScreen extends HookWidget {
                                 const SizedBox(height: 20),
                                 CustomButton(
                                   text: 'Done',
-                                  onPressed: () {
+                                  onPressed: () async {
                                     provider.proposal =
                                         descriptionColtroler.text;
-                                    provider.sendProposal(context);
-                                    context.goNamed(
+                                    await provider.sendProposal(context);
+                                    if (context.mounted) {
+                                      context.goNamed(
                                         AppRouterConst.addProjectMember,
                                         pathParameters: {
                                           'projectId': projectId,
                                           'userId': userId
-                                        });
+                                        },
+                                        extra: project,
+                                      );
+                                    }
                                   },
                                 ),
                                 const SizedBox(height: 20),

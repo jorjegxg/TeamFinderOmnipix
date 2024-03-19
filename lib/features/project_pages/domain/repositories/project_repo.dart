@@ -74,4 +74,7 @@ abstract class ProjectRepo {
     required int workHours,
     required List<TeamRole> teamRoles,
   });
+
+  Future<Either<Failure<String>, void>> sendDealocationProposal(
+      {required String projectId, required String proposal});
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/util/logger.dart';
@@ -374,9 +376,6 @@ class ProjectRepoImpl extends ProjectRepo {
   @override
   Future<Either<Failure<String>, List<Employee>>> fetchMembersWithChatGPT(
       {required String message}) {
-    //  "content": "string",
-    //"organizationId": "string"
-
     var box = Hive.box<String>(HiveConstants.authBox);
     String organizationId = box.get(HiveConstants.organizationId)!;
     return ApiService().dioPost(
@@ -388,7 +387,9 @@ class ProjectRepoImpl extends ProjectRepo {
     ).then((value) {
       return value.fold(
         (l) => Left(l),
-        (r) => Right(r.map((e) => Employee.fromJson(e)).toList()),
+        (r) => Right(r['message']['response']['employees']
+            .map((e) => Employee.fromJson(e))
+            .toList()),
       );
     });
   }
@@ -402,6 +403,7 @@ class ProjectRepoImpl extends ProjectRepo {
   }) {
     var box = Hive.box<String>(HiveConstants.authBox);
     String employeeId = box.get(HiveConstants.userId)!;
+
     return ApiService().dioPost(
       url: "${EndpointConstants.baseUrl}/project/assignproposal",
       data: {
@@ -410,6 +412,28 @@ class ProjectRepoImpl extends ProjectRepo {
         "employeeId": employeeId,
         "numberOfHours": workHours,
         "teamRolesId": teamRoles.map((e) => e.id).toList(),
+        "comment": proposal,
+      },
+    ).then((value) {
+      return value.fold(
+        (l) => Left(l),
+        (r) => Right(r),
+      );
+    });
+  }
+
+  @override
+  Future<Either<Failure<String>, void>> sendDealocationProposal(
+      {required String projectId, required String proposal}) {
+    var box = Hive.box<String>(HiveConstants.authBox);
+    String employeeId = box.get(HiveConstants.userId)!;
+
+    return ApiService().dioPost(
+      url:
+          "${EndpointConstants.baseUrl}/departament/createadealocationproposal",
+      data: {
+        "projectId": projectId,
+        "employeeId": employeeId,
         "comment": proposal,
       },
     ).then((value) {
