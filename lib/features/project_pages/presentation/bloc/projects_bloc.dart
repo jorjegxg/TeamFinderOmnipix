@@ -8,7 +8,7 @@ import 'package:team_finder_app/features/project_pages/presentation/widgets/cust
 part 'projects_event.dart';
 part 'projects_state.dart';
 
-@injectable
+@singleton
 class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
   final ProjectsUsecase projectsUsecase;
 

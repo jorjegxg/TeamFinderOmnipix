@@ -19,7 +19,7 @@ import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart
 import 'package:team_finder_app/features/auth/domain/validators/authentication_validator.dart'
     as _i5;
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart'
-    as _i44;
+    as _i43;
 import 'package:team_finder_app/features/departaments_pages/data/department_repository_impl.dart'
     as _i6;
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart'
@@ -27,17 +27,17 @@ import 'package:team_finder_app/features/departaments_pages/domain/department_us
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/add_employee_departament_provider.dart'
     as _i25;
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/delete_department_provider.dart'
-    as _i30;
+    as _i29;
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_confirmation_provider.dart'
-    as _i31;
+    as _i30;
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_employees_provider.dart'
-    as _i32;
+    as _i31;
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_projects_provider.dart'
-    as _i33;
+    as _i32;
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_skills_provider.dart'
-    as _i34;
+    as _i33;
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart'
-    as _i35;
+    as _i34;
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart'
     as _i8;
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_managers/departments_managers_cubit.dart'
@@ -51,9 +51,9 @@ import 'package:team_finder_app/features/employee_pages/data/employee_repo_impl.
 import 'package:team_finder_app/features/employee_pages/domain/employee_usecase.dart'
     as _i11;
 import 'package:team_finder_app/features/employee_pages/presentation/provider/edit_employee_provider.dart'
-    as _i36;
+    as _i35;
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart'
-    as _i38;
+    as _i37;
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart'
     as _i12;
 import 'package:team_finder_app/features/project_pages/data/repositories/project_repo_impl.dart'
@@ -63,15 +63,15 @@ import 'package:team_finder_app/features/project_pages/domain/repositories/proje
 import 'package:team_finder_app/features/project_pages/domain/usecases/projects_usecase.dart'
     as _i16;
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart'
-    as _i43;
+    as _i42;
 import 'package:team_finder_app/features/project_pages/presentation/providers/add_member_provider.dart'
     as _i26;
 import 'package:team_finder_app/features/project_pages/presentation/providers/create_project_provider.dart'
-    as _i28;
+    as _i44;
 import 'package:team_finder_app/features/project_pages/presentation/providers/edit_project_provider.dart'
-    as _i37;
+    as _i36;
 import 'package:team_finder_app/features/project_pages/presentation/providers/project_members_provider.dart'
-    as _i42;
+    as _i41;
 import 'package:team_finder_app/features/project_pages/presentation/providers/send_proposal_provider.dart'
     as _i17;
 import 'package:team_finder_app/features/project_pages/presentation/providers/skill_req_provider.dart'
@@ -83,13 +83,13 @@ import 'package:team_finder_app/features/settings/domain/usecases/settings_use_c
 import 'package:team_finder_app/features/settings/presentation/providers/add_skill_provider.dart'
     as _i20;
 import 'package:team_finder_app/features/settings/presentation/providers/create_skill_provider.dart'
-    as _i29;
+    as _i28;
 import 'package:team_finder_app/features/settings/presentation/providers/owned_skills_provider.dart'
-    as _i39;
+    as _i38;
 import 'package:team_finder_app/features/settings/presentation/providers/personal_skills_provider.dart'
-    as _i40;
+    as _i39;
 import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart'
-    as _i41;
+    as _i40;
 import 'package:team_finder_app/features/settings/presentation/providers/team_roles_provider.dart'
     as _i23;
 
@@ -147,40 +147,42 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i5.AuthenticationValidator>(),
           gh<_i3.AuthRepo>(),
         ));
-    gh.factory<_i28.CreateProjectProvider>(
-        () => _i28.CreateProjectProvider(gh<_i16.ProjectsUsecase>()));
-    gh.factory<_i29.CreateSkillProvider>(
-        () => _i29.CreateSkillProvider(gh<_i7.DepartmentUseCase>()));
-    gh.factory<_i30.DeleteDepartmentProvider>(() =>
-        _i30.DeleteDepartmentProvider(
+    gh.factory<_i28.CreateSkillProvider>(
+        () => _i28.CreateSkillProvider(gh<_i7.DepartmentUseCase>()));
+    gh.factory<_i29.DeleteDepartmentProvider>(() =>
+        _i29.DeleteDepartmentProvider(
             departmentUseCase: gh<_i7.DepartmentUseCase>()));
-    gh.factory<_i31.DepartamentConfirmationProvider>(() =>
-        _i31.DepartamentConfirmationProvider(gh<_i7.DepartmentUseCase>()));
-    gh.factory<_i32.DepartamentEmployeesProvider>(
-        () => _i32.DepartamentEmployeesProvider(gh<_i7.DepartmentUseCase>()));
-    gh.factory<_i33.DepartamentProjectsProvider>(
-        () => _i33.DepartamentProjectsProvider(gh<_i7.DepartmentUseCase>()));
-    gh.factory<_i34.DepartamentSkillsProvider>(
-        () => _i34.DepartamentSkillsProvider(gh<_i7.DepartmentUseCase>()));
-    gh.factory<_i35.DepartmentCreateCubit>(
-        () => _i35.DepartmentCreateCubit(gh<_i7.DepartmentUseCase>()));
-    gh.factory<_i36.EditEmployeeProvider>(
-        () => _i36.EditEmployeeProvider(gh<_i11.EmployeeUsecase>()));
-    gh.factory<_i37.EditProjectProvider>(
-        () => _i37.EditProjectProvider(gh<_i16.ProjectsUsecase>()));
-    gh.singleton<_i38.EmployeeRolesProvider>(
-        () => _i38.EmployeeRolesProvider(gh<_i11.EmployeeUsecase>()));
-    gh.factory<_i39.OwnedSkillsProvider>(
-        () => _i39.OwnedSkillsProvider(gh<_i19.SettingsUseCase>()));
-    gh.factory<_i40.PersonalSkillsProvider>(
-        () => _i40.PersonalSkillsProvider(gh<_i19.SettingsUseCase>()));
-    gh.singleton<_i41.ProfileProvider>(
-        () => _i41.ProfileProvider(gh<_i19.SettingsUseCase>()));
-    gh.factory<_i42.ProjectMembersProvider>(
-        () => _i42.ProjectMembersProvider(gh<_i16.ProjectsUsecase>()));
-    gh.factory<_i43.ProjectsBloc>(
-        () => _i43.ProjectsBloc(gh<_i16.ProjectsUsecase>()));
-    gh.factory<_i44.AuthBloc>(() => _i44.AuthBloc(gh<_i27.AuthUsecase>()));
+    gh.factory<_i30.DepartamentConfirmationProvider>(() =>
+        _i30.DepartamentConfirmationProvider(gh<_i7.DepartmentUseCase>()));
+    gh.factory<_i31.DepartamentEmployeesProvider>(
+        () => _i31.DepartamentEmployeesProvider(gh<_i7.DepartmentUseCase>()));
+    gh.factory<_i32.DepartamentProjectsProvider>(
+        () => _i32.DepartamentProjectsProvider(gh<_i7.DepartmentUseCase>()));
+    gh.factory<_i33.DepartamentSkillsProvider>(
+        () => _i33.DepartamentSkillsProvider(gh<_i7.DepartmentUseCase>()));
+    gh.factory<_i34.DepartmentCreateCubit>(
+        () => _i34.DepartmentCreateCubit(gh<_i7.DepartmentUseCase>()));
+    gh.factory<_i35.EditEmployeeProvider>(
+        () => _i35.EditEmployeeProvider(gh<_i11.EmployeeUsecase>()));
+    gh.factory<_i36.EditProjectProvider>(
+        () => _i36.EditProjectProvider(gh<_i16.ProjectsUsecase>()));
+    gh.singleton<_i37.EmployeeRolesProvider>(
+        () => _i37.EmployeeRolesProvider(gh<_i11.EmployeeUsecase>()));
+    gh.factory<_i38.OwnedSkillsProvider>(
+        () => _i38.OwnedSkillsProvider(gh<_i19.SettingsUseCase>()));
+    gh.factory<_i39.PersonalSkillsProvider>(
+        () => _i39.PersonalSkillsProvider(gh<_i19.SettingsUseCase>()));
+    gh.singleton<_i40.ProfileProvider>(
+        () => _i40.ProfileProvider(gh<_i19.SettingsUseCase>()));
+    gh.factory<_i41.ProjectMembersProvider>(
+        () => _i41.ProjectMembersProvider(gh<_i16.ProjectsUsecase>()));
+    gh.singleton<_i42.ProjectsBloc>(
+        () => _i42.ProjectsBloc(gh<_i16.ProjectsUsecase>()));
+    gh.factory<_i43.AuthBloc>(() => _i43.AuthBloc(gh<_i27.AuthUsecase>()));
+    gh.factory<_i44.CreateProjectProvider>(() => _i44.CreateProjectProvider(
+          projectsUsecase: gh<_i16.ProjectsUsecase>(),
+          projectsBloc: gh<_i42.ProjectsBloc>(),
+        ));
     return this;
   }
 }
