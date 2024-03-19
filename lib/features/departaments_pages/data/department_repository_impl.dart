@@ -52,6 +52,7 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet(
       url:
           "${EndpointConstants.baseUrl}/departamentmanager/managersnodepartament/$organizationId",
+      codeMessage: {404: "No managers found"},
     ))
         .fold(
       (l) => left(l),
@@ -69,6 +70,7 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/departamentmanager/getdepartamentsfromorganization/$organizationId",
+      codeMessage: {404: "No departments found"},
     ))
         .fold(
       (l) => left(l),
@@ -83,6 +85,9 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/employee/departamentemployees/$departamentId",
+      codeMessage: {
+        404: "No employees found",
+      },
     ))
         .fold(
       (l) => left(l),
@@ -98,6 +103,9 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet(
       url:
           "${EndpointConstants.baseUrl}/employee/employeesnodepartament/$organizationId",
+      codeMessage: {
+        404: "No employees found",
+      },
     ))
         .fold(
       (l) => left(l),
@@ -146,6 +154,9 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/departament/skillsofdepartament/$departamentId",
+      codeMessage: {
+        404: "No skills found",
+      },
     ))
         .fold(
       (l) => left(l),
@@ -164,6 +175,9 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet(
       url:
           "${EndpointConstants.baseUrl}/departamentmanager/chartdiagramspecialistlevel/$departamentId/$skillId",
+      codeMessage: {
+        404: "No statistics found",
+      },
     ))
         .fold(
             (l) => left(l),
@@ -178,6 +192,9 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/project/getprojectsfromadepartamentmembers/$departamentId",
+      codeMessage: {
+        404: "No projects found",
+      },
     ))
         .fold(
       (l) => left(l),
@@ -198,6 +215,9 @@ class DepartmentRepositoryImpl {
         data: {
           "employeeId": e.id,
           "departamentId": departmentId,
+        },
+        codeMessage: {
+          404: "No employees found",
         },
       ))
           .fold(
@@ -243,6 +263,9 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/departament/notassignedskills/$departamentId/$organizationId",
+      codeMessage: {
+        404: "No skills found",
+      },
     ))
         .fold(
       (l) => left(l),
@@ -258,6 +281,9 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/departamentmanager/departamentallocationproposal/$departamentId",
+      codeMessage: {
+        404: "No alocations found",
+      },
     ))
         .fold(
       (l) => left(l),
@@ -272,6 +298,9 @@ class DepartmentRepositoryImpl {
     return (await ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/departamentmanager/departamentdeallocationonproposal/$departamentId",
+      codeMessage: {
+        404: "No dealocations found",
+      },
     ))
         .fold(
       (l) => left(l),
@@ -283,19 +312,20 @@ class DepartmentRepositoryImpl {
 
   Future<Either<Failure<String>, List<Validation>>> fetchValidation(
       String departamentId) {
-    return ApiService()
-        .dioGet<List>(
-          url:
-              "${EndpointConstants.baseUrl}/departamentmanager/getproposalsforskills/$departamentId",
-        )
-        .then(
-          (value) => value.fold(
-            (l) => left(l),
-            (r) => right(
-              r.map((e) => Validation.fromMap(e)).toList(growable: false),
-            ),
-          ),
-        );
+    return ApiService().dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/getproposalsforskills/$departamentId",
+      codeMessage: {
+        404: "No validation found",
+      },
+    ).then(
+      (value) => value.fold(
+        (l) => left(l),
+        (r) => right(
+          r.map((e) => Validation.fromMap(e)).toList(growable: false),
+        ),
+      ),
+    );
   }
 
   //accept/refuze
@@ -352,17 +382,33 @@ class DepartmentRepositoryImpl {
   Future<Either<Failure<String>, List<String>>> getCategories() {
     var box = Hive.box<String>(HiveConstants.authBox);
     String organizationId = box.get(HiveConstants.organizationId)!;
+    return ApiService().dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/projectmanager/getskillcategories/$organizationId",
+      codeMessage: {
+        404: "No categories found",
+      },
+    ).then(
+      (value) => value.fold(
+        (l) => left(l),
+        (r) => right(
+          r.map((e) => e as String).toList(growable: false),
+        ),
+      ),
+    );
+  }
+
+  Future<Either<Failure<String>, void>> deleteDepartment(
+      String departamentId) async {
     return ApiService()
-        .dioGet<List>(
+        .dioDelete(
           url:
-              "${EndpointConstants.baseUrl}/projectmanager/getskillcategories/${organizationId}",
+              "${EndpointConstants.baseUrl}/departament/deletedepartament/$departamentId",
         )
         .then(
           (value) => value.fold(
             (l) => left(l),
-            (r) => right(
-              r.map((e) => e as String).toList(growable: false),
-            ),
+            (r) => right(null),
           ),
         );
   }

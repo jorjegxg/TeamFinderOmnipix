@@ -5,7 +5,7 @@ import 'package:team_finder_app/features/settings/domain/usecases/settings_use_c
 
 @injectable
 class PersonalSkillsProvider extends ChangeNotifier {
-  SettingsUseCase _settingsUseCase;
+  final SettingsUseCase _settingsUseCase;
 
   PersonalSkillsProvider(this._settingsUseCase);
 

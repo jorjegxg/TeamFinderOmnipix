@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart';
 import 'package:team_finder_app/features/project_pages/data/models/project_model.dart';
-import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 
 @injectable
 class DepartamentProjectsProvider extends ChangeNotifier {
   // Add your provider logic here
-  DepartmentUseCase _departmentUseCase;
+  final DepartmentUseCase _departmentUseCase;
 
   DepartamentProjectsProvider(this._departmentUseCase);
   // Example property

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:team_finder_app/features/departaments_pages/data/models/alocation.dart';
-import 'package:team_finder_app/features/departaments_pages/data/models/dealocation.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/validation.dart';
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart';
 
 @injectable
 class ValidationProvider extends ChangeNotifier {
-  DepartmentUseCase _departmentUseCase;
+  final DepartmentUseCase _departmentUseCase;
 
   ValidationProvider(this._departmentUseCase);
 
   bool _isLoading = false;
-  String? _error = null;
+  String? _error;
 
   List<Validation> _allItems = [];
 

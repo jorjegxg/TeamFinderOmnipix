@@ -6,49 +6,50 @@ class EmployeeCard extends StatelessWidget {
     super.key,
     required this.name,
     required this.onTap,
+    this.isCurrentUser = false,
   });
   final String name;
   final Function() onTap;
+  final bool isCurrentUser;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: SizedBox(
         width: 100.w,
         height: 10.h,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainer,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).colorScheme.shadow,
-              blurRadius: 4,
-              offset: const Offset(0, 4),
-              spreadRadius: 0,
-            )
-          ],
-        ),
-        child: Row(
-          children: [
-            const SizedBox(width: 10),
-            CircleAvatar(
-              radius: 20,
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              child: const Icon(
-                Icons.person,
-                color: Colors.white,
+        child: Card(
+          color: isCurrentUser ? Theme.of(context).colorScheme.primary : null,
+          child: Row(
+            children: [
+              const SizedBox(width: 10),
+              CircleAvatar(
+                radius: 20,
+                backgroundColor: isCurrentUser
+                    ? Theme.of(context).colorScheme.onPrimary
+                    : Theme.of(context).colorScheme.primary,
+                child: Icon(
+                  Icons.person,
+                  color: isCurrentUser
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.onPrimary,
+                ),
               ),
-            ),
-            const SizedBox(width: 10),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(name, style: Theme.of(context).textTheme.titleSmall),
-              ],
-            ),
-          ],
+              const SizedBox(width: 10),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(name,
+                      style: isCurrentUser
+                          ? Theme.of(context).textTheme.titleSmall!.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary)
+                          : Theme.of(context).textTheme.titleSmall),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -3,8 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
+import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/departament_info_widget.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/option_widget.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart';
 import 'package:team_finder_app/features/settings/presentation/widgets/field_dialog.dart';
 
@@ -28,9 +30,11 @@ class MainSettingsPage extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-                //TODO: Implement Logout
+                context.read<AuthBloc>().add(AuthLogoutRequested(
+                      context: context,
+                    ));
               },
-              icon: const Icon(Icons.logout, color: Colors.black),
+              icon: const Icon(Icons.logout),
             ),
           ],
           centerTitle: true,
@@ -70,7 +74,7 @@ class DetailsBodyWidget extends StatelessWidget {
     return Expanded(
       child: Card(
         margin: const EdgeInsets.all(10),
-        color: Theme.of(buildContext).colorScheme.onSurface,
+        // color: Theme.of(buildContext).colorScheme.primaryContainer,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -107,11 +111,18 @@ class DetailsBodyWidget extends StatelessWidget {
                       pathParameters: {'userId': userId});
                 },
               ),
-              OptionWidget(
-                text: 'Create Team Roles',
-                onPressed: () {
-                  buildContext.goNamed(AppRouterConst.teamRolesPage,
-                      pathParameters: {'userId': userId});
+              Consumer<EmployeeRolesProvider>(
+                builder: (context, prov, child) {
+                  if (prov.isOrganizationAdmin) {
+                    return OptionWidget(
+                      text: 'Create Team Roles',
+                      onPressed: () {
+                        buildContext.goNamed(AppRouterConst.teamRolesPage,
+                            pathParameters: {'userId': userId});
+                      },
+                    );
+                  }
+                  return const SizedBox();
                 },
               ),
               OptionWidget(
@@ -140,11 +151,18 @@ class DetailsBodyWidget extends StatelessWidget {
                   );
                 },
               ),
-              OptionWidget(
-                text: 'Create Skill',
-                onPressed: () {
-                  buildContext.goNamed(AppRouterConst.ownedSkillPage,
-                      pathParameters: {'userId': userId});
+              Consumer<EmployeeRolesProvider>(
+                builder: (context, prov, child) {
+                  if (prov.isDepartmentManager) {
+                    return OptionWidget(
+                      text: 'Create Skill',
+                      onPressed: () {
+                        buildContext.goNamed(AppRouterConst.ownedSkillPage,
+                            pathParameters: {'userId': userId});
+                      },
+                    );
+                  }
+                  return const SizedBox();
                 },
               ),
             ],

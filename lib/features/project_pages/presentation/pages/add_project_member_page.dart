@@ -124,7 +124,6 @@ class _AddProjectMembersPageState extends State<AddProjectMembersPage> {
                                                       }),
                                             );
                                           });
-                                      //TODO: add functionality to the icon button filter
                                     }),
                               ],
                             ),

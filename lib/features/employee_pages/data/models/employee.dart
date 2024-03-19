@@ -3,12 +3,14 @@ class Employee {
   final String name;
   final String email;
   final int workingHours;
-
-  Employee(
-      {required this.id,
-      required this.name,
-      required this.email,
-      required this.workingHours});
+  bool isCurrentUser;
+  Employee({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.workingHours,
+    this.isCurrentUser = false,
+  });
 
   factory Employee.fromJson(Map<String, dynamic> json) {
     return Employee(

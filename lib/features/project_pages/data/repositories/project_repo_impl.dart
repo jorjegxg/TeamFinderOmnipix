@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/util/logger.dart';
@@ -20,10 +18,11 @@ class ProjectRepoImpl extends ProjectRepo {
     var box = Hive.box<String>(HiveConstants.authBox);
     String employeeId = box.get(HiveConstants.userId)!;
     return (await ApiService().dioGet<List>(
-      //TODO George Luta : vezi daca endpoint-ul este bun
-
       url:
           "${EndpointConstants.baseUrl}/project/projectdetailactive/$employeeId",
+      codeMessage: {
+        404: "No active projects found",
+      },
     ))
         .fold(
       (l) {
@@ -32,7 +31,6 @@ class ProjectRepoImpl extends ProjectRepo {
       },
       (r) {
         final List<ProjectModel> projects = [];
-        //TODO George Luta : vezi daca e bine : ['projects']
         for (var project in r) {
           projects.add(ProjectModel.fromMap(project));
         }
@@ -49,6 +47,9 @@ class ProjectRepoImpl extends ProjectRepo {
     return (await ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/project/projectdetailinactive/$employeeId",
+      codeMessage: {
+        404: "No inactive projects found",
+      },
     ))
         .fold(
       (l) => Left(l),
@@ -141,6 +142,9 @@ class ProjectRepoImpl extends ProjectRepo {
     return (ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/organization/teamroles/$organizationId",
+      codeMessage: {
+        404: "No team roles found",
+      },
     )).then((value) {
       return value.fold(
         (l) => Left(l),
@@ -163,6 +167,9 @@ class ProjectRepoImpl extends ProjectRepo {
     return (ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/projectmanager/gettechnologystacks/$organizationId",
+      codeMessage: {
+        404: "No technology stacks found",
+      },
     )).then((value) {
       return value.fold(
         (l) => Left(l),
@@ -227,12 +234,13 @@ class ProjectRepoImpl extends ProjectRepo {
   @override
   Future<Either<Failure<String>, List<Employee>>> getActiveMembers(
       String projectId) {
-    return ApiService()
-        .dioGet<List>(
+    return ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/project/activemembersproject/$projectId",
-    )
-        .then((value) {
+      codeMessage: {
+        404: "No active members found",
+      },
+    ).then((value) {
       return value.fold(
         (l) => Left(l),
         (r) => Right(r.map((e) => Employee.fromJson(e)).toList()),
@@ -243,12 +251,13 @@ class ProjectRepoImpl extends ProjectRepo {
   @override
   Future<Either<Failure<String>, List<Employee>>> getInActiveMembers(
       String projectId) {
-    return ApiService()
-        .dioGet<List>(
+    return ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/project/inactivemembersproject/$projectId",
-    )
-        .then((value) {
+      codeMessage: {
+        404: "No inactive members found",
+      },
+    ).then((value) {
       return value.fold(
         (l) => Left(l),
         (r) => Right(r.map((e) => Employee.fromJson(e)).toList()),
@@ -259,11 +268,12 @@ class ProjectRepoImpl extends ProjectRepo {
   @override
   Future<Either<Failure<String>, List<Employee>>> getFutureMembers(
       String projectId) {
-    return ApiService()
-        .dioGet<List>(
+    return ApiService().dioGet<List>(
       url: "${EndpointConstants.baseUrl}/project/getproposedmembers/$projectId",
-    )
-        .then((value) {
+      codeMessage: {
+        404: "no members found",
+      },
+    ).then((value) {
       return value.fold(
         (l) => Left(l),
         (r) => Right(r.map((e) => Employee.fromJson(e['employeeId'])).toList()),
@@ -279,12 +289,13 @@ class ProjectRepoImpl extends ProjectRepo {
     var box = Hive.box<String>(HiveConstants.authBox);
     String organizationId = box.get(HiveConstants.organizationId)!;
 
-    return ApiService()
-        .dioGet<List>(
+    return ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/project/freeemployees/$organizationId/$projectId",
-    )
-        .then((value) {
+      codeMessage: {
+        404: "No members found",
+      },
+    ).then((value) {
       return value.fold(
         (l) => Left(l),
         (r) => Right(r.map((e) => Employee.fromJson(e)).toList()),
@@ -300,12 +311,13 @@ class ProjectRepoImpl extends ProjectRepo {
     var box = Hive.box<String>(HiveConstants.authBox);
     String organizationId = box.get(HiveConstants.organizationId)!;
 
-    return ApiService()
-        .dioGet<List>(
+    return ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/project/unavailableavailableemployees/$organizationId/$projectId",
-    )
-        .then((value) {
+      codeMessage: {
+        404: "No members found",
+      },
+    ).then((value) {
       return value.fold(
         (l) => Left(l),
         (r) => Right(r.map((e) => Employee.fromJson(e)).toList()),
@@ -320,12 +332,13 @@ class ProjectRepoImpl extends ProjectRepo {
     var box = Hive.box<String>(HiveConstants.authBox);
     String organizationId = box.get(HiveConstants.organizationId)!;
 
-    return ApiService()
-        .dioGet<List>(
+    return ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/project/getpartialyavailableemployees/$organizationId/$projectId",
-    )
-        .then((value) {
+      codeMessage: {
+        404: "No members found",
+      },
+    ).then((value) {
       return value.fold(
         (l) => Left(l),
         (r) => Right(r.map((e) => Employee.fromJson(e)).toList()),
@@ -338,12 +351,13 @@ class ProjectRepoImpl extends ProjectRepo {
     var box = Hive.box<String>(HiveConstants.authBox);
     String organizationId = box.get(HiveConstants.organizationId)!;
 
-    return ApiService()
-        .dioGet<List>(
+    return ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/departamentmanager/getskills/$organizationId",
-    )
-        .then((value) {
+      codeMessage: {
+        404: "No skills found",
+      },
+    ).then((value) {
       return value.fold(
         (l) => Left(l),
         (r) => Right(r.map((e) => Skill.fromJson(e)).toList()),

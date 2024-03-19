@@ -16,4 +16,8 @@ class EmployeesRoles {
       projectManager: json['projectManager'],
     );
   }
+
+  @override
+  String toString() =>
+      'EmployeesRoles(admin: $admin, departmentManager: $departmentManager, projectManager: $projectManager)';
 }

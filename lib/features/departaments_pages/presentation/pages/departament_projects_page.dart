@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
-import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_employees_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_projects_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/filter_projects_dialog.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';

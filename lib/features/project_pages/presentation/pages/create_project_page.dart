@@ -88,8 +88,8 @@ class DesktopCreateProjectScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ScrollController _scrollControler1 = useScrollController();
-    final ScrollController _scrollControler2 = useScrollController();
+    final ScrollController scrollControler1 = useScrollController();
+    final ScrollController scrollControler2 = useScrollController();
     List<String> items = [
       'Item 1',
       'Item 2',
@@ -305,9 +305,9 @@ class DesktopCreateProjectScreen extends HookWidget {
                                                 .colorScheme
                                                 .primary,
                                             alwaysVisibleScrollThumb: true,
-                                            controller: _scrollControler1,
+                                            controller: scrollControler1,
                                             child: ListView.builder(
-                                                controller: _scrollControler1,
+                                                controller: scrollControler1,
                                                 itemCount: 10,
                                                 itemBuilder: (context, index) {
                                                   return Slidable(
@@ -326,7 +326,7 @@ class DesktopCreateProjectScreen extends HookWidget {
                                                       }),
 
                                                       // All actions are defined in the children parameter.
-                                                      children: [
+                                                      children: const [
                                                         // A SlidableAction can have an icon and/or a label.
                                                       ],
                                                     ),
@@ -383,9 +383,9 @@ class DesktopCreateProjectScreen extends HookWidget {
                                                 .colorScheme
                                                 .primary,
                                             alwaysVisibleScrollThumb: true,
-                                            controller: _scrollControler2,
+                                            controller: scrollControler2,
                                             child: ListView.builder(
-                                              controller: _scrollControler2,
+                                              controller: scrollControler2,
                                               itemCount: items.length,
                                               itemBuilder: (context, index) {
                                                 return ItemWithCheckBox(
@@ -445,8 +445,8 @@ class TabletCreateProjectScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ScrollController _scrollControler1 = useScrollController();
-    final ScrollController _scrollControler2 = useScrollController();
+    final ScrollController scrollControler1 = useScrollController();
+    final ScrollController scrollControler2 = useScrollController();
     List<String> items = [
       'Item 1',
       'Item 2',
@@ -658,9 +658,9 @@ class TabletCreateProjectScreen extends HookWidget {
                                               .colorScheme
                                               .primary,
                                           alwaysVisibleScrollThumb: true,
-                                          controller: _scrollControler1,
+                                          controller: scrollControler1,
                                           child: ListView.builder(
-                                              controller: _scrollControler1,
+                                              controller: scrollControler1,
                                               itemCount: 10,
                                               itemBuilder: (context, index) {
                                                 return Slidable(
@@ -679,7 +679,7 @@ class TabletCreateProjectScreen extends HookWidget {
                                                     }),
 
                                                     // All actions are defined in the children parameter.
-                                                    children: [
+                                                    children: const [
                                                       // A SlidableAction can have an icon and/or a label.
                                                     ],
                                                   ),
@@ -735,9 +735,9 @@ class TabletCreateProjectScreen extends HookWidget {
                                               .colorScheme
                                               .primary,
                                           alwaysVisibleScrollThumb: true,
-                                          controller: _scrollControler2,
+                                          controller: scrollControler2,
                                           child: ListView.builder(
-                                            controller: _scrollControler2,
+                                            controller: scrollControler2,
                                             itemCount: items.length,
                                             itemBuilder: (context, index) {
                                               return ItemWithCheckBox(

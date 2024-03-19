@@ -6,7 +6,7 @@ import 'package:team_finder_app/features/departaments_pages/domain/department_us
 
 @injectable
 class DepartamentConfirmationProvider extends ChangeNotifier {
-  DepartmentUseCase _departmentUseCase;
+  final DepartmentUseCase _departmentUseCase;
 
   DepartamentConfirmationProvider(this._departmentUseCase);
 
