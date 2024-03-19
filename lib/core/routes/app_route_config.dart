@@ -379,13 +379,16 @@ class MyAppRouter {
                 routes: [
                   GoRoute(
                     name: AppRouterConst.employeeProfileScreen,
-                    path: 'profile/:employeeId/:employeeName/:employeeEmail',
+                    path:
+                        'profile/:employeeId/:employeeName/:employeeEmail/:isCurrentUser',
                     pageBuilder: (context, state) => MaterialPage(
                       child: EmployeeProfilePage(
                         userId: state.pathParameters['userId']!,
                         employeeId: state.pathParameters['employeeId']!,
                         employeeName: state.pathParameters['employeeName']!,
                         employeeEmail: state.pathParameters['employeeEmail']!,
+                        isCurrentUser:
+                            bool.parse(state.pathParameters['isCurrentUser']!),
                       ),
                     ),
                   ),

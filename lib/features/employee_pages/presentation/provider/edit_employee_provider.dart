@@ -6,6 +6,8 @@ import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/manager_and_department_id.dart';
 import 'package:team_finder_app/features/employee_pages/domain/employee_usecase.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
+import 'package:team_finder_app/injection.dart';
 
 @injectable
 class EditEmployeeProvider extends ChangeNotifier {
@@ -70,7 +72,8 @@ class EditEmployeeProvider extends ChangeNotifier {
     );
   }
 
-  Future<Either<Failure<dynamic>, void>> saveChanges(String employeeId,
+  Future<Either<Failure<dynamic>, void>> saveChanges(
+      String employeeId, bool isCurrentUser,
       [Manager? newManager]) async {
     ///if you demote a department manager, you need to select a new one [ newManager != null]
 
@@ -103,6 +106,11 @@ class EditEmployeeProvider extends ChangeNotifier {
       (r) {
         _isLoading = false;
         notifyListeners();
+
+        if (isCurrentUser) {
+          getIt<EmployeeRolesProvider>().getCurrentEmployeeRoles();
+        }
+
         return right(r);
       },
     );

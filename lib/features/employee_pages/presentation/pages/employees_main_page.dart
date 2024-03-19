@@ -109,6 +109,11 @@ class EmployeeMainPage extends HookWidget {
                                                         employeeProvider
                                                             .employees[index]
                                                             .email,
+                                                    'isCurrentUser':
+                                                        employeeProvider
+                                                            .employees[index]
+                                                            .isCurrentUser
+                                                            .toString(),
                                                   },
                                                 );
                                               }

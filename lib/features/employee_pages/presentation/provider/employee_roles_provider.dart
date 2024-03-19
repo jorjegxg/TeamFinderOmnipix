@@ -47,6 +47,22 @@ class EmployeeRolesProvider extends ChangeNotifier {
     );
   }
 
+  //setters
+  void setIsOrganizationAdmin(bool value) {
+    _isOrganizationAdmin = value;
+    notifyListeners();
+  }
+
+  void setIsDepartmentManager(bool value) {
+    _isDepartmentManager = value;
+    notifyListeners();
+  }
+
+  void setIsProjectManager(bool value) {
+    _isProjectManager = value;
+    notifyListeners();
+  }
+
   void clearAllData() {
     _isOrganizationAdmin = false;
     _isDepartmentManager = false;
