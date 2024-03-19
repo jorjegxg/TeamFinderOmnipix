@@ -80,8 +80,7 @@ class MyApp extends StatelessWidget {
           create: (context) => getIt<ProfileProvider>(),
         ),
         BlocProvider(
-          create: (context) =>
-              getIt<ProjectsBloc>()..add(const GetActiveProjectPages()),
+          create: (context) => getIt<ProjectsBloc>(),
         ),
         ChangeNotifierProvider(
           create: (context) => getIt<EmployeeRolesProvider>(),
