@@ -9,9 +9,9 @@ import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/change_page_widget.dart';
+import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/login_form.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/logo_widget.dart';
-import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 
 class LoginScreen extends HookWidget {
   const LoginScreen({
@@ -22,7 +22,7 @@ class LoginScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final emailConttroler = useTextEditingController(
-      text: kDebugMode ? 'test@test.com' : '',
+      text: kDebugMode ? 'a@a.com' : '',
     );
     final passwordConttroler = useTextEditingController(
       text: kDebugMode ? 'parola' : '',

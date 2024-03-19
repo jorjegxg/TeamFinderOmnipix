@@ -15,6 +15,7 @@ class ProjectWidget extends StatelessWidget {
     this.color,
     this.buttonText,
     this.isLoading = false,
+    this.showDetailsButton = true,
   });
 
   final String mainTitle;
@@ -27,6 +28,7 @@ class ProjectWidget extends StatelessWidget {
   final Color? color;
   final String? buttonText;
   final bool isLoading;
+  final bool showDetailsButton;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -74,17 +76,19 @@ class ProjectWidget extends StatelessWidget {
                   content2,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: CustomButton(
-                    text: buttonText ?? 'View Details',
-                    onPressed: onPressed,
-                    buttonHeight: 30,
-                    buttonWidth: 60,
-                    color: color,
-                    isLoading: isLoading,
-                  ),
-                ),
+                showDetailsButton
+                    ? Align(
+                        alignment: Alignment.bottomRight,
+                        child: CustomButton(
+                          text: buttonText ?? 'View Details',
+                          onPressed: onPressed,
+                          buttonHeight: 30,
+                          buttonWidth: 60,
+                          color: color,
+                          isLoading: isLoading,
+                        ),
+                      )
+                    : const SizedBox(),
               ],
             ),
           ),

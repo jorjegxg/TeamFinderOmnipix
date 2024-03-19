@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -112,13 +110,41 @@ class ListOfDepartments extends StatelessWidget {
                           builder: (context, deleteDepartmentProvider, child) {
                             return ProjectWidget(
                                 isLoading: deleteDepartmentProvider.isLoading,
-                                color: prov.isOrganizationAdmin
-                                    ? Theme.of(context).colorScheme.error
-                                    : null,
-                                buttonText:
-                                    prov.isOrganizationAdmin ? 'Delete' : null,
+                                showDetailsButton: prov.isDepartmentManager,
                                 onLongPress: () {
-                                  log('asdasd');
+                                  if (prov.isOrganizationAdmin) {
+                                    //alert dialog with delete option:
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                              title: Text('Delete Departament',
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary)),
+                                              content: const Text(
+                                                  'Are you sure you want to delete this departament?'),
+                                              actions: [
+                                                TextButton(
+                                                    onPressed: () {
+                                                      getIt<DeleteDepartmentProvider>()
+                                                          .deleteDepartment(
+                                                              state
+                                                                  .departments[
+                                                                      index]
+                                                                  .id);
+
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text('Yes')),
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text('No')),
+                                              ],
+                                            ));
+                                  }
                                 },
                                 mainTitle:
                                     state.departments[index].departmentName,
@@ -130,56 +156,15 @@ class ListOfDepartments extends StatelessWidget {
                                 content2: state
                                     .departments[index].numberOfEmployees
                                     .toString(),
-                                onPressed: prov.isOrganizationAdmin
-                                    ? () {
-                                        //alert dialog with delete option:
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                                  title: Text(
-                                                      'Delete Departament',
-                                                      style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .primary)),
-                                                  content: const Text(
-                                                      'Are you sure you want to delete this departament?'),
-                                                  actions: [
-                                                    TextButton(
-                                                        onPressed: () {
-                                                          getIt<DeleteDepartmentProvider>()
-                                                              .deleteDepartment(
-                                                                  state
-                                                                      .departments[
-                                                                          index]
-                                                                      .id);
-
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child:
-                                                            const Text('Yes')),
-                                                    TextButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child:
-                                                            const Text('No')),
-                                                  ],
-                                                ));
-                                      }
-                                    : () {
-                                        context.goNamed(
-                                            AppRouterConst
-                                                .departamentsDetailsPage,
-                                            pathParameters: {
-                                              'userId': widget.userId,
-                                              'departamentId':
-                                                  state.departments[index].id
-                                            });
+                                onPressed: () {
+                                  context.goNamed(
+                                      AppRouterConst.departamentsDetailsPage,
+                                      pathParameters: {
+                                        'userId': widget.userId,
+                                        'departamentId':
+                                            state.departments[index].id
                                       });
+                                });
                           },
                         );
                       },
