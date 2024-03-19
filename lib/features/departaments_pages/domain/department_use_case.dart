@@ -189,4 +189,9 @@ class DepartmentUseCase {
   Future<Either<Failure<String>, void>> acceptAlocation(String id) async {
     return departmentRepository.acceptAlocation(id);
   }
+
+  Future<Either<Failure<String>, void>> deleteDepartment(
+      String departamentId) async {
+    return departmentRepository.deleteDepartment(departamentId);
+  }
 }
