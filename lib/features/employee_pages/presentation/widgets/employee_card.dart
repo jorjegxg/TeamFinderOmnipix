@@ -41,7 +41,11 @@ class EmployeeCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(name, style: Theme.of(context).textTheme.titleSmall),
+                  Text(name,
+                      style: isCurrentUser
+                          ? Theme.of(context).textTheme.titleSmall!.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary)
+                          : Theme.of(context).textTheme.titleSmall),
                 ],
               ),
             ],
