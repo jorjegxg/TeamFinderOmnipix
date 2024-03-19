@@ -3,11 +3,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/create_departament_dialog.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_widget.dart';
 
 class DepartamentMainPage extends StatefulWidget {
@@ -84,30 +86,40 @@ class _DepartamentMainPageState extends State<DepartamentMainPage> {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: GestureDetector(
-                              child: ProjectWidget(
-                                  onLongPress: () {
-                                    log('asdasd');
-                                  },
-                                  mainTitle:
-                                      state.departments[index].departmentName,
-                                  title1: 'Departament Manager:',
-                                  title2: 'Number of employees:',
-                                  content1:
-                                      state.departments[index].managersName ??
-                                          'No manager',
-                                  content2: state
-                                      .departments[index].numberOfEmployees
-                                      .toString(),
-                                  onPressed: () {
-                                    context.goNamed(
-                                        AppRouterConst.departamentsDetailsPage,
-                                        pathParameters: {
-                                          'userId': widget.userId,
-                                          'departamentId':
-                                              state.departments[index].id
-                                        });
-                                  }),
-                            ),
+                                child: Consumer<EmployeeRolesProvider>(
+                              builder: (context, prov, child) {
+                                return ProjectWidget(
+                                    color: prov.isOrganizationAdmin
+                                        ? Theme.of(context).colorScheme.error
+                                        : null,
+                                    buttonText: prov.isOrganizationAdmin
+                                        ? 'Delete'
+                                        : null,
+                                    onLongPress: () {
+                                      log('asdasd');
+                                    },
+                                    mainTitle:
+                                        state.departments[index].departmentName,
+                                    title1: 'Departament Manager:',
+                                    title2: 'Number of employees:',
+                                    content1:
+                                        state.departments[index].managersName ??
+                                            'No manager',
+                                    content2: state
+                                        .departments[index].numberOfEmployees
+                                        .toString(),
+                                    onPressed: () {
+                                      context.goNamed(
+                                          AppRouterConst
+                                              .departamentsDetailsPage,
+                                          pathParameters: {
+                                            'userId': widget.userId,
+                                            'departamentId':
+                                                state.departments[index].id
+                                          });
+                                    });
+                              },
+                            )),
                           );
                         });
                   } else {
