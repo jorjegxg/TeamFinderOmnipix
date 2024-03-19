@@ -22,4 +22,8 @@ class DepartmentsGetCubit extends Cubit<DepartmentsGetState> {
       (r) => emit(DepartmentsGetManagersSuccess(r)),
     );
   }
+
+  void clearAllData() {
+    emit(DepartmentsGetInitial());
+  }
 }
