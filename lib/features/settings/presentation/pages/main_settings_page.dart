@@ -99,6 +99,8 @@ class DetailsBodyWidget extends StatelessWidget {
                         title: 'Edit Profile',
                         text1: 'Name',
                         text2: 'Email',
+                        initialText2: provider.email,
+                        initialText1: provider.name,
                       ),
                     ),
                   );

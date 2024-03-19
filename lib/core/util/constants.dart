@@ -78,6 +78,11 @@ class AuthConstants {
   static const String signUp = 'Sign Up';
 }
 
+class RegexConstants {
+  static const String email =
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+}
+
 // class AppLightColors {
 //   static const surfaceContainer = Color(0xFFF7F2FA);
 //   static const primaryColor = Color(0xFF6750A4);

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/error/failures.dart';
+import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 import 'package:team_finder_app/features/settings/data/models/role_model.dart';
@@ -65,6 +66,16 @@ class SettingsUseCase {
   //updateNameAndEmail
   Future<Either<Failure, void>> updateNameAndEmail(
       String name, String email) async {
+    if (name.isEmpty || email.isEmpty) {
+      return left(EasyFailure(message: "Name and email can't be empty"));
+    }
+
+    final emailValid = RegExp(RegexConstants.email).hasMatch(email);
+
+    if (!emailValid) {
+      return left(EasyFailure(message: "Invalid email"));
+    }
+
     return _repository.updateNameAndEmail(name, email);
   }
 

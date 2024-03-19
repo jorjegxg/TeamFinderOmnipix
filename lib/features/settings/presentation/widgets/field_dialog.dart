@@ -8,15 +8,23 @@ class FieldDialog extends HookWidget {
     this.text2,
     required this.title,
     required this.onPress,
+    this.initialText1,
+    this.initialText2,
   }) : super(key: key);
   final String text1;
   final String? text2;
   final String title;
   final Function(String t1, String? t2) onPress;
+  final String? initialText1;
+  final String? initialText2;
   @override
   Widget build(BuildContext context) {
-    final firstController = useTextEditingController();
-    final secondController = useTextEditingController();
+    final firstController = useTextEditingController(
+      text: initialText1,
+    );
+    final secondController = useTextEditingController(
+      text: initialText2,
+    );
     return Dialog(
       child: Container(
         padding: const EdgeInsets.all(20),

@@ -88,6 +88,7 @@ class ProfileProvider extends ChangeNotifier {
                 name = getNewName;
                 email = getNewEmail;
                 notifyListeners();
+                fetchNameAndEmail();
               },
             ));
   }
