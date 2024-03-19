@@ -159,19 +159,19 @@ class AuthUsecase {
   Future<Either<Failure<String>, void>> deleteAllStoredData(
       BuildContext context) async {
     //clear all stored data from providers
-    Provider.of<DepartamentSkillsProvider>(context, listen: false)
-        .clearAllData();
-    Provider.of<AddMembersProvider>(context, listen: false).clearAllData();
-    Provider.of<CreateProjectProvider>(context, listen: false).clearAllData();
-    Provider.of<EditProjectProvider>(context, listen: false).clearAllData();
-    Provider.of<ProfileProvider>(context, listen: false).clearAllData();
+    // Provider.of<DepartamentSkillsProvider>(context, listen: false)
+    //     .clearAllData();
+    // Provider.of<AddMembersProvider>(context, listen: false).clearAllData();
+    // Provider.of<CreateProjectProvider>(context, listen: false).clearAllData();
+    // Provider.of<EditProjectProvider>(context, listen: false).clearAllData();
+    // Provider.of<ProfileProvider>(context, listen: false).clearAllData();
 
-    //for bloc
-    BlocProvider.of<AuthBloc>(context, listen: false).add(const AuthReset());
-    BlocProvider.of<ProjectsBloc>(context, listen: false)
-        .add(const ResetProjects());
-    BlocProvider.of<DepartmentCreateCubit>(context, listen: false)
-        .clearAllData();
+    // //for bloc
+    // BlocProvider.of<AuthBloc>(context, listen: false).add(const AuthReset());
+    // BlocProvider.of<ProjectsBloc>(context, listen: false)
+    //     .add(const ResetProjects());
+    // BlocProvider.of<DepartmentCreateCubit>(context, listen: false)
+    //     .clearAllData();
 
     return authRepo.deleteAllStoredData();
   }
