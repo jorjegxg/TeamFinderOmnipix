@@ -53,11 +53,21 @@ class AddPersonalSkillPage extends HookWidget {
                                           .titleSmall,
                                     ),
                                   )
-                                : BodyWidget(
-                                    nameColtroler: nameColtroler,
-                                    descriptionColtroler: descriptionColtroler,
-                                    userId: userId,
-                                  );
+                                : skillAssignmentProvider.skills.isEmpty
+                                    ? Center(
+                                        child: Text(
+                                          'No skills in organization',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge,
+                                        ),
+                                      )
+                                    : BodyWidget(
+                                        nameColtroler: nameColtroler,
+                                        descriptionColtroler:
+                                            descriptionColtroler,
+                                        userId: userId,
+                                      );
                       },
                     ),
                   ),

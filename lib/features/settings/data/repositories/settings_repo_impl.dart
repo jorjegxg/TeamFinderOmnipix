@@ -14,7 +14,7 @@ class SettingsRepoImpl {
 
   //get team roles
   Future<Either<Failure, List<RoleModel>>> getTeamRoles() async {
-    return ApiService().dioGet(
+    return ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/organization/teamroles/${await getOrganizationId()}",
       codeMessage: {
@@ -51,15 +51,16 @@ class SettingsRepoImpl {
   }
 
   //remove team role
-  Future<Either<Failure, void>> deleteTeamRole(RoleModel role) async {
+  Future<Either<Failure, String>> deleteTeamRole(RoleModel role) async {
     return ApiService()
         .dioDelete(
-      url: "${EndpointConstants.baseUrl}/teamroles/$role",
+      url:
+          "${EndpointConstants.baseUrl}/admin/deletecustomrole/${role.id}/${await getOrganizationId()}",
     )
         .then((response) {
       return response.fold(
         (l) => left(l),
-        (r) => right(null),
+        (r) => right(r['message']),
       );
     });
   }
@@ -71,7 +72,7 @@ class SettingsRepoImpl {
     final employeeId = box.get(HiveConstants.userId);
     final organizationId = box.get(HiveConstants.organizationId);
 
-    return ApiService().dioGet(
+    return ApiService().dioGet<List>(
       url:
           "${EndpointConstants.baseUrl}/employee/notassignedskills/$employeeId/$organizationId",
       codeMessage: {
@@ -138,6 +139,25 @@ class SettingsRepoImpl {
     );
   }
 
+  Future<Either<Failure<String>, List<Skill>>> getOwnedSkills() async {
+    final box = Hive.box<String>(HiveConstants.authBox);
+    final employeeId = box.get(HiveConstants.userId);
+
+    return (await ApiService().dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/ownedskills/$employeeId",
+      codeMessage: {
+        404: "No skills found",
+      },
+    ))
+        .fold(
+      (l) => left(l),
+      (r) => right(
+        r.map((e) => Skill.fromJson(e)).toList(growable: false),
+      ),
+    );
+  }
+
   //change password
   Future<Either<Failure, void>> changePassword(
       String newPassword, String email) async {
@@ -180,6 +200,36 @@ class SettingsRepoImpl {
         .dioPut(
       url:
           "${EndpointConstants.baseUrl}/employee/editemailandname/$employeeId/$email/$name",
+    )
+        .then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) => right(null),
+      );
+    });
+  }
+
+  //delete skill
+  Future<Either<Failure, void>> deleteSkill(String skillId) async {
+    return ApiService()
+        .dioDelete(
+      url: "${EndpointConstants.baseUrl}/employee/deleteskill/$skillId",
+    )
+        .then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) => right(null),
+      );
+    });
+  }
+
+  Future<Either<Failure<String>, void>> deleteOwnedSkill(Skill skill) {
+    final box = Hive.box<String>(HiveConstants.authBox);
+    final organizationId = box.get(HiveConstants.userId);
+    return ApiService()
+        .dioDelete(
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/deleteskillfromorganization/${skill.id}/$organizationId",
     )
         .then((response) {
       return response.fold(

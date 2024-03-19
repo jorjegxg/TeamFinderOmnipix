@@ -8,7 +8,8 @@ import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
-import 'package:team_finder_app/features/project_pages/presentation/bloc/skill_req_provider.dart';
+import 'package:team_finder_app/features/project_pages/presentation/providers/skill_req_provider.dart';
+import 'package:team_finder_app/features/project_pages/presentation/widgets/item_with_checkbox.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_details_body.dart';
 import 'package:team_finder_app/injection.dart';
 

@@ -36,7 +36,8 @@ class ValidationProvider extends ChangeNotifier {
     );
   }
 
-  //accept/refuze
+  //accept
+  //refuze
   Future<void> acceptValidation(String validationId) async {
     _isLoading = true;
     notifyListeners();
@@ -47,6 +48,7 @@ class ValidationProvider extends ChangeNotifier {
         notifyListeners();
       },
       (r) {
+        _allItems.removeWhere((element) => element.id == validationId);
         _isLoading = false;
         notifyListeners();
       },
@@ -63,6 +65,7 @@ class ValidationProvider extends ChangeNotifier {
         notifyListeners();
       },
       (r) {
+        _allItems.removeWhere((element) => element.id == validationId);
         _isLoading = false;
         notifyListeners();
       },

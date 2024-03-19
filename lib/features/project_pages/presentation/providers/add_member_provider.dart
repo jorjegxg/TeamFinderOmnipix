@@ -78,6 +78,7 @@ class AddMembersProvider extends ChangeNotifier {
         },
       );
     } else {
+      members = [];
       if (getPartialyAvabile) {
         final response =
             await _projectsUsecase.fetchPartialyAvabileMembers(projectId);
@@ -133,5 +134,12 @@ class AddMembersProvider extends ChangeNotifier {
         notifyListeners();
       },
     );
+  }
+
+  void clearAllData() {
+    members = [];
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
   }
 }

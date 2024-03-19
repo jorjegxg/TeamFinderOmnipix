@@ -16,6 +16,7 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
     on<GetActiveProjectPages>(_onGetActiveProjectPages);
     on<GetInActiveProjectPages>(_onGetInActiveProjectPages);
     on<SwitchProjectPages>(_onSwitchProjectPages);
+    on<ResetProjects>(clearData);
   }
 
   Future<void> _onGetActiveProjectPages(
@@ -108,5 +109,9 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
               ),
       );
     }
+  }
+
+  void clearData(ResetProjects event, Emitter<ProjectsState> emit) {
+    emit(ProjectsState.initial());
   }
 }

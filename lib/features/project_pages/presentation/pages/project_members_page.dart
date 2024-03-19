@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
-import 'package:team_finder_app/features/project_pages/presentation/bloc/project_members_provider.dart';
+import 'package:team_finder_app/features/project_pages/presentation/providers/project_members_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_icon_button.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/dealocation_dialog_widget.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_member_card.dart';

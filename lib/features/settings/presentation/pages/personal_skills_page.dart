@@ -78,7 +78,7 @@ class PersonalSkillsPage extends HookWidget {
                                           provider.skills[index].description,
                                       skillAuthor:
                                           provider.skills[index].category,
-                                      onPressed: (BuildContext ctx) {},
+                                      onRemove: (BuildContext ctx) {},
                                     );
                                   },
                                   gridDelegate:

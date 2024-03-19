@@ -21,7 +21,6 @@ class DepartamentProjectsPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> items = List.generate(10, (index) => 'Item $index');
     final TextEditingController nameConttroler = TextEditingController();
     return ChangeNotifierProvider(
       create: (context) => getIt<DepartamentProjectsProvider>()

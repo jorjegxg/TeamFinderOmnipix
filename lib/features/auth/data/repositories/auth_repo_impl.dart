@@ -91,6 +91,7 @@ class AuthRepoImpl extends AuthRepo {
     try {
       await SecureStorageService().delete(key: StorageConstants.token);
       var box = Hive.box<String>(HiveConstants.authBox);
+
       await box.clear();
     } catch (e) {
       return left(StorageFailure<String>(message: e.toString()));

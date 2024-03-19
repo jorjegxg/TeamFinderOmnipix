@@ -57,19 +57,9 @@ class DepartmentUseCase {
     return departmentRepository.getFreeEmployees();
   }
 
-  Future<Either<Failure<String>, void>> createSkillAndAssign(
-      {required Skill skill, required String departamentId}) async {
-    final answer = await departmentRepository.createSkill(skill: skill);
-
-    return answer.fold(
-      (l) => left(l),
-      (r) async {
-        return (await departmentRepository.assignSkillToDepartament(
-          skillId: r,
-          departamentId: departamentId,
-        ));
-      },
-    );
+  Future<Either<Failure<String>, void>> createSkill(
+      {required Skill skill}) async {
+    return await departmentRepository.createSkill(skill: skill);
   }
 
 //assign skill to departament
@@ -116,9 +106,8 @@ class DepartmentUseCase {
 
   //removeEmployeeFromDepartment
   Future<Either<Failure<String>, void>> removeEmployeeFromDepartment(
-      String departamentId, String employeeId) async {
+      String employeeId) async {
     return departmentRepository.removeEmployeeFromDepartment(
-      departamentId,
       employeeId,
     );
   }
@@ -163,5 +152,17 @@ class DepartmentUseCase {
 
   Future<Either<Failure<String>, void>> refuseValidation(String validationId) {
     return departmentRepository.refuseValidation(validationId);
+  }
+
+  // assignSkillDirectly(Employee employee) {}
+  Future<Either<Failure<String>, void>> assignSkillDirectly(Employee employee,
+      String departamentId, String skillId, int experience, int level) async {
+    return departmentRepository.assignSkillDirectly(
+        employee, departamentId, skillId, experience, level);
+  }
+
+  //get Categories
+  Future<Either<Failure<String>, List<String>>> getCategories() async {
+    return departmentRepository.getCategories();
   }
 }

@@ -38,7 +38,7 @@ class MainSettingsPage extends StatelessWidget {
           ],
           centerTitle: true,
           title: Text(
-            'Departaments',
+            'Settings',
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
@@ -52,7 +52,9 @@ class MainSettingsPage extends StatelessWidget {
               icon: Icons.person,
             )),
             const SizedBox(height: 20),
-            const DetailsBodyWidget()
+            DetailsBodyWidget(
+              userId: userId,
+            )
           ],
         ),
       );
@@ -62,9 +64,10 @@ class MainSettingsPage extends StatelessWidget {
 
 class DetailsBodyWidget extends StatelessWidget {
   const DetailsBodyWidget({
+    required this.userId,
     super.key,
   });
-
+  final String userId;
   @override
   Widget build(BuildContext buildContext) {
     return Expanded(
@@ -104,14 +107,14 @@ class DetailsBodyWidget extends StatelessWidget {
                 text: 'Personal Skills',
                 onPressed: () {
                   buildContext.goNamed(AppRouterConst.personalSkillsPage,
-                      pathParameters: {'userId': 'userId'});
+                      pathParameters: {'userId': userId});
                 },
               ),
               OptionWidget(
                 text: 'Create Team Roles',
                 onPressed: () {
                   buildContext.goNamed(AppRouterConst.teamRolesPage,
-                      pathParameters: {'userId': 'userId'});
+                      pathParameters: {'userId': userId});
                 },
               ),
               OptionWidget(
@@ -138,6 +141,13 @@ class DetailsBodyWidget extends StatelessWidget {
                       ),
                     ),
                   );
+                },
+              ),
+              OptionWidget(
+                text: 'Create Skill',
+                onPressed: () {
+                  buildContext.goNamed(AppRouterConst.ownedSkillPage,
+                      pathParameters: {'userId': userId});
                 },
               ),
             ],

@@ -405,4 +405,31 @@ class ProjectRepoImpl extends ProjectRepo {
       );
     });
   }
+
+  @override
+  Future<Either<Failure<String>, void>> sendProposal({
+    required ProjectEntity project,
+    required String proposal,
+    required int workHours,
+    required List<TeamRole> teamRoles,
+  }) {
+    var box = Hive.box<String>(HiveConstants.authBox);
+    String employeeId = box.get(HiveConstants.userId)!;
+    return ApiService().dioPost(
+      url: "${EndpointConstants.baseUrl}/project/assignproposal",
+      data: {
+        //TODO: to be continued
+        "projectId": project.id,
+        "employeeId": employeeId,
+        "numberOfHours": workHours,
+        "teamRolesId": teamRoles.map((e) => e.id).toList(),
+        "comment": proposal,
+      },
+    ).then((value) {
+      return value.fold(
+        (l) => Left(l),
+        (r) => Right(r),
+      );
+    });
+  }
 }

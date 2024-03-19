@@ -1,10 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/logger.dart';
+import 'package:team_finder_app/features/project_pages/data/models/project_model.dart';
 import 'package:team_finder_app/features/project_pages/data/models/team_role.dart';
 import 'package:team_finder_app/features/project_pages/data/models/technology_stack.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
@@ -12,10 +15,10 @@ import 'package:team_finder_app/features/project_pages/domain/entities/project_e
 import 'package:team_finder_app/features/project_pages/domain/usecases/projects_usecase.dart';
 
 @injectable
-class EditProjectProvider extends ChangeNotifier {
+class CreateProjectProvider extends ChangeNotifier {
   final ProjectsUsecase _projectsUsecase;
   String name = '';
-  bool _isLoading = true;
+  bool _isLoading = false;
   String? _error;
   ProjectPeriod period = ProjectPeriod.fixed;
   ProjectStatus status = ProjectStatus.NotStarted;
@@ -107,6 +110,78 @@ class EditProjectProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  CreateProjectProvider(this._projectsUsecase);
+
+  Future<void> createProject() async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+    Map<TeamRole, int> teamRolesMap = {};
+
+    teamRoles.forEach((key, value) {
+      if (value) {
+        teamRolesMap.addAll(key);
+      }
+    });
+
+    final ProjectModel project = ProjectModel(
+      id: Random().nextInt(1000).toString(),
+      name: name,
+      period: period,
+      startDate: startDate,
+      deadlineDate: deadlineDate,
+      description: description,
+      technologyStack: technologyStack,
+      teamRoles: teamRolesMap,
+      organizationId: '',
+      status: status.toStringValue(),
+      projectManager: '1',
+    );
+    await _projectsUsecase.createProject(newProject: project).then((result) {
+      result.fold(
+        (left) {
+          _error = left.message;
+          _isLoading = false;
+          notifyListeners();
+        },
+        (right) {
+          _isLoading = false;
+          removeData();
+          notifyListeners();
+        },
+      );
+    });
+  }
+
+  //get team roles
+  Future<void> getTeamRoles() async {
+    _isLoading = true;
+    _error = null;
+    teamRoles = {};
+
+    await _projectsUsecase.getTeamRoles().then((result) {
+      result.fold(
+        (left) {
+          _error = left.message;
+          _isLoading = false;
+          notifyListeners();
+        },
+        (right) {
+          for (var role in right) {
+            if (!teamRoles.keys.contains(role)) {
+              teamRoles.putIfAbsent({role: 0}, () => false);
+            }
+          }
+          _isLoading = false;
+          notifyListeners();
+        },
+      );
+    });
+
+    notifyListeners();
+  }
+
+  //get technology stack
   Future<void> fetchTechnologyStack() async {
     _isLoading = true;
     _error = null;
@@ -141,36 +216,6 @@ class EditProjectProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  EditProjectProvider(this._projectsUsecase);
-
-  //get team roles
-  Future<void> getTeamRoles() async {
-    _isLoading = true;
-    _error = null;
-    teamRoles = {};
-
-    await _projectsUsecase.getTeamRoles().then((result) {
-      result.fold(
-        (left) {
-          _error = left.message;
-          _isLoading = false;
-          notifyListeners();
-        },
-        (right) {
-          for (var role in right) {
-            if (!teamRoles.keys.contains(role)) {
-              teamRoles.putIfAbsent({role: 0}, () => false);
-            }
-          }
-          _isLoading = false;
-          notifyListeners();
-        },
-      );
-    });
-
-    notifyListeners();
-  }
-
   void removeData() {
     name = '';
     _isLoading = false;
@@ -193,7 +238,7 @@ class EditProjectProvider extends ChangeNotifier {
     startDate = project.startDate;
     deadlineDate = project.deadlineDate;
     description = project.description;
-    technologyStack = List.from(project.technologyStack);
+    technologyStack = project.technologyStack;
     List<TechnologyStack> temp = [];
     for (var tech in project.technologyStack) {
       for (var tech2 in sugestions) {
@@ -275,4 +320,36 @@ class EditProjectProvider extends ChangeNotifier {
       );
     });
   }
+
+  void clearAllData() {
+    name = '';
+    _isLoading = false;
+    _error = null;
+    period = ProjectPeriod.fixed;
+    status = ProjectStatus.NotStarted;
+    startDate = DateTime.now();
+    deadlineDate = DateTime.now();
+    description = '';
+    teamRoles = {};
+    technologyStack = [];
+    sugestions = [];
+  }
+
+  // Future<void> test() {
+  //   var box = Hive.box<String>(HiveConstants.authBox);
+  //   String organizationId = box.get(HiveConstants.organizationId)!;
+  //   return (ApiService()
+  //       .dioPost(url: "${EndpointConstants.baseUrl}/openai/", data: {
+  //     "content": "Give me best employees for a flask app",
+  //     "organizationId": "Aa7xIWqSHdYrJX1KuqAY"
+  //   })).then((value) {
+  //     return value.fold(
+  //       (l) => Left(l),
+  //       (r) {
+  //         Logger.info('prov', r.toString());
+  //         return Right(r);
+  //       },
+  //     );
+  //   });
+  // }
 }

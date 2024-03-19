@@ -5,13 +5,13 @@ class SkillCard extends StatelessWidget {
   final String skillName;
   final String skillDescription;
   final String skillAuthor;
-  final Function(BuildContext) onPressed;
+  final Function(BuildContext) onRemove;
   const SkillCard({
     super.key,
     required this.skillName,
     required this.skillDescription,
     required this.skillAuthor,
-    required this.onPressed,
+    required this.onRemove,
   });
 
   @override
@@ -32,7 +32,7 @@ class SkillCard extends StatelessWidget {
             foregroundColor: Colors.white,
             icon: Icons.person_remove,
             label: 'Remove',
-            onPressed: onPressed,
+            onPressed: onRemove,
           ),
         ],
       ),
