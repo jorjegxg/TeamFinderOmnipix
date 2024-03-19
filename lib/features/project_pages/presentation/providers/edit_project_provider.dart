@@ -195,11 +195,15 @@ class EditProjectProvider extends ChangeNotifier {
     description = project.description;
     technologyStack = List.from(project.technologyStack);
     List<TechnologyStack> temp = [];
-    for (var tech in project.technologyStack) {
-      for (var tech2 in sugestions) {
-        if (tech.name != tech2.name) {
-          temp.add(tech2);
+    for (var tech in sugestions) {
+      bool contains = false;
+      for (var tech2 in project.technologyStack) {
+        if (tech.name == tech2.name) {
+          contains = true;
         }
+      }
+      if (!contains) {
+        temp.add(tech);
       }
     }
     sugestions = List.from(temp);

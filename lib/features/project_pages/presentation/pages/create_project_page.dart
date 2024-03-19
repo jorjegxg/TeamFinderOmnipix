@@ -9,7 +9,7 @@ import 'package:sizer/sizer.dart';
 
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
-import 'package:team_finder_app/features/project_pages/presentation/bloc/create_project_provider.dart';
+import 'package:team_finder_app/features/project_pages/presentation/providers/create_project_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/screens/mobile_create_project_screen.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_dropdown_button.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/date_picker.dart';

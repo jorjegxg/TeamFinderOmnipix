@@ -163,7 +163,7 @@ class DepartmentRepositoryImpl {
   ) async {
     return (await ApiService().dioGet(
       url:
-          "${EndpointConstants.baseUrl}/departamentmanager/chartdiagramspecialistlevel/${departamentId}/${skillId}",
+          "${EndpointConstants.baseUrl}/departamentmanager/chartdiagramspecialistlevel/$departamentId/$skillId",
     ))
         .fold(
             (l) => left(l),
@@ -211,14 +211,10 @@ class DepartmentRepositoryImpl {
 
   //removeEmployeeFromDepartment
   Future<Either<Failure<String>, void>> removeEmployeeFromDepartment(
-      String departamentId, String employeeId) async {
-    //TODO: remove employee from department correct endpoint
+      String employeeId) async {
     return (await ApiService().dioPut(
-      url: "${EndpointConstants.baseUrl}/employee/removedepartament",
-      data: {
-        "employeeId": employeeId,
-        "departamentId": departamentId,
-      },
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/kickemployeefromdepartament/$employeeId",
     ))
         .fold(
       (l) => left(l),
@@ -229,12 +225,9 @@ class DepartmentRepositoryImpl {
   //deleteSkillFromDepartament
   Future<Either<Failure<String>, void>> deleteSkillFromDepartament(
       String departamentId, String skillId) async {
-    return (await ApiService().dioPut(
-      url: "${EndpointConstants.baseUrl}/departament/removeskill",
-      data: {
-        "skillId": skillId,
-        "departamentId": departamentId,
-      },
+    return (await ApiService().dioDelete(
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/deleteskillfromdepartament/$skillId/$departamentId",
     ))
         .fold(
       (l) => left(l),
@@ -332,6 +325,44 @@ class DepartmentRepositoryImpl {
           (value) => value.fold(
             (l) => left(l),
             (r) => right(r),
+          ),
+        );
+  }
+
+  Future<Either<Failure<String>, void>> assignSkillDirectly(Employee employee,
+      String departamentId, String skillId, int experience, int level) {
+    return ApiService().dioPut(
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/assignskilldirectly",
+      data: {
+        "departamentId": departamentId,
+        "employeeId": employee.id,
+        "experience": experience,
+        "level": level,
+        "skillId": skillId
+      },
+    ).then(
+      (value) => value.fold(
+        (l) => left(l),
+        (r) => right(r),
+      ),
+    );
+  }
+
+  Future<Either<Failure<String>, List<String>>> getCategories() {
+    var box = Hive.box<String>(HiveConstants.authBox);
+    String organizationId = box.get(HiveConstants.organizationId)!;
+    return ApiService()
+        .dioGet<List>(
+          url:
+              "${EndpointConstants.baseUrl}/projectmanager/getskillcategories/${organizationId}",
+        )
+        .then(
+          (value) => value.fold(
+            (l) => left(l),
+            (r) => right(
+              r.map((e) => e as String).toList(growable: false),
+            ),
           ),
         );
   }

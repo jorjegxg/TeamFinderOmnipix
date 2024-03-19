@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_skills_provider.dart';
-import 'package:team_finder_app/features/departaments_pages/presentation/widgets/choice_dialog.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/skill_card.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/item_with_checkbox.dart';
-import 'package:team_finder_app/features/project_pages/presentation/widgets/team_roles_dialog.dart';
-import 'package:team_finder_app/injection.dart';
 
 class DepartmentSkillsPage extends StatefulWidget {
   const DepartmentSkillsPage({
@@ -48,33 +42,14 @@ class _DepartmentSkillsPageState extends State<DepartmentSkillsPage> {
         floatingActionButton: Consumer<DepartamentSkillsProvider>(
           builder: (context, value, child) => FloatingActionButton(
             onPressed: () async {
-              await showDialog(
-                  context: context,
-                  builder: (context) {
-                    return ChoiceDialog(
-                      chooseSkillPress: () async {
-                        await value
-                            .fetchSkillsNotInDepartament(widget.departamentId);
-                        if (!context.mounted) return;
-                        Navigator.of(context).pop();
-                        showDialog(
-                            context: context,
-                            builder: (context) => ChooseSkill(
-                                  departamentId: widget.departamentId,
-                                ));
-                      },
-                      createSkillPress: () {
-                        Navigator.of(context).pop();
-                        context.goNamed(
-                          AppRouterConst.createSkillPage,
-                          pathParameters: {
-                            'departamentId': widget.departamentId,
-                            'userId': widget.userId
-                          },
-                        );
-                      },
-                    );
-                  });
+              await value.fetchSkillsNotInDepartament(widget.departamentId);
+              if (context.mounted) {
+                await showDialog(
+                    context: context,
+                    builder: (context) => ChooseSkill(
+                          departamentId: widget.departamentId,
+                        ));
+              }
             },
             child: const Icon(Icons.add, color: Colors.black),
           ),
@@ -104,7 +79,36 @@ class _DepartmentSkillsPageState extends State<DepartmentSkillsPage> {
                             itemCount: provider.skills.length,
                             itemBuilder: (context, index) {
                               return SkillCard(
-                                onPressed: (BuildContext ctx) {},
+                                onRemove: (BuildContext ctx) {
+                                  showDialog(
+                                    context: ctx,
+                                    builder: (alertContext) => AlertDialog(
+                                      title: const Text('Remove skill'),
+                                      content: const Text(
+                                          'Are you sure you want to remove this skill?'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(alertContext);
+                                          },
+                                          child: const Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () async {
+                                            await provider
+                                                .deleteSkillFromDepartament(
+                                                    context,
+                                                    widget.departamentId,
+                                                    provider.skills[index].id);
+                                            if (!alertContext.mounted) return;
+                                            Navigator.pop(alertContext);
+                                          },
+                                          child: const Text('Remove'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
                                 skillName: provider.skills[index].name,
                                 skillDescription:
                                     provider.skills[index].category,

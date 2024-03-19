@@ -1,8 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/skill_statistics_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_dropdown_button.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_text_container.dart';
@@ -90,7 +93,7 @@ class SkillStatisticsPage extends HookWidget {
                                             PieChart(
                                               dataMap: provider.statistics.map(
                                                 (key, value) => MapEntry(
-                                                  key,
+                                                  "${SkillLevelX.fromInt(int.parse(key)).toStringValue()}: $value",
                                                   value.toDouble(),
                                                 ),
                                               ),
@@ -108,13 +111,14 @@ class SkillStatisticsPage extends HookWidget {
                                               legendOptions:
                                                   const LegendOptions(
                                                 legendLabels: {
-                                                  "Level 1": "Level 1",
+                                                  "Level 1":
+                                                      "Levelasdasssssssssssssss 1",
                                                   "Level 2": "Level 2",
                                                   "Level 3": "Level 3",
                                                   "Level 4": "Level 4",
                                                   "Level 5": "Level 5",
                                                 },
-                                                showLegendsInRow: true,
+                                                showLegendsInRow: false,
                                                 legendPosition:
                                                     LegendPosition.bottom,
                                                 showLegends: true,

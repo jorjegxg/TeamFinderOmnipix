@@ -78,6 +78,7 @@ class AddMembersProvider extends ChangeNotifier {
         },
       );
     } else {
+      members = [];
       if (getPartialyAvabile) {
         final response =
             await _projectsUsecase.fetchPartialyAvabileMembers(projectId);

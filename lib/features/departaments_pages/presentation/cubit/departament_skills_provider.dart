@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart';
 
@@ -7,7 +9,7 @@ import 'package:team_finder_app/features/departaments_pages/domain/department_us
 class DepartamentSkillsProvider extends ChangeNotifier {
   DepartmentUseCase _departmentUseCase;
   DepartamentSkillsProvider(this._departmentUseCase);
-  List<Skill> _skills = [];
+  List<Skill> _skills = List.from([]);
   Map<Skill, bool> _skillsNotInDepartament = {};
   bool _isLoading = false;
   String? _error = null;
@@ -26,7 +28,7 @@ class DepartamentSkillsProvider extends ChangeNotifier {
   ///reset
 
   void reset() {
-    _skills = [];
+    _skills = List.from([]);
     _skillsNotInDepartament = {};
     _isLoading = false;
     _error = null;
@@ -42,7 +44,7 @@ class DepartamentSkillsProvider extends ChangeNotifier {
         notifyListeners();
       },
       (r) {
-        _skills = r;
+        _skills = List.from(r);
         _isLoading = false;
         notifyListeners();
       },
@@ -51,7 +53,7 @@ class DepartamentSkillsProvider extends ChangeNotifier {
 
   //delete skill from departament
   Future<void> deleteSkillFromDepartament(
-      String departamentId, String skillId) async {
+      BuildContext context, String departamentId, String skillId) async {
     _isLoading = true;
     notifyListeners();
     (await _departmentUseCase.deleteSkillFromDepartament(
@@ -63,7 +65,10 @@ class DepartamentSkillsProvider extends ChangeNotifier {
         notifyListeners();
       },
       (r) {
-        // _skills.removeWhere((element) => element.id == skillId);
+        skills.removeWhere((element) => element.id == skillId);
+
+        showSnackBar(context, 'Skill deleted successfully');
+        //  fetchSkillsForDepartament(departamentId);
         _isLoading = false;
         notifyListeners();
       },
