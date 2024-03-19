@@ -6,9 +6,11 @@ class EmployeeCard extends StatelessWidget {
     super.key,
     required this.name,
     required this.onTap,
+    this.isCurrentUser = false,
   });
   final String name;
   final Function() onTap;
+  final bool isCurrentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +20,20 @@ class EmployeeCard extends StatelessWidget {
         width: 100.w,
         height: 10.h,
         child: Card(
+          color: isCurrentUser ? Theme.of(context).colorScheme.primary : null,
           child: Row(
             children: [
               const SizedBox(width: 10),
               CircleAvatar(
                 radius: 20,
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                child: const Icon(
+                backgroundColor: isCurrentUser
+                    ? Theme.of(context).colorScheme.onPrimary
+                    : Theme.of(context).colorScheme.primary,
+                child: Icon(
                   Icons.person,
-                  color: Colors.white,
+                  color: isCurrentUser
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.onPrimary,
                 ),
               ),
               const SizedBox(width: 10),

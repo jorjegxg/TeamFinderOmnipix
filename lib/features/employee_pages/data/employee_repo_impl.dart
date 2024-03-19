@@ -13,13 +13,14 @@ class EmployeeRepoImpl {
     return box.get(HiveConstants.organizationId)!;
   }
 
-  Future<String?> getCurrentEmployeeId() async {
+  Future<String> getCurrentEmployeeId() async {
     final box = Hive.box<String>(HiveConstants.authBox);
-    return box.get(HiveConstants.userId);
+    return box.get(HiveConstants.userId)!;
   }
 
   Future<Either<Failure, List<Employee>>> getEmployees() async {
     final organizationId = await getOrganizationId();
+    final currentUserId = await getCurrentEmployeeId();
     return ApiService().dioGet(
       url:
           "${EndpointConstants.baseUrl}/employee/organizationemployees/$organizationId",
@@ -30,10 +31,21 @@ class EmployeeRepoImpl {
       return response.fold(
         (l) => left(l),
         (r) {
+          late Employee currentEmployee;
           final List<Employee> employees = [];
-          for (var employee in r) {
-            employees.add(Employee.fromJson(employee));
+
+          for (final employee in r) {
+            final Employee employeeModel = Employee.fromJson(employee);
+            if (employeeModel.id == currentUserId) {
+              currentEmployee = employeeModel;
+            } else {
+              employees.add(employeeModel);
+            }
           }
+
+          currentEmployee.isCurrentUser = true;
+          employees.insert(0, currentEmployee);
+
           return right(employees);
         },
       );
@@ -150,11 +162,7 @@ class EmployeeRepoImpl {
 
   Future<Either<Failure<String>, EmployeesRoles>>
       getCurrentEmployeeRoles() async {
-    final String? employeeId = await getCurrentEmployeeId();
-
-    if (employeeId == null) {
-      return left(EasyFailure(message: "No employee id found"));
-    }
+    final String employeeId = await getCurrentEmployeeId();
 
     return getEmployeeRoles(employeeId);
   }
