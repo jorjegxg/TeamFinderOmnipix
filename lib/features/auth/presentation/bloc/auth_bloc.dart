@@ -32,6 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       password: event.password,
       organizationName: event.organizationName,
       organizationAddress: event.organizationAddress,
+      context: event.context,
     ))
         .fold(
       (failure) {
@@ -57,6 +58,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       email: event.email,
       password: event.password,
       organizationId: event.organizationId,
+      context: event.context,
     ))
         .fold(
       (failure) {

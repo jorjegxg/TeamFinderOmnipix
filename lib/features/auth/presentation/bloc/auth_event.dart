@@ -13,6 +13,7 @@ class RegisterOrganizationAdminStarted extends AuthEvent {
   final String password;
   final String organizationName;
   final String organizationAddress;
+  final BuildContext context;
 
   const RegisterOrganizationAdminStarted({
     required this.name,
@@ -20,6 +21,7 @@ class RegisterOrganizationAdminStarted extends AuthEvent {
     required this.password,
     required this.organizationName,
     required this.organizationAddress,
+    required this.context,
   });
 
   @override
@@ -32,12 +34,14 @@ class RegisterEmployeeStarted extends AuthEvent {
   final String email;
   final String password;
   final String organizationId;
+  final BuildContext context;
 
   const RegisterEmployeeStarted({
     required this.name,
     required this.email,
     required this.password,
     required this.organizationId,
+    required this.context,
   });
 
   @override

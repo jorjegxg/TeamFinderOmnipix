@@ -84,8 +84,7 @@ class MyApp extends StatelessWidget {
               getIt<ProjectsBloc>()..add(const GetActiveProjectPages()),
         ),
         ChangeNotifierProvider(
-          create: (context) =>
-              getIt<EmployeeRolesProvider>()..getCurrentEmployeeRoles(),
+          create: (context) => getIt<EmployeeRolesProvider>(),
         ),
       ],
       child: ResponsiveApp(

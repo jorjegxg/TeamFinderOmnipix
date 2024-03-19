@@ -41,33 +41,26 @@ class AuthRepoImpl extends AuthRepo {
     required String password,
     required String organizationId,
   }) async {
-    final deleteStoredDataRequest = await deleteAllStoredData();
+    return (await ApiService().dioPost(
+      url: "${EndpointConstants.baseUrl}/employee/create",
+      data: {
+        "name": name,
+        "email": email,
+        "password": password,
+        "organizationId": organizationId,
+      },
+      codeMessage: {
+        400: "Email already in use",
+      },
+    ))
+        .fold((l) => left(l), (r) {
+      final token = r["Token"];
 
-    if (deleteStoredDataRequest.isRight()) {
-      Logger.success('AuthRepoImpl.registerEmployee', 'deleted data');
-      return (await ApiService().dioPost(
-        url: "${EndpointConstants.baseUrl}/employee/create",
-        data: {
-          "name": name,
-          "email": email,
-          "password": password,
-          "organizationId": organizationId,
-        },
-        codeMessage: {
-          400: "Email already in use",
-        },
-      ))
-          .fold((l) => left(l), (r) {
-        final token = r["Token"];
+      Logger.info('AuthRepoImpl.registerEmployee',
+          'token: ${JwtDecoder.decode(token)}');
 
-        Logger.info('AuthRepoImpl.registerEmployee',
-            'token: ${JwtDecoder.decode(token)}');
-
-        return right(token);
-      });
-    } else {
-      return left(StorageFailure<String>(message: "Error deleting data"));
-    }
+      return right(token);
+    });
   }
 
   @override
@@ -88,14 +81,14 @@ class AuthRepoImpl extends AuthRepo {
 
   @override
   Future<Either<Failure<String>, void>> deleteAllStoredData() async {
-    try {
-      await SecureStorageService().delete(key: StorageConstants.token);
-      var box = Hive.box<String>(HiveConstants.authBox);
+    // try {
+    //   await SecureStorageService().delete(key: StorageConstants.token);
+    //   var box = Hive.box<String>(HiveConstants.authBox);
 
-      await box.clear();
-    } catch (e) {
-      return left(StorageFailure<String>(message: e.toString()));
-    }
+    //   await box.clear();
+    // } catch (e) {
+    //   return left(StorageFailure<String>(message: e.toString()));
+    // }
 
     return right(null);
   }

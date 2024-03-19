@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/features/settings/domain/usecases/settings_use_case.dart';
 
-@injectable
+@lazySingleton
 class ProfileProvider extends ChangeNotifier {
   String name = '';
   String email = '';

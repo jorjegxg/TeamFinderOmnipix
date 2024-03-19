@@ -47,7 +47,7 @@ class EmployeeRolesProvider extends ChangeNotifier {
     );
   }
 
-  void resetRoles() {
+  void clearAllData() {
     _isOrganizationAdmin = false;
     _isDepartmentManager = false;
     _isProjectManager = false;
