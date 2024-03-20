@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
+import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/delete_department_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
@@ -129,6 +130,8 @@ class ListOfDepartments extends StatelessWidget {
                                             actions: [
                                               TextButton(
                                                   onPressed: () {
+                                                    Logger.success('showDialog',
+                                                        'dau delete la  id : ${state.departments[index].id}');
                                                     getIt<DeleteDepartmentProvider>()
                                                         .deleteDepartment(state
                                                             .departments[index]

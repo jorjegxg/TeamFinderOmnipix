@@ -4,7 +4,7 @@ class DepartmentSummary {
   final String departmentName;
   final int numberOfEmployees;
   final String? departamentManagerId;
-  final String employeeId;
+  final String? employeeId;
   bool isCurrentUserManager;
 
   DepartmentSummary({
@@ -13,7 +13,7 @@ class DepartmentSummary {
     required this.departmentName,
     required this.numberOfEmployees,
     this.departamentManagerId,
-    required this.employeeId,
+    this.employeeId,
     this.isCurrentUserManager = false,
   });
 
