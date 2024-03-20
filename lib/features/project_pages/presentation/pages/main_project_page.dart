@@ -276,14 +276,12 @@ class NotFoundWidget extends StatelessWidget {
   final String text;
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Center(
-          child: Text(
-            text,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        ));
+    return Center(
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
+    );
   }
 }
 

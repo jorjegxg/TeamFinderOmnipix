@@ -87,25 +87,18 @@ class DepartmentRepositoryImpl {
     ))
         .fold(
       (l) => left(l),
-      (r) {
-        List<DepartmentSummary> myDepartments;
-        List<DepartmentSummary> notMyDepartments;
-
-        myDepartments = r
+      (result) {
+        List<DepartmentSummary> myDepartments = result
             .map((e) => DepartmentSummary.fromJson(e))
-            .where((element) => element.departamentManagerId == userId)
             .toList(growable: false);
 
         for (var d in myDepartments) {
-          d.isCurrentUserManager = true;
+          if (d.employeeId == userId) {
+            d.isCurrentUserManager = true;
+          }
         }
 
-        notMyDepartments = r
-            .map((e) => DepartmentSummary.fromJson(e))
-            .where((element) => element.departamentManagerId != userId)
-            .toList(growable: false);
-
-        return right(myDepartments + notMyDepartments);
+        return right(myDepartments);
       },
     );
   }
