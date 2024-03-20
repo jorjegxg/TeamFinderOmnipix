@@ -67,7 +67,11 @@ class ProjectMemberCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(name, style: Theme.of(context).textTheme.titleSmall),
-                Text(email, style: Theme.of(context).textTheme.titleSmall),
+                Text(
+                  email,
+                  style: Theme.of(context).textTheme.titleSmall,
+                  overflow: TextOverflow.clip,
+                ),
               ],
             ),
           ],

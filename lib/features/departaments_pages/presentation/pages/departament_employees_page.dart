@@ -160,25 +160,27 @@ class DepartamentEmployeesPage extends HookWidget {
                                             ),
                                           ],
                                         ),
-                                        startActionPane: ActionPane(
-                                          // A motion is a widget used to control how the pane animates.
-                                          motion: const ScrollMotion(),
+                                        // startActionPane: ActionPane(
+                                        //   // A motion is a widget used to control how the pane animates.
+                                        //   motion: const ScrollMotion(),
 
-                                          // A pane can dismiss the Slidable.
-                                          dragDismissible: false,
-                                          // All actions are defined in the children parameter.
-                                          children: [
-                                            // A SlidableAction can have an icon and/or a label.
-                                            SlidableAction(
-                                              backgroundColor:
-                                                  const Color(0xFFDCBABA),
-                                              foregroundColor: Colors.white,
-                                              icon: Icons.add_task,
-                                              label: 'Add Skill',
-                                              onPressed: (BuildContext ctx) {},
-                                            )
-                                          ],
-                                        ),
+                                        //   // A pane can dismiss the Slidable.
+                                        //   dragDismissible: false,
+                                        //   // All actions are defined in the children parameter.
+                                        //   children: [
+                                        //     // A SlidableAction can have an icon and/or a label.
+                                        //     SlidableAction(
+                                        //       backgroundColor:
+                                        //           const Color(0xFFDCBABA),
+                                        //       foregroundColor: Colors.white,
+                                        //       icon: Icons.add_task,
+                                        //       label: 'Add Skill',
+                                        //       onPressed: (BuildContext ctx) {
+                                        //         provider.
+                                        //       },
+                                        //     )
+                                        //   ],
+                                        // ),
                                         child: EmployeeCard(
                                           name: provider.employees[index].name,
                                           onTap: () {

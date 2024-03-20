@@ -30,7 +30,7 @@ class DeleteDepartmentProvider extends ChangeNotifier {
         _errorMessage = null;
         _isLoading = false;
         notifyListeners();
-        getIt<DepartmentsGetCubit>().getDepartmentsFromOrganization();
+        getIt<DepartmentsGetCubit>().getDepartmentsFromOrganization(true);
       },
     );
   }

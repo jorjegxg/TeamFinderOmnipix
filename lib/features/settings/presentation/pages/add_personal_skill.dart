@@ -269,7 +269,7 @@ class BodyWidget extends StatelessWidget {
             CustomButton(
               text: 'Add',
               onPressed: () async {
-                await skillAssignmentProvider.addSkillToEmployee();
+                await skillAssignmentProvider.addSkillToEmployee(context);
                 if (!context.mounted) return;
                 context.goNamed(AppRouterConst.personalSkillsPage,
                     pathParameters: {'userId': userId});

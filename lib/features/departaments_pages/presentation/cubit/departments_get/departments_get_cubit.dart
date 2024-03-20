@@ -14,13 +14,19 @@ class DepartmentsGetCubit extends Cubit<DepartmentsGetState> {
     this.departmentUseCase,
   ) : super(DepartmentsGetInitial());
 
-  void getDepartmentsFromOrganization() async {
+  void getDepartmentsFromOrganization(bool isAdmin) async {
     emit(DepartmentsGetManagersLoading());
-
-    (await departmentUseCase.getDepartmentsFromOrganization()).fold(
-      (l) => emit(DepartmentsGetManagersFailure(l.message)),
-      (r) => emit(DepartmentsGetManagersSuccess(r)),
-    );
+    if (isAdmin) {
+      (await departmentUseCase.getDepartmentsFromOrganization()).fold(
+        (l) => emit(DepartmentsGetManagersFailure(l.message)),
+        (r) => emit(DepartmentsGetManagersSuccess(r)),
+      );
+    } else {
+      (await departmentUseCase.getDepartmentOwned()).fold(
+        (l) => emit(DepartmentsGetManagersFailure(l.message)),
+        (r) => emit(DepartmentsGetManagersSuccess(r)),
+      );
+    }
   }
 
   void clearAllData() {

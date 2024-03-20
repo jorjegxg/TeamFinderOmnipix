@@ -33,8 +33,11 @@ class DepartamentConfirmationProvider extends ChangeNotifier {
         notifyListeners();
       },
       (r) {
+        _allItems.clear();
         _dealocations = List.from(r);
-        _allItems.addAll(r);
+        _allItems
+          ..addAll(_alocations)
+          ..addAll(_dealocations);
         _isLoading = false;
         notifyListeners();
       },
@@ -51,7 +54,11 @@ class DepartamentConfirmationProvider extends ChangeNotifier {
         notifyListeners();
       },
       (r) {
-        _allItems.addAll(r);
+        _alocations = List.from(r);
+        _allItems.clear();
+        _allItems
+          ..addAll(_alocations)
+          ..addAll(_dealocations);
         _isLoading = false;
         notifyListeners();
       },

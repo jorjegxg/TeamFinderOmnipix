@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/pages/employee_profile_page.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
+import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/project_members_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_icon_button.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/dealocation_dialog_widget.dart';
@@ -30,15 +34,22 @@ class ProjectMembersPage extends StatelessWidget {
         return SafeArea(
           child: Scaffold(
             resizeToAvoidBottomInset: false,
-            floatingActionButton: FloatingActionButton(
-              child: const Icon(Icons.add, color: Colors.black),
-              onPressed: () {
-                context.goNamed(
-                  AppRouterConst.addProjectMember,
-                  pathParameters: {'projectId': projectId, 'userId': userId},
-                  extra: project,
-                );
-              },
+            floatingActionButton: Consumer<EmployeeRolesProvider>(
+              builder: (context, value, child) => value.isProjectManager
+                  ? FloatingActionButton(
+                      child: const Icon(Icons.add, color: Colors.black),
+                      onPressed: () {
+                        context.goNamed(
+                          AppRouterConst.addProjectMember,
+                          pathParameters: {
+                            'projectId': projectId,
+                            'userId': userId
+                          },
+                          extra: project,
+                        );
+                      },
+                    )
+                  : const SizedBox.shrink(),
             ),
             appBar: AppBar(
               centerTitle: true,
@@ -126,35 +137,44 @@ class ProjectMembersPage extends StatelessWidget {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .surfaceContainer,
-                                  child: ListView.builder(
-                                    itemCount:
-                                        provider.getSelectedMembers().length,
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.all(10),
-                                        child: ProjectMemberCard(
-                                          name: provider
-                                              .getSelectedMembers()[index]
-                                              .name,
-                                          email: provider
-                                              .getSelectedMembers()[index]
-                                              .email,
-                                          onPressed: (BuildContext ctx) {
-                                            showDialog(
-                                                context: context,
-                                                builder: (ctx) =>
-                                                    DealocationDialog(
-                                                      projectId: projectId,
-                                                      employeeId: provider
-                                                          .getSelectedMembers()[
-                                                              index]
-                                                          .id,
-                                                    ));
+                                  child: provider.getSelectedMembers().isEmpty
+                                      ? const NotFoundWidget(
+                                          text: 'No members found',
+                                        )
+                                      : ListView.builder(
+                                          itemCount: provider
+                                              .getSelectedMembers()
+                                              .length,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding: const EdgeInsets.all(10),
+                                              child: ProjectMemberCard(
+                                                name: provider
+                                                    .getSelectedMembers()[index]
+                                                    .name,
+                                                //make string form list
+                                                email: provider
+                                                    .getSelectedMembers()[index]
+                                                    .teamRoles
+                                                    .map((e) => e.name)
+                                                    .join(', '),
+                                                onPressed: (BuildContext ctx) {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (ctx) =>
+                                                          DealocationDialog(
+                                                            projectId:
+                                                                projectId,
+                                                            employeeId: provider
+                                                                .getSelectedMembers()[
+                                                                    index]
+                                                                .id,
+                                                          ));
+                                                },
+                                              ),
+                                            );
                                           },
                                         ),
-                                      );
-                                    },
-                                  ),
                                 ),
                               ),
                               const SizedBox(height: 60),

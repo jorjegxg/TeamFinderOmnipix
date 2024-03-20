@@ -28,7 +28,7 @@ class DepartmentCreateCubit extends Cubit<DepartmentsState> {
     ))
         .fold((l) => emit(DepartmentsCreateFailure(l.message)), (r) {
       emit(DepartmentsCreateSuccess());
-      getIt<DepartmentsGetCubit>().getDepartmentsFromOrganization();
+      getIt<DepartmentsGetCubit>().getDepartmentsFromOrganization(true);
     });
   }
 

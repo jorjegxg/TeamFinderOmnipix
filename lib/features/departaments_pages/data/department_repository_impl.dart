@@ -103,6 +103,34 @@ class DepartmentRepositoryImpl {
     );
   }
 
+  Future<Either<Failure<String>, List<DepartmentSummary>>>
+      getDepartmentOwned() async {
+    var box = Hive.box<String>(HiveConstants.authBox);
+    String userId = box.get(HiveConstants.userId)!;
+
+    return (await ApiService().dioGet<List>(
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/owneddepartaments/$userId",
+      codeMessage: {404: "No departments found"},
+    ))
+        .fold(
+      (l) => left(l),
+      (result) {
+        List<DepartmentSummary> myDepartments = result
+            .map((e) => DepartmentSummary.fromJson(e))
+            .toList(growable: false);
+
+        for (var d in myDepartments) {
+          if (d.employeeId == userId) {
+            d.isCurrentUserManager = true;
+          }
+        }
+
+        return right(myDepartments);
+      },
+    );
+  }
+
   Future<Either<Failure<String>, List<Employee>>> getDepartamentEmployees(
       String departamentId) async {
     return (await ApiService().dioGet<List>(

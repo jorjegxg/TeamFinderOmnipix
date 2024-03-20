@@ -37,12 +37,14 @@ class PersonalSkillsPage extends HookWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () async {
-                  context.goNamed(AppRouterConst.addSkillPage,
-                      pathParameters: {'userId': userId});
-                },
-                child: const Icon(Icons.add, color: Colors.black),
+              floatingActionButton: Visibility(
+                child: FloatingActionButton(
+                  onPressed: () async {
+                    context.goNamed(AppRouterConst.addSkillPage,
+                        pathParameters: {'userId': userId});
+                  },
+                  child: const Icon(Icons.add, color: Colors.black),
+                ),
               ),
               body: Sizer(
                 builder: (BuildContext context, Orientation orientation,

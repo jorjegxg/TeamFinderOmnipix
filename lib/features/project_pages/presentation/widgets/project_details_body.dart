@@ -50,13 +50,15 @@ class MobileProjectDetailsBody extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Start Date:',
-                            style: Theme.of(context).textTheme.titleSmall),
+                        if (100.w > 370)
+                          Text('Start Date:',
+                              style: Theme.of(context).textTheme.titleSmall),
                         Text(project.startDateString,
                             style: Theme.of(context).textTheme.titleSmall),
                         SizedBox(width: 10.w),
-                        Text('End Date:',
-                            style: Theme.of(context).textTheme.titleSmall),
+                        if (100.w > 370)
+                          Text('End Date:',
+                              style: Theme.of(context).textTheme.titleSmall),
                         Text(project.deadlineDateString,
                             style: Theme.of(context).textTheme.titleSmall),
                       ],

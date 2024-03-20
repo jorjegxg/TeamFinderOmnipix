@@ -64,23 +64,30 @@ class DepartamentEmployeesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> assignSkillDirectly(Employee employee){
-  //   _isLoading = true;
-  //   _error = null;
-  //   notifyListeners();
+  Future<void> assignSkillDirectly(
+    Employee employee,
+    String departamentId,
+    String skillId,
+    int experience,
+    int level,
+  ) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
 
-  //   final result = _departmentUseCase.assignSkillDirectly(employee);
-  //   result.fold(
-  //     (left) {
-  //       _error = left.message;
-  //       _isLoading = false;
-  //       notifyListeners();
-  //     },
-  //     (right) {
-  //       _isLoading = false;
-  //       notifyListeners();
-  //     },
-  //   );
-  //   notifyListeners();
-  // }
+    final result = await _departmentUseCase.assignSkillDirectly(
+        employee, departamentId, skillId, experience, level);
+    result.fold(
+      (left) {
+        _error = left.message;
+        _isLoading = false;
+        notifyListeners();
+      },
+      (right) {
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
+    notifyListeners();
+  }
 }

@@ -79,10 +79,16 @@ class _MainWrapperState extends State<MainWrapper> {
                                   departmentsNavigationBarItem,
                                   settingsNavigationBarItem,
                                 ]
-                              : [
-                                  departmentsNavigationBarItem,
-                                  settingsNavigationBarItem,
-                                ],
+                              : prov.isDepartmentManager
+                                  ? [
+                                      projectsNavigationBarItem,
+                                      departmentsNavigationBarItem,
+                                      settingsNavigationBarItem,
+                                    ]
+                                  : [
+                                      departmentsNavigationBarItem,
+                                      settingsNavigationBarItem,
+                                    ],
                       //TODO George Luta : daca e department manager sa mai adaugi o optiune de a vedea angajatii din departamentul lui (item no 3)
                       selectedItemColor: Theme.of(context).colorScheme.primary,
                       unselectedItemColor: Colors.black,
@@ -106,20 +112,37 @@ class _MainWrapperState extends State<MainWrapper> {
                                 }
                               });
                             }
-                          : (int index) {
-                              setState(() {
-                                _selectedIndex = index;
-                                switch (index) {
-                                  case 0:
-                                    goToProjectsPage(context);
-                                    break;
-
-                                  case 1:
-                                    goToSettingsPage(context);
-                                    break;
+                          : prov.isDepartmentManager
+                              ? (int index) {
+                                  setState(() {
+                                    _selectedIndex = index;
+                                    switch (index) {
+                                      case 0:
+                                        goToProjectsPage(context);
+                                        break;
+                                      case 1:
+                                        goToDepartmentsPage(context);
+                                        break;
+                                      case 2:
+                                        goToSettingsPage(context);
+                                        break;
+                                    }
+                                  });
                                 }
-                              });
-                            },
+                              : (int index) {
+                                  setState(() {
+                                    _selectedIndex = index;
+                                    switch (index) {
+                                      case 0:
+                                        goToProjectsPage(context);
+                                        break;
+
+                                      case 1:
+                                        goToSettingsPage(context);
+                                        break;
+                                    }
+                                  });
+                                },
                     ));
               },
               desktop: (BuildContext context) => Scaffold(

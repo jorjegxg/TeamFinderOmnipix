@@ -10,6 +10,7 @@ class PersonalSkillsProvider extends ChangeNotifier {
   PersonalSkillsProvider(this._settingsUseCase);
 
   List<Skill> _skills = [];
+  bool _canCreate = true;
   bool _isLoading = false;
   String? _error;
 
