@@ -1,3 +1,4 @@
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
@@ -45,7 +46,7 @@ class MyAppRouter {
       final token =
           await SecureStorageService().read(key: StorageConstants.token);
       if (state.fullPath == '/register/admin' ||
-          state.fullPath == '/register/employee' ||
+          state.fullPath == '/register/employee/:organizationId' ||
           state.fullPath == '/login/admin' ||
           state.fullPath == '/login/employee') {
         return null;
