@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
-import 'package:team_finder_app/features/settings/presentation/providers/create_skill_provider.dart';
+import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/suggestion_text_field.dart';
+import 'package:team_finder_app/features/settings/presentation/providers/create_skill_provider.dart';
 import 'package:team_finder_app/injection.dart';
 
 class CreateSkillPage extends HookWidget {
@@ -141,6 +143,11 @@ class CreateSkillPage extends HookWidget {
                               await Provider.of<CreateSkillProvider>(context,
                                       listen: false)
                                   .createSkill();
+                              if (!context.mounted) return;
+                              context.goNamed(
+                                AppRouterConst.settingsMainScreen,
+                                pathParameters: {'userId': userId},
+                              );
                             },
                           ),
                           const SizedBox(height: 20),

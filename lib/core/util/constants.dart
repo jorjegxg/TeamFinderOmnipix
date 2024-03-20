@@ -266,6 +266,11 @@ extension ProjectStatusX on ProjectStatus {
     }
   }
 
+  // check if project status is not started or starting
+  bool isNotStartedOrStarting() {
+    return this == ProjectStatus.NotStarted || this == ProjectStatus.Starting;
+  }
+
   String toStringValue() {
     if (this == ProjectStatus.NotStarted) {
       return 'Not Started';

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_skills_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/skill_card.dart';
+import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/item_with_checkbox.dart';
 
 class DepartmentSkillsPage extends StatefulWidget {
@@ -10,9 +11,11 @@ class DepartmentSkillsPage extends StatefulWidget {
     super.key,
     required this.userId,
     required this.departamentId,
+    required this.departamentName,
   });
   final String userId;
   final String departamentId;
+  final String departamentName;
 
   @override
   State<DepartmentSkillsPage> createState() => _DepartmentSkillsPageState();
@@ -75,52 +78,70 @@ class _DepartmentSkillsPageState extends State<DepartmentSkillsPage> {
                           builder: (BuildContext context,
                                   DepartamentSkillsProvider provider,
                                   Widget? child) =>
-                              GridView.builder(
-                            itemCount: provider.skills.length,
-                            itemBuilder: (context, index) {
-                              return SkillCard(
-                                onRemove: (BuildContext ctx) {
-                                  showDialog(
-                                    context: ctx,
-                                    builder: (alertContext) => AlertDialog(
-                                      title: const Text('Remove skill'),
-                                      content: const Text(
-                                          'Are you sure you want to remove this skill?'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(alertContext);
+                              provider.isLoading
+                                  ? const Center(
+                                      child: CircularProgressIndicator(),
+                                    )
+                                  : provider.skills.isEmpty
+                                      ? const NotFoundWidget(
+                                          text: 'No skills found')
+                                      : GridView.builder(
+                                          itemCount: provider.skills.length,
+                                          itemBuilder: (context, index) {
+                                            return SkillCard(
+                                              onRemove: (BuildContext ctx) {
+                                                showDialog(
+                                                  context: ctx,
+                                                  builder: (alertContext) =>
+                                                      AlertDialog(
+                                                    title: const Text(
+                                                        'Remove skill'),
+                                                    content: const Text(
+                                                        'Are you sure you want to remove this skill?'),
+                                                    actions: <Widget>[
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              alertContext);
+                                                        },
+                                                        child: const Text(
+                                                            'Cancel'),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () async {
+                                                          await provider.deleteSkillFromDepartament(
+                                                              context,
+                                                              widget
+                                                                  .departamentId,
+                                                              provider
+                                                                  .skills[index]
+                                                                  .id);
+                                                          if (!alertContext
+                                                              .mounted) return;
+                                                          Navigator.pop(
+                                                              alertContext);
+                                                        },
+                                                        child: const Text(
+                                                            'Remove'),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                              skillName:
+                                                  provider.skills[index].name,
+                                              skillDescription: provider
+                                                  .skills[index].category,
+                                              skillAuthor: provider
+                                                  .skills[index].description,
+                                            );
                                           },
-                                          child: const Text('Cancel'),
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            mainAxisExtent: 40.h,
+                                          ),
                                         ),
-                                        TextButton(
-                                          onPressed: () async {
-                                            await provider
-                                                .deleteSkillFromDepartament(
-                                                    context,
-                                                    widget.departamentId,
-                                                    provider.skills[index].id);
-                                            if (!alertContext.mounted) return;
-                                            Navigator.pop(alertContext);
-                                          },
-                                          child: const Text('Remove'),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                                skillName: provider.skills[index].name,
-                                skillDescription:
-                                    provider.skills[index].category,
-                                skillAuthor: provider.skills[index].description,
-                              );
-                            },
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisExtent: 40.h,
-                            ),
-                          ),
                         ),
                       ),
                       const SizedBox(height: 10),

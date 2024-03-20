@@ -87,6 +87,20 @@ class ProjectsUsecase {
   //edit project
   Future<Either<Failure<String>, void>> editProject(
       {required ProjectEntity editedProject}) async {
+    for (var tech in editedProject.technologyStack) {
+      if (tech.id == '' || tech.id.isEmpty) {
+        final response =
+            await projectRepo.createTechnology(newTechnology: tech);
+        response.fold(
+          (l) {
+            return Left(l);
+          },
+          (r) {
+            tech.id = r;
+          },
+        );
+      }
+    }
     return projectRepo.editProject(editedProject: editedProject);
   }
 
@@ -156,12 +170,26 @@ class ProjectsUsecase {
     required String proposal,
     required int workHours,
     required List<TeamRole> teamRoles,
+    required String projectId,
   }) async {
     return projectRepo.sendProposal(
       project: project,
       proposal: proposal,
       workHours: workHours,
       teamRoles: teamRoles,
+      employeeId: projectId,
+    );
+  }
+
+  //send dealocationProposal
+  Future<Either<Failure<String>, void>> sendDealocationProposal(
+      {required String projectId,
+      required String proposal,
+      required String employeeId}) async {
+    return projectRepo.sendDealocationProposal(
+      projectId: projectId,
+      proposal: proposal,
+      employeeId: employeeId,
     );
   }
 }

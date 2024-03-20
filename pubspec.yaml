@@ -64,6 +64,7 @@ dependencies:
   cloud_functions: ^4.6.9
   numberpicker: ^2.1.2
   firebase_messaging: ^14.7.20
+  pull_to_refresh_flutter3: ^2.0.2
 
 dev_dependencies:
 

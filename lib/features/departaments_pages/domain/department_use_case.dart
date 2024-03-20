@@ -166,6 +166,30 @@ class DepartmentUseCase {
     return departmentRepository.getCategories();
   }
 
+  // refuseAlocation(String id) {}
+
+  // acceptAlocation(String id) {}
+
+  // refuseDealocation(String id) {}
+
+  // acceptDealocation(String id) {}
+
+  Future<Either<Failure<String>, void>> refuseDealocation(String id) async {
+    return departmentRepository.refuseDealocation(id);
+  }
+
+  Future<Either<Failure<String>, void>> acceptDealocation(String id) async {
+    return departmentRepository.acceptDealocation(id);
+  }
+
+  Future<Either<Failure<String>, void>> refuseAlocation(String id) async {
+    return departmentRepository.refuseAlocation(id);
+  }
+
+  Future<Either<Failure<String>, void>> acceptAlocation(String id) async {
+    return departmentRepository.acceptAlocation(id);
+  }
+
   Future<Either<Failure<String>, void>> deleteDepartment(
       String departamentId) async {
     return departmentRepository.deleteDepartment(departamentId);

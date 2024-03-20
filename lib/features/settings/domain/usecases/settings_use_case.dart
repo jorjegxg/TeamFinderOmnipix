@@ -98,4 +98,8 @@ class SettingsUseCase {
   Future<Either<Failure<String>, void>> deleteOwnedSkill(Skill skill) async {
     return _repository.deleteOwnedSkill(skill);
   }
+
+  Future<Either<Failure<String>, void>> editRole(RoleModel roleModel) async {
+    return _repository.editRole(roleModel);
+  }
 }

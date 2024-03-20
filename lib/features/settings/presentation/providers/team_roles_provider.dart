@@ -89,4 +89,24 @@ class TeamRolesProvider extends ChangeNotifier {
       );
     });
   }
+
+  Future<void> editRole(RoleModel roleModel, BuildContext context) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+    await _settingsUseCase.editRole(roleModel).then((response) {
+      response.fold(
+        (l) {
+          _error = l.message;
+          _isLoading = false;
+          notifyListeners();
+        },
+        (r) {
+          _isLoading = false;
+          showSnackBar(context, "Role edited successfully");
+          notifyListeners();
+        },
+      );
+    });
+  }
 }

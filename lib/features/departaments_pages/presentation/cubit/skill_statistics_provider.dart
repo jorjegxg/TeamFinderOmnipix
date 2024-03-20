@@ -55,7 +55,9 @@ class SkillStatisticsProvider extends ChangeNotifier {
       notifyListeners();
     }, (r) async {
       updateSkills(r);
-      updateCurrentlySelected(r.first);
+      if (r.isNotEmpty) {
+        updateCurrentlySelected(r.first);
+      }
       await fetchStatisticsForDepartament(departamentId);
       _isLoading = false;
       notifyListeners();
@@ -66,17 +68,23 @@ class SkillStatisticsProvider extends ChangeNotifier {
     _isLoading = true;
     _error = null;
     notifyListeners();
-
-    final result = await _departmentUseCase.getStatisticsForDepartament(
-        departamentId, currentlySelected!.id);
-    result.fold((l) {
-      _error = l.message;
+    if (currentlySelected == null) {
       _isLoading = false;
       notifyListeners();
-    }, (r) {
-      _isLoading = false;
-      _statistics = Map.from(r);
-      notifyListeners();
-    });
+      return;
+    }
+    {
+      final result = await _departmentUseCase.getStatisticsForDepartament(
+          departamentId, currentlySelected!.id);
+      result.fold((l) {
+        _error = l.message;
+        _isLoading = false;
+        notifyListeners();
+      }, (r) {
+        _isLoading = false;
+        _statistics = Map.from(r);
+        notifyListeners();
+      });
+    }
   }
 }

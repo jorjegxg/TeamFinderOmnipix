@@ -442,4 +442,60 @@ class DepartmentRepositoryImpl {
           ),
         );
   }
+
+  Future<Either<Failure<String>, void>> refuseAlocation(String id) {
+    return ApiService()
+        .dioDelete(
+          url:
+              "${EndpointConstants.baseUrl}/departament/declineprojectproposal/$id",
+        )
+        .then(
+          (value) => value.fold(
+            (l) => left(l),
+            (r) => right(r),
+          ),
+        );
+  }
+
+  Future<Either<Failure<String>, void>> acceptAlocation(String id) {
+    return ApiService()
+        .dioPost(
+          url:
+              "${EndpointConstants.baseUrl}/departament/acceptprojectproposal/$id",
+        )
+        .then(
+          (value) => value.fold(
+            (l) => left(l),
+            (r) => right(r),
+          ),
+        );
+  }
+
+  Future<Either<Failure<String>, void>> acceptDealocation(String id) {
+    return ApiService()
+        .dioPut(
+          url:
+              "${EndpointConstants.baseUrl}/departament/acceptdealocatioproposal/$id",
+        )
+        .then(
+          (value) => value.fold(
+            (l) => left(l),
+            (r) => right(r),
+          ),
+        );
+  }
+
+  Future<Either<Failure<String>, void>> refuseDealocation(String id) {
+    return ApiService()
+        .dioDelete(
+          url:
+              "${EndpointConstants.baseUrl}/departament/declinedealocationproposal/$id",
+        )
+        .then(
+          (value) => value.fold(
+            (l) => left(l),
+            (r) => right(r),
+          ),
+        );
+  }
 }

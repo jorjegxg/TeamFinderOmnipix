@@ -2,12 +2,13 @@ class Employee {
   final String id;
   final String name;
   final String email;
+  final int workingHours;
   bool isCurrentUser;
-
   Employee({
     required this.id,
     required this.name,
     required this.email,
+    required this.workingHours,
     this.isCurrentUser = false,
   });
 
@@ -16,6 +17,7 @@ class Employee {
       id: json['id'],
       name: json['name'],
       email: json['email'],
+      workingHours: json['workingHours'],
     );
   }
 

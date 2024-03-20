@@ -15,9 +15,11 @@ class SkillStatisticsPage extends HookWidget {
     super.key,
     required this.userId,
     required this.departamentId,
+    required this.departamentName,
   });
   final String userId;
   final String departamentId;
+  final String departamentName;
 
   @override
   Widget build(BuildContext context) {

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_segmented_button.dart';
@@ -26,44 +24,46 @@ class ProjectsMainScreen extends StatelessWidget {
         }
       },
       child: SafeArea(
-        child: Scaffold(
-          floatingActionButton: Consumer<EmployeeRolesProvider>(
-            builder: (context, prov, child) {
-              if (prov.isProjectManager) {
-                return FloatingActionButton(
-                  onPressed: () {
-                    context.goNamed(AppRouterConst.createProjectScreen,
-                        pathParameters: {'userId': userId});
-                  },
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  child: const Icon(Icons.add),
-                );
-              } else {
-                return const SizedBox();
-              }
-            },
-          ),
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text(
-              'Projects',
-              style: Theme.of(context).textTheme.titleLarge,
+        child: RefreshIndicator(
+          onRefresh: () async {
+            if (context.read<ProjectsBloc>().state.switchState ==
+                StatusOfProject.active) {
+              context.read<ProjectsBloc>().add(
+                    const GetActiveProjectPages(),
+                  );
+            } else {
+              context.read<ProjectsBloc>().add(
+                    const GetInActiveProjectPages(),
+                  );
+            }
+          },
+          child: Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                context.goNamed(AppRouterConst.createProjectScreen,
+                    pathParameters: {'userId': userId});
+              },
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              child: const Icon(Icons.add),
             ),
-          ),
-          body: RefreshIndicator(
-            onRefresh: () async {
-              if (context.read<ProjectsBloc>().state.switchState ==
-                  StatusOfProject.active) {
-                context.read<ProjectsBloc>().add(
-                      const GetActiveProjectPages(),
-                    );
-              } else {
-                context.read<ProjectsBloc>().add(
-                      const GetInActiveProjectPages(),
-                    );
-              }
-            },
-            child: Sizer(
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(
+                'Projects',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    context.read<AuthBloc>().add(AuthLogoutRequested(
+                          context: context,
+                        ));
+                  },
+                  icon: const Icon(Icons.logout),
+                ),
+              ],
+            ),
+            body: Sizer(
               builder: (BuildContext context, Orientation orientation,
                   DeviceType deviceType) {
                 return RefreshIndicator(
@@ -87,16 +87,110 @@ class ProjectsMainScreen extends StatelessWidget {
                       ),
                       BlocBuilder<ProjectsBloc, ProjectsState>(
                         builder: (context, state) {
-                          return Center(
-                            child: CustomSegmentedButton(
-                              currentView: state.switchState,
-                              onSelectionChanged: (value) {
-                                context
-                                    .read<ProjectsBloc>()
-                                    .add(SwitchProjectPages(value.first));
-                              },
-                            ),
-                          );
+                          if (state.isLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (state.activeProjects.isEmpty &&
+                              state.inactiveProjects.isEmpty) {
+                            return const NotFoundWidget(
+                                text: 'Projects not found');
+                          }
+                          if (state.errorMessage.isNotEmpty) {
+                            return Center(
+                              child: Text(state.errorMessage),
+                            );
+                          }
+                          // if (stat) {
+                          //   if (state.switchState == StatusOfProject.active) {
+                          //     return ProjectsListWidget(
+                          //       userId: userId,
+                          //       projects: state.activeProjects!,
+                          //       title: 'Active Projects',
+                          //     );
+                          //   } else {
+                          //     return ProjectsListWidget(
+                          //       userId: userId,
+                          //       projects: state.inactiveProjects!,
+                          //       title: 'Past Projects',
+                          //     );
+                          //   }
+                          // }
+                          if (state.switchState == StatusOfProject.active) {
+                            if (state.activeProjects.isEmpty) {
+                              return const Center(
+                                child: Text('No active projects found'),
+                              );
+                            }
+                            return ListView.builder(
+                                itemCount: state.activeProjects.length,
+                                itemBuilder: (context, index) {
+                                  String techStackString =
+                                      getTechStringActive(state, index);
+                                  //make string for team roles
+                                  String teamRoleString =
+                                      getTeamRoleStringActive(state, index);
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ProjectWidget(
+                                      onPressed: () {
+                                        //TODO: navigate to project details, pass project id
+                                        context.goNamed(
+                                          AppRouterConst.projectDetailsScreen,
+                                          pathParameters: {
+                                            'projectId':
+                                                state.activeProjects[index].id,
+                                            'userId': userId
+                                          },
+                                          extra: state.activeProjects[index],
+                                        );
+                                      },
+                                      mainTitle:
+                                          state.activeProjects[index].name,
+                                      title1: 'Roles:',
+                                      title2: 'Tehnologies Stack:',
+                                      content1: teamRoleString,
+                                      content2: techStackString,
+                                    ),
+                                  );
+                                });
+                          } else {
+                            if (state.inactiveProjects.isEmpty) {
+                              return const NotFoundWidget(
+                                text: 'Projects not found',
+                              );
+                            }
+                            return ListView.builder(
+                                itemCount: state.inactiveProjects.length,
+                                itemBuilder: (context, index) {
+                                  String techStackString =
+                                      getTechStringInactive(state, index);
+                                  String teamRoleString =
+                                      getTeamRoleStringInactive(state, index);
+
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ProjectWidget(
+                                      onPressed: () {
+                                        //TODO: navigate to project details, pass project id
+                                        context.goNamed(
+                                          AppRouterConst
+                                              .projectInactiveDetailsScreen,
+                                          pathParameters: {'userId': userId},
+                                          extra: state.inactiveProjects[index],
+                                        );
+                                      },
+                                      mainTitle:
+                                          state.inactiveProjects[index].name,
+                                      title1: 'Roles:',
+                                      title2: 'Tehnologies Stack:',
+                                      content1: teamRoleString,
+                                      content2: techStackString,
+                                    ),
+                                  );
+                                });
+                          }
                         },
                       ),
                       const SizedBox(
@@ -262,6 +356,25 @@ class ProjectsMainScreen extends StatelessWidget {
       }
     }
     return techStackString;
+  }
+}
+
+class NotFoundWidget extends StatelessWidget {
+  const NotFoundWidget({
+    required this.text,
+    super.key,
+  });
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Center(
+          child: Text(
+            text,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ));
   }
 }
 

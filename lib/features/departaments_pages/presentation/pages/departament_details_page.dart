@@ -6,10 +6,14 @@ import 'package:team_finder_app/features/departaments_pages/presentation/widgets
 
 class DepartamentDetailsPage extends StatelessWidget {
   const DepartamentDetailsPage(
-      {super.key, required this.departamentId, required this.userId});
+      {super.key,
+      required this.departamentId,
+      required this.userId,
+      required this.departamentName});
 
   final String departamentId;
   final String userId;
+  final String departamentName;
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +28,14 @@ class DepartamentDetailsPage extends StatelessWidget {
       body: Column(
         children: [
           const SizedBox(height: 20),
-          const Center(
+          Center(
               child: InfoWidget(
-            text: 'Departament Name',
+            text: departamentName,
             icon: Icons.business,
           )),
           const SizedBox(height: 20),
           DetailsBodyWidget(
+            departamentName: departamentName,
             departamentId: departamentId,
             userId: userId,
           )
@@ -45,9 +50,12 @@ class DetailsBodyWidget extends StatelessWidget {
     super.key,
     required this.departamentId,
     required this.userId,
+    required this.departamentName,
   });
   final String departamentId;
   final String userId;
+  final String departamentName;
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -64,7 +72,8 @@ class DetailsBodyWidget extends StatelessWidget {
                   context.goNamed(AppRouterConst.departamentEmployeesPage,
                       pathParameters: {
                         'userId': userId,
-                        'departamentId': departamentId
+                        'departamentId': departamentId,
+                        'departamentName': departamentName
                       });
                 },
               ),
@@ -74,7 +83,8 @@ class DetailsBodyWidget extends StatelessWidget {
                   context.goNamed(AppRouterConst.departamentProjectsPage,
                       pathParameters: {
                         'userId': userId,
-                        'departamentId': departamentId
+                        'departamentId': departamentId,
+                        'departamentName': departamentName
                       });
                 },
               ),
@@ -84,7 +94,8 @@ class DetailsBodyWidget extends StatelessWidget {
                   context.goNamed(AppRouterConst.confirmationsPage,
                       pathParameters: {
                         'userId': userId,
-                        'departamentId': departamentId
+                        'departamentId': departamentId,
+                        'departamentName': departamentName
                       });
                 },
               ),
@@ -94,7 +105,8 @@ class DetailsBodyWidget extends StatelessWidget {
                   context.goNamed(AppRouterConst.skillValidationPage,
                       pathParameters: {
                         'userId': userId,
-                        'departamentId': departamentId
+                        'departamentId': departamentId,
+                        'departamentName': departamentName
                       });
                 },
               ),
@@ -104,7 +116,8 @@ class DetailsBodyWidget extends StatelessWidget {
                   context.goNamed(AppRouterConst.skillStatisticsPage,
                       pathParameters: {
                         'userId': userId,
-                        'departamentId': departamentId
+                        'departamentId': departamentId,
+                        'departamentName': departamentName
                       });
                 },
               ),
@@ -114,7 +127,8 @@ class DetailsBodyWidget extends StatelessWidget {
                   context.goNamed(AppRouterConst.departamentSkillsPage,
                       pathParameters: {
                         'userId': userId,
-                        'departamentId': departamentId
+                        'departamentId': departamentId,
+                        'departamentName': departamentName
                       });
                 },
               ),

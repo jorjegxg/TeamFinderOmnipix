@@ -20,9 +20,9 @@ class Alocation {
     return Alocation(
       employeeName: map['employeeName'],
       id: map['id'],
-      comments: map['comments'],
-      workHours: map['workHours'],
-      teamRoles: (map['teamRoles'] as List)
+      comments: map['comment'],
+      workHours: map['numberOfHours'],
+      teamRoles: (map['teamRolesId'] as List)
           .map((e) => TeamRole.fromJson(e))
           .toList(growable: false),
     );
@@ -33,7 +33,7 @@ class Alocation {
       'id': id,
       'comments': comments,
       'workHours': workHours,
-      'teamRoles': teamRoles.map((e) => e.toJson()).toList(),
+      'teamRolesId': teamRoles.map((e) => e.toJson()).toList(),
       'employeeName': employeeName,
     };
   }
