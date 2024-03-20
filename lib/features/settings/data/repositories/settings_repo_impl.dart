@@ -231,7 +231,7 @@ class SettingsRepoImpl {
 
   Future<Either<Failure<String>, void>> deleteOwnedSkill(Skill skill) {
     final box = Hive.box<String>(HiveConstants.authBox);
-    final organizationId = box.get(HiveConstants.userId);
+    final organizationId = box.get(HiveConstants.organizationId);
     return ApiService()
         .dioDelete(
       url:

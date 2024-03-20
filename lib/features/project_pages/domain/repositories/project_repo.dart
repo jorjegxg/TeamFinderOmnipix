@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:team_finder_app/core/error/failures.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/employee_teamrole.dart';
 import 'package:team_finder_app/features/project_pages/data/models/project_model.dart';
 import 'package:team_finder_app/features/project_pages/data/models/team_role.dart';
 import 'package:team_finder_app/features/project_pages/data/models/technology_stack.dart';
@@ -36,15 +37,15 @@ abstract class ProjectRepo {
       {required String projectId});
 
   //get active members
-  Future<Either<Failure<String>, List<Employee>>> getActiveMembers(
+  Future<Either<Failure<String>, List<EmployeeTeamRole>>> getActiveMembers(
       String projectId);
 
   //get inactive members
-  Future<Either<Failure<String>, List<Employee>>> getInActiveMembers(
+  Future<Either<Failure<String>, List<EmployeeTeamRole>>> getInActiveMembers(
       String projectId);
 
   //get future members
-  Future<Either<Failure<String>, List<Employee>>> getFutureMembers(
+  Future<Either<Failure<String>, List<EmployeeTeamRole>>> getFutureMembers(
       String projectId);
 
   //fetchFullyAvalibleMembers

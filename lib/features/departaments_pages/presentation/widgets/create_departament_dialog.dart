@@ -94,7 +94,7 @@ class CreateDepartamentDialog extends HookWidget {
 
                             context
                                 .read<DepartmentsGetCubit>()
-                                .getDepartmentsFromOrganization();
+                                .getDepartmentsFromOrganization(true);
 
                             Navigator.pop(secondContext);
                           },

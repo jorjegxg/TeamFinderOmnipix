@@ -127,25 +127,25 @@ class _AddProjectMembersPageState extends State<AddProjectMembersPage> {
                                     }),
                               ],
                             ),
-                            const SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                CustomTextField(
-                                  nameConttroler: aditionalConttroler,
-                                  hintText: 'Aditional Search',
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.search,
-                                      color: Colors.black),
-                                  onPressed: () async {
-                                    await provider.fetchMembersWithChatGPT(
-                                        aditionalConttroler.text, context);
-                                    aditionalConttroler.text = '';
-                                  },
-                                )
-                              ],
-                            ),
+                            // const SizedBox(height: 10),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            //   children: [
+                            //     CustomTextField(
+                            //       nameConttroler: aditionalConttroler,
+                            //       hintText: 'Aditional Search',
+                            //     ),
+                            //     IconButton(
+                            //       icon: const Icon(Icons.search,
+                            //           color: Colors.black),
+                            //       onPressed: () async {
+                            //         await provider.fetchMembersWithChatGPT(
+                            //             aditionalConttroler.text, context);
+                            //         aditionalConttroler.text = '';
+                            //       },
+                            //     )
+                            //   ],
+                            // ),
                             const SizedBox(height: 10),
                             Expanded(
                               child: Card(

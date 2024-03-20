@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/employee_teamrole.dart';
 import 'package:team_finder_app/features/project_pages/domain/usecases/projects_usecase.dart';
 
 @injectable
 class ProjectMembersProvider extends ChangeNotifier {
-  List<Employee> activeMembers = [];
-  List<Employee> pastMembers = [];
-  List<Employee> futureMembers = [];
+  List<EmployeeTeamRole> activeMembers = [];
+  List<EmployeeTeamRole> pastMembers = [];
+  List<EmployeeTeamRole> futureMembers = [];
   final ProjectsUsecase _projectsUsecase;
   bool _isLoading = true;
   String? _error;
@@ -31,7 +32,7 @@ class ProjectMembersProvider extends ChangeNotifier {
   }
 
   //get the currently selected members list
-  List<Employee> getSelectedMembers() {
+  List<EmployeeTeamRole> getSelectedMembers() {
     if (isSelected[0]) {
       return pastMembers;
     } else if (isSelected[1]) {
@@ -42,17 +43,17 @@ class ProjectMembersProvider extends ChangeNotifier {
   }
 
   // Add a member to the active members list
-  void addActiveMember(Employee member) {
+  void addActiveMember(EmployeeTeamRole member) {
     activeMembers.add(member);
   }
 
   // Add a member to the past members list
-  void addPastMember(Employee member) {
+  void addPastMember(EmployeeTeamRole member) {
     pastMembers.add(member);
   }
 
   // Add a member to the future members list
-  void addFutureMember(Employee member) {
+  void addFutureMember(EmployeeTeamRole member) {
     futureMembers.add(member);
   }
 

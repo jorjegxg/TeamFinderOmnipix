@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/util/constants.dart';
+import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
 import 'package:team_finder_app/features/settings/domain/usecases/settings_use_case.dart';
 
@@ -56,7 +58,7 @@ class SkillAssignmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addSkillToEmployee() async {
+  Future<void> addSkillToEmployee(BuildContext context) async {
     _isLoading = true;
     _error = null;
     notifyListeners();
@@ -72,6 +74,7 @@ class SkillAssignmentProvider extends ChangeNotifier {
         },
         (r) {
           _isLoading = false;
+          showSnackBar(context, 'Sent Skill Validation');
           notifyListeners();
         },
       );

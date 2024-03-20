@@ -109,7 +109,7 @@ class AssignmentProposalScreen extends HookWidget {
                                                 ),
                                                 ConstrainedBox(
                                                   constraints: BoxConstraints(
-                                                      maxHeight: 100),
+                                                      maxHeight: 50),
                                                   child: ListView.builder(
                                                     scrollDirection:
                                                         Axis.horizontal,

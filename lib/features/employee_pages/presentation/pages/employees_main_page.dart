@@ -80,51 +80,112 @@ class EmployeeMainPage extends HookWidget {
                               return ListView.builder(
                                 itemCount: employeeProvider.employees.length,
                                 itemBuilder: (context, index) {
-                                  return Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: EmployeeCard(
-                                        isCurrentUser: employeeProvider
-                                            .employees[index].isCurrentUser,
-                                        name: employeeProvider
-                                            .employees[index].name,
-                                        //TODO George Luta : de ce nu merge nici aici ?
-                                        onTap: prov.isOrganizationAdmin
-                                            ? () {
-                                                Logger.info(
-                                                    'EmployeeCard.onTap',
-                                                    employeeProvider
-                                                        .employees[index].name);
+                                  if (nameConttroler.text.isEmpty) {
+                                    return Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: EmployeeCard(
+                                          isCurrentUser: employeeProvider
+                                              .employees[index].isCurrentUser,
+                                          name: employeeProvider
+                                              .employees[index].name,
+                                          //TODO George Luta : de ce nu merge nici aici ?
+                                          onTap: prov.isOrganizationAdmin
+                                              ? () {
+                                                  Logger.info(
+                                                      'EmployeeCard.onTap',
+                                                      employeeProvider
+                                                          .employees[index]
+                                                          .name);
 
-                                                context.goNamed(
-                                                  AppRouterConst
-                                                      .employeeProfileScreen,
-                                                  pathParameters: {
-                                                    'employeeId':
+                                                  context.goNamed(
+                                                    AppRouterConst
+                                                        .employeeProfileScreen,
+                                                    pathParameters: {
+                                                      'employeeId':
+                                                          employeeProvider
+                                                              .employees[index]
+                                                              .id,
+                                                      'userId': userId,
+                                                      'employeeName':
+                                                          employeeProvider
+                                                              .employees[index]
+                                                              .name,
+                                                      'employeeEmail':
+                                                          employeeProvider
+                                                              .employees[index]
+                                                              .email,
+                                                      'isCurrentUser':
+                                                          employeeProvider
+                                                              .employees[index]
+                                                              .isCurrentUser
+                                                              .toString(),
+                                                    },
+                                                  );
+                                                }
+                                              : () {
+                                                  showSnackBar(context,
+                                                      'You are not an admin');
+                                                },
+                                        ));
+                                  } else {
+                                    if (employeeProvider.employees[index].name
+                                        .toLowerCase()
+                                        .contains(nameConttroler.text
+                                            .toLowerCase())) {
+                                      return Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: EmployeeCard(
+                                            isCurrentUser: employeeProvider
+                                                .employees[index].isCurrentUser,
+                                            name: employeeProvider
+                                                .employees[index].name,
+                                            //TODO George Luta : de ce nu merge nici aici ?
+                                            onTap: prov.isOrganizationAdmin
+                                                ? () {
+                                                    Logger.info(
+                                                        'EmployeeCard.onTap',
                                                         employeeProvider
                                                             .employees[index]
-                                                            .id,
-                                                    'userId': userId,
-                                                    'employeeName':
-                                                        employeeProvider
-                                                            .employees[index]
-                                                            .name,
-                                                    'employeeEmail':
-                                                        employeeProvider
-                                                            .employees[index]
-                                                            .email,
-                                                    'isCurrentUser':
-                                                        employeeProvider
-                                                            .employees[index]
-                                                            .isCurrentUser
-                                                            .toString(),
+                                                            .name);
+
+                                                    context.goNamed(
+                                                      AppRouterConst
+                                                          .employeeProfileScreen,
+                                                      pathParameters: {
+                                                        'employeeId':
+                                                            employeeProvider
+                                                                .employees[
+                                                                    index]
+                                                                .id,
+                                                        'userId': userId,
+                                                        'employeeName':
+                                                            employeeProvider
+                                                                .employees[
+                                                                    index]
+                                                                .name,
+                                                        'employeeEmail':
+                                                            employeeProvider
+                                                                .employees[
+                                                                    index]
+                                                                .email,
+                                                        'isCurrentUser':
+                                                            employeeProvider
+                                                                .employees[
+                                                                    index]
+                                                                .isCurrentUser
+                                                                .toString(),
+                                                      },
+                                                    );
+                                                  }
+                                                : () {
+                                                    showSnackBar(context,
+                                                        'You are not an admin');
                                                   },
-                                                );
-                                              }
-                                            : () {
-                                                showSnackBar(context,
-                                                    'You are not an admin');
-                                              },
-                                      ));
+                                          ));
+                                    } else {
+                                      return Container();
+                                    }
+                                  }
                                 },
                               );
                             }

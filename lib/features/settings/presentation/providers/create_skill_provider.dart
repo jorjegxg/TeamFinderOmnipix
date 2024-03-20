@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart';
 
@@ -47,7 +48,7 @@ class CreateSkillProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createSkill() async {
+  Future<void> createSkill(BuildContext context) async {
     _isLoading = true;
     _error = null;
     notifyListeners();
@@ -68,6 +69,7 @@ class CreateSkillProvider extends ChangeNotifier {
         },
         (right) {
           _isLoading = false;
+
           notifyListeners();
         },
       );

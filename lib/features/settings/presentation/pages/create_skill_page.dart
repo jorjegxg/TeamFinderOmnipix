@@ -142,7 +142,7 @@ class CreateSkillPage extends HookWidget {
                               provider.setName(nameColtroler.text);
                               await Provider.of<CreateSkillProvider>(context,
                                       listen: false)
-                                  .createSkill();
+                                  .createSkill(context);
                               if (!context.mounted) return;
                               context.goNamed(
                                 AppRouterConst.settingsMainScreen,

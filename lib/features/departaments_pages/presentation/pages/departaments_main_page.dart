@@ -9,6 +9,7 @@ import 'package:team_finder_app/features/departaments_pages/presentation/cubit/d
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/create_departament_dialog.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/employee_roles.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_widget.dart';
@@ -30,14 +31,16 @@ class _DepartamentMainPageState extends State<DepartamentMainPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<DepartmentsGetCubit>().getDepartmentsFromOrganization();
+    context.read<DepartmentsGetCubit>().getDepartmentsFromOrganization(
+        context.read<EmployeeRolesProvider>().isOrganizationAdmin);
   }
 
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        context.read<DepartmentsGetCubit>().getDepartmentsFromOrganization();
+        context.read<DepartmentsGetCubit>().getDepartmentsFromOrganization(
+            context.read<EmployeeRolesProvider>().isOrganizationAdmin);
       },
       child: Builder(builder: (context) {
         return BlocListener<DepartmentCreateCubit, DepartmentsState>(

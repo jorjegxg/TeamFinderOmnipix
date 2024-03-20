@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/error/failures.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/employee_teamrole.dart';
 import 'package:team_finder_app/features/project_pages/data/models/project_model.dart';
 import 'package:team_finder_app/features/project_pages/data/models/team_role.dart';
 import 'package:team_finder_app/features/project_pages/data/models/technology_stack.dart';
@@ -111,19 +112,19 @@ class ProjectsUsecase {
   }
 
   //getActiveMembers
-  Future<Either<Failure<String>, List<Employee>>> getActiveMembers(
+  Future<Either<Failure<String>, List<EmployeeTeamRole>>> getActiveMembers(
       String projectId) async {
     return projectRepo.getActiveMembers(projectId);
   }
 
   //getInActiveMembers
-  Future<Either<Failure<String>, List<Employee>>> getInActiveMembers(
+  Future<Either<Failure<String>, List<EmployeeTeamRole>>> getInActiveMembers(
       String projectId) async {
     return projectRepo.getInActiveMembers(projectId);
   }
 
   //getFutureMembers
-  Future<Either<Failure<String>, List<Employee>>> getFutureMembers(
+  Future<Either<Failure<String>, List<EmployeeTeamRole>>> getFutureMembers(
       String projectId) async {
     return projectRepo.getFutureMembers(projectId);
   }
@@ -193,7 +194,6 @@ class ProjectsUsecase {
     );
   }
 
- 
   Future<Either<Failure<String>, bool>> canBeDeleted(String projectId) async {
     return projectRepo.canBeDeleted(projectId);
   }
