@@ -5,17 +5,14 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/core/util/secure_storage_service.dart';
+import 'package:team_finder_app/features/auth/data/models/organization_admin_registration.dart';
 import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart';
 
 @LazySingleton(as: AuthRepo)
 class AuthRepoImpl extends AuthRepo {
   @override
   Future<Either<Failure<String>, String>> registerOrganizationAdmin({
-    required String name,
-    required String email,
-    required String password,
-    required String organizationName,
-    required String organizationAddress,
+    required OrgAdminRegistrationFields orgAdminRegistrationFields,
   }) async {
     final deleteStoredDataRequest = await deleteAllStoredData();
 
@@ -25,15 +22,7 @@ class AuthRepoImpl extends AuthRepo {
 
     return (await ApiService().dioPost(
       url: "${EndpointConstants.baseUrl}/admin/create",
-      data: {
-        "name": name,
-        "email": email,
-        "password": password,
-        "organizationName": organizationName,
-        "adress": organizationAddress,
-        //TODO George Luta : degeaba , scoate din back
-        "url": "url"
-      },
+      data: orgAdminRegistrationFields.toJson(),
       codeMessage: {
         409: "Email already in use",
       },

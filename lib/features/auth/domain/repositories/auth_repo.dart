@@ -1,13 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:team_finder_app/core/error/failures.dart';
+import 'package:team_finder_app/features/auth/data/models/organization_admin_registration.dart';
 
 abstract class AuthRepo {
   Future<Either<Failure<String>, String>> registerOrganizationAdmin({
-    required String name,
-    required String email,
-    required String password,
-    required String organizationName,
-    required String organizationAddress,
+    required OrgAdminRegistrationFields orgAdminRegistrationFields,
   });
 
   Future<Either<Failure<String>, String>> registerEmployee({

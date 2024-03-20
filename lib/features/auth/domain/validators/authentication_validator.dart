@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/error/failures.dart';
 import 'package:team_finder_app/core/util/constants.dart';
+import 'package:team_finder_app/features/auth/data/models/organization_admin_registration.dart';
 
 @injectable
 class AuthenticationValidator {
@@ -46,29 +47,26 @@ class AuthenticationValidator {
   }
 
   Either<Failure<String>, void> areRegisterAdminInformationValid(
-    String? name,
-    String? email,
-    String? password,
-    String? organizationName,
-    String? organizationAddress,
-  ) {
-    if (!isNameValid(name)) {
+      OrgAdminRegistrationFields orgAdminRegistrationFields) {
+    if (!isNameValid(orgAdminRegistrationFields.name)) {
       return Left(
         FieldFailure(message: 'Invalid name'),
       );
-    } else if (!_isEmailValid(email)) {
+    } else if (!_isEmailValid(orgAdminRegistrationFields.email)) {
       return Left(
         FieldFailure(message: 'Invalid email'),
       );
-    } else if (!_isPasswordValid(password)) {
+    } else if (!_isPasswordValid(orgAdminRegistrationFields.password)) {
       return Left(
         FieldFailure(message: 'Invalid password'),
       );
-    } else if (!isOrganizationNameValid(organizationName)) {
+    } else if (!isOrganizationNameValid(
+        orgAdminRegistrationFields.organizationName)) {
       return Left(
         FieldFailure(message: 'Invalid organization name'),
       );
-    } else if (!isOrganizationAddressValid(organizationAddress)) {
+    } else if (!isOrganizationAddressValid(
+        orgAdminRegistrationFields.organizationAddress)) {
       return Left(
         FieldFailure(message: 'Invalid organization address'),
       );

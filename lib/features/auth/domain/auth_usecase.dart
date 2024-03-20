@@ -8,6 +8,7 @@ import 'package:team_finder_app/core/error/failures.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/secure_storage_service.dart';
+import 'package:team_finder_app/features/auth/data/models/organization_admin_registration.dart';
 import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:team_finder_app/features/auth/domain/validators/authentication_validator.dart';
 
@@ -20,28 +21,14 @@ class AuthUsecase {
 
   //if validation fails, return that failure
   Future<Either<Failure<String>, String>> registerOrganizationAdmin({
-    required String name,
-    required String email,
-    required String password,
-    required String organizationName,
-    required String organizationAddress,
+    required OrgAdminRegistrationFields orgAdminRegistrationFields,
     required BuildContext context,
   }) async {
     return fieldValidator
-        .areRegisterAdminInformationValid(
-      name,
-      email,
-      password,
-      organizationName,
-      organizationAddress,
-    )
+        .areRegisterAdminInformationValid(orgAdminRegistrationFields)
         .fold(left, (r) async {
       final authResponse = await authRepo.registerOrganizationAdmin(
-        name: name.trim(),
-        email: email.trim(),
-        password: password,
-        organizationName: organizationName.trim(),
-        organizationAddress: organizationAddress.trim(),
+        orgAdminRegistrationFields: orgAdminRegistrationFields,
       );
 
       return authResponse.fold(

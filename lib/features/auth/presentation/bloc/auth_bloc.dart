@@ -6,6 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/logger.dart';
+import 'package:team_finder_app/features/auth/data/models/organization_admin_registration.dart';
 import 'package:team_finder_app/features/auth/domain/auth_usecase.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_skills_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
@@ -54,12 +55,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
 
     (await authUsecase.registerOrganizationAdmin(
-      name: event.name,
-      email: event.email,
-      password: event.password,
-      organizationName: event.organizationName,
-      organizationAddress: event.organizationAddress,
       context: event.context,
+      orgAdminRegistrationFields: OrgAdminRegistrationFields(
+        name: event.name,
+        email: event.email,
+        password: event.password,
+        organizationName: event.organizationName,
+        organizationAddress: event.organizationAddress,
+      ),
     ))
         .fold(
       (failure) {
