@@ -3,7 +3,8 @@ class DepartmentSummary {
   final String? managersName;
   final String departmentName;
   final int numberOfEmployees;
-  final String departamentManagerId;
+  final String? departamentManagerId;
+  final String employeeId;
   bool isCurrentUserManager;
 
   DepartmentSummary({
@@ -11,7 +12,8 @@ class DepartmentSummary {
     required this.managersName,
     required this.departmentName,
     required this.numberOfEmployees,
-    required this.departamentManagerId,
+    this.departamentManagerId,
+    required this.employeeId,
     this.isCurrentUserManager = false,
   });
 
@@ -21,8 +23,8 @@ class DepartmentSummary {
       managersName: json['managersName'],
       departmentName: json['name'],
       numberOfEmployees: json['numberOfEmployees'] ?? 0,
-      //TODO George Luta : o sa trebuiasca sa schimbi din departamentManagerId in employeeId (vezi cum iti da data)
       departamentManagerId: json['departamentManagerId'],
+      employeeId: json['employeeId'],
     );
   }
 }

@@ -93,7 +93,7 @@ class DepartmentRepositoryImpl {
 
         myDepartments = r
             .map((e) => DepartmentSummary.fromJson(e))
-            .where((element) => element.departamentManagerId == userId)
+            .where((element) => element.employeeId == userId)
             .toList(growable: false);
 
         for (var d in myDepartments) {
@@ -102,7 +102,7 @@ class DepartmentRepositoryImpl {
 
         notMyDepartments = r
             .map((e) => DepartmentSummary.fromJson(e))
-            .where((element) => element.departamentManagerId != userId)
+            .where((element) => element.employeeId != userId)
             .toList(growable: false);
 
         return right(myDepartments + notMyDepartments);

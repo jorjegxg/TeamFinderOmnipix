@@ -111,12 +111,8 @@ class ListOfDepartments extends StatelessWidget {
                             (context, deleteDepartmentProvider, child) {
                           return ProjectWidget(
                               isLoading: deleteDepartmentProvider.isLoading,
-                              canSeeTheButton: prov.isDepartmentManager
-                              //TODO George Luta : repune asta cand o sa fie gata in back-end
-                              //  &&
-                              //     state.departments[index]
-                              //         .isCurrentUserManager
-                              ,
+                              canSeeTheButton: prov.isDepartmentManager &&
+                                  state.departments[index].isCurrentUserManager,
                               onLongPress: () {
                                 if (prov.isOrganizationAdmin) {
                                   //alert dialog with delete option:
@@ -159,42 +155,8 @@ class ListOfDepartments extends StatelessWidget {
                               content2: state
                                   .departments[index].numberOfEmployees
                                   .toString(),
-                              onPressed: prov.isOrganizationAdmin
+                              onPressed: prov.isDepartmentManager
                                   ? () {
-                                      //alert dialog with delete option:
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                                title: Text(
-                                                    'Delete Departament',
-                                                    style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .primary)),
-                                                content: const Text(
-                                                    'Are you sure you want to delete this departament?'),
-                                                actions: [
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        getIt<DeleteDepartmentProvider>()
-                                                            .deleteDepartment(
-                                                                state
-                                                                    .departments[
-                                                                        index]
-                                                                    .id);
-
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: const Text('Yes')),
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: const Text('No')),
-                                                ],
-                                              ));
-                                    }
-                                  : () {
                                       context.goNamed(
                                           AppRouterConst
                                               .departamentsDetailsPage,
@@ -206,7 +168,8 @@ class ListOfDepartments extends StatelessWidget {
                                                 .departments[index]
                                                 .departmentName
                                           });
-                                    });
+                                    }
+                                  : () {});
                         });
                       },
                     )),
