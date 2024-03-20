@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:team_finder_app/bloc_observer.dart';
 import 'package:team_finder_app/core/routes/app_route_config.dart';
 import 'package:team_finder_app/core/util/constants.dart';
+import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/core/util/theme.dart';
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/delete_department_provider.dart';
@@ -25,7 +27,17 @@ import 'package:team_finder_app/firebase_options.dart';
 import 'package:team_finder_app/injection.dart';
 import 'package:url_strategy/url_strategy.dart';
 
-// import 'injectable.config.dart';
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  Logger.info(
+      '_firebaseMessagingBackgroundHandler', 'Got a message in background!');
+  Logger.info(
+      '_firebaseMessagingBackgroundHandler', 'Message data: ${message.data}');
+
+  if (message.notification != null) {
+    Logger.info('_firebaseMessagingBackgroundHandler',
+        'Message also contained a notification: ${message.notification}');
+  }
+}
 
 Future<void> main() async {
   setPathUrlStrategy();
@@ -36,7 +48,25 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // GetIt.I.registerSingleton<MyAppRouter>(MyAppRouter());
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+  Logger.info(
+      'main()', 'User granted permission: ${settings.authorizationStatus}');
+
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  Logger.info('main()', 'FCM Token: $fcmToken');
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   if (kIsWeb) {
   } else {
     final appDocumentDir =
@@ -47,12 +77,37 @@ Future<void> main() async {
 
   Bloc.observer = MyBlocObserver();
 
-  // runApp(const TestAppPage());
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Future<void> setupInteractedMessage() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    //TODO George Luta : handle the message
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setupInteractedMessage();
+  }
 
   @override
   Widget build(BuildContext context) {

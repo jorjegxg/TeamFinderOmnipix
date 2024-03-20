@@ -110,9 +110,11 @@ class ListOfDepartments extends StatelessWidget {
                           builder: (context, deleteDepartmentProvider, child) {
                             return ProjectWidget(
                                 isLoading: deleteDepartmentProvider.isLoading,
-                                canSeeTheButton: prov.isDepartmentManager &&
-                                    state.departments[index]
-                                        .isCurrentUserManager,
+                                canSeeTheButton: prov.isDepartmentManager
+                                //  &&
+                                //     state.departments[index]
+                                //         .isCurrentUserManager
+                                ,
                                 onLongPress: () {
                                   if (prov.isOrganizationAdmin) {
                                     //alert dialog with delete option:
