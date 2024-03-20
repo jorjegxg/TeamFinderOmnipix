@@ -111,6 +111,7 @@ class ListOfDepartments extends StatelessWidget {
                             return ProjectWidget(
                                 isLoading: deleteDepartmentProvider.isLoading,
                                 canSeeTheButton: prov.isDepartmentManager
+                                //TODO George Luta : repune asta cand o sa fie gata in back-end
                                 //  &&
                                 //     state.departments[index]
                                 //         .isCurrentUserManager

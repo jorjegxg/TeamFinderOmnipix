@@ -21,6 +21,9 @@ class _MainWrapperState extends State<MainWrapper> {
     super.didChangeDependencies();
     WidgetsBinding.instance.addPostFrameCallback(
         (_) => getIt<ProfileProvider>().fetchNameAndEmail());
+
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => getIt<EmployeeRolesProvider>().getCurrentEmployeeRoles());
   }
 
   int _selectedIndex = 0;

@@ -2,9 +2,9 @@ import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
-import 'package:team_finder_app/features/employee_pages/data/models/employee_roles_and_data.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee_model.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee_roles.dart';
+import 'package:team_finder_app/features/employee_pages/data/models/employee_roles_and_data.dart';
 
 @injectable
 class EmployeeRepoImpl {
@@ -16,6 +16,11 @@ class EmployeeRepoImpl {
   Future<String> getCurrentEmployeeId() async {
     final box = Hive.box<String>(HiveConstants.authBox);
     return box.get(HiveConstants.userId)!;
+  }
+
+  Future<String?> getDepartmentId() async {
+    final box = Hive.box<String>(HiveConstants.authBox);
+    return box.get(HiveConstants.departmentId);
   }
 
   Future<Either<Failure, List<Employee>>> getEmployees() async {
@@ -153,7 +158,6 @@ class EmployeeRepoImpl {
         (l) => left(l),
         (r) {
           final EmployeesRoles employeesRoles = EmployeesRoles.fromJson(r);
-
           return right(employeesRoles);
         },
       );
@@ -258,7 +262,7 @@ class EmployeeRepoImpl {
     });
   }
 
-  //departament/updatemanager
+//departament/updatemanager
   Future<Either<Failure, void>> updateMangerForDepartmentManager(
       String employeeId, String departmentId) async {
     return ApiService().dioPut(

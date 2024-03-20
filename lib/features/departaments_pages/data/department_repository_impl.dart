@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
@@ -35,6 +36,17 @@ class DepartmentRepositoryImpl {
     required String managerId,
     required String departmentId,
   }) async {
+    var box = Hive.box<String>(HiveConstants.authBox);
+    String employeeId = box.get(HiveConstants.userId)!;
+
+    if (managerId == employeeId) {
+      await FirebaseMessaging.instance.subscribeToTopic(departmentId);
+    }
+
+    //trebuie sa facem un subscribe la topicul departamentului
+    //atunci cand se schimba managerul -- sa se dezaboneze de la vechiul topic
+    //la login sa se aboneze la topicul departamentului -- daca e manager
+
     return (ApiService().dioPut(
       url:
           "${EndpointConstants.baseUrl}/departament/firstpromotedepartamentmanager",
