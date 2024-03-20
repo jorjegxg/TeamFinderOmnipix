@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
+import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/delete_department_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
@@ -119,17 +120,8 @@ class ListOfDepartments extends StatelessWidget {
                             (context, deleteDepartmentProvider, child) {
                           return ProjectWidget(
                               isLoading: deleteDepartmentProvider.isLoading,
-                              canSeeTheButton: prov.isDepartmentManager
-                              //TODO George Luta : repune asta cand o sa fie gata in back-end
-                              //  &&
-                              //     state.departments[index]
-                              //         .isCurrentUserManager
-                              ,
-                              buttonText: prov.isOrganizationAdmin &&
-                                      !state.departments[index]
-                                          .isCurrentUserManager
-                                  ? 'Delete'
-                                  : null,
+                              canSeeTheButton: prov.isDepartmentManager &&
+                                  state.departments[index].isCurrentUserManager,
                               onLongPress: () {
                                 if (prov.isOrganizationAdmin) {
                                   //alert dialog with delete option:
@@ -146,6 +138,8 @@ class ListOfDepartments extends StatelessWidget {
                                             actions: [
                                               TextButton(
                                                   onPressed: () {
+                                                    Logger.success('showDialog',
+                                                        'dau delete la  id : ${state.departments[index].id}');
                                                     getIt<DeleteDepartmentProvider>()
                                                         .deleteDepartment(state
                                                             .departments[index]
@@ -172,44 +166,8 @@ class ListOfDepartments extends StatelessWidget {
                               content2: state
                                   .departments[index].numberOfEmployees
                                   .toString(),
-                              onPressed: prov.isOrganizationAdmin &&
-                                      state.departments[index]
-                                          .isCurrentUserManager
+                              onPressed: prov.isDepartmentManager
                                   ? () {
-                                      //alert dialog with delete option:
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                                title: Text(
-                                                    'Delete Departament',
-                                                    style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .primary)),
-                                                content: const Text(
-                                                    'Are you sure you want to delete this departament?'),
-                                                actions: [
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        getIt<DeleteDepartmentProvider>()
-                                                            .deleteDepartment(
-                                                                state
-                                                                    .departments[
-                                                                        index]
-                                                                    .id);
-
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: const Text('Yes')),
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: const Text('No')),
-                                                ],
-                                              ));
-                                    }
-                                  : () {
                                       context.goNamed(
                                           AppRouterConst
                                               .departamentsDetailsPage,
@@ -221,7 +179,8 @@ class ListOfDepartments extends StatelessWidget {
                                                 .departments[index]
                                                 .departmentName
                                           });
-                                    });
+                                    }
+                                  : () {});
                         });
                       },
                     )),
