@@ -12,9 +12,9 @@ class DepartamentConfirmationProvider extends ChangeNotifier {
 
   List<Dealocation> _dealocations = List.from([]);
   bool _isLoading = false;
-  String? _error = null;
-  List<Alocation> _alocations = List.from([]);
-  List<dynamic> _allItems = List.from([]);
+  String? _error;
+  final List<Alocation> _alocations = List.from([]);
+  final List<dynamic> _allItems = List.from([]);
 
   List<Dealocation> get dealocations => _dealocations;
   bool get isLoading => _isLoading;

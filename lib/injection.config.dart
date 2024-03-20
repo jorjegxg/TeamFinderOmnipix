@@ -19,7 +19,7 @@ import 'package:team_finder_app/features/auth/domain/repositories/auth_repo.dart
 import 'package:team_finder_app/features/auth/domain/validators/authentication_validator.dart'
     as _i5;
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart'
-    as _i43;
+    as _i44;
 import 'package:team_finder_app/features/departaments_pages/data/department_repository_impl.dart'
     as _i6;
 import 'package:team_finder_app/features/departaments_pages/domain/department_use_case.dart'
@@ -67,7 +67,7 @@ import 'package:team_finder_app/features/project_pages/presentation/bloc/project
 import 'package:team_finder_app/features/project_pages/presentation/providers/add_member_provider.dart'
     as _i26;
 import 'package:team_finder_app/features/project_pages/presentation/providers/create_project_provider.dart'
-    as _i44;
+    as _i43;
 import 'package:team_finder_app/features/project_pages/presentation/providers/edit_project_provider.dart'
     as _i36;
 import 'package:team_finder_app/features/project_pages/presentation/providers/project_members_provider.dart'
@@ -178,10 +178,20 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i41.ProjectMembersProvider(gh<_i16.ProjectsUsecase>()));
     gh.singleton<_i42.ProjectsBloc>(
         () => _i42.ProjectsBloc(gh<_i16.ProjectsUsecase>()));
-    gh.factory<_i43.AuthBloc>(() => _i43.AuthBloc(gh<_i27.AuthUsecase>()));
-    gh.factory<_i44.CreateProjectProvider>(() => _i44.CreateProjectProvider(
+    gh.factory<_i43.CreateProjectProvider>(() => _i43.CreateProjectProvider(
           projectsUsecase: gh<_i16.ProjectsUsecase>(),
           projectsBloc: gh<_i42.ProjectsBloc>(),
+        ));
+    gh.factory<_i44.AuthBloc>(() => _i44.AuthBloc(
+          gh<_i27.AuthUsecase>(),
+          gh<_i33.DepartamentSkillsProvider>(),
+          gh<_i26.AddMembersProvider>(),
+          gh<_i43.CreateProjectProvider>(),
+          gh<_i36.EditProjectProvider>(),
+          gh<_i40.ProfileProvider>(),
+          gh<_i42.ProjectsBloc>(),
+          gh<_i34.DepartmentCreateCubit>(),
+          gh<_i8.DepartmentsGetCubit>(),
         ));
     return this;
   }

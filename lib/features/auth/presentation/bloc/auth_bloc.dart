@@ -10,13 +10,11 @@ import 'package:team_finder_app/features/auth/domain/auth_usecase.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_skills_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
-import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/add_member_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/create_project_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/edit_project_provider.dart';
 import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart';
-import 'package:team_finder_app/injection.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -24,14 +22,31 @@ part 'auth_state.dart';
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthUsecase authUsecase;
+
+  final DepartamentSkillsProvider departamentSkillsProvider;
+  final AddMembersProvider addMembersProvider;
+  final CreateProjectProvider createProjectProvider;
+  final EditProjectProvider editProjectProvider;
+  final ProfileProvider profileProvider;
+  final ProjectsBloc projectsBloc;
+  final DepartmentCreateCubit departmentCreateCubit;
+  final DepartmentsGetCubit departmentsGetCubit;
+
   AuthBloc(
     this.authUsecase,
+    this.departamentSkillsProvider,
+    this.addMembersProvider,
+    this.createProjectProvider,
+    this.editProjectProvider,
+    this.profileProvider,
+    this.projectsBloc,
+    this.departmentCreateCubit,
+    this.departmentsGetCubit,
   ) : super(AuthInitial()) {
     on<RegisterOrganizationAdminStarted>(_onRegisterOrganizationAdminStarted);
     on<RegisterEmployeeStarted>(_onRegisterEmployeeStarted);
     on<LoginStarted>(_onLoginStarted);
     on<AuthLogoutRequested>(_onLogoutRequested);
-    on<AuthReset>(_clearData);
   }
 
   Future<void> _onRegisterOrganizationAdminStarted(
@@ -53,8 +68,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       },
       (userId) {
-        addDataToProviders();
-
         emit(AuthSuccess(
           userId: userId,
         ));
@@ -79,8 +92,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthError(message: failure.message));
       },
       (userId) {
-        addDataToProviders();
-
         emit(AuthSuccess(
           userId: userId,
         ));
@@ -103,8 +114,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthError(message: failure.message));
       },
       (userId) {
-        addDataToProviders();
-
         emit(AuthSuccess(
           userId: userId,
         ));
@@ -129,27 +138,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  void _clearData(AuthReset event, Emitter<AuthState> emit) {
-    emit(AuthInitial());
-  }
-
-  void addDataToProviders() {
-    getIt<ProfileProvider>().fetchNameAndEmail();
-    getIt<EmployeeRolesProvider>().getCurrentEmployeeRoles();
-    getIt<ProjectsBloc>().add(const GetActiveProjectPages());
-  }
-
   void clearDataFromProviders() {
-    getIt<DepartamentSkillsProvider>().clearAllData();
-    getIt<AddMembersProvider>().clearAllData();
-    getIt<CreateProjectProvider>().clearAllData();
-    getIt<EditProjectProvider>().clearAllData();
-    getIt<ProfileProvider>().clearAllData();
+    departamentSkillsProvider.clearAllData();
+    addMembersProvider.clearAllData();
+    createProjectProvider.clearAllData();
 
-    getIt<AuthBloc>().add(const AuthReset());
-    getIt<ProjectsBloc>().add(const ResetProjects());
-    getIt<DepartmentCreateCubit>().clearAllData();
-    getIt<DepartmentsGetCubit>().clearAllData();
+    editProjectProvider.clearAllData();
+    profileProvider.clearAllData();
+    projectsBloc.add(const ResetProjects());
+    departmentCreateCubit.clearAllData();
+    departmentsGetCubit.clearAllData();
   }
 }
 

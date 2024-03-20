@@ -5,6 +5,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart';
+import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
 import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart';
 import 'package:team_finder_app/injection.dart';
 
@@ -24,6 +25,9 @@ class _MainWrapperState extends State<MainWrapper> {
 
     WidgetsBinding.instance.addPostFrameCallback(
         (_) => getIt<EmployeeRolesProvider>().getCurrentEmployeeRoles());
+
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => getIt<ProjectsBloc>().add(const GetActiveProjectPages()));
   }
 
   int _selectedIndex = 0;
