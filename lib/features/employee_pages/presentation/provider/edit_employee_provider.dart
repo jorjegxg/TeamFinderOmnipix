@@ -7,12 +7,12 @@ import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/manager_and_department_id.dart';
 import 'package:team_finder_app/features/employee_pages/domain/employee_usecase.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
-import 'package:team_finder_app/injection.dart';
 
 @injectable
 class EditEmployeeProvider extends ChangeNotifier {
-  EditEmployeeProvider(this._employeeUsecase);
+  EditEmployeeProvider(this._employeeUsecase, this.employeeRolesProvider);
   final EmployeeUsecase _employeeUsecase;
+  final EmployeeRolesProvider employeeRolesProvider;
   bool _isEmployeeOrganizationAdmin = false;
   bool _isEmployeeDepartmentManager = false;
   bool _isEmployeeProjectManager = false;
@@ -108,7 +108,7 @@ class EditEmployeeProvider extends ChangeNotifier {
         notifyListeners();
 
         if (isCurrentUser) {
-          getIt<EmployeeRolesProvider>().getCurrentEmployeeRoles();
+          employeeRolesProvider.getCurrentEmployeeRoles();
         }
 
         return right(r);
