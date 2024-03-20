@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
-import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart';
 import 'package:team_finder_app/features/settings/presentation/providers/profile_provider.dart';
@@ -17,6 +16,16 @@ class MainWrapper extends StatefulWidget {
 }
 
 class _MainWrapperState extends State<MainWrapper> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => getIt<ProfileProvider>().fetchNameAndEmail());
+
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => getIt<EmployeeRolesProvider>().getCurrentEmployeeRoles());
+  }
+
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {

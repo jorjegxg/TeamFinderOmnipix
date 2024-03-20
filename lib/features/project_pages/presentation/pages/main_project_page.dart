@@ -66,57 +66,26 @@ class ProjectsMainScreen extends StatelessWidget {
             body: Sizer(
               builder: (BuildContext context, Orientation orientation,
                   DeviceType deviceType) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    // BlocBuilder<ProjectsBloc, ProjectsState>(
-                    //   builder: (context, state) {
-                    //     if (state is ProjectsLoaded) {
-                    //       if (state.switchState == ProjectStatus.active) {
-                    //         {
-                    // return
-                    BlocBuilder<ProjectsBloc, ProjectsState>(
-                      builder: (context, state) {
-                        return Center(
-                          child: CustomSegmentedButton(
-                            currentView: state.switchState,
-                            onSelectionChanged: (value) {
-                              context
-                                  .read<ProjectsBloc>()
-                                  .add(SwitchProjectPages(value.first));
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                    //  }
-                    //       } else {
-                    //         return Center(
-                    //           child: CustomSegmentedButton(
-                    //             currentView: ProjectStatus.past,
-                    //             onSelectionChanged: (value) {
-                    //               context
-                    //                   .read<ProjectsBloc>()
-                    //                   .add(SwitchProjectPages(value.first));
-                    //             },
-                    //           ),
-                    //         );
-                    //       }
-                    //     } else {
-                    //       return const Center(
-                    //         child: CircularProgressIndicator(),
-                    //       );
-                    //     }
-                    //   },
-                    // ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Expanded(
-                      child: BlocBuilder<ProjectsBloc, ProjectsState>(
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    if (context.read<ProjectsBloc>().state.switchState ==
+                        StatusOfProject.active) {
+                      context.read<ProjectsBloc>().add(
+                            const GetActiveProjectPages(),
+                          );
+                    } else {
+                      context.read<ProjectsBloc>().add(
+                            const GetInActiveProjectPages(),
+                          );
+                    }
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      BlocBuilder<ProjectsBloc, ProjectsState>(
                         builder: (context, state) {
                           if (state.isLoading) {
                             return const Center(
@@ -224,8 +193,108 @@ class ProjectsMainScreen extends StatelessWidget {
                           }
                         },
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      Expanded(
+                        child: BlocBuilder<ProjectsBloc, ProjectsState>(
+                          builder: (context, state) {
+                            if (state.isLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (state.activeProjects.isEmpty &&
+                                state.inactiveProjects.isEmpty) {
+                              return const Center(
+                                child: Text('No projects found'),
+                              );
+                            }
+                            if (state.errorMessage.isNotEmpty) {
+                              return Center(
+                                child: Text(state.errorMessage),
+                              );
+                            }
+
+                            if (state.switchState == StatusOfProject.active) {
+                              if (state.activeProjects.isEmpty) {
+                                return const Center(
+                                  child: Text('No active projects found'),
+                                );
+                              }
+                              return ListView.builder(
+                                  itemCount: state.activeProjects.length,
+                                  itemBuilder: (context, index) {
+                                    String techStackString =
+                                        getTechStringActive(state, index);
+                                    //make string for team roles
+                                    String teamRoleString =
+                                        getTeamRoleStringActive(state, index);
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ProjectWidget(
+                                        onPressed: () {
+                                          context.goNamed(
+                                            AppRouterConst.projectDetailsScreen,
+                                            pathParameters: {
+                                              'projectId': state
+                                                  .activeProjects[index].id,
+                                              'userId': userId
+                                            },
+                                            extra: state.activeProjects[index],
+                                          );
+                                        },
+                                        mainTitle:
+                                            state.activeProjects[index].name,
+                                        title1: 'Roles:',
+                                        title2: 'Tehnologies Stack:',
+                                        content1: teamRoleString,
+                                        content2: techStackString,
+                                      ),
+                                    );
+                                  });
+                            } else {
+                              if (state.inactiveProjects.isEmpty) {
+                                return const Center(
+                                  child: Text('No active projects found'),
+                                );
+                              }
+                              return ListView.builder(
+                                  itemCount: state.inactiveProjects.length,
+                                  itemBuilder: (context, index) {
+                                    String techStackString =
+                                        getTechStringInactive(state, index);
+                                    String teamRoleString =
+                                        getTeamRoleStringInactive(state, index);
+
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ProjectWidget(
+                                        onPressed: () {
+                                          context.goNamed(
+                                              AppRouterConst
+                                                  .projectDetailsScreen,
+                                              pathParameters: {
+                                                'projectId': state
+                                                    .inactiveProjects[index].id,
+                                                'userId': userId
+                                              });
+                                        },
+                                        mainTitle:
+                                            state.inactiveProjects[index].name,
+                                        title1: 'Roles:',
+                                        title2: 'Tehnologies Stack:',
+                                        content1: teamRoleString,
+                                        content2: techStackString,
+                                      ),
+                                    );
+                                  });
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),

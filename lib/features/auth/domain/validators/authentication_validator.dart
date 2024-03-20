@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/error/failures.dart';
+import 'package:team_finder_app/core/util/constants.dart';
 
 @injectable
 class AuthenticationValidator {
@@ -10,7 +11,7 @@ class AuthenticationValidator {
       emailValid = false;
     } else {
       emailValid = RegExp(
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+        RegexConstants.email,
       ).hasMatch(email);
     }
     return emailValid;

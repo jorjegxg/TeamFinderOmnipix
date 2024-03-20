@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -103,6 +104,9 @@ class AuthRepoImpl extends AuthRepo {
     try {
       await SecureStorageService().delete(key: StorageConstants.token);
       var box = Hive.box<String>(HiveConstants.authBox);
+      final departmentId = box.get(HiveConstants.departmentId);
+
+      await unsubscribeFromTopics(departmentId);
 
       await box.clear();
       Logger.success('Stored data deleteAllStoredData', 'deleted data');
@@ -111,6 +115,12 @@ class AuthRepoImpl extends AuthRepo {
     }
 
     return right(null);
+  }
+
+  Future<void> unsubscribeFromTopics(String? departmentId) async {
+    if (departmentId != null) {
+      await FirebaseMessaging.instance.unsubscribeFromTopic(departmentId);
+    }
   }
 
   @override

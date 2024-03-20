@@ -5,18 +5,22 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
-import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/project_pages/data/models/project_model.dart';
 import 'package:team_finder_app/features/project_pages/data/models/team_role.dart';
 import 'package:team_finder_app/features/project_pages/data/models/technology_stack.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
-
 import 'package:team_finder_app/features/project_pages/domain/usecases/projects_usecase.dart';
+import 'package:team_finder_app/features/project_pages/presentation/bloc/projects_bloc.dart';
 
 @injectable
 class CreateProjectProvider extends ChangeNotifier {
-  final ProjectsUsecase _projectsUsecase;
+  final ProjectsBloc projectsBloc;
+  final ProjectsUsecase projectsUsecase;
+
+  CreateProjectProvider(
+      {required this.projectsUsecase, required this.projectsBloc});
+
   String name = '';
   bool _isLoading = false;
   String? _error;
@@ -110,9 +114,7 @@ class CreateProjectProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  CreateProjectProvider(this._projectsUsecase);
-
-  Future<void> createProject() async {
+  Future<Either<Failure<String>, void>> createProject() async {
     _isLoading = true;
     _error = null;
     notifyListeners();
@@ -137,17 +139,24 @@ class CreateProjectProvider extends ChangeNotifier {
       status: status.toStringValue(),
       projectManager: '1',
     );
-    await _projectsUsecase.createProject(newProject: project).then((result) {
-      result.fold(
+    return await projectsUsecase
+        .createProject(newProject: project)
+        .then((result) {
+      return result.fold(
         (left) {
           _error = left.message;
           _isLoading = false;
           notifyListeners();
+
+          return Left(left);
         },
         (right) {
           _isLoading = false;
           removeData();
           notifyListeners();
+          projectsBloc.add(const GetActiveProjectPages());
+
+          return const Right(null);
         },
       );
     });
@@ -159,7 +168,7 @@ class CreateProjectProvider extends ChangeNotifier {
     _error = null;
     teamRoles = {};
 
-    await _projectsUsecase.getTeamRoles().then((result) {
+    await projectsUsecase.getTeamRoles().then((result) {
       result.fold(
         (left) {
           _error = left.message;
@@ -187,7 +196,7 @@ class CreateProjectProvider extends ChangeNotifier {
     _error = null;
     sugestions = [];
     notifyListeners();
-    await _projectsUsecase.getTechnologyStack().then((result) {
+    await projectsUsecase.getTechnologyStack().then((result) {
       result.fold(
         (left) {
           _error = left.message;
@@ -284,7 +293,7 @@ class CreateProjectProvider extends ChangeNotifier {
       status: status.toStringValue(),
       projectManager: '1',
     );
-    await _projectsUsecase.editProject(editedProject: project).then((result) {
+    await projectsUsecase.editProject(editedProject: project).then((result) {
       result.fold(
         (left) {
           _error = left.message;
@@ -295,6 +304,7 @@ class CreateProjectProvider extends ChangeNotifier {
           _isLoading = false;
           removeData();
           notifyListeners();
+          projectsBloc.add(const GetActiveProjectPages());
         },
       );
     });
@@ -305,7 +315,7 @@ class CreateProjectProvider extends ChangeNotifier {
     _isLoading = true;
     _error = null;
     notifyListeners();
-    await _projectsUsecase.deleteProject(projectId: id).then((result) {
+    await projectsUsecase.deleteProject(projectId: id).then((result) {
       result.fold(
         (left) {
           _error = left.message;
@@ -316,6 +326,7 @@ class CreateProjectProvider extends ChangeNotifier {
           _isLoading = false;
           removeData();
           notifyListeners();
+          projectsBloc.add(const GetActiveProjectPages());
         },
       );
     });
@@ -334,22 +345,4 @@ class CreateProjectProvider extends ChangeNotifier {
     technologyStack = [];
     sugestions = [];
   }
-
-  // Future<void> test() {
-  //   var box = Hive.box<String>(HiveConstants.authBox);
-  //   String organizationId = box.get(HiveConstants.organizationId)!;
-  //   return (ApiService()
-  //       .dioPost(url: "${EndpointConstants.baseUrl}/openai/", data: {
-  //     "content": "Give me best employees for a flask app",
-  //     "organizationId": "Aa7xIWqSHdYrJX1KuqAY"
-  //   })).then((value) {
-  //     return value.fold(
-  //       (l) => Left(l),
-  //       (r) {
-  //         Logger.info('prov', r.toString());
-  //         return Right(r);
-  //       },
-  //     );
-  //   });
-  // }
 }

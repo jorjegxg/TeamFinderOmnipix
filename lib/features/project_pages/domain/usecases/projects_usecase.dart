@@ -25,8 +25,36 @@ class ProjectsUsecase {
     return projectRepo.getCurrentUserInActiveProjects();
   }
 
+  Either<Failure<String>, void> verifyProject(ProjectModel project) {
+    if (project.name.isEmpty) {
+      return Left(FieldFailure(message: 'Project name is empty'));
+    }
+    if (project.deadlineDate.isBefore(project.startDate)) {
+      return Left(FieldFailure(message: 'Deadline date is before start date'));
+    }
+    //TODO George Luta : trebuie sa facem verificare pentru technologyStack si teamRoles ?
+    // if (project.technologyStack.isEmpty) {
+    //   return Left(FieldFailure(message: 'Technology stack is empty'));
+    // }
+
+    // if (project.teamRoles.isEmpty) {
+    //   return Left(FieldFailure(message: 'Team roles are empty'));
+    // }
+    if (project.description.isEmpty) {
+      return Left(FieldFailure(message: 'Project description is empty'));
+    }
+
+    return const Right(null);
+  }
+
   Future<Either<Failure<String>, void>> createProject(
       {required ProjectModel newProject}) async {
+    final projectVerification = verifyProject(newProject);
+
+    if (projectVerification.isLeft()) {
+      return projectVerification;
+    }
+
     for (var tech in newProject.technologyStack) {
       if (tech.id == '' || tech.id.isEmpty) {
         final response =

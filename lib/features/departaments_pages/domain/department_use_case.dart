@@ -4,7 +4,7 @@ import 'package:team_finder_app/features/auth/data/models/manager.dart';
 import 'package:team_finder_app/features/departaments_pages/data/department_repository_impl.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/alocation.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/dealocation.dart';
-import 'package:team_finder_app/features/departaments_pages/data/models/department.dart';
+import 'package:team_finder_app/features/departaments_pages/data/models/department_summary.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/validation.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';

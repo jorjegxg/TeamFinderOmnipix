@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
@@ -7,7 +6,7 @@ import 'package:team_finder_app/features/settings/domain/usecases/settings_use_c
 
 @injectable
 class OwnedSkillsProvider extends ChangeNotifier {
-  SettingsUseCase _settingsUseCase;
+  final SettingsUseCase _settingsUseCase;
 
   OwnedSkillsProvider(this._settingsUseCase);
 
