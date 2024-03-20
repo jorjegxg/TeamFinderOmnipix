@@ -87,110 +87,16 @@ class ProjectsMainScreen extends StatelessWidget {
                       ),
                       BlocBuilder<ProjectsBloc, ProjectsState>(
                         builder: (context, state) {
-                          if (state.isLoading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          if (state.activeProjects.isEmpty &&
-                              state.inactiveProjects.isEmpty) {
-                            return const NotFoundWidget(
-                                text: 'Projects not found');
-                          }
-                          if (state.errorMessage.isNotEmpty) {
-                            return Center(
-                              child: Text(state.errorMessage),
-                            );
-                          }
-                          // if (stat) {
-                          //   if (state.switchState == StatusOfProject.active) {
-                          //     return ProjectsListWidget(
-                          //       userId: userId,
-                          //       projects: state.activeProjects!,
-                          //       title: 'Active Projects',
-                          //     );
-                          //   } else {
-                          //     return ProjectsListWidget(
-                          //       userId: userId,
-                          //       projects: state.inactiveProjects!,
-                          //       title: 'Past Projects',
-                          //     );
-                          //   }
-                          // }
-                          if (state.switchState == StatusOfProject.active) {
-                            if (state.activeProjects.isEmpty) {
-                              return const Center(
-                                child: Text('No active projects found'),
-                              );
-                            }
-                            return ListView.builder(
-                                itemCount: state.activeProjects.length,
-                                itemBuilder: (context, index) {
-                                  String techStackString =
-                                      getTechStringActive(state, index);
-                                  //make string for team roles
-                                  String teamRoleString =
-                                      getTeamRoleStringActive(state, index);
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ProjectWidget(
-                                      onPressed: () {
-                                        //TODO: navigate to project details, pass project id
-                                        context.goNamed(
-                                          AppRouterConst.projectDetailsScreen,
-                                          pathParameters: {
-                                            'projectId':
-                                                state.activeProjects[index].id,
-                                            'userId': userId
-                                          },
-                                          extra: state.activeProjects[index],
-                                        );
-                                      },
-                                      mainTitle:
-                                          state.activeProjects[index].name,
-                                      title1: 'Roles:',
-                                      title2: 'Tehnologies Stack:',
-                                      content1: teamRoleString,
-                                      content2: techStackString,
-                                    ),
-                                  );
-                                });
-                          } else {
-                            if (state.inactiveProjects.isEmpty) {
-                              return const NotFoundWidget(
-                                text: 'Projects not found',
-                              );
-                            }
-                            return ListView.builder(
-                                itemCount: state.inactiveProjects.length,
-                                itemBuilder: (context, index) {
-                                  String techStackString =
-                                      getTechStringInactive(state, index);
-                                  String teamRoleString =
-                                      getTeamRoleStringInactive(state, index);
-
-                                  return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ProjectWidget(
-                                      onPressed: () {
-                                        //TODO: navigate to project details, pass project id
-                                        context.goNamed(
-                                          AppRouterConst
-                                              .projectInactiveDetailsScreen,
-                                          pathParameters: {'userId': userId},
-                                          extra: state.inactiveProjects[index],
-                                        );
-                                      },
-                                      mainTitle:
-                                          state.inactiveProjects[index].name,
-                                      title1: 'Roles:',
-                                      title2: 'Tehnologies Stack:',
-                                      content1: teamRoleString,
-                                      content2: techStackString,
-                                    ),
-                                  );
-                                });
-                          }
+                          return Center(
+                            child: CustomSegmentedButton(
+                              currentView: state.switchState,
+                              onSelectionChanged: (value) {
+                                context
+                                    .read<ProjectsBloc>()
+                                    .add(SwitchProjectPages(value.first));
+                              },
+                            ),
+                          );
                         },
                       ),
                       const SizedBox(
@@ -206,9 +112,8 @@ class ProjectsMainScreen extends StatelessWidget {
                             }
                             if (state.activeProjects.isEmpty &&
                                 state.inactiveProjects.isEmpty) {
-                              return const Center(
-                                child: Text('No projects found'),
-                              );
+                              return const NotFoundWidget(
+                                  text: 'Projects not found');
                             }
                             if (state.errorMessage.isNotEmpty) {
                               return Center(
@@ -234,6 +139,7 @@ class ProjectsMainScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(8.0),
                                       child: ProjectWidget(
                                         onPressed: () {
+                                          //TODO: navigate to project details, pass project id
                                           context.goNamed(
                                             AppRouterConst.projectDetailsScreen,
                                             pathParameters: {
@@ -255,8 +161,8 @@ class ProjectsMainScreen extends StatelessWidget {
                                   });
                             } else {
                               if (state.inactiveProjects.isEmpty) {
-                                return const Center(
-                                  child: Text('No active projects found'),
+                                return const NotFoundWidget(
+                                  text: 'Projects not found',
                                 );
                               }
                               return ListView.builder(
@@ -271,14 +177,14 @@ class ProjectsMainScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(8.0),
                                       child: ProjectWidget(
                                         onPressed: () {
+                                          //TODO: navigate to project details, pass project id
                                           context.goNamed(
-                                              AppRouterConst
-                                                  .projectDetailsScreen,
-                                              pathParameters: {
-                                                'projectId': state
-                                                    .inactiveProjects[index].id,
-                                                'userId': userId
-                                              });
+                                            AppRouterConst
+                                                .projectInactiveDetailsScreen,
+                                            pathParameters: {'userId': userId},
+                                            extra:
+                                                state.inactiveProjects[index],
+                                          );
                                         },
                                         mainTitle:
                                             state.inactiveProjects[index].name,
@@ -292,6 +198,9 @@ class ProjectsMainScreen extends StatelessWidget {
                             }
                           },
                         ),
+                      ),
+                      const SizedBox(
+                        height: 40,
                       ),
                     ],
                   ),
