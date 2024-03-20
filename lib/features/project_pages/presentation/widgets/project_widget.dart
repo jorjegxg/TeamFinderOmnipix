@@ -12,6 +12,7 @@ class ProjectWidget extends StatelessWidget {
     required this.content2,
     required this.onPressed,
     this.onLongPress,
+    this.showButton = true,
     this.color,
     this.buttonText,
     this.isLoading = false,
@@ -24,6 +25,7 @@ class ProjectWidget extends StatelessWidget {
   final String content2;
   final Function() onPressed;
   final Function()? onLongPress;
+  final bool showButton;
   final Color? color;
   final String? buttonText;
   final bool isLoading;
@@ -74,17 +76,16 @@ class ProjectWidget extends StatelessWidget {
                   content2,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: CustomButton(
-                    text: buttonText ?? 'View Details',
-                    onPressed: onPressed,
-                    buttonHeight: 30,
-                    buttonWidth: 60,
-                    color: color,
-                    isLoading: isLoading,
+                if (showButton)
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: CustomButton(
+                      text: 'View Details',
+                      onPressed: onPressed,
+                      buttonHeight: 30,
+                      buttonWidth: 60,
+                    ),
                   ),
-                ),
               ],
             ),
           ),

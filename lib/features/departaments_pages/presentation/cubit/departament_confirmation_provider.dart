@@ -10,11 +10,11 @@ class DepartamentConfirmationProvider extends ChangeNotifier {
 
   DepartamentConfirmationProvider(this._departmentUseCase);
 
-  List<Dealocation> _dealocations = [];
+  List<Dealocation> _dealocations = List.from([]);
   bool _isLoading = false;
-  String? _error;
-  final List<Alocation> _alocations = [];
-  final List<dynamic> _allItems = [];
+  String? _error = null;
+  List<Alocation> _alocations = List.from([]);
+  List<dynamic> _allItems = List.from([]);
 
   List<Dealocation> get dealocations => _dealocations;
   bool get isLoading => _isLoading;
@@ -33,7 +33,7 @@ class DepartamentConfirmationProvider extends ChangeNotifier {
         notifyListeners();
       },
       (r) {
-        _dealocations = r;
+        _dealocations = List.from(r);
         _allItems.addAll(r);
         _isLoading = false;
         notifyListeners();
@@ -52,6 +52,79 @@ class DepartamentConfirmationProvider extends ChangeNotifier {
       },
       (r) {
         _allItems.addAll(r);
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
+  }
+
+  //accept/refuse
+  Future<void> acceptDealocation(String id) async {
+    _isLoading = true;
+    notifyListeners();
+    (await _departmentUseCase.acceptDealocation(id)).fold(
+      (l) {
+        _error = l.message;
+        _isLoading = false;
+        notifyListeners();
+      },
+      (r) {
+        _dealocations.removeWhere((element) => element.id == id);
+        _allItems.removeWhere((element) => element.id == id);
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
+  }
+
+  Future<void> refuseDealocation(String id) async {
+    _isLoading = true;
+    notifyListeners();
+    (await _departmentUseCase.refuseDealocation(id)).fold(
+      (l) {
+        _error = l.message;
+        _isLoading = false;
+        notifyListeners();
+      },
+      (r) {
+        // _dealocations.removeWhere((element) => element.id == id);
+        _allItems.removeWhere((element) => element.id == id);
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
+  }
+
+  Future<void> acceptAlocation(String id) async {
+    _isLoading = true;
+    notifyListeners();
+    (await _departmentUseCase.acceptAlocation(id)).fold(
+      (l) {
+        _error = l.message;
+        _isLoading = false;
+        notifyListeners();
+      },
+      (r) {
+        _alocations.removeWhere((element) => element.id == id);
+        _allItems.removeWhere((element) => element.id == id);
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
+  }
+
+  Future<void> refuseAlocation(String id) async {
+    _isLoading = true;
+    notifyListeners();
+    (await _departmentUseCase.refuseAlocation(id)).fold(
+      (l) {
+        _error = l.message;
+        _isLoading = false;
+        notifyListeners();
+      },
+      (r) {
+        _alocations.removeWhere((element) => element.id == id);
+        _allItems.removeWhere((element) => element.id == id);
         _isLoading = false;
         notifyListeners();
       },

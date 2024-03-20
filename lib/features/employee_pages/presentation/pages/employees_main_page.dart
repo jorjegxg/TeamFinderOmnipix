@@ -24,7 +24,10 @@ class EmployeeMainPage extends HookWidget {
   Widget build(BuildContext context) {
     final TextEditingController nameConttroler = TextEditingController();
     return Builder(builder: (context) {
-      return Consumer<EmployeeRolesProvider>(builder: (context, prov, child) {
+      return RefreshIndicator(onRefresh: () async {
+        await context.read<EmployeesProvider>().fetchEmployees();
+      }, child:
+          Consumer<EmployeeRolesProvider>(builder: (context, prov, child) {
         Logger.info('EmployeeMainPage',
             'admin : ${prov.isOrganizationAdmin} departmentManager : ${prov.isDepartmentManager} projectManager : ${prov.isProjectManager}');
         return SafeArea(
@@ -136,7 +139,7 @@ class EmployeeMainPage extends HookWidget {
             ),
           ),
         );
-      });
+      }));
     });
   }
 }

@@ -15,9 +15,11 @@ class AddEmployeeToDepartamentPage extends HookWidget {
     super.key,
     required this.userId,
     required this.departamentId,
+    required this.departamentName,
   });
   final String userId;
   final String departamentId;
+  final String departamentName;
 
   @override
   Widget build(BuildContext context) {
@@ -99,12 +101,14 @@ class AddEmployeeToDepartamentPage extends HookWidget {
                                       onPressed: () async {
                                         await provider.addEmployeesToDepartment(
                                             departamentId);
+
                                         context.goNamed(
                                             AppRouterConst
                                                 .departamentEmployeesPage,
                                             pathParameters: {
                                               'userId': userId,
-                                              'departamentId': departamentId
+                                              'departamentId': departamentId,
+                                              'departamentName': departamentName
                                             });
                                       },
                                     ),

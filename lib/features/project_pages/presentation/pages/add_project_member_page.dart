@@ -34,7 +34,8 @@ class _AddProjectMembersPageState extends State<AddProjectMembersPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await Provider.of<AddMembersProvider>(context, listen: false)
-          .fetchMembers(widget.projectId);
+        ..resetAll()
+        ..fetchMembers(widget.projectId);
     });
     super.initState();
   }
@@ -49,6 +50,7 @@ class _AddProjectMembersPageState extends State<AddProjectMembersPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
           title: Text(
@@ -136,10 +138,10 @@ class _AddProjectMembersPageState extends State<AddProjectMembersPage> {
                                 IconButton(
                                   icon: const Icon(Icons.search,
                                       color: Colors.black),
-                                  onPressed: () {
-                                    provider.fetchMembersWithChatGPT(
-                                      aditionalConttroler.text,
-                                    );
+                                  onPressed: () async {
+                                    await provider.fetchMembersWithChatGPT(
+                                        aditionalConttroler.text, context);
+                                    aditionalConttroler.text = '';
                                   },
                                 )
                               ],
@@ -156,20 +158,33 @@ class _AddProjectMembersPageState extends State<AddProjectMembersPage> {
                                     return Padding(
                                       padding: const EdgeInsets.all(10),
                                       child: NewMembersCard(
+                                        color: !(provider.getMembers[index]
+                                                    .workingHours <
+                                                8)
+                                            ? Color.fromARGB(111, 255, 8, 0)
+                                            : null,
                                         name: provider.getMembers[index].name,
                                         email: provider.getMembers[index].email,
                                         onDoubleTap: () {
-                                          context.goNamed(
-                                            AppRouterConst
-                                                .sendAssignmentProposal,
-                                            pathParameters: {
-                                              'projectId': widget.projectId,
-                                              'employeeId':
-                                                  provider.getMembers[index].id,
-                                              'userId': widget.userId
-                                            },
-                                            extra: widget.project,
-                                          );
+                                          if (provider.getMembers[index]
+                                                  .workingHours <
+                                              8) {
+                                            context.goNamed(
+                                              AppRouterConst
+                                                  .sendAssignmentProposal,
+                                              pathParameters: {
+                                                'projectId': widget.projectId,
+                                                'employeeId': provider
+                                                    .getMembers[index].id,
+                                                'userId': widget.userId,
+                                                'workingHours': provider
+                                                    .getMembers[index]
+                                                    .workingHours
+                                                    .toString(),
+                                              },
+                                              extra: widget.project,
+                                            );
+                                          }
                                         },
                                       ),
                                     );

@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 import 'package:team_finder_app/features/project_pages/domain/usecases/projects_usecase.dart';
 
@@ -27,6 +29,15 @@ class AddMembersProvider extends ChangeNotifier {
   //set
   set setPartialyAvabile(bool value) {
     partialyAvabile = value;
+    notifyListeners();
+  }
+
+  //reset all
+  void resetAll() {
+    partialyAvabile = false;
+    unAvabile = false;
+    closeToFinish = false;
+    noOfWeeks = 0;
     notifyListeners();
   }
 
@@ -110,12 +121,16 @@ class AddMembersProvider extends ChangeNotifier {
             notifyListeners();
           },
         );
+      } else {
+        _isLoading = false;
+        notifyListeners();
       }
     }
   }
 
   //fetch members with chatGPT
-  Future<void> fetchMembersWithChatGPT(String description) async {
+  Future<void> fetchMembersWithChatGPT(
+      String description, BuildContext context) async {
     _isLoading = true;
     _error = null;
     notifyListeners();
@@ -126,6 +141,7 @@ class AddMembersProvider extends ChangeNotifier {
       (l) {
         _error = l.message;
         _isLoading = false;
+        showSnackBar(context, l.message);
         notifyListeners();
       },
       (r) {

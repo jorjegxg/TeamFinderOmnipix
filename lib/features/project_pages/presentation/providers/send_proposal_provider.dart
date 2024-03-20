@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
@@ -67,7 +66,7 @@ class SendProposalProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> sendProposal(BuildContext context) async {
+  Future<void> sendProposal(BuildContext context, String employeeId) async {
     _isLoading = true;
     _error = null;
     notifyListeners();
@@ -76,6 +75,7 @@ class SendProposalProvider extends ChangeNotifier {
       proposal: _proposal,
       workHours: _workHours,
       teamRoles: _teamRoles,
+      projectId: employeeId,
     );
     result.fold((l) {
       _error = l.message;

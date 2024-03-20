@@ -10,6 +10,7 @@ import 'package:team_finder_app/features/departaments_pages/presentation/cubit/d
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/create_departament_dialog.dart';
+import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_widget.dart';
 import 'package:team_finder_app/injection.dart';
@@ -177,7 +178,10 @@ class ListOfDepartments extends StatelessWidget {
                                             pathParameters: {
                                               'userId': widget.userId,
                                               'departamentId':
-                                                  state.departments[index].id
+                                                  state.departments[index].id,
+                                              'departamentName': state
+                                                  .departments[index]
+                                                  .departmentName
                                             });
                                       });
                           },
@@ -187,10 +191,9 @@ class ListOfDepartments extends StatelessWidget {
                   );
                 });
           } else {
-            return const Center(child: Text('No departaments found <3'));
+            return const NotFoundWidget(text: 'No departaments found <3');
           }
         }
-
         return const SizedBox();
       },
     );

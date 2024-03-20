@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:team_finder_app/features/project_pages/data/repositories/project_repo_impl.dart';
+import 'package:team_finder_app/features/project_pages/domain/repositories/project_repo.dart';
+import 'package:team_finder_app/features/project_pages/domain/usecases/projects_usecase.dart';
 
 class DealocationDialog extends HookWidget {
-  const DealocationDialog({super.key});
-
+  const DealocationDialog(
+      {required this.projectId, super.key, required this.employeeId});
+  final String projectId;
+  final String employeeId;
   @override
   Widget build(BuildContext context) {
     final TextEditingController dealocationController =
@@ -45,7 +50,12 @@ class DealocationDialog extends HookWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    //TODO: add functionality to the add button
+                    ProjectsUsecase projectUsecase =
+                        ProjectsUsecase(ProjectRepoImpl());
+                    projectUsecase.sendDealocationProposal(
+                        projectId: projectId,
+                        proposal: dealocationController.text,
+                        employeeId: employeeId);
                     Navigator.pop(context);
                   },
                   child: const Text('Add'),

@@ -21,6 +21,7 @@ class ValidationProvider extends ChangeNotifier {
 
   Future<void> fetchValidations(String departamentId) async {
     _isLoading = true;
+    _error = null;
     notifyListeners();
     (await _departmentUseCase.fetchValidation(departamentId)).fold(
       (l) {

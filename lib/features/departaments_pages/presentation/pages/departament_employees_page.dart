@@ -4,9 +4,11 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:team_finder_app/core/error/failures.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_employees_provider.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/widgets/employee_card.dart';
+import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/search_text_field.dart';
 import 'package:team_finder_app/injection.dart';
 
@@ -15,10 +17,11 @@ class DepartamentEmployeesPage extends HookWidget {
     super.key,
     required this.userId,
     required this.departamentId,
+    required this.departamentName,
   });
   final String userId;
   final String departamentId;
-
+  final String departamentName;
   @override
   Widget build(BuildContext context) {
     final TextEditingController nameConttroler = useTextEditingController();
@@ -42,6 +45,7 @@ class DepartamentEmployeesPage extends HookWidget {
                     pathParameters: {
                       'userId': userId,
                       'departamentId': departamentId,
+                      'departamentName': departamentName,
                     },
                   );
                 },
@@ -71,6 +75,17 @@ class DepartamentEmployeesPage extends HookWidget {
                           Expanded(
                             child: Consumer<DepartamentEmployeesProvider>(
                               builder: (context, provider, state) {
+                                if (provider.isLoading) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+                                if (provider.error != null) {
+                                  return Text(provider.error!);
+                                }
+                                if (provider.employees.isEmpty) {
+                                  return const NotFoundWidget(
+                                      text: 'No employees found');
+                                }
                                 return ListView.builder(
                                   itemCount: provider.employees.length,
                                   itemBuilder: (context, index) {

@@ -6,10 +6,12 @@ class NewMembersCard extends StatelessWidget {
       {super.key,
       required this.name,
       required this.email,
-      required this.onDoubleTap});
+      required this.onDoubleTap,
+      this.color});
   final String name;
   final String email;
   final Function() onDoubleTap;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -18,7 +20,7 @@ class NewMembersCard extends StatelessWidget {
         width: 100.w,
         height: 10.h,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainer,
+          color: color ?? Theme.of(context).colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(

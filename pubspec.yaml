@@ -63,6 +63,7 @@ dependencies:
   web_smooth_scroll: ^1.1.0
   cloud_functions: ^4.6.9
   numberpicker: ^2.1.2
+  pull_to_refresh_flutter3: ^2.0.2
 
 dev_dependencies:
 
