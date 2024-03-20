@@ -244,41 +244,41 @@ extension ProjectPeriodX on ProjectPeriod {
 }
 
 enum ProjectStatus {
-  NotStarted,
-  Starting,
-  InProgress,
-  Closing,
-  Closed,
+  notStarted,
+  starting,
+  inProgress,
+  closing,
+  closed,
 }
 
 extension ProjectStatusX on ProjectStatus {
   static ProjectStatus fromString(String status) {
     if (status == 'Not Started') {
-      return ProjectStatus.NotStarted;
+      return ProjectStatus.notStarted;
     } else if (status == 'Starting') {
-      return ProjectStatus.Starting;
+      return ProjectStatus.starting;
     } else if (status == 'In Progress') {
-      return ProjectStatus.InProgress;
+      return ProjectStatus.inProgress;
     } else if (status == 'Closing') {
-      return ProjectStatus.Closing;
+      return ProjectStatus.closing;
     } else {
-      return ProjectStatus.Closed;
+      return ProjectStatus.closed;
     }
   }
 
   // check if project status is not started or starting
   bool isNotStartedOrStarting() {
-    return this == ProjectStatus.NotStarted || this == ProjectStatus.Starting;
+    return this == ProjectStatus.notStarted || this == ProjectStatus.starting;
   }
 
   String toStringValue() {
-    if (this == ProjectStatus.NotStarted) {
+    if (this == ProjectStatus.notStarted) {
       return 'Not Started';
-    } else if (this == ProjectStatus.Starting) {
+    } else if (this == ProjectStatus.starting) {
       return 'Starting';
-    } else if (this == ProjectStatus.InProgress) {
+    } else if (this == ProjectStatus.inProgress) {
       return 'In Progress';
-    } else if (this == ProjectStatus.Closing) {
+    } else if (this == ProjectStatus.closing) {
       return 'Closing';
     } else {
       return 'Closed';

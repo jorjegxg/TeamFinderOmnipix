@@ -9,7 +9,6 @@ import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employees_provider.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/widgets/copy_link_dialog.dart';
-
 import 'package:team_finder_app/features/employee_pages/presentation/widgets/employee_card.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/search_text_field.dart';
 
@@ -87,14 +86,8 @@ class EmployeeMainPage extends HookWidget {
                                             .employees[index].isCurrentUser,
                                         name: employeeProvider
                                             .employees[index].name,
-                                        //TODO George Luta : de ce nu merge nici aici ?
                                         onTap: prov.isOrganizationAdmin
                                             ? () {
-                                                Logger.info(
-                                                    'EmployeeCard.onTap',
-                                                    employeeProvider
-                                                        .employees[index].name);
-
                                                 context.goNamed(
                                                   AppRouterConst
                                                       .employeeProfileScreen,

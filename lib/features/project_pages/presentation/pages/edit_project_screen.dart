@@ -178,15 +178,15 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                         Center(
                                           child: CustomDropdownButton(
                                             elements: [
-                                              ProjectStatus.NotStarted
+                                              ProjectStatus.notStarted
                                                   .toStringValue(),
-                                              ProjectStatus.Starting
+                                              ProjectStatus.starting
                                                   .toStringValue(),
-                                              ProjectStatus.InProgress
+                                              ProjectStatus.inProgress
                                                   .toStringValue(),
-                                              ProjectStatus.Closing
+                                              ProjectStatus.closing
                                                   .toStringValue(),
-                                              ProjectStatus.Closed
+                                              ProjectStatus.closed
                                                   .toStringValue(),
                                             ],
                                             buttonWidth: 80.w,

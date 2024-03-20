@@ -8,13 +8,13 @@ class SuggestionTextField extends StatelessWidget {
   const SuggestionTextField({
     super.key,
     required this.options,
-    required this.onSubmitted,
+    this.onSubmitted,
     required this.controller,
     this.width,
   });
   final TextEditingController controller;
   final List<String> options;
-  final void Function(String) onSubmitted;
+  final void Function(String)? onSubmitted;
   final double? width;
   @override
   Widget build(BuildContext context) {

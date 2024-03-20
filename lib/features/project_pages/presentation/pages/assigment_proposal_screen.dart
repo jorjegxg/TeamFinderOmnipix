@@ -5,8 +5,8 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
-import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
+import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/send_proposal_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_dropdown_button.dart';
@@ -108,8 +108,9 @@ class AssignmentProposalScreen extends HookWidget {
                                                       .name,
                                                 ),
                                                 ConstrainedBox(
-                                                  constraints: BoxConstraints(
-                                                      maxHeight: 100),
+                                                  constraints:
+                                                      const BoxConstraints(
+                                                          maxHeight: 100),
                                                   child: ListView.builder(
                                                     scrollDirection:
                                                         Axis.horizontal,

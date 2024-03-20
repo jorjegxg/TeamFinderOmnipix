@@ -163,9 +163,6 @@ class DesktopCreateProjectScreen extends HookWidget {
                                               nameConttroler: nameColtroler,
                                               hintText: 'Name',
                                               width: 20.w,
-                                              onSubmitted: (String) {
-                                                //TODO: implement onSubmitted logic
-                                              },
                                             ),
                                             CustomDropdownButton(
                                               elements: const [
@@ -173,9 +170,6 @@ class DesktopCreateProjectScreen extends HookWidget {
                                                 'Ongoing'
                                               ],
                                               buttonWidth: 20.w,
-                                              onChanged: (String? value) {
-                                                //TODO: implement onChanged logic
-                                              },
                                               dropdownValue: 'Fixed',
                                             ),
                                             CustomDropdownButton(
@@ -184,9 +178,6 @@ class DesktopCreateProjectScreen extends HookWidget {
                                                 'Starting',
                                               ],
                                               buttonWidth: 20.w,
-                                              onChanged: (String? value) {
-                                                //TODO: implement onChanged logic
-                                              },
                                               dropdownValue: 'Not Started',
                                             ),
                                           ],
@@ -249,9 +240,6 @@ class DesktopCreateProjectScreen extends HookWidget {
                                       keyboardType: TextInputType.multiline,
                                       minLines: 10,
                                       width: 30.w,
-                                      onSubmitted: (String s) {
-                                        //TODO: implement onSubmitted logic
-                                      },
                                     ),
                                   ),
                                   const SizedBox(height: 40),
@@ -290,9 +278,6 @@ class DesktopCreateProjectScreen extends HookWidget {
                                         SuggestionTextField(
                                           width: 20.w,
                                           options: const ['asdas'],
-                                          onSubmitted: (String s) {
-                                            //TODO: add functionality to the text field,add the text to the list
-                                          },
                                           controller: nameColtroler,
                                         ),
                                         const SizedBox(height: 15),
@@ -320,7 +305,6 @@ class DesktopCreateProjectScreen extends HookWidget {
                                                       dismissible:
                                                           DismissiblePane(
                                                               onDismissed: () {
-                                                        //TODO: implement onDismissed logic
                                                         items.removeAt(index);
                                                       }),
 
@@ -520,7 +504,7 @@ class TabletCreateProjectScreen extends HookWidget {
                                             nameConttroler: nameColtroler,
                                             hintText: 'Name',
                                             width: 50.w,
-                                            onSubmitted: (String) {
+                                            onSubmitted: (value) {
                                               //TODO: implement onSubmitted logic
                                             },
                                           ),
@@ -673,7 +657,6 @@ class TabletCreateProjectScreen extends HookWidget {
                                                     dismissible:
                                                         DismissiblePane(
                                                             onDismissed: () {
-                                                      //TODO: implement onDismissed logic
                                                       items.removeAt(index);
                                                     }),
 
@@ -764,9 +747,7 @@ class TabletCreateProjectScreen extends HookWidget {
                       padding: EdgeInsets.symmetric(horizontal: 2.5.w),
                       child: CustomButton(
                         text: 'Done',
-                        onPressed: () {
-                          //TODO: implement done logic
-                        },
+                        onPressed: () {},
                       ),
                     ),
                     const SizedBox(height: 20),

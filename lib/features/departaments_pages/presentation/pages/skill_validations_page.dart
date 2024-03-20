@@ -47,9 +47,9 @@ class SkillValidationPage extends HookWidget {
                         builder: (BuildContext context, Orientation orientation,
                             DeviceType deviceType) {
                           return provider.allItems.isEmpty
-                              ? Align(
+                              ? const Align(
                                   alignment: Alignment.center,
-                                  child: const NotFoundWidget(
+                                  child: NotFoundWidget(
                                     text: 'No skill validations',
                                   ),
                                 )

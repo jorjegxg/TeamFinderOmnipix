@@ -52,16 +52,6 @@ class ProjectsMainScreen extends StatelessWidget {
                 'Projects',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    context.read<AuthBloc>().add(AuthLogoutRequested(
-                          context: context,
-                        ));
-                  },
-                  icon: const Icon(Icons.logout),
-                ),
-              ],
             ),
             body: Sizer(
               builder: (BuildContext context, Orientation orientation,
@@ -139,7 +129,6 @@ class ProjectsMainScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(8.0),
                                       child: ProjectWidget(
                                         onPressed: () {
-                                          //TODO: navigate to project details, pass project id
                                           context.goNamed(
                                             AppRouterConst.projectDetailsScreen,
                                             pathParameters: {
@@ -177,7 +166,6 @@ class ProjectsMainScreen extends StatelessWidget {
                                       padding: const EdgeInsets.all(8.0),
                                       child: ProjectWidget(
                                         onPressed: () {
-                                          //TODO: navigate to project details, pass project id
                                           context.goNamed(
                                             AppRouterConst
                                                 .projectInactiveDetailsScreen,
@@ -376,7 +364,6 @@ class ProjectsListWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: ProjectWidget(
                     onPressed: () {
-                      //TODO: navigate to project details, pass project id
                       context.goNamed(AppRouterConst.projectDetailsScreen,
                           pathParameters: {'projectId': '1', 'userId': userId});
                     },

@@ -108,9 +108,9 @@ class MobileCreateProjectScreen extends StatelessWidget {
                                           const SizedBox(height: 20),
                                           CustomDropdownButton(
                                             elements: [
-                                              ProjectStatus.NotStarted
+                                              ProjectStatus.notStarted
                                                   .toStringValue(),
-                                              ProjectStatus.Starting
+                                              ProjectStatus.starting
                                                   .toStringValue(),
                                             ],
                                             buttonWidth: 80.w,

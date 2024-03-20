@@ -25,7 +25,7 @@ class CreateProjectProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _error;
   ProjectPeriod period = ProjectPeriod.fixed;
-  ProjectStatus status = ProjectStatus.NotStarted;
+  ProjectStatus status = ProjectStatus.notStarted;
   DateTime startDate = DateTime.now();
   DateTime deadlineDate = DateTime.now();
   String description = '';
@@ -230,7 +230,7 @@ class CreateProjectProvider extends ChangeNotifier {
     _isLoading = false;
     _error = null;
     period = ProjectPeriod.fixed;
-    status = ProjectStatus.NotStarted;
+    status = ProjectStatus.notStarted;
     startDate = DateTime.now();
     deadlineDate = DateTime.now();
     description = '';
@@ -337,7 +337,7 @@ class CreateProjectProvider extends ChangeNotifier {
     _isLoading = false;
     _error = null;
     period = ProjectPeriod.fixed;
-    status = ProjectStatus.NotStarted;
+    status = ProjectStatus.notStarted;
     startDate = DateTime.now();
     deadlineDate = DateTime.now();
     description = '';

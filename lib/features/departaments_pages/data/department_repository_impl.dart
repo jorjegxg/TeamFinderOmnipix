@@ -261,7 +261,7 @@ class DepartmentRepositoryImpl {
     ))
         .fold(
       (l) => left(l),
-      (r) => right(r),
+      (r) => right(null),
     );
   }
 
@@ -274,7 +274,7 @@ class DepartmentRepositoryImpl {
     ))
         .fold(
       (l) => left(l),
-      (r) => right(r),
+      (r) => right(null),
     );
   }
 
@@ -363,7 +363,7 @@ class DepartmentRepositoryImpl {
     ).then(
       (value) => value.fold(
         (l) => left(l),
-        (r) => right(r),
+        (r) => right(null),
       ),
     );
   }
@@ -377,7 +377,7 @@ class DepartmentRepositoryImpl {
         .then(
           (value) => value.fold(
             (l) => left(l),
-            (r) => right(r),
+            (r) => right(null),
           ),
         );
   }
@@ -397,7 +397,7 @@ class DepartmentRepositoryImpl {
     ).then(
       (value) => value.fold(
         (l) => left(l),
-        (r) => right(r),
+        (r) => right(null),
       ),
     );
   }
@@ -445,7 +445,7 @@ class DepartmentRepositoryImpl {
         .then(
           (value) => value.fold(
             (l) => left(l),
-            (r) => right(r),
+            (r) => right(null),
           ),
         );
   }
@@ -459,7 +459,7 @@ class DepartmentRepositoryImpl {
         .then(
           (value) => value.fold(
             (l) => left(l),
-            (r) => right(r),
+            (r) => right(null),
           ),
         );
   }
@@ -473,7 +473,7 @@ class DepartmentRepositoryImpl {
         .then(
           (value) => value.fold(
             (l) => left(l),
-            (r) => right(r),
+            (r) => right(null),
           ),
         );
   }
@@ -487,7 +487,7 @@ class DepartmentRepositoryImpl {
         .then(
           (value) => value.fold(
             (l) => left(l),
-            (r) => right(r),
+            (r) => right(null),
           ),
         );
   }

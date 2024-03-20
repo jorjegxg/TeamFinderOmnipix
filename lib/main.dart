@@ -122,9 +122,6 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
             create: (context) => getIt<EditProjectProvider>()),
         BlocProvider(
-          create: (context) => getIt<AuthBloc>(),
-        ),
-        BlocProvider(
           create: (context) => getIt<DepartmentCreateCubit>(),
         ),
         BlocProvider(
@@ -145,6 +142,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
             create: (context) => getIt<CreateProjectProvider>()),
+        BlocProvider(
+          create: (context) => getIt<AuthBloc>(),
+        ),
       ],
       child: ResponsiveApp(
         builder: (context) {

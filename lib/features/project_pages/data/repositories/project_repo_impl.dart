@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
+import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/departaments_pages/data/models/skill.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
@@ -8,7 +9,6 @@ import 'package:team_finder_app/features/project_pages/data/models/team_role.dar
 import 'package:team_finder_app/features/project_pages/data/models/technology_stack.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/domain/repositories/project_repo.dart';
-import 'package:team_finder_app/core/exports/rest_imports.dart';
 
 @LazySingleton(as: ProjectRepo)
 class ProjectRepoImpl extends ProjectRepo {
@@ -108,7 +108,7 @@ class ProjectRepoImpl extends ProjectRepo {
         return Left(l);
       },
       (r) {
-        return Right(r);
+        return const Right(null);
       },
     );
   }
@@ -211,7 +211,7 @@ class ProjectRepoImpl extends ProjectRepo {
         return Left(l);
       },
       (r) {
-        return Right(r);
+        return const Right(null);
       },
     );
   }
@@ -226,7 +226,7 @@ class ProjectRepoImpl extends ProjectRepo {
         .then((value) {
       return value.fold(
         (l) => Left(l),
-        (r) => Right(r),
+        (r) => const Right(null),
       );
     });
   }
@@ -378,7 +378,7 @@ class ProjectRepoImpl extends ProjectRepo {
     ).then((value) {
       return value.fold(
         (l) => Left(l),
-        (r) => Right(r),
+        (r) => const Right(null),
       );
     });
   }
@@ -426,7 +426,7 @@ class ProjectRepoImpl extends ProjectRepo {
     ).then((value) {
       return value.fold(
         (l) => Left(l),
-        (r) => Right(r),
+        (r) => const Right(null),
       );
     });
   }
@@ -447,7 +447,7 @@ class ProjectRepoImpl extends ProjectRepo {
     ).then((value) {
       return value.fold(
         (l) => Left(l),
-        (r) => Right(r),
+        (r) => const Right(null),
       );
     });
   }

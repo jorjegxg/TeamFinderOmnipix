@@ -47,7 +47,7 @@ class TeamRoleCard extends StatelessWidget {
         children: [
           // A SlidableAction can have an icon and/or a label.
           SlidableAction(
-            backgroundColor: Color.fromARGB(255, 155, 233, 153),
+            backgroundColor: const Color.fromARGB(255, 155, 233, 153),
             foregroundColor: Colors.white,
             icon: Icons.person_remove,
             label: 'Edit',

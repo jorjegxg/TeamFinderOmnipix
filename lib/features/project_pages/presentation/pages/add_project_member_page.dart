@@ -8,7 +8,6 @@ import 'package:team_finder_app/features/project_pages/domain/entities/project_e
 import 'package:team_finder_app/features/project_pages/presentation/providers/add_member_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/filter_dialog.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/new_members_card.dart';
-
 import 'package:team_finder_app/features/project_pages/presentation/widgets/search_text_field.dart';
 
 class AddProjectMembersPage extends StatefulWidget {
@@ -33,7 +32,7 @@ class _AddProjectMembersPageState extends State<AddProjectMembersPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await Provider.of<AddMembersProvider>(context, listen: false)
+      Provider.of<AddMembersProvider>(context, listen: false)
         ..resetAll()
         ..fetchMembers(widget.projectId);
     });
@@ -161,7 +160,8 @@ class _AddProjectMembersPageState extends State<AddProjectMembersPage> {
                                         color: !(provider.getMembers[index]
                                                     .workingHours <
                                                 8)
-                                            ? Color.fromARGB(111, 255, 8, 0)
+                                            ? const Color.fromARGB(
+                                                111, 255, 8, 0)
                                             : null,
                                         name: provider.getMembers[index].name,
                                         email: provider.getMembers[index].email,

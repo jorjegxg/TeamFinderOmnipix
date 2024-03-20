@@ -8,7 +8,6 @@ import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/project_pages/data/models/team_role.dart';
 import 'package:team_finder_app/features/project_pages/data/models/technology_stack.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
-
 import 'package:team_finder_app/features/project_pages/domain/usecases/projects_usecase.dart';
 
 @injectable
@@ -18,7 +17,7 @@ class EditProjectProvider extends ChangeNotifier {
   bool _isLoading = true;
   String? _error;
   ProjectPeriod period = ProjectPeriod.fixed;
-  ProjectStatus status = ProjectStatus.NotStarted;
+  ProjectStatus status = ProjectStatus.notStarted;
   DateTime startDate = DateTime.now();
   DateTime deadlineDate = DateTime.now();
   String description = '';
@@ -176,7 +175,7 @@ class EditProjectProvider extends ChangeNotifier {
     _isLoading = false;
     _error = null;
     period = ProjectPeriod.fixed;
-    status = ProjectStatus.NotStarted;
+    status = ProjectStatus.notStarted;
     startDate = DateTime.now();
     deadlineDate = DateTime.now();
     description = '';
@@ -285,7 +284,7 @@ class EditProjectProvider extends ChangeNotifier {
     _isLoading = true;
     _error = null;
     period = ProjectPeriod.fixed;
-    status = ProjectStatus.NotStarted;
+    status = ProjectStatus.notStarted;
     startDate = DateTime.now();
     deadlineDate = DateTime.now();
     description = '';

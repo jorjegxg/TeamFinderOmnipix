@@ -70,11 +70,11 @@ class DetailsBodyWidget extends StatelessWidget {
   });
   final String userId;
   @override
-  Widget build(BuildContext buildContext) {
+  Widget build(BuildContext context) {
     return Expanded(
       child: Card(
         margin: const EdgeInsets.all(10),
-        // color: Theme.of(buildContext).colorScheme.primaryContainer,
+        // color: Theme.of(context).colorScheme.primaryContainer,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -83,7 +83,7 @@ class DetailsBodyWidget extends StatelessWidget {
                 text: 'Edit Profile',
                 onPressed: () {
                   showDialog(
-                    context: buildContext,
+                    context: context,
                     builder: (ctx) => Consumer<ProfileProvider>(
                       builder: (context, provider, _) => FieldDialog(
                         onPress: (String t1, String? t2) async {
@@ -109,7 +109,7 @@ class DetailsBodyWidget extends StatelessWidget {
               OptionWidget(
                 text: 'Personal Skills',
                 onPressed: () {
-                  buildContext.goNamed(AppRouterConst.personalSkillsPage,
+                  context.goNamed(AppRouterConst.personalSkillsPage,
                       pathParameters: {'userId': userId});
                 },
               ),
@@ -119,7 +119,7 @@ class DetailsBodyWidget extends StatelessWidget {
                     return OptionWidget(
                       text: 'Create Team Roles',
                       onPressed: () {
-                        buildContext.goNamed(AppRouterConst.teamRolesPage,
+                        context.goNamed(AppRouterConst.teamRolesPage,
                             pathParameters: {'userId': userId});
                       },
                     );
@@ -131,7 +131,7 @@ class DetailsBodyWidget extends StatelessWidget {
                 text: 'Change Password',
                 onPressed: () {
                   showDialog(
-                    context: buildContext,
+                    context: context,
                     builder: (ctx) => Consumer<ProfileProvider>(
                       builder: (context, provider, _) => FieldDialog(
                         title: 'Change Password',
@@ -159,7 +159,7 @@ class DetailsBodyWidget extends StatelessWidget {
                     return OptionWidget(
                       text: 'Create Skill',
                       onPressed: () {
-                        buildContext.goNamed(AppRouterConst.ownedSkillPage,
+                        context.goNamed(AppRouterConst.ownedSkillPage,
                             pathParameters: {'userId': userId});
                       },
                     );

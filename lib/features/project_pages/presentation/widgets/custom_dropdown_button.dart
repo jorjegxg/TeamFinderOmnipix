@@ -6,13 +6,13 @@ class CustomDropdownButton extends StatefulWidget {
     required this.elements,
     this.buttonHeight,
     this.buttonWidth,
-    required this.onChanged,
+    this.onChanged,
     required this.dropdownValue,
   });
   final List<String> elements;
   final double? buttonHeight;
   final double? buttonWidth;
-  final Function(String?) onChanged;
+  final Function(String?)? onChanged;
   final String dropdownValue;
   @override
   State<CustomDropdownButton> createState() => _CustomDropdownButtonState();

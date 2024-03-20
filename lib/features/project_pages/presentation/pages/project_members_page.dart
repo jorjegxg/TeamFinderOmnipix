@@ -84,7 +84,6 @@ class ProjectMembersPage extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  //TODO: add functionality to the icon buttons,the selected icon should be highlighted
                                   CustomIconButton(
                                     icon: Icons.person_off,
                                     onPressed: () {
@@ -93,6 +92,7 @@ class ProjectMembersPage extends StatelessWidget {
                                       provider.getPastMembers(projectId);
                                     },
                                     iconColor: provider.getIsSelected[0]
+                                        //TODO George Luta : schimba culorile
                                         ? const Color(0xFF0d1290)
                                         : Theme.of(context).colorScheme.surface,
                                   ),

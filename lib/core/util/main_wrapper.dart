@@ -74,20 +74,17 @@ class _MainWrapperState extends State<MainWrapper> {
                       currentIndex: _selectedIndex,
                       showSelectedLabels: false,
                       showUnselectedLabels: false,
-                      items:
-                          //TODO George Luta : de ce nu merge ??
-                          prov.isOrganizationAdmin
-                              ? const <BottomNavigationBarItem>[
-                                  projectsNavigationBarItem,
-                                  employeesNavigationBarItem,
-                                  departmentsNavigationBarItem,
-                                  settingsNavigationBarItem,
-                                ]
-                              : [
-                                  departmentsNavigationBarItem,
-                                  settingsNavigationBarItem,
-                                ],
-                      //TODO George Luta : daca e department manager sa mai adaugi o optiune de a vedea angajatii din departamentul lui (item no 3)
+                      items: prov.isOrganizationAdmin
+                          ? const <BottomNavigationBarItem>[
+                              projectsNavigationBarItem,
+                              employeesNavigationBarItem,
+                              departmentsNavigationBarItem,
+                              settingsNavigationBarItem,
+                            ]
+                          : [
+                              departmentsNavigationBarItem,
+                              settingsNavigationBarItem,
+                            ],
                       selectedItemColor: Theme.of(context).colorScheme.primary,
                       unselectedItemColor: Colors.black,
                       onTap: prov.isOrganizationAdmin
