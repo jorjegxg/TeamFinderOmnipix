@@ -5,7 +5,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
-import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/features/project_pages/data/models/project_model.dart';
 import 'package:team_finder_app/features/project_pages/data/models/team_role.dart';
@@ -115,7 +114,7 @@ class CreateProjectProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createProject() async {
+  Future<Either<Failure<String>, void>> createProject() async {
     _isLoading = true;
     _error = null;
     notifyListeners();
@@ -140,18 +139,24 @@ class CreateProjectProvider extends ChangeNotifier {
       status: status.toStringValue(),
       projectManager: '1',
     );
-    await projectsUsecase.createProject(newProject: project).then((result) {
-      result.fold(
+    return await projectsUsecase
+        .createProject(newProject: project)
+        .then((result) {
+      return result.fold(
         (left) {
           _error = left.message;
           _isLoading = false;
           notifyListeners();
+
+          return Left(left);
         },
         (right) {
           _isLoading = false;
           removeData();
           notifyListeners();
           projectsBloc.add(const GetActiveProjectPages());
+
+          return const Right(null);
         },
       );
     });

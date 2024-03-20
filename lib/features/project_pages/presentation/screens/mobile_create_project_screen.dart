@@ -4,8 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/constants.dart';
-import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
+import 'package:team_finder_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/create_project_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_dropdown_button.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/date_picker.dart';
@@ -260,14 +261,24 @@ class MobileCreateProjectScreen extends StatelessWidget {
                         const SizedBox(height: 20),
                         CustomButton(
                           text: 'Done',
-                          onPressed: () {
+                          onPressed: () async {
                             provider.setDescription(descriptionColtroler.text);
                             provider.setName(nameColtroler.text);
-                            context
-                                .read<CreateProjectProvider>()
-                                .createProject();
-                            context.goNamed(AppRouterConst.projectsMainScreen,
-                                pathParameters: {'userId': userId});
+
+                            (await context
+                                    .read<CreateProjectProvider>()
+                                    .createProject())
+                                .fold(
+                              (l) {
+                                showSnackBar(context, l.message);
+                              },
+                              (r) {
+                                showSnackBar(context, 'Project created');
+                                context.goNamed(
+                                    AppRouterConst.projectsMainScreen,
+                                    pathParameters: {'userId': userId});
+                              },
+                            );
                           },
                         ),
                         const SizedBox(height: 20),
