@@ -43,26 +43,26 @@ import 'package:team_finder_app/features/settings/presentation/pages/team_roles_
 class MyAppRouter {
   final GoRouter _router = GoRouter(
     redirect: (_, state) async {
-      final token =
-          await SecureStorageService().read(key: StorageConstants.token);
-      if (state.fullPath == '/register/admin' ||
-          state.fullPath == '/register/employee/:organizationId' ||
-          state.fullPath == '/login/admin' ||
-          state.fullPath == '/login/employee') {
-        return null;
-      }
-      if (token == null) {
-        return '/register/admin';
-      }
+      // final token =
+      //     await SecureStorageService().read(key: StorageConstants.token);
+      // if (state.fullPath == '/register/admin' ||
+      //     state.fullPath == '/register/employee/:organizationId' ||
+      //     state.fullPath == '/login/admin' ||
+      //     state.fullPath == '/login/employee') {
+      //   return null;
+      // }
+      // if (token == null) {
+      //   return '/register/admin';
+      // }
 
-      final isExpired = JwtDecoder.isExpired(token);
+      // final isExpired = JwtDecoder.isExpired(token);
 
-      if (isExpired) {
-        await SecureStorageService().delete(key: StorageConstants.token);
-        return '/register/admin';
-      }
+      // if (isExpired) {
+      //   await SecureStorageService().delete(key: StorageConstants.token);
+      //   return '/register/admin';
+      // }
 
-      return null;
+      // return null;
     },
     // initialLocation: '/firstPage',
     initialLocation: '/register/admin',

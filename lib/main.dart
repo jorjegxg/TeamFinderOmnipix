@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -69,13 +70,11 @@ Future<void> main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  if (kIsWeb) {
-  } else {
-    final appDocumentDir =
-        await path_provider.getApplicationDocumentsDirectory();
-    Hive.init(appDocumentDir.path);
-    await Hive.openBox<String>(HiveConstants.authBox);
-  }
+  // final appDocumentDir =
+  //     await path_provider.getApplicationDocumentsDirectory();
+  // Hive.init(appDocumentDir.path);
+  await Hive.initFlutter();
+  await Hive.openBox<String>(HiveConstants.authBox);
 
   Bloc.observer = MyBlocObserver();
 
