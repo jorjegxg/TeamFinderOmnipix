@@ -63,7 +63,7 @@ class AuthRepoImpl extends AuthRepo {
         "organizationId": organizationId,
       },
       codeMessage: {
-        400: "Email already in use",
+        409: "Email already in use",
       },
     ))
         .fold((l) => left(l), (r) {

@@ -58,7 +58,7 @@ class ApiService {
       _logUnexpectedError('Get', e.response);
       return Left(
         UnexpectedFailure(
-          message: e.message.toString(),
+          message: 'Something went wrong.',
         ),
       );
     }
@@ -100,7 +100,7 @@ class ApiService {
 
       return Left(
         UnexpectedFailure(
-          message: e.message.toString(),
+          message: 'Something went wrong.',
         ),
       );
     }
@@ -143,7 +143,7 @@ class ApiService {
 
       return Left(
         UnexpectedFailure(
-          message: e.message.toString(),
+          message: 'Something went wrong.',
         ),
       );
     }
@@ -184,7 +184,7 @@ class ApiService {
 
       return Left(
         UnexpectedFailure(
-          message: e.message.toString(),
+          message: 'Something went wrong.',
         ),
       );
     }
