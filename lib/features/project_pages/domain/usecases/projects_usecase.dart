@@ -192,4 +192,9 @@ class ProjectsUsecase {
       employeeId: employeeId,
     );
   }
+
+ 
+  Future<Either<Failure<String>, bool>> canBeDeleted(String projectId) async {
+    return projectRepo.canBeDeleted(projectId);
+  }
 }

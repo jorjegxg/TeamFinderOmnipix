@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/pages/employee_profile_page.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/project_members_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/custom_icon_button.dart';
@@ -30,15 +32,22 @@ class ProjectMembersPage extends StatelessWidget {
         return SafeArea(
           child: Scaffold(
             resizeToAvoidBottomInset: false,
-            floatingActionButton: FloatingActionButton(
-              child: const Icon(Icons.add, color: Colors.black),
-              onPressed: () {
-                context.goNamed(
-                  AppRouterConst.addProjectMember,
-                  pathParameters: {'projectId': projectId, 'userId': userId},
-                  extra: project,
-                );
-              },
+            floatingActionButton: Consumer<EmployeeRolesProvider>(
+              builder: (context, value, child) => value.isProjectManager
+                  ? FloatingActionButton(
+                      child: const Icon(Icons.add, color: Colors.black),
+                      onPressed: () {
+                        context.goNamed(
+                          AppRouterConst.addProjectMember,
+                          pathParameters: {
+                            'projectId': projectId,
+                            'userId': userId
+                          },
+                          extra: project,
+                        );
+                      },
+                    )
+                  : const SizedBox.shrink(),
             ),
             appBar: AppBar(
               centerTitle: true,

@@ -50,12 +50,20 @@ class _DepartamentMainPageState extends State<DepartamentMainPage> {
             }
           },
           child: Scaffold(
-            floatingActionButton: FloatingActionButton(
-              child: const Icon(Icons.add, color: Colors.black),
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) => const CreateDepartamentDialog());
+            floatingActionButton: Consumer<EmployeeRolesProvider>(
+              builder: (context, prov, child) {
+                return Visibility(
+                  visible: prov.isOrganizationAdmin,
+                  child: FloatingActionButton(
+                    child: const Icon(Icons.add, color: Colors.black),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) =>
+                              const CreateDepartamentDialog());
+                    },
+                  ),
+                );
               },
             ),
             appBar: AppBar(
@@ -117,6 +125,11 @@ class ListOfDepartments extends StatelessWidget {
                               //     state.departments[index]
                               //         .isCurrentUserManager
                               ,
+                              buttonText: prov.isOrganizationAdmin &&
+                                      !state.departments[index]
+                                          .isCurrentUserManager
+                                  ? 'Delete'
+                                  : null,
                               onLongPress: () {
                                 if (prov.isOrganizationAdmin) {
                                   //alert dialog with delete option:
@@ -159,7 +172,9 @@ class ListOfDepartments extends StatelessWidget {
                               content2: state
                                   .departments[index].numberOfEmployees
                                   .toString(),
-                              onPressed: prov.isOrganizationAdmin
+                              onPressed: prov.isOrganizationAdmin &&
+                                      state.departments[index]
+                                          .isCurrentUserManager
                                   ? () {
                                       //alert dialog with delete option:
                                       showDialog(

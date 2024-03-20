@@ -80,4 +80,7 @@ abstract class ProjectRepo {
       {required String projectId,
       required String proposal,
       required String employeeId});
+
+  ///project/canbedeleted/{projectId}
+  Future<Either<Failure<String>, bool>> canBeDeleted(String projectId);
 }

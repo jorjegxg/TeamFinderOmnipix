@@ -451,4 +451,19 @@ class ProjectRepoImpl extends ProjectRepo {
       );
     });
   }
+
+  @override
+  Future<Either<Failure<String>, bool>> canBeDeleted(String projectId) {
+    return ApiService().dioGet(
+      url: "${EndpointConstants.baseUrl}/project/canbedeleted/$projectId",
+      codeMessage: {
+        404: "Project can't be deleted",
+      },
+    ).then((value) {
+      return value.fold(
+        (l) => Left(l),
+        (r) => Right(r),
+      );
+    });
+  }
 }

@@ -7,7 +7,9 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
+import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
+import 'package:team_finder_app/features/project_pages/presentation/providers/details_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/skill_req_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_details_body.dart';
 import 'package:team_finder_app/injection.dart';
@@ -25,103 +27,117 @@ class ProjectDetailsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => context.goNamed(AppRouterConst.projectsMainScreen,
-                pathParameters: {'userId': userId}),
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.edit, color: Colors.black),
-              onPressed: () {
-                context.goNamed(
-                  AppRouterConst.editProjectScreen,
-                  pathParameters: {'projectId': projectId, 'userId': userId},
-                  extra: project,
-                );
-              },
+      child: ChangeNotifierProvider(
+        create: (context) => getIt<DetailsProvider>()..canBeDeleted(projectId),
+        child: Builder(builder: (context) {
+          return Scaffold(
+            appBar: AppBar(
+              actions: [
+                Consumer<DetailsProvider>(builder: (context, value, child) {
+                  if (!value.getCanBeDeleted) {
+                    return Container();
+                  } else {
+                    return IconButton(
+                      icon: const Icon(Icons.edit, color: Colors.black),
+                      onPressed: () {
+                        context.goNamed(
+                          AppRouterConst.editProjectScreen,
+                          pathParameters: {
+                            'projectId': projectId,
+                            'userId': userId
+                          },
+                          extra: project,
+                        );
+                      },
+                    );
+                  }
+                }),
+              ],
+              centerTitle: true,
+              title: Text(
+                'Project Details',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
-          ],
-          centerTitle: true,
-          title: Text(
-            'Project Details',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        ),
-        body: Sizer(
-          builder: (BuildContext context, Orientation orientation,
-              DeviceType deviceType) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 20),
-                    //MobileProjectDetailsBody(),
-                    Expanded(
-                      child: ScreenTypeLayout.builder(
-                        mobile: (context) {
-                          return MobileProjectDetailsBody(
-                            project: project,
-                          );
-                        },
-                        desktop: (context) {
-                          return DesktopProjectDetailsScreen(
-                            userId: userId,
-                          );
-                        },
-                        tablet: (context) {
-                          return TabletProjectDetailsScreen(
-                            userId: userId,
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
+            body: Sizer(
+              builder: (BuildContext context, Orientation orientation,
+                  DeviceType deviceType) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        const SizedBox(height: 20),
+                        //MobileProjectDetailsBody(),
                         Expanded(
-                          child: CustomButton(
-                            text: 'View Members',
-                            onPressed: () {
-                              context.goNamed(
-                                AppRouterConst.projectMembersScreen,
-                                pathParameters: {
-                                  'projectId': projectId,
-                                  'userId': userId
-                                },
-                                extra: project,
+                          child: ScreenTypeLayout.builder(
+                            mobile: (context) {
+                              return MobileProjectDetailsBody(
+                                project: project,
+                              );
+                            },
+                            desktop: (context) {
+                              return DesktopProjectDetailsScreen(
+                                userId: userId,
+                              );
+                            },
+                            tablet: (context) {
+                              return TabletProjectDetailsScreen(
+                                userId: userId,
                               );
                             },
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: CustomButton(
-                            text: 'Add Skill Requirement',
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return ChooseSkillRequirement(
-                                      projectId: projectId,
-                                    );
-                                  });
-                            },
-                          ),
+                        const SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CustomButton(
+                                text: 'View Members',
+                                onPressed: () {
+                                  context.goNamed(
+                                    AppRouterConst.projectMembersScreen,
+                                    pathParameters: {
+                                      'projectId': projectId,
+                                      'userId': userId
+                                    },
+                                    extra: project,
+                                  );
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Consumer<EmployeeRolesProvider>(
+                                builder: (context, value, child) {
+                              return value.isProjectManager
+                                  ? Expanded(
+                                      child: CustomButton(
+                                        text: 'Add Skill Requirement',
+                                        onPressed: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return ChooseSkillRequirement(
+                                                  projectId: projectId,
+                                                );
+                                              });
+                                        },
+                                      ),
+                                    )
+                                  : const SizedBox.shrink();
+                            }),
+                          ],
                         ),
+                        const SizedBox(height: 10),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
+                  ),
+                );
+              },
+            ),
+          );
+        }),
       ),
     );
   }

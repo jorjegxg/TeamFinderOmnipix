@@ -57,51 +57,57 @@ class EmployeeProfilePage extends StatelessWidget {
             ),
             body: Consumer<EditEmployeeProvider>(
               builder: (context, editEmployeeProvider, child) {
-                return Column(
+                return Stack(
                   children: [
-                    const SizedBox(height: 40),
-                    const Center(
-                      child: LogoWidget(
-                        icon: Icons.person,
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 40),
+                          const Center(
+                            child: LogoWidget(
+                              icon: Icons.person,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          Text(
+                            employeeName,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            employeeEmail,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          const SizedBox(height: 40),
+                          const SwitchesWidget(),
+                          const SizedBox(height: 40),
+                          BlocBuilder<DepartmentsManagersCubit,
+                              DepartmentsManagersState>(
+                            builder: (context, state) {
+                              return CustomButton(
+                                buttonHeight: 40,
+                                text: 'Save changes',
+                                onPressed: () async {
+                                  final newManager = state.selectedManager;
+
+                                  (await editEmployeeProvider.saveChanges(
+                                    employeeId,
+                                    isCurrentUser,
+                                    newManager,
+                                  ))
+                                      .fold((l) {
+                                    showSnackBar(context, l.message);
+                                  }, (r) {
+                                    showSnackBar(context, 'Changes saved');
+                                  });
+                                },
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 20),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    Text(
-                      employeeName,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      employeeEmail,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 40),
-                    const SwitchesWidget(),
-                    Expanded(child: Container()),
-                    BlocBuilder<DepartmentsManagersCubit,
-                        DepartmentsManagersState>(
-                      builder: (context, state) {
-                        return CustomButton(
-                          buttonHeight: 40,
-                          text: 'Save changes',
-                          onPressed: () async {
-                            final newManager = state.selectedManager;
-
-                            (await editEmployeeProvider.saveChanges(
-                              employeeId,
-                              isCurrentUser,
-                              newManager,
-                            ))
-                                .fold((l) {
-                              showSnackBar(context, l.message);
-                            }, (r) {
-                              showSnackBar(context, 'Changes saved');
-                            });
-                          },
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 20),
                   ],
                 );
               },
