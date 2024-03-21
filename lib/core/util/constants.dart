@@ -1,3 +1,6 @@
+import 'package:hive/hive.dart';
+part 'constants.g.dart';
+
 class EndpointConstants {
   //base url
   static const String baseUrl = 'https://omnipix.azurewebsites.net';
@@ -223,7 +226,13 @@ extension ExperienceLevelX on ExperienceLevel {
   }
 }
 
-enum ProjectPeriod { fixed, ongoing }
+@HiveType(typeId: 4)
+enum ProjectPeriod {
+  @HiveField(0)
+  fixed,
+  @HiveField(1)
+  ongoing
+}
 
 extension ProjectPeriodX on ProjectPeriod {
   static ProjectPeriod fromString(String period) {
@@ -303,6 +312,9 @@ class HiveConstants {
   static const String adminRole = 'adminRole';
   static const String employeeRole = 'employeeRole';
   static const String departamentManagerRole = 'departamentManagerRole';
+
+  //
+  static const String projectEntityBox = 'ProjectEntityBox';
 }
 
 class DynamicLinkConstants {

@@ -46,7 +46,7 @@ class SkillAssignmentProvider extends ChangeNotifier {
 
   void addEndorsment(String skillName, String description) {
     _endorsmentsSkill.add({
-      " title": skillName,
+      "title": skillName,
       "description": description,
     });
     notifyListeners();
@@ -54,11 +54,11 @@ class SkillAssignmentProvider extends ChangeNotifier {
 
   void removeEndorsment(String skillName, String userName) {
     _endorsmentsSkill.removeWhere((element) =>
-        element.keys.first == skillName && element.values.first == userName);
+        element['title'] == skillName && element['description'] == userName);
     notifyListeners();
   }
 
-  Future<void> addSkillToEmployee(BuildContext context) async {
+  Future<void> addPersonalSkill(BuildContext context) async {
     _isLoading = true;
     _error = null;
     notifyListeners();
@@ -74,19 +74,43 @@ class SkillAssignmentProvider extends ChangeNotifier {
         },
         (r) {
           _isLoading = false;
-          showSnackBar(context, 'Sent Skill Validation');
+          // showSnackBar(context, 'Sent Skill Validation');
           notifyListeners();
         },
       );
     });
   }
 
-  Future<void> getFreeSkills() async {
+  Future<void> addSkillToEmployee(
+      BuildContext context, String employeeId, String departamentId) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+    await _settingsUseCase
+        .addSkillToEmployee(selectedSkill!.id, _skillLevel.toInt(),
+            _experienceLevel.index, employeeId, departamentId)
+        .then((response) {
+      response.fold(
+        (l) {
+          _error = l.message;
+          _isLoading = false;
+          notifyListeners();
+        },
+        (r) {
+          _isLoading = false;
+          // showSnackBar(context, 'Sent Skill Validation');
+          notifyListeners();
+        },
+      );
+    });
+  }
+
+  Future<void> getFreeSkills(String employeeId) async {
     _isLoading = true;
     _error = null;
     notifyListeners();
 
-    final result = await _settingsUseCase.getFreeSkills();
+    final result = await _settingsUseCase.getFreeSkills(employeeId);
     result.fold(
       (l) {
         _error = l.message;

@@ -22,10 +22,10 @@ class LoginScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final emailConttroler = useTextEditingController(
-      text: kDebugMode ? 'a@a.com' : '',
+      text: kDebugMode ? 'g@gmail.com' : '',
     );
     final passwordConttroler = useTextEditingController(
-      text: kDebugMode ? 'parola' : '',
+      text: kDebugMode ? '111111' : '',
     );
 
     return BlocListener<AuthBloc, AuthState>(

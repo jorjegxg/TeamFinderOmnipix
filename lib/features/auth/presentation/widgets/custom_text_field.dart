@@ -3,18 +3,18 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
-    super.key,
-    required this.nameConttroler,
-    this.hintText,
-    this.isPassword = false,
-    this.onChanged,
-    this.keyboardType = TextInputType.text,
-    this.minLines = 1,
-    this.width,
-    this.onSubmitted,
-    this.prefixIcon,
-  });
+  const CustomTextField(
+      {super.key,
+      required this.nameConttroler,
+      this.hintText,
+      this.isPassword = false,
+      this.onChanged,
+      this.keyboardType = TextInputType.text,
+      this.minLines = 1,
+      this.width,
+      this.onSubmitted,
+      this.prefixIcon,
+      this.maxLenght});
 
   final TextEditingController nameConttroler;
   final String? hintText;
@@ -23,6 +23,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final int minLines;
   final double? width;
+  final int? maxLenght;
   final Function(String)? onSubmitted;
   final IconData? prefixIcon;
   @override
@@ -39,6 +40,7 @@ class CustomTextField extends StatelessWidget {
       ),
 
       child: TextField(
+        maxLength: maxLenght,
         textAlignVertical: prefixIcon != null ? TextAlignVertical.center : null,
         onChanged: onChanged,
         onSubmitted: onSubmitted,

@@ -29,8 +29,8 @@ class SettingsUseCase {
   }
 
   //get skills
-  Future<Either<Failure, List<Skill>>> getFreeSkills() async {
-    return _repository.getFreeSkills();
+  Future<Either<Failure, List<Skill>>> getFreeSkills(String employeeId) async {
+    return _repository.getFreeSkills(employeeId);
   }
 
   //add skill
@@ -41,13 +41,24 @@ class SettingsUseCase {
     List<Map<String, String>> endorsments,
     List<String> projectsIds,
   ) async {
-    return _repository.addSkillToEmployee(
+    return _repository.addPersonalSkill(
       skillId,
       level,
       experience,
       endorsments,
       projectsIds,
     );
+  }
+
+  Future<Either<Failure, void>> addSkillToEmployee(
+    String skillId,
+    int level,
+    int experience,
+    String employeeId,
+    String departamentId,
+  ) async {
+    return _repository.addSkillToEmployee(
+        skillId, level, experience, employeeId, departamentId);
   }
 
   Future<Either<Failure<String>, List<Skill>>> getSkillsForEmployee() async {

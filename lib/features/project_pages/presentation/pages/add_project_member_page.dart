@@ -16,11 +16,9 @@ class AddProjectMembersPage extends StatefulWidget {
     super.key,
     required this.projectId,
     required this.userId,
-    required this.project,
   });
   final String projectId;
   final String userId;
-  final ProjectEntity project;
 
   @override
   State<AddProjectMembersPage> createState() => _AddProjectMembersPageState();
@@ -127,25 +125,25 @@ class _AddProjectMembersPageState extends State<AddProjectMembersPage> {
                                     }),
                               ],
                             ),
-                            // const SizedBox(height: 10),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            //   children: [
-                            //     CustomTextField(
-                            //       nameConttroler: aditionalConttroler,
-                            //       hintText: 'Aditional Search',
-                            //     ),
-                            //     IconButton(
-                            //       icon: const Icon(Icons.search,
-                            //           color: Colors.black),
-                            //       onPressed: () async {
-                            //         await provider.fetchMembersWithChatGPT(
-                            //             aditionalConttroler.text, context);
-                            //         aditionalConttroler.text = '';
-                            //       },
-                            //     )
-                            //   ],
-                            // ),
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CustomTextField(
+                                  nameConttroler: aditionalConttroler,
+                                  hintText: 'Aditional Search',
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.search,
+                                      color: Colors.black),
+                                  onPressed: () async {
+                                    await provider.fetchMembersWithChatGPT(
+                                        aditionalConttroler.text, context);
+                                    aditionalConttroler.text = '';
+                                  },
+                                )
+                              ],
+                            ),
                             const SizedBox(height: 10),
                             Expanded(
                               child: Card(
@@ -182,7 +180,6 @@ class _AddProjectMembersPageState extends State<AddProjectMembersPage> {
                                                     .workingHours
                                                     .toString(),
                                               },
-                                              extra: widget.project,
                                             );
                                           }
                                         },

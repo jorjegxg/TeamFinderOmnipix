@@ -19,11 +19,9 @@ class ProjectMembersPage extends StatelessWidget {
     super.key,
     required this.projectId,
     required this.userId,
-    required this.project,
   });
   final String projectId;
   final String userId;
-  final ProjectEntity project;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +43,6 @@ class ProjectMembersPage extends StatelessWidget {
                             'projectId': projectId,
                             'userId': userId
                           },
-                          extra: project,
                         );
                       },
                     )

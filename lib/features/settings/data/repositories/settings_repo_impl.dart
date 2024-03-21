@@ -67,10 +67,10 @@ class SettingsRepoImpl {
   }
 
   //get skills
-  Future<Either<Failure, List<Skill>>> getFreeSkills() async {
+  Future<Either<Failure, List<Skill>>> getFreeSkills(String employeeId) async {
     //hive
     final box = Hive.box<String>(HiveConstants.authBox);
-    final employeeId = box.get(HiveConstants.userId);
+
     final organizationId = box.get(HiveConstants.organizationId);
 
     return ApiService().dioGet<List>(
@@ -94,7 +94,7 @@ class SettingsRepoImpl {
   }
 
   //add skill to employee
-  Future<Either<Failure, void>> addSkillToEmployee(
+  Future<Either<Failure, void>> addPersonalSkill(
     String skillId,
     int level,
     int experience,
@@ -252,6 +252,26 @@ class SettingsRepoImpl {
           "${EndpointConstants.baseUrl}/admin/updatecustomrole/${roleModel.id}/${roleModel.name}",
     )
         .then((response) {
+      return response.fold(
+        (l) => left(l),
+        (r) => right(null),
+      );
+    });
+  }
+
+  Future<Either<Failure, void>> addSkillToEmployee(String skillId, int level,
+      int experience, String employeeId, String departamentId) {
+    return ApiService().dioPost(
+      url:
+          "${EndpointConstants.baseUrl}/departamentmanager/assignskilldirectly",
+      data: {
+        "departamentId": departamentId,
+        "employeeId": employeeId,
+        "experience": experience,
+        "level": level,
+        "skillId": skillId
+      },
+    ).then((response) {
       return response.fold(
         (l) => left(l),
         (r) => right(null),

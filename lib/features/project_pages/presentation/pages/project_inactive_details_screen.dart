@@ -43,7 +43,7 @@ class ProjectInactiveDetailsScreen extends HookWidget {
                         },
                         desktop: (context) {
                           return DesktopProjectDetailsScreen(
-                            userId: userId,
+                            project: project,
                           );
                         },
                         tablet: (context) {

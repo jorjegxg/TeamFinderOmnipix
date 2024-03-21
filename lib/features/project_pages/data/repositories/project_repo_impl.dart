@@ -192,6 +192,21 @@ class ProjectRepoImpl extends ProjectRepo {
     editedProject.teamRoles.forEach((key, value) {
       teamRoles.putIfAbsent(key.id, () => value);
     });
+    ProjectStatus status = ProjectStatusX.fromString(editedProject.status);
+    if (Enum.compareByName(status, ProjectStatus.Closed) == 0) {
+      return (await ApiService().dioPut(
+        url:
+            "${EndpointConstants.baseUrl}/project/closeproject/${editedProject.id}",
+      ))
+          .fold(
+        (l) {
+          return Left(l);
+        },
+        (r) {
+          return Right(r);
+        },
+      );
+    }
     return (await ApiService().dioPut(
       url: "${EndpointConstants.baseUrl}/project/updateproject",
       data: {
@@ -392,18 +407,14 @@ class ProjectRepoImpl extends ProjectRepo {
     String organizationId = box.get(HiveConstants.organizationId)!;
     return ApiService().dioPost(
       url: "${EndpointConstants.baseUrl}/openai/",
-      data: {
-        "content": message,
-        "organizationId": organizationId,
-      },
+      data: {"content": message, "organizationId": organizationId},
     ).then((value) {
       return value.fold((l) => Left(l), (r) {
         Logger.info("VALUE:", r.toString());
-        if (r['message']['message'] is String) {
+        if (r['message'] is Map) {
           return Left(EasyFailure(message: "No employees found"));
         }
-        return Right(
-            r['message']['message'].map((e) => Employee.fromJson(e)).toList());
+        return Right(r['message'].map((e) => Employee.fromJson(e)).toList());
       });
     });
   }

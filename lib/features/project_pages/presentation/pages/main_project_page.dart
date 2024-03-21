@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
+import 'package:team_finder_app/core/util/constants.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
@@ -14,6 +17,22 @@ import 'package:team_finder_app/features/project_pages/presentation/widgets/proj
 
 class ProjectsMainScreen extends StatelessWidget {
   const ProjectsMainScreen({super.key, required this.userId});
+  final String userId;
+  @override
+  Widget build(BuildContext context) {
+    return ScreenTypeLayout.builder(
+      mobile: (BuildContext context) => MobileProjectScreen(
+        userId: userId,
+      ),
+      desktop: (BuildContext context) => DesktopMainProjectPage(
+        userId: userId,
+      ),
+    );
+  }
+}
+
+class MobileProjectScreen extends StatelessWidget {
+  const MobileProjectScreen({super.key, required this.userId});
 
   final String userId;
 
@@ -132,8 +151,14 @@ class ProjectsMainScreen extends StatelessWidget {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: ProjectWidget(
-                                      onPressed: () {
+                                      onPressed: () async {
                                         //TODO: navigate to project details, pass project id
+                                        await Hive.box<ProjectEntity>(
+                                                HiveConstants.projectEntityBox)
+                                            .put(
+                                          state.activeProjects[index].id,
+                                          state.activeProjects[index],
+                                        );
                                         context.goNamed(
                                           AppRouterConst.projectDetailsScreen,
                                           pathParameters: {
@@ -170,7 +195,13 @@ class ProjectsMainScreen extends StatelessWidget {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: ProjectWidget(
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        await Hive.box<ProjectEntity>(
+                                                HiveConstants.projectEntityBox)
+                                            .put(
+                                          state.inactiveProjects[index].id,
+                                          state.inactiveProjects[index],
+                                        );
                                         //TODO: navigate to project details, pass project id
                                         context.goNamed(
                                           AppRouterConst
@@ -308,19 +339,25 @@ class DesktopMainProjectPage extends StatelessWidget {
           builder: (BuildContext context, Orientation orientation,
               DeviceType deviceType) {
             return SingleChildScrollView(
-              child: Column(
-                children: [
-                  ProjectsListWidget(
-                    userId: userId,
-                    projects: const [],
-                    title: 'Past Projects',
-                  ),
-                  ProjectsListWidget(
-                    userId: userId,
-                    projects: const [],
-                    title: 'Active Projects',
-                  ),
-                ],
+              child: BlocBuilder<ProjectsBloc, ProjectsState>(
+                builder: (context, state) {
+                  return Column(
+                    children: [
+                      ProjectsListWidget(
+                        userId: userId,
+                        projects: state.activeProjects,
+                        title: 'Past Projects',
+                        isActive: false,
+                      ),
+                      ProjectsListWidget(
+                        userId: userId,
+                        projects: state.inactiveProjects,
+                        title: 'Active Projects',
+                        isActive: true,
+                      ),
+                    ],
+                  );
+                },
               ),
             );
           },
@@ -336,11 +373,13 @@ class ProjectsListWidget extends StatelessWidget {
     required this.userId,
     required this.projects,
     required this.title,
+    required this.isActive,
   });
 
   final String userId;
   final List<ProjectEntity> projects;
   final String title;
+  final bool isActive;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -360,26 +399,47 @@ class ProjectsListWidget extends StatelessWidget {
           constraints: const BoxConstraints(
             maxHeight: 300,
           ),
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ProjectWidget(
-                    onPressed: () {
-                      //TODO: navigate to project details, pass project id
-                      context.goNamed(AppRouterConst.projectDetailsScreen,
-                          pathParameters: {'projectId': '1', 'userId': userId});
-                    },
-                    mainTitle: 'Project Name',
-                    title1: 'Roles:',
-                    title2: 'Tehnologies Stack:',
-                    content1: 'Roles....',
-                    content2: 'Tehnologies....',
-                  ),
-                );
-              }),
+          child: projects.isEmpty
+              ? const NotFoundWidget(
+                  text: 'Projects not found',
+                )
+              : ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: projects.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ProjectWidget(
+                          onPressed: () async {
+                            await Hive.box<ProjectEntity>(
+                                    HiveConstants.projectEntityBox)
+                                .put(
+                              projects[index].id,
+                              projects[index],
+                            );
+                            context.goNamed(AppRouterConst.projectDetailsScreen,
+                                pathParameters: {
+                                  'projectId': projects[index].id,
+                                  'userId': userId
+                                },
+                                extra: projects[index]);
+                          },
+                          mainTitle: projects[index].name,
+                          title1: 'Roles:',
+                          title2: 'Tehnologies Stack:',
+                          content1: projects[index]
+                              .teamRoles
+                              .keys
+                              .map((e) => e.name)
+                              .toList()
+                              .join(', '),
+                          content2: projects[index]
+                              .technologyStack
+                              .map((e) => e.name)
+                              .toList()
+                              .join(', ')),
+                    );
+                  }),
         ),
       ],
     );

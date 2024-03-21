@@ -31,8 +31,11 @@ class _DepartamentMainPageState extends State<DepartamentMainPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<DepartmentsGetCubit>().getDepartmentsFromOrganization(
-        context.read<EmployeeRolesProvider>().isOrganizationAdmin);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<DepartmentsGetCubit>().getDepartmentsFromOrganization(
+          context.read<EmployeeRolesProvider>().isOrganizationAdmin);
+    });
   }
 
   @override
@@ -110,8 +113,6 @@ class ListOfDepartments extends StatelessWidget {
         if (state is DepartmentsGetManagersSuccess) {
           if (state.departments.isNotEmpty) {
             return ListView.builder(
-                // physics: const NeverScrollableScrollPhysics(),
-                // shrinkWrap: true,
                 itemCount: state.departments.length,
                 itemBuilder: (context, index) {
                   return Padding(

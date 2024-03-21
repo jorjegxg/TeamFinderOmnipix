@@ -1,7 +1,13 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 
+part 'technology_stack.g.dart';
+
+@HiveType(typeId: 2)
 class TechnologyStack extends Equatable {
+  @HiveField(0)
   String id;
+  @HiveField(1)
   final String name;
 
   TechnologyStack({

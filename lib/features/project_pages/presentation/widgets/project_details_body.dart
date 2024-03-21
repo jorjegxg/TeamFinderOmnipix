@@ -117,28 +117,16 @@ class MobileProjectDetailsBody extends StatelessWidget {
 class DesktopProjectDetailsScreen extends HookWidget {
   const DesktopProjectDetailsScreen({
     super.key,
-    required this.userId,
+    required this.project,
   });
 
-  final String userId;
+  final ProjectEntity project;
 
   @override
   Widget build(BuildContext context) {
     final ScrollController scrollControler1 = useScrollController();
     final ScrollController scrollControler2 = useScrollController();
 
-    List<String> items = [
-      'Item 1',
-      'Item 2',
-      'Item 3',
-      'Item 4',
-      'Item 5',
-      'Item 6',
-      'Item 7',
-      'Item 8',
-      'Item 9',
-      'Item 10'
-    ];
     return Card(
       margin: const EdgeInsets.all(20),
       color: Theme.of(context).colorScheme.surfaceContainer,
@@ -179,18 +167,18 @@ class DesktopProjectDetailsScreen extends HookWidget {
                                 ],
                               ),
                               SizedBox(width: 5.w),
-                              const Column(
+                              Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   CustomTextContainer(
-                                    text: 'Project Name',
+                                    text: project.name,
                                   ),
                                   CustomTextContainer(
-                                    text: 'Project period',
+                                    text: project.period.toStringValue(),
                                   ),
                                   CustomTextContainer(
-                                    text: 'Project status',
+                                    text: project.status,
                                   ),
                                 ],
                               ),
@@ -211,14 +199,14 @@ class DesktopProjectDetailsScreen extends HookWidget {
                                 Text('Start Date:',
                                     style:
                                         Theme.of(context).textTheme.titleSmall),
-                                Text('10/02/2022',
+                                Text(project.startDateString,
                                     style:
                                         Theme.of(context).textTheme.titleSmall),
                                 SizedBox(width: 5.w),
                                 Text('End Date:',
                                     style:
                                         Theme.of(context).textTheme.titleSmall),
-                                Text('10/02/2024',
+                                Text(project.deadlineDateString,
                                     style:
                                         Theme.of(context).textTheme.titleSmall),
                               ],
@@ -231,8 +219,7 @@ class DesktopProjectDetailsScreen extends HookWidget {
                           child: CustomTextContainer(
                               width: 30.w,
                               height: 200,
-                              text:
-                                  'descriptiodddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddn'),
+                              text: project.description),
                         ),
                         const SizedBox(height: 40),
                       ],
@@ -271,11 +258,13 @@ class DesktopProjectDetailsScreen extends HookWidget {
                                   controller: scrollControler1,
                                   child: ListView.builder(
                                       controller: scrollControler1,
-                                      itemCount: 10,
+                                      itemCount: project.teamRoles.length,
                                       itemBuilder: (context, index) {
                                         return ListTile(
                                           title: Text(
-                                            'Item ${items[index]}',
+                                            project.teamRoles.keys
+                                                .elementAt(index)
+                                                .name,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyMedium,
@@ -321,11 +310,11 @@ class DesktopProjectDetailsScreen extends HookWidget {
                                   controller: scrollControler2,
                                   child: ListView.builder(
                                     controller: scrollControler2,
-                                    itemCount: items.length,
+                                    itemCount: project.technologyStack.length,
                                     itemBuilder: (context, index) {
                                       return ListTile(
                                         title: Text(
-                                          'Item ${items[index]}',
+                                          project.technologyStack[index].name,
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium,

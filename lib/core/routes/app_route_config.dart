@@ -19,6 +19,7 @@ import 'package:team_finder_app/features/departaments_pages/presentation/pages/d
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/departament_projects_page.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/departament_skills_page.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/departaments_main_page.dart';
+import 'package:team_finder_app/features/departaments_pages/presentation/pages/direct_skill_page.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/skill_validations_page.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/pages/skills_statistics_page.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/pages/employee_profile_page.dart';
@@ -152,7 +153,6 @@ class MyAppRouter {
                               child: ProjectDetailsScreen(
                             projectId: state.pathParameters['projectId']!,
                             userId: state.pathParameters['userId']!,
-                            project: state.extra as ProjectEntity,
                           )),
                       routes: [
                         GoRoute(
@@ -162,7 +162,6 @@ class MyAppRouter {
                                     child: ProjectMembersPage(
                                   projectId: state.pathParameters['projectId']!,
                                   userId: state.pathParameters['userId']!,
-                                  project: state.extra as ProjectEntity,
                                 )),
                             routes: [
                               GoRoute(
@@ -173,7 +172,6 @@ class MyAppRouter {
                                         projectId:
                                             state.pathParameters['projectId']!,
                                         userId: state.pathParameters['userId']!,
-                                        project: state.extra as ProjectEntity,
                                       )),
                                   routes: [
                                     GoRoute(
@@ -188,7 +186,6 @@ class MyAppRouter {
                                         employeeId:
                                             state.pathParameters['employeeId']!,
                                         userId: state.pathParameters['userId']!,
-                                        project: state.extra as ProjectEntity,
                                         workingHours: state
                                             .pathParameters['workingHours']!,
                                       )),
@@ -211,7 +208,6 @@ class MyAppRouter {
                         child: EditProjectScreen(
                       projectId: state.pathParameters['projectId']!,
                       userId: state.pathParameters['userId']!,
-                      project: state.extra as ProjectEntity,
                     )),
                   ),
                 ]),
@@ -254,6 +250,19 @@ class MyAppRouter {
                               path: 'add',
                               pageBuilder: (context, state) => MaterialPage(
                                 child: AddEmployeeToDepartamentPage(
+                                  userId: state.pathParameters['userId']!,
+                                  departamentId:
+                                      state.pathParameters['departamentId']!,
+                                  departamentName:
+                                      state.pathParameters['departamentName']!,
+                                ),
+                              ),
+                            ),
+                            GoRoute(
+                              name: AppRouterConst.directlySkill,
+                              path: 'addSkill',
+                              pageBuilder: (context, state) => MaterialPage(
+                                child: DirectSkillPage(
                                   userId: state.pathParameters['userId']!,
                                   departamentId:
                                       state.pathParameters['departamentId']!,

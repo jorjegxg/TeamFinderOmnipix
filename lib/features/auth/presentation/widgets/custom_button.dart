@@ -24,7 +24,11 @@ class CustomButton extends StatelessWidget {
       height: buttonHeight,
       minWidth: buttonWidth ??
           getValueForScreenType(
-              context: context, mobile: 50.w, tablet: 30.w, desktop: 10.w),
+            context: context,
+            mobile: MediaQuery.of(context).size.width / 2,
+            tablet: MediaQuery.of(context).size.width / 4,
+            desktop: MediaQuery.of(context).size.width / 8,
+          ),
       color: color ?? Theme.of(context).colorScheme.primary,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),

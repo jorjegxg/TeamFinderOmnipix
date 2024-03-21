@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
@@ -12,9 +13,16 @@ import 'package:team_finder_app/features/project_pages/presentation/widgets/cust
 import 'package:team_finder_app/features/settings/presentation/providers/add_skill_provider.dart';
 import 'package:team_finder_app/injection.dart';
 
-class AddPersonalSkillPage extends HookWidget {
-  const AddPersonalSkillPage({super.key, required this.userId});
+class DirectSkillPage extends HookWidget {
+  const DirectSkillPage({
+    super.key,
+    required this.userId,
+    required this.departamentId,
+    required this.departamentName,
+  });
   final String userId;
+  final String departamentId;
+  final String departamentName;
   @override
   Widget build(BuildContext context) {
     final nameColtroler = useTextEditingController();
@@ -68,6 +76,8 @@ class AddPersonalSkillPage extends HookWidget {
                                         descriptionColtroler:
                                             descriptionColtroler,
                                         userId: userId,
+                                        departamentId: departamentId,
+                                        departamentName: departamentName,
                                       );
                       },
                     ),
@@ -88,12 +98,16 @@ class BodyWidget extends StatelessWidget {
     required this.nameColtroler,
     required this.descriptionColtroler,
     required this.userId,
+    required this.departamentId,
+    required this.departamentName,
   });
 
   final TextEditingController nameColtroler;
   final TextEditingController descriptionColtroler;
 
   final String userId;
+  final String departamentId;
+  final String departamentName;
 
   @override
   Widget build(BuildContext context) => Consumer(builder:
@@ -170,90 +184,6 @@ class BodyWidget extends StatelessWidget {
                               ),
                               const Divider(),
                               const SizedBox(height: 20),
-                              Center(
-                                child: Column(
-                                  children: [
-                                    CustomTextField(
-                                      nameConttroler: nameColtroler,
-                                      hintText: 'Title',
-                                      onSubmitted: (String s) {},
-                                    ),
-                                    const SizedBox(height: 20),
-                                    CustomTextField(
-                                      nameConttroler: descriptionColtroler,
-                                      hintText: 'Description',
-                                      onSubmitted: (String s) {},
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  CustomButton(
-                                    text: 'Add Endorsements',
-                                    onPressed: () {
-                                      if (nameColtroler.text.isNotEmpty &&
-                                          descriptionColtroler
-                                              .text.isNotEmpty) {
-                                        skillAssignmentProvider.addEndorsment(
-                                            nameColtroler.text,
-                                            descriptionColtroler.text);
-                                        nameColtroler.text = '';
-                                        descriptionColtroler.text = '';
-                                      } else {
-                                        showSnackBar(
-                                            context, "Please fill all fields");
-                                      }
-                                    },
-                                    buttonWidth: 20.w,
-                                    buttonHeight: 5.h,
-                                  ),
-                                  CustomButton(
-                                    text: 'Add project',
-                                    onPressed: () {},
-                                    buttonWidth: 20.w,
-                                    buttonHeight: 5.h,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              ConstrainedBox(
-                                constraints: BoxConstraints(maxHeight: 10.h),
-                                child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: skillAssignmentProvider
-                                        .endorsmentsSkill.length,
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Chip(
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          label: Text(
-                                              skillAssignmentProvider
-                                                      .endorsmentsSkill[index]
-                                                  ['title']!,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleSmall),
-                                          onDeleted: () {
-                                            skillAssignmentProvider
-                                                .removeEndorsment(
-                                                    skillAssignmentProvider
-                                                            .endorsmentsSkill[
-                                                        index]['title']!,
-                                                    skillAssignmentProvider
-                                                            .endorsmentsSkill[
-                                                        index]['description']!);
-                                          },
-                                        ),
-                                      );
-                                    }),
-                              ),
                             ],
                           ),
                         ),
@@ -267,11 +197,16 @@ class BodyWidget extends StatelessWidget {
             CustomButton(
               text: 'Add',
               onPressed: () async {
-                await skillAssignmentProvider.addPersonalSkill(context);
+                await skillAssignmentProvider.addSkillToEmployee(
+                    context, userId, departamentId);
                 if (!context.mounted) return;
 
-                context.goNamed(AppRouterConst.personalSkillsPage,
-                    pathParameters: {'userId': userId});
+                context.goNamed(AppRouterConst.departamentEmployeesPage,
+                    pathParameters: {
+                      'userId': userId,
+                      'departamentId': departamentId,
+                      'departamentName': departamentName
+                    });
               },
             ),
             const SizedBox(height: 20),

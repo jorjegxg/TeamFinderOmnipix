@@ -91,6 +91,10 @@ class CreateProjectProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String getNameFromTeamRole(int index) {
+    return teamRoles.keys.elementAt(index).keys.first.name;
+  }
+
   void addTechnology(String value) {
     bool isExist = false;
     for (var element in sugestions) {

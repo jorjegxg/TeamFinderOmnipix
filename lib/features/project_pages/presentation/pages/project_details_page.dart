@@ -1,57 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sizer/sizer.dart';
+import 'package:team_finder_app/core/exports/rest_imports.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/auth/presentation/widgets/custom_button.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
-import 'package:team_finder_app/features/project_pages/presentation/providers/details_provider.dart';
+import 'package:team_finder_app/features/project_pages/presentation/providers/edit_project_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/providers/skill_req_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_details_body.dart';
 import 'package:team_finder_app/injection.dart';
 
 class ProjectDetailsScreen extends HookWidget {
-  const ProjectDetailsScreen(
-      {required this.userId,
-      super.key,
-      required this.projectId,
-      required this.project});
+  const ProjectDetailsScreen({
+    required this.userId,
+    super.key,
+    required this.projectId,
+  });
   final String projectId;
   final String userId;
-  final ProjectEntity project;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: ChangeNotifierProvider(
-        create: (context) => getIt<DetailsProvider>()..canBeDeleted(projectId),
+    return ValueListenableBuilder(
+      valueListenable:
+          Hive.box<ProjectEntity>(HiveConstants.projectEntityBox).listenable(),
+      builder: (BuildContext context, box, Widget? child) => SafeArea(
         child: Builder(builder: (context) {
           return Scaffold(
             appBar: AppBar(
               actions: [
-                Consumer<DetailsProvider>(builder: (context, value, child) {
-                  if (!value.getCanBeDeleted) {
-                    return Container();
-                  } else {
-                    return IconButton(
-                      icon: const Icon(Icons.edit, color: Colors.black),
-                      onPressed: () {
-                        context.goNamed(
-                          AppRouterConst.editProjectScreen,
-                          pathParameters: {
-                            'projectId': projectId,
-                            'userId': userId
-                          },
-                          extra: project,
-                        );
+                IconButton(
+                  icon: const Icon(Icons.edit, color: Colors.black),
+                  onPressed: () {
+                    Provider.of<EditProjectProvider>(context, listen: false)
+                        .fillForm(
+                      box.values.firstWhere(
+                        (element) => element.id == projectId,
+                      ),
+                    );
+                    context.goNamed(
+                      AppRouterConst.editProjectScreen,
+                      pathParameters: {
+                        'projectId': projectId,
+                        'userId': userId
                       },
                     );
-                  }
-                }),
+                  },
+                ),
               ],
               centerTitle: true,
               title: Text(
@@ -74,12 +75,16 @@ class ProjectDetailsScreen extends HookWidget {
                           child: ScreenTypeLayout.builder(
                             mobile: (context) {
                               return MobileProjectDetailsBody(
-                                project: project,
+                                project: box.values.firstWhere(
+                                  (element) => element.id == projectId,
+                                ),
                               );
                             },
                             desktop: (context) {
                               return DesktopProjectDetailsScreen(
-                                userId: userId,
+                                project: box.values.firstWhere(
+                                  (element) => element.id == projectId,
+                                ),
                               );
                             },
                             tablet: (context) {
@@ -102,7 +107,6 @@ class ProjectDetailsScreen extends HookWidget {
                                       'projectId': projectId,
                                       'userId': userId
                                     },
-                                    extra: project,
                                   );
                                 },
                               ),

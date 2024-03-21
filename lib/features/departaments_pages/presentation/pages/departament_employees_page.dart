@@ -4,7 +4,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:team_finder_app/core/error/failures.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_employees_provider.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/widgets/employee_card.dart';
@@ -160,27 +159,37 @@ class DepartamentEmployeesPage extends HookWidget {
                                             ),
                                           ],
                                         ),
-                                        // startActionPane: ActionPane(
-                                        //   // A motion is a widget used to control how the pane animates.
-                                        //   motion: const ScrollMotion(),
+                                        startActionPane: ActionPane(
+                                          // A motion is a widget used to control how the pane animates.
+                                          motion: const ScrollMotion(),
 
-                                        //   // A pane can dismiss the Slidable.
-                                        //   dragDismissible: false,
-                                        //   // All actions are defined in the children parameter.
-                                        //   children: [
-                                        //     // A SlidableAction can have an icon and/or a label.
-                                        //     SlidableAction(
-                                        //       backgroundColor:
-                                        //           const Color(0xFFDCBABA),
-                                        //       foregroundColor: Colors.white,
-                                        //       icon: Icons.add_task,
-                                        //       label: 'Add Skill',
-                                        //       onPressed: (BuildContext ctx) {
-                                        //         provider.
-                                        //       },
-                                        //     )
-                                        //   ],
-                                        // ),
+                                          // A pane can dismiss the Slidable.
+                                          dragDismissible: false,
+                                          // All actions are defined in the children parameter.
+                                          children: [
+                                            // A SlidableAction can have an icon and/or a label.
+                                            SlidableAction(
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 193, 230, 196),
+                                              foregroundColor: Colors.white,
+                                              icon: Icons.add_task,
+                                              label: 'Add Skill',
+                                              onPressed: (BuildContext ctx) {
+                                                context.goNamed(
+                                                  AppRouterConst.directlySkill,
+                                                  pathParameters: {
+                                                    'userId': provider
+                                                        .employees[index].id,
+                                                    'departamentId':
+                                                        departamentId,
+                                                    'departamentName':
+                                                        departamentName,
+                                                  },
+                                                );
+                                              },
+                                            )
+                                          ],
+                                        ),
                                         child: EmployeeCard(
                                           name: provider.employees[index].name,
                                           onTap: () {

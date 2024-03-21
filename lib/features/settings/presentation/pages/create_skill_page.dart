@@ -113,12 +113,13 @@ class CreateSkillPage extends HookWidget {
                                           // ),
                                           const SizedBox(height: 40),
                                           CustomTextField(
+                                            maxLenght: 30,
                                             nameConttroler:
                                                 descriptionColtroler,
                                             hintText: "description",
                                             keyboardType:
                                                 TextInputType.multiline,
-                                            minLines: 10,
+                                            minLines: 2,
                                             width: 90.w,
                                             onSubmitted: (String s) {
                                               provider.setDescription(s);
