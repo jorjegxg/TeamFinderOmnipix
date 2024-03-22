@@ -406,15 +406,26 @@ class ProjectRepoImpl extends ProjectRepo {
     var box = Hive.box<String>(HiveConstants.authBox);
     String organizationId = box.get(HiveConstants.organizationId)!;
     return ApiService().dioPost(
-      url: "${EndpointConstants.baseUrl}/openai/",
-      data: {"content": message, "organizationId": organizationId},
-    ).then((value) {
+        url: "${EndpointConstants.baseUrl}/openai/",
+        data: {
+          "content": message,
+          "organizationId": organizationId
+        },
+        codeMessage: {
+          404: "No members found",
+          500: "Service failed to respond"
+        }).then((value) {
       return value.fold((l) => Left(l), (r) {
         Logger.info("VALUE:", r.toString());
         if (r['message'] is Map) {
           return Left(EasyFailure(message: "No employees found"));
         }
-        return Right(r['message'].map((e) => Employee.fromJson(e)).toList());
+        List<Employee> employees = [];
+        for (var e in r['message']) {
+          Logger.info("EMPLOYEE:", e.toString());
+          employees.add(Employee.fromJson(e));
+        }
+        return Right(employees);
       });
     });
   }

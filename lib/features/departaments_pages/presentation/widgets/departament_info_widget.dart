@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sizer/sizer.dart';
 
 class InfoWidget extends StatelessWidget {
@@ -11,7 +12,11 @@ class InfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
-      width: 90.w,
+      width: getValueForScreenType(
+          context: context,
+          mobile: MediaQuery.of(context).size.width * 0.9,
+          tablet: MediaQuery.of(context).size.width * 0.9,
+          desktop: MediaQuery.of(context).size.width * 0.9),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(10),
@@ -23,7 +28,11 @@ class InfoWidget extends StatelessWidget {
       child: Row(
         children: [
           CircleAvatar(
-            radius: 6.w,
+            radius: getValueForScreenType(
+                context: context,
+                mobile: MediaQuery.of(context).size.width * 0.08,
+                tablet: MediaQuery.of(context).size.width * 0.02,
+                desktop: MediaQuery.of(context).size.width * 0.02),
             backgroundColor: Theme.of(context).colorScheme.primary,
             child: Icon(icon, color: Theme.of(context).colorScheme.onPrimary),
           ),

@@ -87,6 +87,22 @@ Future<void> main() async {
 
   await Hive.openBox<String>(HiveConstants.authBox);
   await Hive.openBox<ProjectEntity>(HiveConstants.projectEntityBox);
+  final indexBox = await Hive.openBox<int>(HiveConstants.currentIndexBox);
+  final box = await Hive.openBox<bool>(HiveConstants.currentRolesBox);
+
+  if (box.get(HiveConstants.isOrganizationAdmin) == null) {
+    box.put(HiveConstants.isOrganizationAdmin, false);
+  }
+  if (box.get(HiveConstants.isProjectManager) == null) {
+    box.put(HiveConstants.isProjectManager, false);
+  }
+  if (box.get(HiveConstants.isDepartmentManager) == null) {
+    box.put(HiveConstants.isDepartmentManager, false);
+  }
+  if (indexBox.get(HiveConstants.currentIndexBox) == null) {
+    indexBox.put(HiveConstants.currentIndexBox, 0);
+  }
+
   Bloc.observer = MyBlocObserver();
 
   runApp(const MyApp());
@@ -119,6 +135,12 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     setupInteractedMessage();
+  }
+
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
   }
 
   @override
@@ -164,6 +186,7 @@ class _MyAppState extends State<MyApp> {
             routerConfig: getIt<MyAppRouter>().router,
             title: 'Flutter Demo',
             theme: createLightTheme(),
+            darkTheme: createDarkTheme(),
           );
         },
       ),

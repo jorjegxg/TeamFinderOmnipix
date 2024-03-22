@@ -51,61 +51,65 @@ class LoginScreen extends HookWidget {
                 constraints: BoxConstraints(
                   minHeight: 100.h,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(20),
-                      child: LogoWidget(
-                        icon: Icons.handshake,
-                      ),
-                    ),
-                    LoginForm(
-                      emailConttroler: emailConttroler,
-                      passwordConttroler: passwordConttroler,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          BlocBuilder<AuthBloc, AuthState>(
-                            builder: (context, state) {
-                              return CustomButton(
-                                isLoading: state is AuthLoading,
-                                text: AuthConstants.login,
-                                onPressed: () {
-                                  context.read<AuthBloc>().add(
-                                        LoginStarted(
-                                          email: emailConttroler.text,
-                                          password: passwordConttroler.text,
-                                          context: context,
-                                        ),
-                                      );
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(20),
+                          child: LogoWidget(
+                            icon: Icons.handshake,
+                          ),
+                        ),
+                        LoginForm(
+                          emailConttroler: emailConttroler,
+                          passwordConttroler: passwordConttroler,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              BlocBuilder<AuthBloc, AuthState>(
+                                builder: (context, state) {
+                                  return CustomButton(
+                                    isLoading: state is AuthLoading,
+                                    text: AuthConstants.login,
+                                    onPressed: () {
+                                      context.read<AuthBloc>().add(
+                                            LoginStarted(
+                                              email: emailConttroler.text,
+                                              password: passwordConttroler.text,
+                                              context: context,
+                                            ),
+                                          );
+                                    },
+                                  );
                                 },
-                              );
-                            },
+                              ),
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                              ChangeAuthPageText(
+                                text: AuthConstants.dontHaveAnAccount,
+                                onPressed: () {
+                                  if (isEmployee) {
+                                    context.goNamed(
+                                        AppRouterConst.registerEmployeeName);
+                                  } else {
+                                    context.goNamed(
+                                        AppRouterConst.registerAdminName);
+                                  }
+                                },
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          ChangeAuthPageText(
-                            text: AuthConstants.dontHaveAnAccount,
-                            onPressed: () {
-                              if (isEmployee) {
-                                context.goNamed(
-                                    AppRouterConst.registerEmployeeName);
-                              } else {
-                                context
-                                    .goNamed(AppRouterConst.registerAdminName);
-                              }
-                            },
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               );
             },

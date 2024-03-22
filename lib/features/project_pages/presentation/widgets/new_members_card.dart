@@ -18,7 +18,7 @@ class NewMembersCard extends StatelessWidget {
       onDoubleTap: onDoubleTap,
       child: Container(
         width: 100.w,
-        height: 10.h,
+        height: 80,
         decoration: BoxDecoration(
           color: color ?? Theme.of(context).colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(15),

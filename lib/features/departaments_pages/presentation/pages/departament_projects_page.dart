@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:sizer/sizer.dart';
 import 'package:team_finder_app/core/exports/rest_imports.dart';
+import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departament_projects_provider.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/filter_projects_dialog.dart';
+import 'package:team_finder_app/features/project_pages/domain/entities/project_entity.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_widget.dart';
@@ -90,26 +95,98 @@ class DepartamentProjectsPage extends HookWidget {
                                       ? const NotFoundWidget(
                                           text: 'No projects found',
                                         )
-                                      : ListView.builder(
-                                          itemCount: provider.projects.length,
-                                          itemBuilder: (context, index) {
-                                            return Padding(
-                                              padding: const EdgeInsets.all(10),
-                                              child: ProjectWidget(
-                                                mainTitle: provider
-                                                    .projects[index].name,
-                                                title1: 'Project Period:',
-                                                title2: provider
-                                                    .projects[index].period
-                                                    .toString(),
-                                                content1: 'Project Status:',
-                                                content2: provider
-                                                    .projects[index].status,
-                                                onPressed: () {},
-                                                showButton: false,
-                                              ),
-                                            );
-                                          },
+                                      : ScreenTypeLayout.builder(
+                                          mobile: (p0) => ListView.builder(
+                                            itemCount: provider.projects.length,
+                                            itemBuilder: (context, index) {
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                child: ProjectWidget(
+                                                  mainTitle: provider
+                                                      .projects[index].name,
+                                                  title1: 'Project Period:',
+                                                  title2: provider
+                                                      .projects[index].period
+                                                      .toString(),
+                                                  content1: 'Project Status:',
+                                                  content2: provider
+                                                      .projects[index].status,
+                                                  onPressed: () {
+                                                    Hive.box<ProjectEntity>(
+                                                            HiveConstants
+                                                                .projectEntityBox)
+                                                        .put(
+                                                      provider
+                                                          .projects[index].id,
+                                                      provider.projects[index],
+                                                    );
+                                                    context.goNamed(
+                                                      AppRouterConst
+                                                          .projectInactiveDetailsScreen,
+                                                      pathParameters: {
+                                                        'userId': userId,
+                                                        'projectId': provider
+                                                            .projects[index].id,
+                                                      },
+                                                    );
+                                                  },
+                                                  showButton: false,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                          tablet: (p0) => GridView.builder(
+                                            gridDelegate:
+                                                SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount:
+                                                  getValueForScreenType(
+                                                      context: context,
+                                                      mobile: 1,
+                                                      tablet: 2,
+                                                      desktop: 4),
+                                              crossAxisSpacing: 10,
+                                              mainAxisSpacing: 10,
+                                            ),
+                                            itemCount: provider.projects.length,
+                                            itemBuilder: (context, index) {
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                child: ProjectWidget(
+                                                  mainTitle: provider
+                                                      .projects[index].name,
+                                                  title1: 'Project Period:',
+                                                  title2: provider
+                                                      .projects[index].period
+                                                      .toString(),
+                                                  content1: 'Project Status:',
+                                                  content2: provider
+                                                      .projects[index].status,
+                                                  onPressed: () {
+                                                    Hive.box<ProjectEntity>(
+                                                            HiveConstants
+                                                                .projectEntityBox)
+                                                        .put(
+                                                      provider
+                                                          .projects[index].id,
+                                                      provider.projects[index],
+                                                    );
+                                                    context.goNamed(
+                                                      AppRouterConst
+                                                          .projectInactiveDetailsScreen,
+                                                      pathParameters: {
+                                                        'userId': userId,
+                                                        'projectId': provider
+                                                            .projects[index].id,
+                                                      },
+                                                    );
+                                                  },
+                                                  showButton: false,
+                                                ),
+                                              );
+                                            },
+                                          ),
                                         ),
                             ),
                           ),

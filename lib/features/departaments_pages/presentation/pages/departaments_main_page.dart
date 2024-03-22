@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:team_finder_app/core/routes/app_route_const.dart';
 import 'package:team_finder_app/core/util/logger.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
@@ -9,7 +10,6 @@ import 'package:team_finder_app/features/departaments_pages/presentation/cubit/d
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_create/department_create_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/cubit/departments_get/departments_get_cubit.dart';
 import 'package:team_finder_app/features/departaments_pages/presentation/widgets/create_departament_dialog.dart';
-import 'package:team_finder_app/features/employee_pages/data/models/employee_roles.dart';
 import 'package:team_finder_app/features/employee_pages/presentation/provider/employee_roles_provider.dart';
 import 'package:team_finder_app/features/project_pages/presentation/pages/main_project_page.dart';
 import 'package:team_finder_app/features/project_pages/presentation/widgets/project_widget.dart';
@@ -33,6 +33,8 @@ class _DepartamentMainPageState extends State<DepartamentMainPage> {
     super.didChangeDependencies();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      //make the call wait for the EmployeeRolesProvider to be initialized
+
       context.read<DepartmentsGetCubit>().getDepartmentsFromOrganization(
           context.read<EmployeeRolesProvider>().isOrganizationAdmin);
     });
@@ -80,7 +82,20 @@ class _DepartamentMainPageState extends State<DepartamentMainPage> {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
-            body: ListOfDepartments(widget: widget),
+            body: ScreenTypeLayout.builder(
+              mobile: (context) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: ListOfDepartments(widget: widget),
+              ),
+              tablet: (context) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: DesktopListOfDepartaments(widget: widget),
+              ),
+              desktop: (context) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: DesktopListOfDepartaments(widget: widget),
+              ),
+            ),
           ),
         );
       }),
@@ -113,6 +128,123 @@ class ListOfDepartments extends StatelessWidget {
         if (state is DepartmentsGetManagersSuccess) {
           if (state.departments.isNotEmpty) {
             return ListView.builder(
+                itemCount: state.departments.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child:
+                        GestureDetector(child: Consumer<EmployeeRolesProvider>(
+                      builder: (context, prov, child) {
+                        return Consumer<DeleteDepartmentProvider>(builder:
+                            (context, deleteDepartmentProvider, child) {
+                          return ProjectWidget(
+                              isLoading: deleteDepartmentProvider.isLoading,
+                              canSeeTheButton: prov.isDepartmentManager &&
+                                  state.departments[index].isCurrentUserManager,
+                              onLongPress: () {
+                                if (prov.isOrganizationAdmin) {
+                                  //alert dialog with delete option:
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            title: Text('Delete Departament',
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary)),
+                                            content: const Text(
+                                                'Are you sure you want to delete this departament?'),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Logger.success('showDialog',
+                                                        'dau delete la  id : ${state.departments[index].id}');
+                                                    getIt<DeleteDepartmentProvider>()
+                                                        .deleteDepartment(state
+                                                            .departments[index]
+                                                            .id);
+
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Yes')),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('No')),
+                                            ],
+                                          ));
+                                }
+                              },
+                              mainTitle:
+                                  state.departments[index].departmentName,
+                              title1: 'Departament Manager:',
+                              title2: 'Number of employees:',
+                              content1: state.departments[index].managersName ??
+                                  'No manager',
+                              content2: state
+                                  .departments[index].numberOfEmployees
+                                  .toString(),
+                              onPressed: prov.isDepartmentManager
+                                  ? () {
+                                      context.goNamed(
+                                          AppRouterConst
+                                              .departamentsDetailsPage,
+                                          pathParameters: {
+                                            'userId': widget.userId,
+                                            'departamentId':
+                                                state.departments[index].id,
+                                            'departamentName': state
+                                                .departments[index]
+                                                .departmentName
+                                          });
+                                    }
+                                  : () {});
+                        });
+                      },
+                    )),
+                  );
+                });
+          } else {
+            return const NotFoundWidget(text: 'No departaments found <3');
+          }
+        }
+        return const SizedBox();
+      },
+    );
+  }
+}
+
+class DesktopListOfDepartaments extends StatelessWidget {
+  const DesktopListOfDepartaments({
+    super.key,
+    required this.widget,
+  });
+
+  final DepartamentMainPage widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DepartmentsGetCubit, DepartmentsGetState>(
+      builder: (context, state) {
+        if (state is DepartmentsGetManagersLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state is DepartmentsGetManagersFailure) {
+          return Center(
+            child: Text(state.errorMessage),
+          );
+        }
+
+        if (state is DepartmentsGetManagersSuccess) {
+          if (state.departments.isNotEmpty) {
+            return GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: getValueForScreenType(
+                      context: context, mobile: 2, desktop: 4),
+                  mainAxisExtent: MediaQuery.of(context).size.height * 0.4,
+                ),
                 itemCount: state.departments.length,
                 itemBuilder: (context, index) {
                   return Padding(

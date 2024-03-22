@@ -1,25 +1,32 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:hive/hive.dart';
+import 'package:team_finder_app/core/exports/rest_imports.dart';
 
 class SecureStorageService {
-  static final SecureStorageService _instance =
-      SecureStorageService._internal();
-  final storage = const FlutterSecureStorage();
+  // static final SecureStorageService _instance =
+  //     SecureStorageService._internal();
+  // final storage = const FlutterSecureStorage();
 
-  SecureStorageService._internal();
+  //SecureStorageService._internal();
+  final box = Hive.box<String>(HiveConstants.authBox);
 
-  factory SecureStorageService() {
-    return _instance;
-  }
+  SecureStorageService();
+  // factory SecureStorageService() {
+  //   return _instance;
+  // }
 
   Future<void> write({required String key, required String value}) async {
-    await storage.write(key: key, value: value);
+    await box.put(
+      key,
+      value,
+    );
   }
 
   Future<String?> read({required String key}) async {
-    return await storage.read(key: key);
+    return box.get(key);
   }
 
   Future<void> delete({required String key}) async {
-    await storage.delete(key: key);
+    await box.delete(key);
   }
 }

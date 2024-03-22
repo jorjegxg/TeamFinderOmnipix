@@ -166,9 +166,10 @@ class EmployeeRepoImpl {
 
   Future<Either<Failure<String>, EmployeesRoles>>
       getCurrentEmployeeRoles() async {
-    final String employeeId = await getCurrentEmployeeId();
-
-    return getEmployeeRoles(employeeId);
+    //final String employeeId = await getCurrentEmployeeId();
+    final box = Hive.box<String>(HiveConstants.authBox);
+    final employeeId = box.get(HiveConstants.userId);
+    return getEmployeeRoles(employeeId!);
   }
 
   Future<Either<Failure, EmployeeModel>> _getEmployeeData(String employeeId) {

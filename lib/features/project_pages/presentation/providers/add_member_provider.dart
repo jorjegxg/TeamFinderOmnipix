@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:team_finder_app/core/error/failures.dart';
 import 'package:team_finder_app/core/util/snack_bar.dart';
 import 'package:team_finder_app/features/employee_pages/data/models/employee.dart';
 import 'package:team_finder_app/features/project_pages/domain/usecases/projects_usecase.dart';
@@ -139,13 +140,22 @@ class AddMembersProvider extends ChangeNotifier {
         await _projectsUsecase.fetchMembersWithChatGPT(description);
     response.fold(
       (l) {
-        _error = l.message;
-        _isLoading = false;
-        showSnackBar(context, l.message);
-        notifyListeners();
+        if (l is ServerFailure) {
+          if ((l as ServerFailure).statusCode != null &&
+              (l as ServerFailure).statusCode == 500) {
+            _error = l.message;
+            _isLoading = false;
+            showSnackBar(context, "Backend failure");
+          }
+        } else {
+          _error = l.message;
+          _isLoading = false;
+          showSnackBar(context, l.message);
+          notifyListeners();
+        }
       },
       (r) {
-        members = r;
+        members = List.from(r);
         _isLoading = false;
         notifyListeners();
       },

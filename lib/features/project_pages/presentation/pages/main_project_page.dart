@@ -151,9 +151,9 @@ class MobileProjectScreen extends StatelessWidget {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: ProjectWidget(
-                                      onPressed: () async {
+                                      onPressed: () {
                                         //TODO: navigate to project details, pass project id
-                                        await Hive.box<ProjectEntity>(
+                                        Hive.box<ProjectEntity>(
                                                 HiveConstants.projectEntityBox)
                                             .put(
                                           state.activeProjects[index].id,
@@ -346,14 +346,14 @@ class DesktopMainProjectPage extends StatelessWidget {
                       ProjectsListWidget(
                         userId: userId,
                         projects: state.activeProjects,
-                        title: 'Past Projects',
-                        isActive: false,
+                        title: 'Active Projects',
+                        isActive: true,
                       ),
                       ProjectsListWidget(
                         userId: userId,
                         projects: state.inactiveProjects,
-                        title: 'Active Projects',
-                        isActive: true,
+                        title: 'Past Projects',
+                        isActive: false,
                       ),
                     ],
                   );
@@ -417,12 +417,20 @@ class ProjectsListWidget extends StatelessWidget {
                               projects[index].id,
                               projects[index],
                             );
-                            context.goNamed(AppRouterConst.projectDetailsScreen,
-                                pathParameters: {
-                                  'projectId': projects[index].id,
-                                  'userId': userId
-                                },
-                                extra: projects[index]);
+                            if (isActive) {
+                              context.goNamed(
+                                  AppRouterConst.projectDetailsScreen,
+                                  pathParameters: {
+                                    'projectId': projects[index].id,
+                                    'userId': userId
+                                  },
+                                  extra: projects[index]);
+                            } else {
+                              context.goNamed(
+                                  AppRouterConst.projectInactiveDetailsScreen,
+                                  pathParameters: {'userId': userId},
+                                  extra: projects[index]);
+                            }
                           },
                           mainTitle: projects[index].name,
                           title1: 'Roles:',

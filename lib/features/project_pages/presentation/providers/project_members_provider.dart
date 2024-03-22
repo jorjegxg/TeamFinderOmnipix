@@ -83,7 +83,7 @@ class ProjectMembersProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }, (r) {
-      activeMembers = r;
+      activeMembers = List.from(r);
       _isLoading = false;
       notifyListeners();
     });

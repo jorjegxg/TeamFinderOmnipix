@@ -1,4 +1,5 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
@@ -44,26 +45,26 @@ import 'package:team_finder_app/features/settings/presentation/pages/team_roles_
 class MyAppRouter {
   final GoRouter _router = GoRouter(
     redirect: (_, state) async {
-      // final token =
-      //     await SecureStorageService().read(key: StorageConstants.token);
-      // if (state.fullPath == '/register/admin' ||
-      //     state.fullPath == '/register/employee/:organizationId' ||
-      //     state.fullPath == '/login/admin' ||
-      //     state.fullPath == '/login/employee') {
-      //   return null;
-      // }
-      // if (token == null) {
-      //   return '/register/admin';
-      // }
+      final token =
+          await SecureStorageService().read(key: StorageConstants.token);
+      if (state.fullPath == '/register/admin' ||
+          state.fullPath == '/register/employee/:organizationId' ||
+          state.fullPath == '/login/admin' ||
+          state.fullPath == '/login/employee') {
+        return null;
+      }
+      if (token == null) {
+        return '/register/admin';
+      }
 
-      // final isExpired = JwtDecoder.isExpired(token);
+      final isExpired = JwtDecoder.isExpired(token);
 
-      // if (isExpired) {
-      //   await SecureStorageService().delete(key: StorageConstants.token);
-      //   return '/register/admin';
-      // }
+      if (isExpired) {
+        await SecureStorageService().delete(key: StorageConstants.token);
+        return '/register/admin';
+      }
 
-      // return null;
+      return null;
     },
     // initialLocation: '/firstPage',
     initialLocation: '/register/admin',
@@ -136,13 +137,13 @@ class MyAppRouter {
                     )),
                 routes: [
                   GoRoute(
-                      path: "inactiveDetails",
+                      path: "inactiveDetails/:projectId",
                       name: AppRouterConst.projectInactiveDetailsScreen,
                       pageBuilder: (context, state) {
                         return MaterialPage(
                           child: ProjectInactiveDetailsScreen(
                             userId: state.pathParameters['userId']!,
-                            project: state.extra as ProjectEntity,
+                            projectId: state.pathParameters['projectId']!,
                           ),
                         );
                       }),

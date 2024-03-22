@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -34,6 +35,7 @@ class ProjectDetailsScreen extends HookWidget {
         child: Builder(builder: (context) {
           return Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: !kIsWeb,
               actions: [
                 IconButton(
                   icon: const Icon(Icons.edit, color: Colors.black),

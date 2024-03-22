@@ -73,7 +73,11 @@ class ApiService {
       Logger.info('POST request', 'url: $url, data: $data');
       _addBearerAuthorization();
 
-      final response = await _dio.post(url, data: data);
+      final response = await _dio.post(url, data: data, options: Options(
+        validateStatus: (status) {
+          return status! < 501;
+        },
+      ));
 
       if (response.statusCode != null &&
           response.statusCode! >= 200 &&
@@ -81,10 +85,16 @@ class ApiService {
         _logSuccess('Post', response);
         return Right(response.data);
       } else {
+        if (response.statusCode == 500) {
+          return Left(ServerFailure(
+            message: response.data['message'],
+            statusCode: response.statusCode,
+          ));
+        }
         _logError('Post', response);
         return Left(ServerFailure(
           message: response.data['message'] ??
-              'POST request returned an unexpected status code: ${response.statusCode} ',
+              'POST request returned an unexpected status code: ${response.statusCode}',
         ));
       }
     } on DioException catch (e) {

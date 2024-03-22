@@ -134,8 +134,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void addDataToProviders() {
-    getIt<ProfileProvider>().fetchNameAndEmail();
     getIt<EmployeeRolesProvider>().getCurrentEmployeeRoles();
+    getIt<ProfileProvider>().fetchNameAndEmail();
+
     getIt<ProjectsBloc>().add(const GetActiveProjectPages());
   }
 
