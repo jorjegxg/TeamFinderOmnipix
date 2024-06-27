@@ -22,3 +22,4 @@ Pentru orice întrebări sau sugestii, nu ezitați să ne contactați:
 * Andrei Aluculesei Bogdan: [andrei.aluculesei@student.usv.ro]
 * Luța Silviu Vasilica: [vasilicalutalsv@gmail.com]
 
+# TeamFinderApp
